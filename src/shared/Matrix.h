@@ -1,9 +1,7 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#pragma once
 
 #include <vector>
 #include <memory>
-#include "Cell.h"
 
 template<typename T>
 class Matrix {
@@ -24,6 +22,4 @@ public:
 };
 
 // Explicit instantiation of commonly used types
-extern template class Matrix<std::unique_ptr<Cell>>;
-
-#endif // MATRIX_H
+//extern template class Matrix<std::unique_ptr<Cell>>;

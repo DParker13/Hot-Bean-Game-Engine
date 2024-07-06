@@ -1,5 +1,4 @@
-#ifndef EVENT_SYSTEM_H
-#define EVENT_SYSTEM_H
+#pragma once
 
 #include <SDL3/SDL.h>
 
@@ -19,5 +18,3 @@ public:
 
     }
 };
-
-#endif // EVENT_SYSTEM_H

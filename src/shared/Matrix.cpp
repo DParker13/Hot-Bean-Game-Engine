@@ -1,5 +1,6 @@
-#include "Matrix.h"
 #include <cassert>
+#include "Matrix.h"
+#include "../world-generator/Cell.h"
 
 template<typename T>
 Matrix<T>::Matrix(int rows, int cols) : rows(rows), cols(cols), data(rows* cols) {}

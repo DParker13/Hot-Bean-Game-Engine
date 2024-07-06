@@ -1,5 +1,4 @@
 #include "Application.h"
-#include <iostream>
 
 Application::Application(const char* title, int width, int height) : window(nullptr), renderer(nullptr), quit(false) {
     InitSDL(title, width, height);
@@ -65,12 +64,14 @@ void Application::Run() {
                 quit = true;
             }
             else {
+                //Notifies all GameObjects of event
                 for (auto& object : gameObjects) {
                     object->OnEvent(event);
                 }
             }
         }
 
+        //Updates state of all GameObjects
         for (auto& object : gameObjects) {
             object->OnUpdate();
         }
@@ -78,6 +79,7 @@ void Application::Run() {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
 
+        //Renders all added GameObjects
         for (auto& object : gameObjects) {
             object->OnRender(surface, renderer);
         }
@@ -86,6 +88,6 @@ void Application::Run() {
     }
 }
 
-void Application::AddObject(std::shared_ptr<GameObject> object) {
-    gameObjects.push_back(object);
+void Application::AddObject(std::shared_ptr<GameObject> gameObject) {
+    gameObjects.push_back(gameObject);
 }
