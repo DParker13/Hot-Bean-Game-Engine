@@ -1,36 +1,75 @@
 #include "Controller.h"
 
-Controller::Controller(std::shared_ptr<GameObject> gameObject) {
+Controller::Controller(float speed, std::shared_ptr<Entity> gameObject)
+	:speed(speed) {
 	this->gameObject.swap(gameObject);
 }
 
 void Controller::OnEvent(SDL_Event& event) {
-	switch (event.type) {
-	case SDL_EVENT_KEY_DOWN:
-		if (event.key.keysym.sym == SDLK_w) {
-			Position<float> pos = gameObject->GetPosition();
-			pos.Y += 1;
+    switch (event.type) {
+        case SDL_KEYDOWN:
+			switch (event.key.keysym.sym) {
+				case SDLK_LEFT:
+					isMovingLeft = true;
+					break;
+				case SDLK_RIGHT:
+					isMovingRight = true;
+					break;
+				case SDLK_UP:
+					isMovingUp = true;
+					break;
+				case SDLK_DOWN:
+					isMovingDown = true;
+					break;
+			}
+            break;
+        case SDL_KEYUP:
+			switch (event.key.keysym.sym) {
+				case SDLK_LEFT:
+					isMovingLeft = false;
+					break;
+				case SDLK_RIGHT:
+					isMovingRight = false;
+					break;
+				case SDLK_UP:
+					isMovingUp = false;
+					break;
+				case SDLK_DOWN:
+					isMovingDown = false;
+					break;
+			}
+            break;
+    }
+}
 
-			gameObject->GetPosition().SetPosition(pos);
-		}
-		else if (event.key.keysym.sym == SDLK_a) {
-			Position<float> pos = gameObject->GetPosition();
-			pos.X -= 1;
+void Controller::OnUpdate(std::shared_ptr<float> deltaTime) {
+	//Calls base OnUpdate
+	Entity::OnUpdate(deltaTime);
 
-			gameObject->GetPosition().SetPosition(pos);
-		}
-		else if (event.key.keysym.sym == SDLK_s) {
-			Position<float> pos = gameObject->GetPosition();
-			pos.Y -= 1;
+	Position<float> pos = GetPosition();
+	float distance = speed * *deltaTime;
 
-			gameObject->GetPosition().SetPosition(pos);
-		}
-		else if (event.key.keysym.sym == SDLK_d) {
-			Position<float> pos = gameObject->GetPosition();
-			pos.X += 1;
+	if (isMovingLeft) {
+        pos.X -= distance;
+    }
+	
+	if (isMovingRight) {
+        pos.X += distance;
+    }
+	
+	if (isMovingUp) {
+        pos.Y -= distance;
+    }
+	
+	if (isMovingDown) {
+        pos.Y += distance;
+    }
+	
+	SetPosition(pos);
+}
 
-			gameObject->GetPosition().SetPosition(pos);
-		}
-		break;
-	}
+void Controller::OnInitialize() {
+	AddChild(gameObject);
+
+	Entity::OnInitialize();
 }

@@ -5,8 +5,8 @@ Player::Player() : Player(Position<float>()) {
 }
 
 Player::Player(Position<float> startingPos)
-	: GameObject(startingPos) {
-	//controller = std::make_unique<Controller>(std::make_shared<GameObject>(this));
+	: Entity(startingPos) {
+	//controller = std::make_unique<Controller>(std::make_shared<Entity>(this));
 }
 
 void Player::OnEvent(SDL_Event& event) {
@@ -14,7 +14,7 @@ void Player::OnEvent(SDL_Event& event) {
 	controller->OnEvent(event);
 }
 
-void Player::OnUpdate() {
+void Player::OnUpdate(std::shared_ptr<float> deltaTime) {
 
 }
 

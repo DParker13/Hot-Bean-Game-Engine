@@ -1,8 +1,12 @@
+#include <SDL_ttf.h>
 #include <vector>
 #include <memory>
 #include <iostream>
-#include "EventSystem.h"
-#include "GameObject.h"
+
+#include "core_manager.hpp"
+#include "physics_system.hpp"
+#include "render_system.hpp"
+#include "input_system.hpp"
 
 class Application {
 private:
@@ -10,16 +14,16 @@ private:
     SDL_Renderer* renderer;
     SDL_Surface* surface;
     bool quit;
+    float deltaTime;
+    float previousFrameTime;
 
-    std::vector<std::shared_ptr<GameObject>> gameObjects;
-
-    void InitSDL(const char* title, int width, int height);
+    void InitSDL(std::string title, int width, int height);
     void CleanUpSDL();
 public:
-    Application(const char* title, int width, int height);
+    Application(std::string title, int width, int height);
     ~Application();
 
-    void Run();
+    void Run(Core::CoreManager& coreManager);
 
-    void AddObject(std::shared_ptr<GameObject> gameObject);
+    void UpdateDeltaTime();
 };

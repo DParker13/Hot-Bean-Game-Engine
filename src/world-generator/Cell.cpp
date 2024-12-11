@@ -1,14 +1,23 @@
 #include "Cell.h"
 
-Cell::Cell(std::shared_ptr<FastNoiseLite> noise, std::shared_ptr<Uint8> spacing, std::shared_ptr<Uint8> maxHeight)
-    : noise(noise), spacing(spacing), maxHeight(maxHeight) {
+Cell::Cell(std::shared_ptr<FastNoiseLite> noise, std::shared_ptr<Uint8> maxHeight)
+    : noise(noise), maxHeight(maxHeight) {
 }
 
-void Cell::OnUpdate() {
-    SetNoisePosition(noisePos->X + 0.5f, noisePos->Y);
+void Cell::OnInitialize() {
+    Entity::OnInitialize();
+
+    SetNoisePosition(GetPosition().X, GetPosition().Y);
+}
+
+void Cell::OnUpdate(std::shared_ptr<float> deltaTime) {
+    SetNoisePosition(GetPosition().X, GetPosition().Y);
 }
 
 void Cell::OnRender(SDL_Surface* surface, SDL_Renderer* renderer) {
+    //Calling base OnRender
+    Entity::OnRender(surface, renderer);
+
     Uint8 colorVal = MapNoiseToColor(noise->GetNoise(noisePos->X, noisePos->Y));
     SDL_Color color = { colorVal, colorVal, colorVal, 0xFF };
 
@@ -35,12 +44,12 @@ void Cell::CreateRect(SDL_Surface* surface, SDL_Renderer* renderer, SDL_Color* c
     SDL_FRect fillRect = { GetPosition().X - offset, GetPosition().Y - offset, z, z};
 
     // Fill the rectangle with the current drawing color
-    SDL_RenderFillRect(renderer, &fillRect);
+    SDL_RenderFillRectF(renderer, &fillRect);
 }
 
-void Cell::UpdateLocalPosition(Position<float> newPos) {
+void Cell::SetPosition(Position<float> newPos) {
     //Update this Cell's position
-    GameObject::UpdateLocalPosition(newPos);
+    Entity::SetPosition(newPos);
 
     //Update this Cell's noise position
     SetNoisePosition(newPos.X, newPos.Y);

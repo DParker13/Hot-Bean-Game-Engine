@@ -1,8 +1,9 @@
 #pragma once
 
-#include <SDL3/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 #include <type_traits>
 #include <tuple>
+#include <iostream>
 
 template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
 class Position {
@@ -37,5 +38,9 @@ public:
         X += pos.X;
         Y += pos.Y;
         Z += pos.Z;
+    }
+
+    void ToString() {
+        std::cout << "Position: {" << X << ", " << Y << ", " << Z << "}";
     }
 };

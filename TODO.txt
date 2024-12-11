@@ -1,0 +1,5 @@
+1. Create console debugging tools
+  a. Print out visual representation of data
+2. Create system manager to handle creation, deletion, and mapping of systems to components
+3. Fix components folder linking
+4. Integrate Application class with these managers to display basic components

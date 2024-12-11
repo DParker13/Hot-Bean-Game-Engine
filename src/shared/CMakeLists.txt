@@ -1,3 +1,7 @@
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 add_library(shared STATIC)
 
 target_sources(shared PUBLIC

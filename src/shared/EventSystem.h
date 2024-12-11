@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL3/SDL.h>
+#include <SDL.h>
 
 class EventSystem {
 public:
@@ -10,7 +10,7 @@ public:
 
     }
 
-    virtual void OnUpdate() {
+    virtual void OnUpdate(std::shared_ptr<float> deltaTime) {
 
     }
 
