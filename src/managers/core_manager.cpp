@@ -59,9 +59,12 @@ namespace Core {
     /**
      * Prints out the state of the ComponentManager for debugging purposes.
      */
-    void CoreManager::Print() const {
-        _entityManager->Print();
-        _componentManager->Print();
-        _systemManager->Print();
+    std::string CoreManager::ToString() const {
+        std::stringstream str;
+        str << _entityManager->ToString();
+        str << _componentManager->ToString();
+        str << _systemManager->ToString();
+
+        return str.str();
     }
 }

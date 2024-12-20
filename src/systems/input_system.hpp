@@ -1,25 +1,19 @@
 #pragma once
 
 #include <SDL.h>
-#include <memory>
-#include <iostream>
-#include <unordered_map>
+#include <unordered_set>
 
-#include "../core/ecs.hpp"
-#include "../core/core_manager.hpp"
-#include "../components/transform.hpp"
+#include "../managers/core_manager.hpp"
 
 namespace Systems {
     class InputSystem : public System {
         public:
-            float speed = 1000.0f;
+            std::unordered_set<SDL_Keycode> _keysPressed;
             
-            void HandleEvent(Core::CoreManager& coreManager, SDL_Event& event, float dt);
-            void Print() const;
-        
-        private:
-            std::unordered_map<SDL_Keycode, bool> _keysPressed;
-
-            bool UpdateInput(SDL_Event& event);
+            InputSystem() = default;
+            InputSystem(Core::CoreManager& coreManager);
+            void UpdateKeys(SDL_Event& event);
+            std::string ToString() const;
+            
     };
 }

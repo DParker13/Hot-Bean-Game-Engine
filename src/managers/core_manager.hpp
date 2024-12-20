@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <unordered_map>
-#include <iostream>
 
 #include "ecs.hpp"
 #include "entity_manager.hpp"
@@ -21,7 +20,7 @@ namespace Core {
         Entity CreateEntity();
         void DestroyEntity(Entity entity);
         void RemoveAllComponents(Entity entity);
-        void Print() const;
+        std::string ToString() const;
 
         template<typename T>
         ComponentType RegisterComponentType() {
@@ -68,8 +67,7 @@ namespace Core {
          * @throws assertion failure if the component type is not registered.
          */
         template<typename T>
-        T& GetComponent(Entity entity)
-        {
+        T& GetComponent(Entity entity) {
             return _componentManager->GetComponentData<T>(entity);
         }
 
@@ -97,8 +95,7 @@ namespace Core {
          * @throws assertion failure if the system type has already been registered.
          */
         template<typename T>
-        std::shared_ptr<T> RegisterSystem()
-        {
+        std::shared_ptr<T> RegisterSystem() {
             return _systemManager->RegisterSystem<T>();
         }
 
@@ -111,9 +108,22 @@ namespace Core {
          * This function delegates to the SystemManager to update the signature for the specified system type.
          */
         template<typename T>
-        void SetSignature(Signature signature)
-        {
+        void SetSignature(Signature signature) {
             _systemManager->SetSignature<T>(signature);
+        }
+
+        template<typename S, typename C>
+        void SetSignature() {
+            Signature& signature = _systemManager->GetSignature<S>();
+
+            if (GetComponentType<C>() == -1) {
+                signature.set(RegisterComponentType<C>());
+            }
+            else {
+                signature.set(GetComponentType<C>());
+            }
+
+            _systemManager->SetSignature<S>(signature);
         }
 
         /**

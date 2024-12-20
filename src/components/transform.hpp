@@ -25,12 +25,14 @@ namespace Components {
          * The output includes the position, rotation (as a quaternion), 
          * and scale of the component in a formatted string.
          */
-        void Print() const override {
-            std::string str = "    Component: Transform \n";
-            str += "      Position: " + std::to_string(position.x) + ", " + std::to_string(position.y) + ", " + std::to_string(position.z) + "\n";
-            str += "      Rotation: " + std::to_string(rotation.x) + ", " + std::to_string(rotation.y) + ", " + std::to_string(rotation.z) + ", " + std::to_string(rotation.w) + "\n";
-            str += "      Scale: " + std::to_string(scale.x) + ", " + std::to_string(scale.y) + ", " + std::to_string(scale.z) + "\n";
-            std::cout << str;
+        std::string ToString() const override {
+            std::stringstream str;
+            str << "    Component: Transform \n";
+            str << "      Position: " << position.x << ", " << position.y << ", " << position.z << "\n";
+            str << "      Rotation: " << rotation.x << ", " << rotation.y << ", " << rotation.z << ", " << rotation.w << "\n";
+            str << "      Scale: " << scale.x << ", " << scale.y << ", " << scale.z << "\n";
+            
+            return str.str();
         }
     };
 }

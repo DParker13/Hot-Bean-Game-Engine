@@ -13,7 +13,7 @@ namespace Core {
 			SystemManager();
 			~SystemManager();
 
-			void Print() const;
+			std::string ToString() const;
 			
 			/**
 			 * Registers a system with the SystemManager.
@@ -47,14 +47,23 @@ namespace Core {
 			 * @throws assertion failure if the system type has not been registered.
 			 */
 			template<typename T>
-			void SetSignature(Signature signature)
-			{
+			void SetSignature(Signature signature) {
 				std::string typeName = typeid(T).name();
 
 				assert(_systems.find(typeName) != _systems.end() && "System used before registered.");
 
 				// Set the signature for this system
 				_signatures.insert({typeName, signature});
+			}
+
+			template<typename T>
+			Signature& GetSignature() {
+				std::string typeName = typeid(T).name();
+
+				assert(_systems.find(typeName) != _systems.end() && "System used before registered.");
+
+				// Set the signature for this system
+				return _signatures[typeName];
 			}
 
 			/**

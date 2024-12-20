@@ -10,24 +10,28 @@ namespace Core {
      * Prints the contents of ComponentManager to the console. This is mostly for
      * debugging purposes and should be removed in a production build.
      */
-    void ComponentManager::Print() const {
+    std::string ComponentManager::ToString() const {
+        std::stringstream str;
+
         if(_componentNameToType.size() > 0) {
-            std::cout << "Component Manager: " << _registeredComponents << std::endl;
+            str << "Component Manager: " << _registeredComponents << "\n";
 
             for (auto& [componentType, typeName] : _componentTypeToName) {
-                std::cout << "  Component Type To Name: " << "(" << componentType << "," << typeName << ")" << std::endl;
+                str << "  Component Type To Name: (" << componentType << "," << typeName << ")\n";
             }
 
             for (auto& [typeName, componentType] : _componentNameToType) {
-                std::cout << "  Type Name To Component Type: " << "(" << typeName << "," << componentType << ")" << std::endl;
+                str << "  Type Name To Component Type: (" << typeName << "," << componentType << ")\n";
             }
 
             for (auto& [name, sparseSet] : _componentNameToData) {
 
-                std::cout << "  Component Name To Data: " << name << std::endl;
-                sparseSet->Print();
+                str << "  Component Name To Data: " << name << "\n";
+                str << sparseSet->ToString();
             }
-            std::cout << std::endl;
+            str << "\n";
         }
+
+        return str.str();
     }
 }

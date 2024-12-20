@@ -3,6 +3,7 @@
 #include <SDL_stdinc.h>
 #include <bitset>
 #include <set>
+#include <sstream>
 
 // Defining entity and component types
 using EntityType = Uint32;
@@ -22,7 +23,7 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 
 struct IObject {
     virtual ~IObject() = default;
-    virtual void Print() const = 0;
+    virtual std::string ToString() const = 0;
 };
 
 struct ISparseSet : IObject {
@@ -34,5 +35,6 @@ struct ISparseSet : IObject {
 struct System : IObject {
     System() = default;
     virtual ~System() = default;
+    
     std::set<Entity> _entities;
 };

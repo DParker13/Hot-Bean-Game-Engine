@@ -23,7 +23,7 @@ public:
     //Entity methods
     void OnInitialize() override;
 
-    //EventSystem
+    //InputSystem
     void OnUpdate(std::shared_ptr<float> deltaTime) override;
     void OnRender(SDL_Surface* surface, SDL_Renderer* renderer) override;
 

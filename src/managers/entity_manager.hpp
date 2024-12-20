@@ -15,7 +15,7 @@ namespace Core {
             EntityManager();
             ~EntityManager();
 
-            void Print() const;
+            std::string ToString() const;
 
             Entity CreateEntity();
             void DestroyEntity(Entity entity);

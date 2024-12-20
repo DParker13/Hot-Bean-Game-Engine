@@ -86,16 +86,19 @@ namespace Core {
      * Prints the contents of ComponentManager to the console. This is mostly for
      * debugging purposes and should be removed in a production build.
      */
-    void EntityManager::Print() const {
-        std::cout << "Entity Manager:" << std::endl;
-        std::cout << "  Living Entity Count: " << _livingEntityCount << std::endl;
+    std::string EntityManager::ToString() const {
+        std::stringstream str;
+        str << "Entity Manager:\n";
+        str << "  Living Entity Count: " << _livingEntityCount << "\n";
 
         for (Entity i = 0; i < _livingEntityCount; i++) {
-            std::cout << "    Entity: " << i << std::endl;
-            std::cout << "    Signature: " << _signatures[i] << std::endl;
+            str << "    Entity: " << i << "\n";
+            str << "    Signature: " << _signatures[i] << "\n";
         }
 
-        std::cout << std::endl;
+        str << "\n";
+
+        return str.str();
     }
 
     EntityManager::~EntityManager() = default;   

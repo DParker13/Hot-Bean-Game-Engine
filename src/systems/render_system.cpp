@@ -1,6 +1,12 @@
 #include "render_system.hpp"
 
 namespace Systems {
+    RenderSystem::RenderSystem(Core::CoreManager& coreManager) {
+        coreManager.RegisterSystem<Systems::RenderSystem>();
+
+        coreManager.SetSignature<Systems::RenderSystem, Components::Transform>();
+    }
+    
     void RenderSystem::Render(SDL_Surface* surface, SDL_Renderer* renderer, Core::CoreManager& coreManager) {
         SDL_Color color = { 0xFF, 0xFF, 0xFF, 0xFF };
 
@@ -11,7 +17,8 @@ namespace Systems {
     }
 
     // Function to fill a rectangle on an SDL_Surface
-    void RenderSystem::CreateRect(SDL_Surface* surface, SDL_Renderer* renderer, SDL_Color* color, Components::Transform* transform) {
+    void RenderSystem::CreateRect(SDL_Surface* surface, SDL_Renderer* renderer,
+                                SDL_Color* color, Components::Transform* transform) {
         int width = surface->w;
         int height = surface->h;
 
@@ -24,7 +31,7 @@ namespace Systems {
         SDL_RenderFillRectF(renderer, &fillRect);
     }
 
-    void RenderSystem::Print() const {
-        std::cout << "  Render System Entities: " << _entities.size() << std::endl;
+    std::string RenderSystem::ToString() const {
+        return "  Render System Entities: " + std::to_string(_entities.size()) + "\n";
     }
 }

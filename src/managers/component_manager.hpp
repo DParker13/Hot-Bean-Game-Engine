@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include <memory>
 #include <cassert>
-#include <iostream>
 #include <any>
 
 #include "sparse_set.hpp"
@@ -16,7 +15,7 @@ namespace Core {
         ComponentManager();
         ~ComponentManager();
 
-        void Print() const;
+        std::string ToString() const;
 
         /**
          * Registers a component type with the ComponentManager and assigns it a ComponentType id.
@@ -55,7 +54,7 @@ namespace Core {
         This function creates a unique signature for all the components.
         */
         template<typename T>
-        ComponentType AddComponent(Entity entity, T componentData) {
+        ComponentType AddComponent(Entity entity, T& componentData) {
             static_assert(std::is_base_of<IObject, T>::value, "T must inherit from IObject!");
             
             // Component Type Name
@@ -149,7 +148,12 @@ namespace Core {
         ComponentType GetComponentType() {
             std::string typeName = typeid(T).name();
 
-            return _componentNameToType[typeName];
+            if (_componentNameToType.find(typeName) == _componentNameToType.end()) {
+                return -1;
+            }
+            else {
+                return _componentNameToType[typeName];
+            }
         }
         
     private:

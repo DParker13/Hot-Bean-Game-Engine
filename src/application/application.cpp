@@ -1,4 +1,4 @@
-#include "application.h"
+#include "application.hpp"
 
 /**
  * Constructs an Application object with the given title, width, and height.
@@ -9,10 +9,14 @@
  *
  * @throws std::runtime_error If SDL initialization fails or window creation fails.
  */
-Application::Application(std::string title, int width, int height) : window(nullptr), renderer(nullptr), quit(false) {
+Application::Application(std::string title, int width, int height) : _coreManager(Core::CoreManager()), _window(nullptr), _renderer(nullptr), _quit(false) {
+    _deltaTime = 0.0f;
+    _previousFrameTime = 0.0f;
+
     InitSDL(title, width, height);
-    deltaTime = 0.0f;
-    previousFrameTime = 0.0f;
+    InitCore();
+
+    Run();
 }
 
 Application::~Application() {
@@ -36,40 +40,40 @@ void Application::InitSDL(std::string title, int width, int height) {
     }
     else {
         // Create window
-        window = SDL_CreateWindow("Ocean Simulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        _window = SDL_CreateWindow("Ocean Simulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                    width, height, SDL_WINDOW_RESIZABLE);
-        if (window == nullptr) {
+        if (_window == nullptr) {
             std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
             SDL_Quit();
             exit(-1);
         }
         else {
             // Create renderer for window
-            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-            if (renderer == nullptr) {
+            _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+            if (_renderer == nullptr) {
                 std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-                SDL_DestroyWindow(window);
+                SDL_DestroyWindow(_window);
                 SDL_Quit();
                 exit(-1);
             }
             else {
                 // Initialize renderer color
-                SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                SDL_SetRenderDrawColor(_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
                 // Initialize TTF
                 if (TTF_Init() < 0) {
                     std::cerr << "TTF could not be initialized! SDL_Error: " << SDL_GetError() << std::endl;
-                    SDL_DestroyWindow(window);
-                    SDL_DestroyRenderer(renderer);
+                    SDL_DestroyWindow(_window);
+                    SDL_DestroyRenderer(_renderer);
                     SDL_Quit();
                     exit(-1);
                 }
                 else {
-                    surface = SDL_GetWindowSurface(window);
-                    if (surface == nullptr) {
+                    _surface = SDL_GetWindowSurface(_window);
+                    if (_surface == nullptr) {
                         std::cerr << "Surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-                        SDL_DestroyWindow(window);
-                        SDL_DestroyRenderer(renderer);
+                        SDL_DestroyWindow(_window);
+                        SDL_DestroyRenderer(_renderer);
                         SDL_Quit();
                         exit(-1);
                     }
@@ -81,16 +85,36 @@ void Application::InitSDL(std::string title, int width, int height) {
 
 /**
  * Cleans up the SDL resources by destroying the renderer, window, surface,
- * and quitting the SDL library.
+ * and _quitting the SDL library.
  *
  * @throws None
  */
 void Application::CleanUpSDL() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_FreeSurface(surface);
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
+    SDL_FreeSurface(_surface);
     TTF_Quit();
     SDL_Quit();
+}
+
+/**
+ * Initializes the CoreManager and creates instances of the necessary systems
+ * and game objects, such as the physics system, render system, input system,
+ * player controller system, UI system, debug text, and player object.
+ *
+ * @throws None
+ */
+void Application::InitCore() {
+    _coreManager.Init();
+
+    auto physicsSystem = Systems::PhysicsSystem(_coreManager);
+    auto renderSystem = Systems::RenderSystem(_coreManager);
+    auto inputSystem = Systems::InputSystem(_coreManager);
+    auto playerControllerSystem = Systems::PlayerControllerSystem(_coreManager);
+    auto uiSystem = Systems::UISystem(_coreManager);
+
+    auto debugText = GameObjects::Text(&_coreManager);
+    auto playerObj = GameObjects::Player(&_coreManager);
 }
 
 /**
@@ -100,32 +124,36 @@ void Application::CleanUpSDL() {
  *
  * @throws None
  */
-void Application::Run(Core::CoreManager& coreManager) {
+void Application::Run() {
     SDL_Event event;
 
-    while (!quit) {
+    while (!_quit) {
         //Calculates delta time
         UpdateDeltaTime();
+        
 
         //Polls for events
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
-                quit = true;
+                _quit = true;
             }
             else {
-                coreManager.GetSystem<Systems::InputSystem>()->HandleEvent(coreManager, event, deltaTime);
-                std::cout << event.type << std::endl;
+                _coreManager.GetSystem<Systems::InputSystem>()->UpdateKeys(event);
             }
         }
 
-       coreManager.GetSystem<Systems::PhysicsSystem>()->Update(coreManager, deltaTime);
+        std::unordered_set<SDL_Keycode> keysPressed = _coreManager.GetSystem<Systems::InputSystem>()->_keysPressed;
+        _coreManager.GetSystem<Systems::PlayerControllerSystem>()->Move(_coreManager, keysPressed, _deltaTime, 100.0f);
+        _coreManager.GetSystem<Systems::PhysicsSystem>()->Update(_coreManager, _deltaTime);
+        _coreManager.GetSystem<Systems::UISystem>()->Update(_coreManager);
 
-        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-        SDL_RenderClear(renderer);
+        SDL_SetRenderDrawColor(_renderer, 0x00, 0x00, 0x00, 0xFF);
+        SDL_RenderClear(_renderer);
 
-        coreManager.GetSystem<Systems::RenderSystem>()->Render(surface, renderer, coreManager);
+        _coreManager.GetSystem<Systems::RenderSystem>()->Render(_surface, _renderer, _coreManager);
+        _coreManager.GetSystem<Systems::UISystem>()->Render(_surface, _renderer, _coreManager);
 
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(_renderer);
     }
 }
 
@@ -137,7 +165,7 @@ void Application::Run(Core::CoreManager& coreManager) {
  */
 void Application::UpdateDeltaTime() {
     Uint32 currentTime = SDL_GetTicks();
-    float newDeltaTime = (currentTime - previousFrameTime) / 1000.0f;
-    deltaTime = newDeltaTime;
-    previousFrameTime = currentTime;
+    float newDeltaTime = (currentTime - _previousFrameTime) / 1000.0f;
+    _deltaTime = newDeltaTime;
+    _previousFrameTime = currentTime;
 }

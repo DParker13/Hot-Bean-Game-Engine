@@ -15,15 +15,19 @@ namespace Core {
 		public:
 			SparseSet() : _size(0) {};
 
-			void Print() const override {
+			std::string ToString() const override {
+				std::string str;
+
 				for (size_t i = 0; i < _size; i++) {
 					const IObject* object = dynamic_cast<const IObject*>(&_dense[i]);
 
 					if (object != nullptr) {
-						std::cout << "  Index: " << i << std::endl;
-						object->Print();
+						str += "  Index: " + std::to_string(i) + "\n";
+						str += object->ToString();
 					}
 				}
+
+				return str;
 			}
 
 			/**
@@ -88,14 +92,6 @@ namespace Core {
 			size_t Size() const {
 				return _size;
 			}
-
-			// friend std::ostream& operator<<(std::ostream& os, const SparseSet<T, MAX_ITEMS>& sparseSet) {
-			// 	os << "SparseSet: ";
-			// 	for (auto const& element : sparseSet) {
-			// 		os << element << " ";
-			// 	}
-			// 	return os;
-			// }
 
 			// Range based Iterator
 			class Iterator {
