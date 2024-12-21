@@ -69,39 +69,44 @@ add_subdirectory(src/gameobjects)
 add_subdirectory(src/application)
 
 # Link libraries
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    SDL2main
-    SDL2
-    glm
-    core
-    managers
-    components
-    systems
-    gameobjects-interface
-    gameobjects
-    application
-)
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        SDL2
+        SDL2main
+        core
+        systems
+        application
+        ${CMAKE_LINKER_FLAGS} -Wl,-subsystem,windows
+    )
+else ()
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        SDL2
+        core
+        systems
+        application
+    )
+endif()
 
 # Copy SDL2 DLLs to build directory
-# if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-#     add_custom_command(
-#         TARGET ${PROJECT_NAME} POST_BUILD
-#         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#                 ${SDL2_BINARY_DIR}/SDL2.dll
-#                 ${SDL2_BINARY_DIR}/SDL2d.dll
-#                 ${SDL2TTF_BINARY_DIR}/SDL2_ttf.dll
-#                 ${SDL2TTF_BINARY_DIR}/SDL2_ttfd.dll
-#                 $<TARGET_FILE_DIR:${PROJECT_NAME}>
-#     )
-# else()
-#     add_custom_command(
-#         TARGET ${PROJECT_NAME} POST_BUILD
-#         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#                 ${SDL2_BINARY_DIR}/SDL2.dll
-#                 ${SDL2TTF_BINARY_DIR}/SDL2_ttf.dll
-#                 $<TARGET_FILE_DIR:${PROJECT_NAME}>
-#     )
-# endif()
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${SDL2_BINARY_DIR}/SDL2.dll
+                ${SDL2_BINARY_DIR}/SDL2d.dll
+                ${SDL2TTF_BINARY_DIR}/SDL2_ttf.dll
+                ${SDL2TTF_BINARY_DIR}/SDL2_ttfd.dll
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>
+    )
+else()
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${SDL2_BINARY_DIR}/SDL2.dll
+                ${SDL2TTF_BINARY_DIR}/SDL2_ttf.dll
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>
+    )
+endif()
 
 # Debug include directories (for validation)
 get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
