@@ -1,12 +1,15 @@
 #pragma once
 
-#include "../core/ecs.hpp"
 #include "../managers/core_manager.hpp"
 
 namespace GameObjects {
-    class IGameObject {
+    class GameObject {
     public:
-        virtual ~IGameObject() = default;
-        virtual std::string ToString(Core::CoreManager& coreManager) const = 0;
+        Entity entity;
+        Core::CoreManager* coreManager;
+
+        GameObject(Core::CoreManager* coreManager);
+        virtual ~GameObject() = default;
+        virtual std::string ToString() const = 0;
     };
 }

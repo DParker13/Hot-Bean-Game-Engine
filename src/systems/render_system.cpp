@@ -5,6 +5,7 @@ namespace Systems {
         coreManager.RegisterSystem<Systems::RenderSystem>();
 
         coreManager.SetSignature<Systems::RenderSystem, Components::Transform>();
+        coreManager.SetSignature<Systems::RenderSystem, Components::Texture>();
     }
     
     void RenderSystem::Render(SDL_Surface* surface, SDL_Renderer* renderer, Core::CoreManager& coreManager) {
@@ -12,7 +13,11 @@ namespace Systems {
 
         for (auto& entity : _entities) {
             auto& transform = coreManager.GetComponent<Components::Transform>(entity);
-            CreateRect(surface, renderer, &color, &transform);
+            auto& texture = coreManager.GetComponent<Components::Texture>(entity);
+
+            //CreateRect(surface, renderer, &color, &transform);
+            const SDL_Rect* rect = new SDL_Rect({ (int)transform.position.x, (int)transform.position.y, 200, 50 });
+            SDL_RenderCopy(renderer, texture.texture, NULL, rect);
         }
     }
 

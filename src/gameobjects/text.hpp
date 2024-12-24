@@ -6,14 +6,12 @@
 #include "../components/text.hpp"
 
 namespace GameObjects {
-    class Text : public IGameObject {
+    class Text : public GameObject {
     public:
-        Entity entity;
-        Core::CoreManager* coreManager;
-
         Text(Core::CoreManager* coreManager);
+        
         Components::Transform& GetTransform();
         Components::Text& GetText();
-        std::string ToString(Core::CoreManager& coreManager) const override;
+        std::string ToString() const override;
     };
 }

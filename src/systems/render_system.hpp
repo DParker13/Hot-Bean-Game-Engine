@@ -4,6 +4,7 @@
 
 #include "../managers/core_manager.hpp"
 #include "../components/transform.hpp"
+#include "../components/texture.hpp"
 
 namespace Systems {
     class RenderSystem : public System {

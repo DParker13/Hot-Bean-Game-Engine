@@ -43,10 +43,9 @@ namespace Core {
         }
 
         /**
-         * Removes a component from an entity.
+         * Removes a component of type T from an entity.
          *
          * @param entity The ID of the entity to remove the component from.
-         * @param component The component to remove.
          *
          * @throws assertion failure if the entity ID is out of range.
          */

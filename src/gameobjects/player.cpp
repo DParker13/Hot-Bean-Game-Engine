@@ -1,10 +1,14 @@
 #include "player.hpp"
 
 namespace GameObjects {
+    
+    /**
+     * Creates a new player object
+     *
+     * @param coreManager The CoreManager object managing the ECS
+     */
     Player::Player(Core::CoreManager* coreManager)
-        : coreManager(coreManager) {
-        entity = coreManager->CreateEntity();
-        
+        : GameObject(coreManager) {
         coreManager->AddComponent<Components::Transform>(entity, Components::Transform());
         coreManager->AddComponent<Components::Player>(entity, Components::Player());
     }
@@ -17,7 +21,7 @@ namespace GameObjects {
         return coreManager->GetComponent<Components::Player>(entity);
     }
     
-    std::string Player::ToString(Core::CoreManager& coreManager) const {
-        return coreManager.ToString();
+    std::string Player::ToString() const {
+        return coreManager->ToString();
     };
 }

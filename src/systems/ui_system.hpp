@@ -7,6 +7,7 @@
 
 #include "../managers/core_manager.hpp"
 #include "../components/transform.hpp"
+#include "../components/texture.hpp"
 #include "../components/text.hpp"
 
 namespace Systems {
