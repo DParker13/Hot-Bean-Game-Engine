@@ -15,6 +15,10 @@ The Hot Bean Engine is a personal project I've been working on to teach myself C
 ## Getting Started
 -------------------
 
+### Build Requirements
+- CMake >= 3.11
+- GCC
+
 ### Step 1: Clone the repository
 ```bash
 git clone https://github.com/DParker13/Hot-Bean-Game-Engine.git
