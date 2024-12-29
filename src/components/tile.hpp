@@ -1,14 +1,11 @@
 #pragma once
 
-#include <SDL.h>
-
 namespace Components {
-    struct Texture : public Object {
-        SDL_Texture* texture;
+    struct Tile : public Object {
 
         std::string ToString() const override {
             std::stringstream str;
-            str << "    Component: Texture \n";
+            str << "    Component: Tile \n";
 
             return str.str();
         }

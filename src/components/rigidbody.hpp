@@ -5,7 +5,7 @@
 #include "../core/ecs.hpp"
 
 namespace Components {
-    struct RigidBody : public IObject {
+    struct RigidBody : public Object {
         glm::vec3 velocity;
         glm::vec3 acceleration;
         float gravity;

@@ -2,6 +2,8 @@
 add_library(application STATIC
     application.cpp
     application.hpp
+    game.cpp
+    game.hpp
 )
 
 # Link dependencies for the application library

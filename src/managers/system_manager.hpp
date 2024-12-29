@@ -14,7 +14,7 @@ namespace Core {
 			~SystemManager();
 
 			std::string ToString() const;
-			
+
 			/**
 			 * Registers a system with the SystemManager.
 			 *
@@ -25,14 +25,13 @@ namespace Core {
 			 * @throws assertion failure if the system type has already been registered.
 			 */
 			template<typename T>
-			std::shared_ptr<T> RegisterSystem()
+			T* RegisterSystem(T* system)
 			{
 				std::string typeName = typeid(T).name();
 
 				assert(_systems.find(typeName) == _systems.end() && "Registering system more than once.");
 
 				// Create a pointer to the system and return it so it can be used externally
-				auto system = std::make_shared<T>();
 				_systems.insert({typeName, system});
 				return system;
 			}
@@ -76,13 +75,13 @@ namespace Core {
 			 * @throws assertion failure if the system type has not been registered.
 			 */
 			template <typename T>
-			std::shared_ptr<T> GetSystem()
+			T* GetSystem()
 			{
 				std::string typeName = typeid(T).name();
 
 				assert(_systems.find(typeName) != _systems.end() && "System used before registered.");
 
-				return std::static_pointer_cast<T>(_systems[typeName]);
+				return static_cast<T*>(_systems[typeName]);
 			}
 
 			/**
@@ -130,6 +129,6 @@ namespace Core {
 			std::unordered_map<std::string, Signature> _signatures;
 
 			// Map from system type name to a system pointer
-			std::unordered_map<std::string, std::shared_ptr<System>> _systems;
+			std::unordered_map<std::string, System*> _systems;
 	};	
 }

@@ -3,7 +3,7 @@
 #include "../core/ecs.hpp"
 
 namespace Components {
-    struct Player : public IObject {
+    struct Player : public Object {
         bool controllable;
 
         Player() : controllable(true) {}

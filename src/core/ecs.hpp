@@ -21,18 +21,18 @@ const ComponentType MAX_COMPONENTS = 32;
 // Bitset indicates which components an entity has
 using Signature = std::bitset<MAX_COMPONENTS>;
 
-struct IObject {
-    virtual ~IObject() = default;
+struct Object {
+    virtual ~Object() = default;
     virtual std::string ToString() const = 0;
 };
 
-struct ISparseSet : IObject {
+struct ISparseSet : Object {
     virtual ~ISparseSet() = default;
     virtual void Remove(size_t index) = 0;
     virtual size_t Size() const = 0;
 };
 
-struct System : IObject {
+struct System : Object {
     System() = default;
     virtual ~System() = default;
     

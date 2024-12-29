@@ -1,14 +1,16 @@
 add_library(systems STATIC
-    ${CMAKE_CURRENT_LIST_DIR}/physics_system.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/physics_system.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/render_system.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/render_system.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/input_system.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/input_system.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/player_controller_system.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/player_controller_system.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/ui_system.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/ui_system.hpp
+    physics_system.cpp
+    physics_system.hpp
+    render_system.cpp
+    render_system.hpp
+    input_system.cpp
+    input_system.hpp
+    player_controller_system.cpp
+    player_controller_system.hpp
+    ui_system.cpp
+    ui_system.hpp
+    tilemap_system.hpp
+    tilemap_system.cpp
 )
 
 # Specify include directories for the systems library

@@ -7,7 +7,7 @@
 #include "../core/ecs.hpp"
 
 namespace Components {
-    struct Transform : public IObject {
+    struct Transform : public Object {
         glm::vec3 position;
         glm::quat rotation;
         glm::vec3 scale;

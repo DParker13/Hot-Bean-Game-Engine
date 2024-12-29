@@ -28,7 +28,7 @@ namespace Core {
         ComponentType RegisterComponentType() {
             std::string typeName = typeid(T).name();
 
-            static_assert(std::is_base_of<IObject, T>::value, "T must inherit from IObject!");
+            static_assert(std::is_base_of<Object, T>::value, "T must inherit from Object!");
             assert(_registeredComponents < MAX_COMPONENTS && "Reached maximum number of component!");
 
             ComponentType componentType = _registeredComponents;
@@ -55,7 +55,7 @@ namespace Core {
         */
         template<typename T>
         ComponentType AddComponent(Entity entity, T& componentData) {
-            static_assert(std::is_base_of<IObject, T>::value, "T must inherit from IObject!");
+            static_assert(std::is_base_of<Object, T>::value, "T must inherit from Object!");
             
             // Component Type Name
             std::string typeName = typeid(T).name();

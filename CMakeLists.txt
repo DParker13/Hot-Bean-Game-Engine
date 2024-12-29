@@ -69,15 +69,30 @@ add_subdirectory(src/gameobjects)
 add_subdirectory(src/application)
 
 # Link libraries
+message(STATUS "Linking Libraries!!!!!!!!!!!!!!!!!!!!!!!")
+
 if (WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE
-        SDL2
-        SDL2main
-        core
-        systems
-        application
-        ${CMAKE_LINKER_FLAGS} -Wl,-subsystem,windows
-    )
+    # If DEBUG is ON, we disable the linker flags
+    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+        message(STATUS "Debug mode is enabled, no additional linker flags")
+        target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL2
+            SDL2main
+            core
+            systems
+            application
+        )
+    else()
+        message(STATUS "Debug mode is disabled, applying linker flags")
+        target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL2
+            SDL2main
+            core
+            systems
+            application
+            ${CMAKE_LINKER_FLAGS} -Wl,-subsystem,windows
+        )
+    endif()
 else ()
     target_link_libraries(${PROJECT_NAME} PRIVATE
         SDL2

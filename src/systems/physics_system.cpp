@@ -2,10 +2,10 @@
 
 namespace Systems {
     PhysicsSystem::PhysicsSystem(Core::CoreManager& coreManager) {
-        coreManager.RegisterSystem<Systems::PhysicsSystem>();
+        coreManager.RegisterSystem<PhysicsSystem>(this);
         
-        coreManager.SetSignature<Systems::PhysicsSystem, Components::Transform>();
-        coreManager.SetSignature<Systems::PhysicsSystem, Components::RigidBody>();
+        coreManager.SetSignature<PhysicsSystem, Components::Transform>();
+        coreManager.SetSignature<PhysicsSystem, Components::RigidBody>();
     }
 
     void PhysicsSystem::Update(Core::CoreManager& coreManager, float dt) {

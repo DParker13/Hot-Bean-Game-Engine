@@ -7,13 +7,13 @@
 
 #include "../managers/core_manager.hpp"
 #include "../components/transform.hpp"
-#include "../components/texture.hpp"
 #include "../components/text.hpp"
 
 namespace Systems {
     class UISystem : public System {
         public:
             std::unordered_set<SDL_Keycode> _keysPressed;
+            TTF_Font* _font;
             SDL_Texture* _texture;
             Uint32 _framesCounter = 0;
             Uint32 _lastTickCount = 0;

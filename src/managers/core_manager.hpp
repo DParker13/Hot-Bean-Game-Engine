@@ -94,8 +94,8 @@ namespace Core {
          * @throws assertion failure if the system type has already been registered.
          */
         template<typename T>
-        std::shared_ptr<T> RegisterSystem() {
-            return _systemManager->RegisterSystem<T>();
+        T* RegisterSystem(T* system) {
+            return _systemManager->RegisterSystem<T>(system);
         }
 
         /**
@@ -111,18 +111,18 @@ namespace Core {
             _systemManager->SetSignature<T>(signature);
         }
 
-        template<typename S, typename C>
+        template<typename System, typename Component>
         void SetSignature() {
-            Signature& signature = _systemManager->GetSignature<S>();
+            Signature& signature = _systemManager->GetSignature<System>();
 
-            if (GetComponentType<C>() == -1) {
-                signature.set(RegisterComponentType<C>());
+            if (GetComponentType<Component>() == -1) {
+                signature.set(RegisterComponentType<Component>());
             }
             else {
-                signature.set(GetComponentType<C>());
+                signature.set(GetComponentType<Component>());
             }
 
-            _systemManager->SetSignature<S>(signature);
+            _systemManager->SetSignature<System>(signature);
         }
 
         /**
@@ -135,7 +135,7 @@ namespace Core {
          * @throws assertion failure if the system type has not been registered.
          */
         template<typename T>
-        std::shared_ptr<T> GetSystem() {
+        T* GetSystem() {
             return _systemManager->GetSystem<T>();
         }
 

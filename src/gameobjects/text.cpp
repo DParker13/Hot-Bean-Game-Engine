@@ -3,19 +3,19 @@
 namespace GameObjects {
     Text::Text(Core::CoreManager* coreManager)
         : GameObject(coreManager) {
-        coreManager->AddComponent<Components::Transform>(entity, Components::Transform());
-        coreManager->AddComponent<Components::Text>(entity, Components::Text());
+        _coreManager->AddComponent<Components::Transform>(_entity, Components::Transform());
+        _coreManager->AddComponent<Components::Text>(_entity, Components::Text());
     }
 
     Components::Transform& Text::GetTransform() {
-        return coreManager->GetComponent<Components::Transform>(entity);
+        return _coreManager->GetComponent<Components::Transform>(_entity);
     }
 
     Components::Text& Text::GetText() {
-        return coreManager->GetComponent<Components::Text>(entity);
+        return _coreManager->GetComponent<Components::Text>(_entity);
     }
     
     std::string Text::ToString() const {
-        return coreManager->ToString();
+        return _coreManager->ToString();
     };
 }

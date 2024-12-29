@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include <SDL_main.h> // only include this one in the source file with main()!
 
-#include "application/application.hpp"
+#include "application/game.hpp"
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -17,7 +17,9 @@ const int SCREEN_HEIGHT = 720;
  * @throws None
  */
 int main(int argc, char* argv[]) {
-    Application app("Ocean Simulator", SCREEN_WIDTH, SCREEN_HEIGHT);
+    Application::Game game = Application::Game("Hot Bean Engine", SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    game.Run();
 
     return 0;
 }

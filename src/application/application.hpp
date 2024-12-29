@@ -4,33 +4,32 @@
 #include <iostream>
 
 #include "../managers/core_manager.hpp"
-#include "../gameobjects/text.hpp"
-#include "../gameobjects/player.hpp"
 
-#include "../systems/physics_system.hpp"
-#include "../systems/render_system.hpp"
-#include "../systems/input_system.hpp"
-#include "../systems/player_controller_system.hpp"
-#include "../systems/ui_system.hpp"
+namespace Application {
+    class Application {
+        private:
+            SDL_Window* _window;
+            SDL_Renderer* _renderer;
+            SDL_Surface* _surface;
+            float _deltaTime;
+            float _previousFrameTime;
 
-class Application {
-private:
-    SDL_Window* _window;
-    SDL_Renderer* _renderer;
-    SDL_Surface* _surface;
-    Core::CoreManager _coreManager;
-    bool _quit;
-    float _deltaTime;
-    float _previousFrameTime;
+            void InitSDL(std::string title, int width, int height);
+            void CleanUpSDL();
+            void UpdateDeltaTime();
+        public:
+            Core::CoreManager _coreManager;
+            bool _quit;
 
-    void InitSDL(std::string title, int width, int height);
-    void CleanUpSDL();
-public:
-    Application(std::string title, int width, int height);
-    ~Application();
+            Application(std::string title, int width, int height);
+            ~Application();
 
-    void InitCore();
-    void Run();
-
-    void UpdateDeltaTime();
-};
+            void Run();
+            virtual void InitLayer() = 0;
+            virtual void PreEventLayer() = 0;
+            virtual void EventLayer(SDL_Event event) = 0;
+            virtual void UpdateLayer(float deltaTime) = 0;
+            virtual void RenderLayer(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) = 0;
+            virtual void PostRenderLayer() = 0;
+    };
+}

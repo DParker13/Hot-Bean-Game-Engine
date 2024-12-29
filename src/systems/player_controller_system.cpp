@@ -2,10 +2,10 @@
 
 namespace Systems {
     PlayerControllerSystem::PlayerControllerSystem(Core::CoreManager& coreManager) {
-        coreManager.RegisterSystem<Systems::PlayerControllerSystem>();
+        coreManager.RegisterSystem<PlayerControllerSystem>(this);
 
-        coreManager.SetSignature<Systems::PlayerControllerSystem, Components::Transform>();
-        coreManager.SetSignature<Systems::PlayerControllerSystem, Components::Player>();
+        coreManager.SetSignature<PlayerControllerSystem, Components::Transform>();
+        coreManager.SetSignature<PlayerControllerSystem, Components::Player>();
     }
 
     void PlayerControllerSystem::Move(Core::CoreManager& coreManager, std::unordered_set<SDL_Keycode> keysPressed, float dt, float speed) {

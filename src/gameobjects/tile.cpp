@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "tile.hpp"
 
 namespace GameObjects {
     
@@ -7,21 +7,21 @@ namespace GameObjects {
      *
      * @param coreManager The CoreManager object managing the ECS
      */
-    Player::Player(Core::CoreManager* coreManager)
+    Tile::Tile(Core::CoreManager* coreManager)
         : GameObject(coreManager) {
         _coreManager->AddComponent<Components::Transform>(_entity, Components::Transform());
-        _coreManager->AddComponent<Components::Player>(_entity, Components::Player());
+        _coreManager->AddComponent<Components::Tile>(_entity, Components::Tile());
     }
 
-    Components::Transform& Player::GetTransform() {
+    Components::Transform& Tile::GetTransform() {
         return _coreManager->GetComponent<Components::Transform>(_entity);
     }
 
-    Components::Player& Player::GetPlayer() {
-        return _coreManager->GetComponent<Components::Player>(_entity);
+    Components::Tile& Tile::GetTile() {
+        return _coreManager->GetComponent<Components::Tile>(_entity);
     }
     
-    std::string Player::ToString() const {
+    std::string Tile::ToString() const {
         return _coreManager->ToString();
     };
 }

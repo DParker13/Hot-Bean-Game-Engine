@@ -1,10 +1,12 @@
 add_library(gameobjects STATIC
-    ${CMAKE_CURRENT_LIST_DIR}/gameobject.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/gameobject.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/text.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/text.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/player.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/player.cpp
+    gameobject.hpp
+    gameobject.cpp
+    text.hpp
+    text.cpp
+    player.hpp
+    player.cpp
+    tile.hpp
+    tile.cpp
 )
 
 target_include_directories(gameobjects PUBLIC

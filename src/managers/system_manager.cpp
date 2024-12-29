@@ -3,7 +3,14 @@
 namespace Core {
     
     SystemManager::SystemManager() {}
-    SystemManager::~SystemManager() = default;
+    SystemManager::~SystemManager() {
+        // Delete all systems from set
+        for (auto& entry : _systems) {
+            delete entry.second;
+        }
+
+        _systems.clear();
+    };
 
     /**
      * Prints the contents of SystemManager to the console. This is mostly for

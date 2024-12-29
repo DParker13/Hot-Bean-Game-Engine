@@ -2,11 +2,23 @@
 
 namespace Systems {
     UISystem::UISystem(Core::CoreManager& coreManager) {
-        coreManager.RegisterSystem<Systems::UISystem>();
+        coreManager.RegisterSystem<UISystem>(this);
 
-        coreManager.SetSignature<Systems::UISystem, Components::Transform>();
-        coreManager.SetSignature<Systems::UISystem, Components::Texture>();
-        coreManager.SetSignature<Systems::UISystem, Components::Text>();
+        coreManager.SetSignature<UISystem, Components::Transform>();
+        coreManager.SetSignature<UISystem, Components::Text>();
+
+        auto fontPath = std::filesystem::current_path().parent_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
+        _font = TTF_OpenFont(fontPath.string().data(), 10);
+
+        if (!_font) {
+            SDL_Log("Couldn't load font: %s\n", SDL_GetError());
+        }
+        else {
+            TTF_SetFontStyle(_font, TTF_STYLE_NORMAL);
+            TTF_SetFontOutline(_font, 0);
+            TTF_SetFontKerning(_font, 1);
+            TTF_SetFontHinting(_font, TTF_HINTING_MONO);
+        }
     }
 
     void UISystem::Update(Core::CoreManager& coreManager) {
@@ -14,12 +26,17 @@ namespace Systems {
             auto& transform = coreManager.GetComponent<Components::Transform>(entity);
             auto& text = coreManager.GetComponent<Components::Text>(entity);
 
+            if (!text._font) {
+                text._font = _font;
+            }
+
             _framesCounter++;
             if (_lastTickCount < SDL_GetTicks() - 1000) {
                 _lastTickCount = SDL_GetTicks();
                 _fps = _framesCounter;
                 _framesCounter = 0;
 
+                text._prevText = text._text;
                 text._text = "FPS: " + std::to_string(_fps);
             }
         }
@@ -28,20 +45,21 @@ namespace Systems {
     void UISystem::Render(SDL_Surface* surface, SDL_Renderer* renderer, Core::CoreManager& coreManager) {
         for (auto& entity : _entities) {
             auto& transform = coreManager.GetComponent<Components::Transform>(entity);
-            auto& texture = coreManager.GetComponent<Components::Texture>(entity);
             auto& text = coreManager.GetComponent<Components::Text>(entity);
 
-            if (text._font != nullptr && text._text != "") {
+            if (text._font && text._text != "") {
                 const SDL_Rect* rect = new SDL_Rect({ (int)transform.position.x, (int)transform.position.y, 200, 50 });
-                _texture = SDL_CreateTextureFromSurface(renderer, TTF_RenderText_Solid(text._font, text._text.data(), text._color));
-                
-                if (SDL_RenderCopy(renderer, _texture, NULL, rect) < 0) {
-                    std::cout << "Error: " << SDL_GetError() << std::endl;
-                    std::cout << text._text << std::endl;
-                    std::cout << text._text.data() << std::endl;
+
+                if (text._prevText != text._text) {
+                    _texture = SDL_CreateTextureFromSurface(renderer, TTF_RenderText_Solid(text._font, text._text.data(), text._color));
+
+                    if (SDL_RenderCopy(renderer, _texture, NULL, rect) < 0) {
+                        std::cerr << "Error: " << SDL_GetError() << std::endl;
+                        return;
+                    }
+                    
+                    SDL_DestroyTexture(_texture);
                 }
-                
-                SDL_DestroyTexture(_texture);
             }
         }
     }

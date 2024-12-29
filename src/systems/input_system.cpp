@@ -2,10 +2,10 @@
 
 namespace Systems {
     InputSystem::InputSystem(Core::CoreManager& coreManager) {
-        coreManager.RegisterSystem<Systems::InputSystem>();
+        coreManager.RegisterSystem<InputSystem>(this);
         Signature signature;
         
-        coreManager.SetSignature<Systems::InputSystem>(signature);
+        coreManager.SetSignature<InputSystem>(signature);
     }
 
     void InputSystem::UpdateKeys(SDL_Event& event) {

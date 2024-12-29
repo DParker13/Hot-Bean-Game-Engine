@@ -19,7 +19,7 @@ namespace Core {
 				std::string str;
 
 				for (size_t i = 0; i < _size; i++) {
-					const IObject* object = dynamic_cast<const IObject*>(&_dense[i]);
+					const Object* object = dynamic_cast<const Object*>(&_dense[i]);
 
 					if (object != nullptr) {
 						str += "  Index: " + std::to_string(i) + "\n";
