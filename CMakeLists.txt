@@ -41,14 +41,33 @@ FetchContent_Declare(
     GIT_TAG release-2.22.0
 )
 
+# Fetch SDL_mixer
+FetchContent_Declare(
+    SDL2Mixer
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+    GIT_TAG release-2.8.x
+)
+
+# Fetch SDL_Image
+FetchContent_Declare(
+    SDL2Image
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
+    GIT_TAG release-2.8.x
+)
+
 set(SDL2TTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+set(SDL2MIXER_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
 # set(SDL2TTF_HARFBUZZ OFF CACHE BOOL "Use harfbuzz to improve text shaping" FORCE)
 
-FetchContent_MakeAvailable(glm SDL2 SDL2TTF)
+FetchContent_MakeAvailable(glm SDL2 SDL2TTF SDL2Mixer SDL2Image)
 
-# Manually setting SDL2_TTF Source Dir because FetchContent doesn't set it for whatever reason
+# Manually setting SDL2 Third Party Source Dirs because FetchContent doesn't set it for whatever reason
 set(SDL2TTF_SOURCE_DIR ${CMAKE_BINARY_DIR}/_deps/sdl2ttf-src)
 set(SDL2TTF_BINARY_DIR ${CMAKE_BINARY_DIR}/_deps/sdl2ttf-build)
+set(SDL2Image_SOURCE_DIR ${CMAKE_BINARY_DIR}/_deps/sdl2image-src)
+set(SDL2Image_BINARY_DIR ${CMAKE_BINARY_DIR}/_deps/sdl2image-build)
+set(SDL2Mixer_SOURCE_DIR ${CMAKE_BINARY_DIR}/_deps/sdl2mixer-src)
+set(SDL2Mixer_BINARY_DIR ${CMAKE_BINARY_DIR}/_deps/sdl2mixer-build)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 
@@ -69,8 +88,6 @@ add_subdirectory(src/gameobjects)
 add_subdirectory(src/application)
 
 # Link libraries
-message(STATUS "Linking Libraries!!!!!!!!!!!!!!!!!!!!!!!")
-
 if (WIN32)
     # If DEBUG is ON, we disable the linker flags
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -78,6 +95,8 @@ if (WIN32)
         target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL2
             SDL2main
+            SDL2_mixer
+            SDL2_image
             core
             systems
             application
@@ -87,6 +106,8 @@ if (WIN32)
         target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL2
             SDL2main
+            SDL2_mixer
+            SDL2_image
             core
             systems
             application
@@ -111,6 +132,10 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
                 ${SDL2_BINARY_DIR}/SDL2d.dll
                 ${SDL2TTF_BINARY_DIR}/SDL2_ttf.dll
                 ${SDL2TTF_BINARY_DIR}/SDL2_ttfd.dll
+                ${SDL2Image_BINARY_DIR}/SDL2_image.dll
+                ${SDL2Image_BINARY_DIR}/SDL2_imaged.dll
+                ${SDL2Mixer_BINARY_DIR}/SDL2_mixer.dll
+                ${SDL2Mixer_BINARY_DIR}/SDL2_mixerd.dll
                 $<TARGET_FILE_DIR:${PROJECT_NAME}>
     )
 else()
@@ -119,6 +144,8 @@ else()
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 ${SDL2_BINARY_DIR}/SDL2.dll
                 ${SDL2TTF_BINARY_DIR}/SDL2_ttf.dll
+                ${SDL2Image_BINARY_DIR}/SDL2_image.dll
+                ${SDL2Mixer_BINARY_DIR}/SDL2_mixer.dll
                 $<TARGET_FILE_DIR:${PROJECT_NAME}>
     )
 endif()

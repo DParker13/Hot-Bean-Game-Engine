@@ -11,6 +11,8 @@ add_library(systems STATIC
     ui_system.hpp
     tilemap_system.hpp
     tilemap_system.cpp
+    audio_system.hpp
+    audio_system.cpp
 )
 
 # Specify include directories for the systems library
@@ -21,4 +23,5 @@ target_include_directories(systems PUBLIC
 # Link dependencies for the systems library
 target_link_libraries(systems PRIVATE
     core
+    SDL2_mixer
 )

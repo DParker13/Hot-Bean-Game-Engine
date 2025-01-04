@@ -1,8 +1,16 @@
-1. Create console debugging tools
-  a. Print out visual representation of data
-2. Create logging system
-3. Create texture component
-  a. textures can be added to UISystem and RenderSystem signature
-  b. ui system updates the texture of text. Perhaps it could be used in a better 
+1. Create smarter text system
+2. Print out visual representation of data
+3. Create logging system
 4. Create documentation
-5. Create test cases
+  a. Write in-line code comments for every method and class
+  b. Write high-level documentation
+5. Create texture/sprite component (needs more planning)
+  a. textures can be added to UISystem and RenderSystem signature
+  b. ui system updates the texture of text. Perhaps it could be used in a better way
+  c. Add "HasChanged" flag to components to only update their texture when flag has been modified
+6. Create scene system
+6. Create test cases
+7. Add image to EXE
+8. Add splashscreen
+9. Create settings menu
+10. Add animation system

@@ -9,7 +9,6 @@
 namespace Systems {
     class TileMapSystem : public System {
         public:
-            TileMapSystem() = default;
             TileMapSystem(Core::CoreManager& coreManager, Uint32 x, Uint32 y);
 
             void CreateRect(SDL_Surface* surface, SDL_Renderer* renderer, SDL_Color* color, Components::Transform* transform);

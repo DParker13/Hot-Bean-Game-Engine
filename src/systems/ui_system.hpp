@@ -19,7 +19,6 @@ namespace Systems {
             Uint32 _lastTickCount = 0;
             Uint32 _fps = 0;
             
-            UISystem() = default;
             UISystem(Core::CoreManager& coreManager);
             void Render(SDL_Surface* surface, SDL_Renderer* renderer, Core::CoreManager& coreManager);
             void Update(Core::CoreManager& coreManager);

@@ -9,7 +9,6 @@
 namespace Systems {
     class RenderSystem : public System {
         public:
-            RenderSystem() = default;
             RenderSystem(Core::CoreManager& coreManager);
             void Render(SDL_Surface* surface, SDL_Renderer* renderer, Core::CoreManager& coreManager);
             std::string ToString() const;

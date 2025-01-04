@@ -85,17 +85,17 @@ namespace Core {
         }
 
         /**
-         * Registers a system of type T with the CoreManager.
+         * Registers a system of type S with the CoreManager.
          *
-         * @tparam T The type of system to be registered.
+         * @tparam S The type of system to be registered.
          *
          * @return A shared pointer to the registered system.
          *
          * @throws assertion failure if the system type has already been registered.
          */
-        template<typename T>
-        T* RegisterSystem(T* system) {
-            return _systemManager->RegisterSystem<T>(system);
+        template<typename S>
+        S* RegisterSystem(S* system) {
+            return _systemManager->RegisterSystem<S>(system);
         }
 
         /**
@@ -111,18 +111,18 @@ namespace Core {
             _systemManager->SetSignature<T>(signature);
         }
 
-        template<typename System, typename Component>
+        template<typename S, typename C>
         void SetSignature() {
-            Signature& signature = _systemManager->GetSignature<System>();
+            Signature& signature = _systemManager->GetSignature<S>();
 
-            if (GetComponentType<Component>() == -1) {
-                signature.set(RegisterComponentType<Component>());
+            if (GetComponentType<C>() == -1) {
+                signature.set(RegisterComponentType<C>());
             }
             else {
-                signature.set(GetComponentType<Component>());
+                signature.set(GetComponentType<C>());
             }
 
-            _systemManager->SetSignature<System>(signature);
+            _systemManager->SetSignature<S>(signature);
         }
 
         /**

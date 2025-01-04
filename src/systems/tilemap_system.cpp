@@ -23,9 +23,6 @@ namespace Systems {
     // Function to fill a rectangle on an SDL_Surface
     void TileMapSystem::CreateRect(SDL_Surface* surface, SDL_Renderer* renderer,
                                 SDL_Color* color, Components::Transform* transform) {
-        int width = surface->w;
-        int height = surface->h;
-
         SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, color->a);
 
         // Define a rectangle

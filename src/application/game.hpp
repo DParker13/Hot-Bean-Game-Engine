@@ -12,12 +12,13 @@
 #include "../systems/player_controller_system.hpp"
 #include "../systems/ui_system.hpp"
 #include "../systems/tilemap_system.hpp"
+#include "../systems/audio_system.hpp"
 
 namespace Application {
     // Interface for all Application layers ordered in calling order
     class Game : public Application {
         public:
-            Game(std::string title, int width, int height) 
+            Game(std::string title, int width, int height)
                 : Application(title, width, height) {};
             ~Game();
 

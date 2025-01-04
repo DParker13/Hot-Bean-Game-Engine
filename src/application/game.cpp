@@ -12,19 +12,22 @@ namespace Application {
      * @throws None
      */
     void Game::InitLayer() {
-        // Systems Manager handles destroying these items when they're unused
+        // System Manager handles destroying these items when they're unused
         new Systems::PhysicsSystem(_coreManager);
         new Systems::RenderSystem(_coreManager);
         new Systems::InputSystem(_coreManager);
         new Systems::PlayerControllerSystem(_coreManager);
         new Systems::UISystem(_coreManager);
         new Systems::TileMapSystem(_coreManager, 100, 100);
+        auto audioSystem = new Systems::AudioSystem(_coreManager);
+
+        audioSystem->LoadMusic("../assets/music/Summer.wav");
+        audioSystem->PlayMusic(-1);
         
-        InitMap(10, 100, 100);
+        InitMap(10, 1550, 800);
 
         auto debugText = GameObjects::Text(&_coreManager);
         auto playerObj = GameObjects::Player(&_coreManager);
-        std::cout << _coreManager.ToString() << std::endl;
     }
 
     void Game::EventLayer(SDL_Event event) {
@@ -44,9 +47,10 @@ namespace Application {
         _coreManager.GetSystem<Systems::TileMapSystem>()->RenderMap(surface, renderer, _coreManager);
     }
 
+    // Should this be defined in TileMapSystem instead?
     void Game::InitMap(Uint32 tilePixelSize, Uint32 sizeX, Uint32 sizeY) {
-    for (int x = 0; x < sizeX; x+=tilePixelSize) {
-        for (int y = 0; y < sizeY; y+=tilePixelSize) {
+    for (int x = 0; x < sizeX; x+=tilePixelSize*2) {
+        for (int y = 0; y < sizeY; y+=tilePixelSize*2) {
             auto tile = GameObjects::Tile(&_coreManager);
             tile.GetTransform().position.x = x;
             tile.GetTransform().position.y = y;

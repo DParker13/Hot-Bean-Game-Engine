@@ -10,7 +10,6 @@ namespace Systems {
         public:
             std::unordered_set<SDL_Keycode> _keysPressed;
             
-            InputSystem() = default;
             InputSystem(Core::CoreManager& coreManager);
             void UpdateKeys(SDL_Event& event);
             std::string ToString() const;

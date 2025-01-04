@@ -18,16 +18,16 @@ namespace Core {
 			/**
 			 * Registers a system with the SystemManager.
 			 *
-			 * @tparam T The type of system to be registered.
+			 * @tparam S The type of system to be registered.
 			 *
 			 * @return A shared pointer to the system.
 			 *
 			 * @throws assertion failure if the system type has already been registered.
 			 */
-			template<typename T>
-			T* RegisterSystem(T* system)
+			template<typename S>
+			S* RegisterSystem(S* system)
 			{
-				std::string typeName = typeid(T).name();
+				std::string typeName = typeid(S).name();
 
 				assert(_systems.find(typeName) == _systems.end() && "Registering system more than once.");
 
