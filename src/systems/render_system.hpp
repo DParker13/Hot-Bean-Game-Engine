@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 
-#include "../managers/core_manager.hpp"
+#include "../core/managers/core_manager.hpp"
 #include "../components/transform.hpp"
 #include "../components/texture.hpp"
 

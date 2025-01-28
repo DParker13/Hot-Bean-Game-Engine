@@ -1,20 +1,21 @@
 #include "physics_system.hpp"
 
 namespace Systems {
-    PhysicsSystem::PhysicsSystem(Core::CoreManager& coreManager) {
+    PhysicsSystem::PhysicsSystem(Core::CoreManager& coreManager)
+        : System(coreManager) {
         coreManager.RegisterSystem<PhysicsSystem>(this);
         
         coreManager.SetSignature<PhysicsSystem, Components::Transform>();
         coreManager.SetSignature<PhysicsSystem, Components::RigidBody>();
     }
 
-    void PhysicsSystem::Update(Core::CoreManager& coreManager, float dt) {
+    void PhysicsSystem::OnUpdate(float deltaTime) {
         for (auto& entity : _entities) {
-            auto& transform = coreManager.GetComponent<Components::Transform>(entity);
-            auto& rigidbody = coreManager.GetComponent<Components::RigidBody>(entity);
+            auto& transform = _coreManager.GetComponent<Components::Transform>(entity);
+            auto& rigidbody = _coreManager.GetComponent<Components::RigidBody>(entity);
 
-            transform.position.y -= rigidbody.velocity.y * dt;
-		    rigidbody.velocity.y += rigidbody.gravity * dt;
+            transform.position.y -= rigidbody.velocity.y * deltaTime;
+		    rigidbody.velocity.y += rigidbody.gravity * deltaTime;
         }
     }
 

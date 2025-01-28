@@ -18,22 +18,23 @@ namespace Core {
 			/**
 			 * Registers a system with the SystemManager.
 			 *
-			 * @tparam S The type of system to be registered.
+			 * @tparam T The type of system to be registered.
 			 *
 			 * @return A shared pointer to the system.
 			 *
 			 * @throws assertion failure if the system type has already been registered.
 			 */
-			template<typename S>
-			S* RegisterSystem(S* system)
+			template<typename T>
+			T& RegisterSystem(T* system)
 			{
-				std::string typeName = typeid(S).name();
+				std::string typeName = typeid(T).name();
 
 				assert(_systems.find(typeName) == _systems.end() && "Registering system more than once.");
 
 				// Create a pointer to the system and return it so it can be used externally
 				_systems.insert({typeName, system});
-				return system;
+
+				return *system;
 			}
 
 			/**
@@ -55,6 +56,15 @@ namespace Core {
 				_signatures.insert({typeName, signature});
 			}
 
+			/**
+			 * Retrieves the signature associated with a system of type T.
+			 *
+			 * @tparam T The type of system to retrieve the signature for.
+			 *
+			 * @return A reference to the signature associated with the system of type T.
+			 *
+			 * @throws assertion failure if the system type has not been registered.
+			 */
 			template<typename T>
 			Signature& GetSignature() {
 				std::string typeName = typeid(T).name();
@@ -124,11 +134,45 @@ namespace Core {
 				}
 			}
 
+			void IterateSystems(GameLoopState state) {
+				for (auto& [typeName, system] : _systems) {
+					switch(state) {
+						case GameLoopState::OnInit:
+							system->OnInit();
+							break;
+						case GameLoopState::OnPreEvent:
+							system->OnPreEvent();
+							break;
+						case GameLoopState::OnPostRender:
+							system->OnPostRender();
+							break;
+					}
+				}
+			}
+
+			void IterateSystems(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
+				for (auto& [typeName, system] : _systems) {
+					system->OnRender(renderer, window, surface);
+				}
+			}
+
+			void IterateSystems(float deltaTime) {
+				for (auto& [typeName, system] : _systems) {
+					system->OnUpdate(deltaTime);
+				}
+			}
+
+			void IterateSystems(SDL_Event& event) {
+				for (auto& [typeName, system] : _systems) {
+					system->OnEvent(event);
+				}
+			}
+
 		private:
 			// Map from system type name to a signature
 			std::unordered_map<std::string, Signature> _signatures;
 
 			// Map from system type name to a system pointer
 			std::unordered_map<std::string, System*> _systems;
-	};	
+	};
 }

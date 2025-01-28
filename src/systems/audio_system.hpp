@@ -2,7 +2,7 @@
 
 #include <SDL_mixer.h>
 
-#include "../managers/core_manager.hpp"
+#include "../core/managers/core_manager.hpp"
 #include "../components/transform.hpp"
 
 namespace Systems {
@@ -13,6 +13,10 @@ namespace Systems {
 
         public:
             AudioSystem(Core::CoreManager& coreManager);
+            
+            //System Interface
+            void OnInit() override;
+
             void LoadMusic(std::string musicFilePath);
             void PlayMusic(int numLoops);
             void PlayMusic(int channel, int numLoops);

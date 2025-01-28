@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../managers/core_manager.hpp"
+#include "../core/managers/core_manager.hpp"
 
 namespace GameObjects {
     class GameObject {
@@ -9,7 +9,7 @@ namespace GameObjects {
         Core::CoreManager* _coreManager;
 
         GameObject(Core::CoreManager* coreManager);
-        virtual ~GameObject() = default;
+        ~GameObject() = default;
 
         Entity GetEntity();
         virtual std::string ToString() const = 0;

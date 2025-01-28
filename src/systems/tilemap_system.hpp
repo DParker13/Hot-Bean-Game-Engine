@@ -2,23 +2,27 @@
 
 #include <SDL.h>
 
-#include "../managers/core_manager.hpp"
-#include "../components/transform.hpp"
-#include "../components/tile.hpp"
+#include "../core/managers/core_manager.hpp"
+#include "../gameobjects/tile.hpp"
 
 namespace Systems {
     class TileMapSystem : public System {
         public:
-            TileMapSystem(Core::CoreManager& coreManager, Uint32 x, Uint32 y);
+            TileMapSystem(Core::CoreManager& coreManager);
+
+            //System Interface Overrides
+            void OnInit() override;
+            void OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) override;
 
             void CreateRect(SDL_Surface* surface, SDL_Renderer* renderer, SDL_Color* color, Components::Transform* transform);
-            void RenderMap(SDL_Surface* surface, SDL_Renderer* renderer, Core::CoreManager& coreManager);
+            void CreateRect(SDL_Renderer* renderer, Components::Transform* transform, Components::Tile* tile);
+            void InitMap(Core::CoreManager& coreManager, Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY);
+
 
             std::string ToString() const;
 
         private:
-            Uint32 _X;
-            Uint32 _Y;
+            std::vector<SDL_FRect> _rects;
             
     };
 }

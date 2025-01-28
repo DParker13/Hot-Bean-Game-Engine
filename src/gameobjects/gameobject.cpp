@@ -7,6 +7,10 @@ namespace GameObjects {
         _entity = coreManager->CreateEntity();
     }
 
+    GameObject::~GameObject() {
+        _coreManager->DestroyEntity(_entity);
+    }
+
     Entity GameObject::GetEntity() {
         return _entity;
     }

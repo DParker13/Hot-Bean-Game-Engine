@@ -70,7 +70,7 @@ namespace Core {
 			 * @throws assertion failure if the index is out of range.
 			 * @throws assertion failure if the element does not exist in the set.
 			 */
-			void Remove(size_t index) {
+			void Remove(size_t index) override {
 				assert(0 <= index && index <= MAX_ITEMS && "Removing item out of range.");
 				assert(_sparse[index] == -1 && "Removing non-existent element.");
 
@@ -89,7 +89,7 @@ namespace Core {
 			 *
 			 * @return The number of elements in the set.
 			 */
-			size_t Size() const {
+			size_t Size() const override {
 				return _size;
 			}
 

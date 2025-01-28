@@ -5,7 +5,7 @@
 #include <iostream>
 #include <unordered_set>
 
-#include "../managers/core_manager.hpp"
+#include "../core/managers/core_manager.hpp"
 #include "../components/transform.hpp"
 #include "../components/text.hpp"
 
@@ -20,8 +20,11 @@ namespace Systems {
             Uint32 _fps = 0;
             
             UISystem(Core::CoreManager& coreManager);
-            void Render(SDL_Surface* surface, SDL_Renderer* renderer, Core::CoreManager& coreManager);
-            void Update(Core::CoreManager& coreManager);
+
+            //System interface
+            void OnUpdate(float deltaTime) override;
+            void OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) override;
+
             std::string ToString() const;
             
     };

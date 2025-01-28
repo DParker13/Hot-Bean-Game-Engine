@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL_stdinc.h>
+#include <SDL.h>
 #include <bitset>
 #include <set>
 #include <sstream>
@@ -32,9 +33,34 @@ struct ISparseSet : Object {
     virtual size_t Size() const = 0;
 };
 
+// Forward declaration of Core::CoreManager for System struct
+namespace Core {
+    class CoreManager;
+}
+
 struct System : Object {
-    System() = default;
+    Core::CoreManager& _coreManager;
+
+    System(Core::CoreManager& coreManager)
+        : _coreManager(coreManager) {};
+
     virtual ~System() = default;
+
+    virtual void OnInit() {};
+    virtual void OnPreEvent() {};
+    virtual void OnEvent(SDL_Event& event) {};
+    virtual void OnUpdate(float deltaTime) {};
+    virtual void OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {};
+    virtual void OnPostRender() {};
     
     std::set<Entity> _entities;
+};
+
+enum class GameLoopState {
+    OnInit,
+    OnPreEvent,
+    OnEvent,
+    OnUpdate,
+    OnRender,
+    OnPostRender
 };

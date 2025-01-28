@@ -1,10 +1,16 @@
 #include "audio_system.hpp"
 
 namespace Systems {
-    AudioSystem::AudioSystem(Core::CoreManager& coreManager) {
+    AudioSystem::AudioSystem(Core::CoreManager& coreManager)
+        : System(coreManager) {
         coreManager.RegisterSystem<AudioSystem>(this);
         
         coreManager.SetSignature<AudioSystem, Components::Transform>();
+    }
+
+    void AudioSystem::OnInit() {
+        LoadMusic("../assets/music/Summer.wav");
+        PlayMusic(-1);
     }
 
     void AudioSystem::LoadMusic(std::string musicFilePath) {

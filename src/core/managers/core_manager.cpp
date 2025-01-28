@@ -1,17 +1,13 @@
 #include "core_manager.hpp"
 
 namespace Core {
-    CoreManager::CoreManager() {}
-    CoreManager::~CoreManager() = default;
-
-    /**
-     * Initializes the CoreManager by creating instances of the EntityManager and ComponentManager.
-     */
-    void CoreManager::Init() {
+    CoreManager::CoreManager() {
         _entityManager = std::make_unique<EntityManager>();
         _componentManager = std::make_unique<ComponentManager>();
         _systemManager = std::make_unique<SystemManager>();
     }
+    
+    CoreManager::~CoreManager() = default;
 
     /**
      * Creates a new entity and returns its unique identifier.

@@ -1,7 +1,8 @@
 #include "ui_system.hpp"
 
 namespace Systems {
-    UISystem::UISystem(Core::CoreManager& coreManager) {
+    UISystem::UISystem(Core::CoreManager& coreManager)
+        : System(coreManager) {
         coreManager.RegisterSystem<UISystem>(this);
 
         coreManager.SetSignature<UISystem, Components::Transform>();
@@ -21,10 +22,10 @@ namespace Systems {
         }
     }
 
-    void UISystem::Update(Core::CoreManager& coreManager) {
+    void UISystem::OnUpdate(float deltaTime) {
         for (auto& entity : _entities) {
-            auto& transform = coreManager.GetComponent<Components::Transform>(entity);
-            auto& text = coreManager.GetComponent<Components::Text>(entity);
+            auto& transform = _coreManager.GetComponent<Components::Transform>(entity);
+            auto& text = _coreManager.GetComponent<Components::Text>(entity);
 
             if (!text._font) {
                 text._font = _font;
@@ -42,10 +43,10 @@ namespace Systems {
         }
     }
 
-    void UISystem::Render(SDL_Surface* surface, SDL_Renderer* renderer, Core::CoreManager& coreManager) {
+    void UISystem::OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
         for (auto& entity : _entities) {
-            auto& transform = coreManager.GetComponent<Components::Transform>(entity);
-            auto& text = coreManager.GetComponent<Components::Text>(entity);
+            auto& transform = _coreManager.GetComponent<Components::Transform>(entity);
+            auto& text = _coreManager.GetComponent<Components::Text>(entity);
 
             if (text._font && text._text != "") {
                 const SDL_Rect* rect = new SDL_Rect({ (int)transform.position.x, (int)transform.position.y, 200, 50 });

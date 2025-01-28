@@ -1,7 +1,8 @@
 #include "render_system.hpp"
 
 namespace Systems {
-    RenderSystem::RenderSystem(Core::CoreManager& coreManager) {
+    RenderSystem::RenderSystem(Core::CoreManager& coreManager)
+        : System(coreManager) {
         coreManager.RegisterSystem<RenderSystem>(this);
 
         coreManager.SetSignature<RenderSystem, Components::Transform>();

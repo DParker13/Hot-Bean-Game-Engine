@@ -16,12 +16,20 @@ namespace Core {
         CoreManager();
         ~CoreManager();
 
-        void Init();
         Entity CreateEntity();
         void DestroyEntity(Entity entity);
         void RemoveAllComponents(Entity entity);
         std::string ToString() const;
 
+        /**
+         * Registers a component type with the ComponentManager and assigns it a ComponentType id.
+         *
+         * @tparam T The type of component to be registered.
+         *
+         * @return The ComponentType id associated with the given component type.
+         *
+         * @throws assertion failure if the maximum number of component types has been reached.
+         */
         template<typename T>
         ComponentType RegisterComponentType() {
             return _componentManager->RegisterComponentType<T>();
@@ -87,15 +95,15 @@ namespace Core {
         /**
          * Registers a system of type S with the CoreManager.
          *
-         * @tparam S The type of system to be registered.
+         * @tparam T The type of system to be registered.
          *
          * @return A shared pointer to the registered system.
          *
          * @throws assertion failure if the system type has already been registered.
          */
-        template<typename S>
-        S* RegisterSystem(S* system) {
-            return _systemManager->RegisterSystem<S>(system);
+        template<typename T>
+        T& RegisterSystem(T* system) {
+            return _systemManager->RegisterSystem<T>(system);
         }
 
         /**
@@ -137,6 +145,22 @@ namespace Core {
         template<typename T>
         T* GetSystem() {
             return _systemManager->GetSystem<T>();
+        }
+
+        void IterateSystems(GameLoopState state) {
+            _systemManager->IterateSystems(state);
+        }
+
+        void IterateSystems(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
+            _systemManager->IterateSystems(renderer, window, surface);
+        }
+
+        void IterateSystems(float deltaTime) {
+            _systemManager->IterateSystems(deltaTime);
+        }
+
+        void IterateSystems(SDL_Event& event) {
+            _systemManager->IterateSystems(event);
         }
 
     private:

@@ -1,12 +1,14 @@
 #include "input_system.hpp"
 
 namespace Systems {
-    InputSystem::InputSystem(Core::CoreManager& coreManager) {
+    InputSystem::InputSystem(Core::CoreManager& coreManager)
+        : System(coreManager) {
         coreManager.RegisterSystem<InputSystem>(this);
+        
         coreManager.SetSignature<InputSystem>(Signature{});
     }
 
-    void InputSystem::UpdateKeys(SDL_Event& event) {
+    void InputSystem::OnEvent(SDL_Event& event) {
         if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
             _keysPressed.insert(event.key.keysym.sym);
         }

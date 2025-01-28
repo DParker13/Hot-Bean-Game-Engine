@@ -22,13 +22,12 @@ namespace Application {
                 : Application(title, width, height) {};
             ~Game();
 
-            void InitLayer() override;
-            void PreEventLayer() override {};
-            void EventLayer(SDL_Event event) override;
-            void UpdateLayer(float deltaTime) override;
-            void RenderLayer(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) override;
-            void PostRenderLayer() override {};
-
-            void InitMap(Uint32 tilePixelSize, Uint32 sizeX, Uint32 sizeY);
+            void InitSystems() override;
+            void OnInit() override;
+            void OnPreEvent() override {};
+            void OnEvent(SDL_Event& event) override;
+            void OnUpdate(float deltaTime) override;
+            void OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) override;
+            void OnPostRender() override {};
     };
 }

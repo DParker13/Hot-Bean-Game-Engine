@@ -5,56 +5,75 @@ namespace Application {
     Game::~Game() = default;
 
     /**
-     * Creates instances of the necessary systems
-     * and game objects, such as the physics system, render system, input system,
-     * player controller system, UI system, debug text, and player object.
+     * Initializes all systems in the game.
      *
-     * @throws None
+     * This function creates an instance of each system that is used in the game.
+     * The System Manager is responsible for cleaning up these systems when they're
+     * no longer needed.
      */
-    void Game::InitLayer() {
-        // System Manager handles destroying these items when they're unused
+    void Game::InitSystems() {
         new Systems::PhysicsSystem(_coreManager);
         new Systems::RenderSystem(_coreManager);
         new Systems::InputSystem(_coreManager);
         new Systems::PlayerControllerSystem(_coreManager);
         new Systems::UISystem(_coreManager);
-        new Systems::TileMapSystem(_coreManager, 100, 100);
-        auto audioSystem = new Systems::AudioSystem(_coreManager);
+        new Systems::TileMapSystem(_coreManager);
+        new Systems::AudioSystem(_coreManager);
+    }
 
-        audioSystem->LoadMusic("../assets/music/Summer.wav");
-        audioSystem->PlayMusic(-1);
-        
-        InitMap(10, 1550, 800);
+    
+    /**
+     * Initializes the game with some objects.
+     *
+     * This function is called after all systems have been initialized.
+     */
+    void Game::OnInit() {
+        Application::OnInit();
 
         auto debugText = GameObjects::Text(&_coreManager);
         auto playerObj = GameObjects::Player(&_coreManager);
     }
 
-    void Game::EventLayer(SDL_Event event) {
-        _coreManager.GetSystem<Systems::InputSystem>()->UpdateKeys(event);
+    /**
+     * Handles SDL events for the game.
+     *
+     * @param event The SDL event to handle.
+     *
+     * @throws None
+     */
+    void Game::OnEvent(SDL_Event& event) {
+        Application::OnEvent(event);
     }
 
-    void Game::UpdateLayer(float deltaTime) {
-        auto keysPressed = _coreManager.GetSystem<Systems::InputSystem>()->_keysPressed;
-
-        _coreManager.GetSystem<Systems::PlayerControllerSystem>()->Move(_coreManager, keysPressed, deltaTime, 100.0f);
-        _coreManager.GetSystem<Systems::PhysicsSystem>()->Update(_coreManager, deltaTime);
-        _coreManager.GetSystem<Systems::UISystem>()->Update(_coreManager);
+    /**
+     * Updates the game state.
+     *
+     * This function calls the Application::OnUpdate() function to update the
+     * state of all systems in the game. The deltaTime parameter is the time in
+     * seconds since the last frame.
+     *
+     * @param deltaTime The time in seconds since the last frame.
+     *
+     * @throws None
+     */
+    void Game::OnUpdate(float deltaTime) {
+        Application::OnUpdate(deltaTime);
     }
 
-    void Game::RenderLayer(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
-        _coreManager.GetSystem<Systems::UISystem>()->Render(surface, renderer, _coreManager);
-        _coreManager.GetSystem<Systems::TileMapSystem>()->RenderMap(surface, renderer, _coreManager);
+    /**
+     * Renders the game state to the screen.
+     *
+     * This function calls the Application::OnRender() function to render the
+     * state of all systems in the game. This is where the game is drawn to the
+     * screen.
+     *
+     * @param renderer The renderer to use to render the game.
+     * @param window The window to render to.
+     * @param surface The surface to render to.
+     *
+     * @throws None
+     */
+    void Game::OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
+        Application::OnRender(renderer, window, surface);
     }
-
-    // Should this be defined in TileMapSystem instead?
-    void Game::InitMap(Uint32 tilePixelSize, Uint32 sizeX, Uint32 sizeY) {
-    for (int x = 0; x < sizeX; x+=tilePixelSize*2) {
-        for (int y = 0; y < sizeY; y+=tilePixelSize*2) {
-            auto tile = GameObjects::Tile(&_coreManager);
-            tile.GetTransform().position.x = x;
-            tile.GetTransform().position.y = y;
-        }
-    }
-}
 }

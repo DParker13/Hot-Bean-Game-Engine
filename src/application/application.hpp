@@ -5,20 +5,10 @@
 #include <memory>
 #include <iostream>
 
-#include "../managers/core_manager.hpp"
+#include "../core/managers/core_manager.hpp"
 
 namespace Application {
     class Application {
-        private:
-            SDL_Window* _window;
-            SDL_Renderer* _renderer;
-            SDL_Surface* _surface;
-            float _deltaTime;
-            float _previousFrameTime;
-
-            void InitSDL(std::string title, int width, int height);
-            void CleanUpSDL();
-            void UpdateDeltaTime();
         public:
             Core::CoreManager _coreManager;
             bool _quit;
@@ -27,11 +17,23 @@ namespace Application {
             ~Application();
 
             void Run();
-            virtual void InitLayer() = 0;
-            virtual void PreEventLayer() = 0;
-            virtual void EventLayer(SDL_Event event) = 0;
-            virtual void UpdateLayer(float deltaTime) = 0;
-            virtual void RenderLayer(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) = 0;
-            virtual void PostRenderLayer() = 0;
+            virtual void InitSystems() = 0;
+            virtual void OnInit() = 0;
+            virtual void OnPreEvent() = 0;
+            virtual void OnEvent(SDL_Event& event) = 0;
+            virtual void OnUpdate(float deltaTime) = 0;
+            virtual void OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) = 0;
+            virtual void OnPostRender() = 0;
+
+        private:
+            SDL_Window* _window;
+            SDL_Renderer* _renderer;
+            SDL_Surface* _surface;
+            float _deltaTime;
+            float _previousFrameTime;
+
+            void InitApplication(std::string title, int width, int height);
+            void CleanUpSDL();
+            void UpdateDeltaTime();
     };
 }
