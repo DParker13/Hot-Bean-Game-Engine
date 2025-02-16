@@ -1,0 +1,158 @@
+\doxysection{Core\+::Sparse\+Set\texorpdfstring{$<$}{<} T, MAX\+\_\+\+ITEMS \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_core_1_1_sparse_set}{}\label{class_core_1_1_sparse_set}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+
+
+{\ttfamily \#include $<$sparse\+\_\+set.\+hpp$>$}
+
+Inheritance diagram for Core\+::Sparse\+Set\texorpdfstring{$<$}{<} T, MAX\+\_\+\+ITEMS \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_core_1_1_sparse_set}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_core_1_1_sparse_set_a4de1f6385c85391a4ebc9ac808de6eb9}{Sparse\+Set}} ()
+\item 
+std\+::string \mbox{\hyperlink{class_core_1_1_sparse_set_a330a0bb89c2bf04cd9c42aad32481449}{To\+String}} () const override
+\item 
+void \mbox{\hyperlink{class_core_1_1_sparse_set_a0046c1957563231d22966576c5ca04f0}{Insert}} (size\+\_\+t index, T data)
+\item 
+T \& \mbox{\hyperlink{class_core_1_1_sparse_set_a0b9a0ee492604c622a735ec51873a844}{Get\+Element}} (size\+\_\+t index)
+\item 
+void \mbox{\hyperlink{class_core_1_1_sparse_set_a8b07d53b983b9f5c79b8436a8e5c5838}{Remove}} (size\+\_\+t index) override
+\item 
+size\+\_\+t \mbox{\hyperlink{class_core_1_1_sparse_set_af9d11944ffdd20440090171dfd6c803f}{Size}} () const override
+\item 
+\mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}} \mbox{\hyperlink{class_core_1_1_sparse_set_ad83d02d6bbc23adde35255a4279bbd06}{begin}} ()
+\item 
+\mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}} \mbox{\hyperlink{class_core_1_1_sparse_set_abc2e3eb62423b7c88d2293596af1e178}{end}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{struct_i_sparse_set}{ISparse\+Set}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{struct_i_sparse_set_a2d5457a62c4a423120ae5906982338ec}{\texorpdfstring{$\sim$}{\string~}\+ISparse\+Set}} ()=default
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{struct_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{struct_object_a226f2ae2af766b77d83c09a4d766b725}{\texorpdfstring{$\sim$}{\string~}\+Object}} ()=default
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_core_1_1_sparse_set_a4de1f6385c85391a4ebc9ac808de6eb9}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}!SparseSet@{SparseSet}}
+\index{SparseSet@{SparseSet}!Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+\doxysubsubsection{\texorpdfstring{SparseSet()}{SparseSet()}}
+{\footnotesize\ttfamily \label{class_core_1_1_sparse_set_a4de1f6385c85391a4ebc9ac808de6eb9} 
+template$<$typename T, size\+\_\+t MAX\+\_\+\+ITEMS$>$ \\
+\mbox{\hyperlink{class_core_1_1_sparse_set}{Core\+::\+Sparse\+Set}}$<$ T, MAX\+\_\+\+ITEMS $>$\+::\+Sparse\+Set (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_core_1_1_sparse_set_ad83d02d6bbc23adde35255a4279bbd06}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}!begin@{begin}}
+\index{begin@{begin}!Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily \label{class_core_1_1_sparse_set_ad83d02d6bbc23adde35255a4279bbd06} 
+template$<$typename T, size\+\_\+t MAX\+\_\+\+ITEMS$>$ \\
+\mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}} \mbox{\hyperlink{class_core_1_1_sparse_set}{Core\+::\+Sparse\+Set}}$<$ T, MAX\+\_\+\+ITEMS $>$\+::begin (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_core_1_1_sparse_set_abc2e3eb62423b7c88d2293596af1e178}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}!end@{end}}
+\index{end@{end}!Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily \label{class_core_1_1_sparse_set_abc2e3eb62423b7c88d2293596af1e178} 
+template$<$typename T, size\+\_\+t MAX\+\_\+\+ITEMS$>$ \\
+\mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}} \mbox{\hyperlink{class_core_1_1_sparse_set}{Core\+::\+Sparse\+Set}}$<$ T, MAX\+\_\+\+ITEMS $>$\+::end (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_core_1_1_sparse_set_a0b9a0ee492604c622a735ec51873a844}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}!GetElement@{GetElement}}
+\index{GetElement@{GetElement}!Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+\doxysubsubsection{\texorpdfstring{GetElement()}{GetElement()}}
+{\footnotesize\ttfamily \label{class_core_1_1_sparse_set_a0b9a0ee492604c622a735ec51873a844} 
+template$<$typename T, size\+\_\+t MAX\+\_\+\+ITEMS$>$ \\
+T \& \mbox{\hyperlink{class_core_1_1_sparse_set}{Core\+::\+Sparse\+Set}}$<$ T, MAX\+\_\+\+ITEMS $>$\+::\+Get\+Element (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{index}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_core_1_1_sparse_set_a0046c1957563231d22966576c5ca04f0}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}!Insert@{Insert}}
+\index{Insert@{Insert}!Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+\doxysubsubsection{\texorpdfstring{Insert()}{Insert()}}
+{\footnotesize\ttfamily \label{class_core_1_1_sparse_set_a0046c1957563231d22966576c5ca04f0} 
+template$<$typename T, size\+\_\+t MAX\+\_\+\+ITEMS$>$ \\
+void \mbox{\hyperlink{class_core_1_1_sparse_set}{Core\+::\+Sparse\+Set}}$<$ T, MAX\+\_\+\+ITEMS $>$\+::\+Insert (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{index}{, }\item[{T}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Inserts a new element into the set at the given index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index to insert the element at. \\
+\hline
+{\em data} & The element to insert.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the index is out of range. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_sparse_set_a8b07d53b983b9f5c79b8436a8e5c5838}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}!Remove@{Remove}}
+\index{Remove@{Remove}!Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+\doxysubsubsection{\texorpdfstring{Remove()}{Remove()}}
+{\footnotesize\ttfamily \label{class_core_1_1_sparse_set_a8b07d53b983b9f5c79b8436a8e5c5838} 
+template$<$typename T, size\+\_\+t MAX\+\_\+\+ITEMS$>$ \\
+void \mbox{\hyperlink{class_core_1_1_sparse_set}{Core\+::\+Sparse\+Set}}$<$ T, MAX\+\_\+\+ITEMS $>$\+::\+Remove (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{index}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Removes an element from the set by its index in the \+\_\+sparse array.
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The index of the element to remove.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the index is out of range. \\
+\hline
+{\em assertion} & failure if the element does not exist in the set. \\
+\hline
+\end{DoxyExceptions}
+
+
+Implements \mbox{\hyperlink{struct_i_sparse_set_a8dac010a4fd40af522d5c0695286ebec}{ISparse\+Set}}.
+
+\Hypertarget{class_core_1_1_sparse_set_af9d11944ffdd20440090171dfd6c803f}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}!Size@{Size}}
+\index{Size@{Size}!Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+\doxysubsubsection{\texorpdfstring{Size()}{Size()}}
+{\footnotesize\ttfamily \label{class_core_1_1_sparse_set_af9d11944ffdd20440090171dfd6c803f} 
+template$<$typename T, size\+\_\+t MAX\+\_\+\+ITEMS$>$ \\
+size\+\_\+t \mbox{\hyperlink{class_core_1_1_sparse_set}{Core\+::\+Sparse\+Set}}$<$ T, MAX\+\_\+\+ITEMS $>$\+::\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Returns the number of elements in the set.
+
+\begin{DoxyReturn}{Returns}
+The number of elements in the set. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{struct_i_sparse_set_a161a747d701a71c37cff3dee9a51b018}{ISparse\+Set}}.
+
+\Hypertarget{class_core_1_1_sparse_set_a330a0bb89c2bf04cd9c42aad32481449}\index{Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}!ToString@{ToString}}
+\index{ToString@{ToString}!Core::SparseSet$<$ T, MAX\_ITEMS $>$@{Core::SparseSet$<$ T, MAX\_ITEMS $>$}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily \label{class_core_1_1_sparse_set_a330a0bb89c2bf04cd9c42aad32481449} 
+template$<$typename T, size\+\_\+t MAX\+\_\+\+ITEMS$>$ \\
+std\+::string \mbox{\hyperlink{class_core_1_1_sparse_set}{Core\+::\+Sparse\+Set}}$<$ T, MAX\+\_\+\+ITEMS $>$\+::\+To\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{struct_object_a5ba02cfbbf442727ebda872e864ea172}{Object}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/core/\mbox{\hyperlink{sparse__set_8hpp}{sparse\+\_\+set.\+hpp}}\end{DoxyCompactItemize}

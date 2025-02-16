@@ -1,0 +1,130 @@
+\doxysection{Core\+::Entity\+Manager Class Reference}
+\hypertarget{class_core_1_1_entity_manager}{}\label{class_core_1_1_entity_manager}\index{Core::EntityManager@{Core::EntityManager}}
+
+
+{\ttfamily \#include $<$entity\+\_\+manager.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_core_1_1_entity_manager_a3d00acbb8fcd74b369ae300b51ec8bc9}{Entity\+Manager}} ()
+\item 
+\mbox{\hyperlink{class_core_1_1_entity_manager_a5701c41bcf4d31cfdb2f278f425e3a43}{\texorpdfstring{$\sim$}{\string~}\+Entity\+Manager}} ()
+\item 
+std\+::string \mbox{\hyperlink{class_core_1_1_entity_manager_a156611404ea542eb714ea3736f5fa617}{To\+String}} () const
+\item 
+\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} \mbox{\hyperlink{class_core_1_1_entity_manager_a933cfc686ea79d3b0e0b2442f355036d}{Create\+Entity}} ()
+\item 
+void \mbox{\hyperlink{class_core_1_1_entity_manager_a9b61b2f8349e794bce81453e93152a66}{Destroy\+Entity}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity)
+\item 
+\mbox{\hyperlink{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}{Signature}} \mbox{\hyperlink{class_core_1_1_entity_manager_ac6b6d398262ce27d33fb1c0f0f98b2e6}{Set\+Signature}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity, \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} component\+Type)
+\item 
+\mbox{\hyperlink{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}{Signature}} \mbox{\hyperlink{class_core_1_1_entity_manager_a1e710b7192039138614228803c2d4c17}{Get\+Signature}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_core_1_1_entity_manager_a3d00acbb8fcd74b369ae300b51ec8bc9}\index{Core::EntityManager@{Core::EntityManager}!EntityManager@{EntityManager}}
+\index{EntityManager@{EntityManager}!Core::EntityManager@{Core::EntityManager}}
+\doxysubsubsection{\texorpdfstring{EntityManager()}{EntityManager()}}
+{\footnotesize\ttfamily \label{class_core_1_1_entity_manager_a3d00acbb8fcd74b369ae300b51ec8bc9} 
+Core\+::\+Entity\+Manager\+::\+Entity\+Manager (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Constructs an \doxylink{class_core_1_1_entity_manager}{Entity\+Manager} and initializes the queue of available entity IDs.
+
+This constructor fills the queue with all possible entity IDs, making them available for future use. The entity IDs range from 0 to MAX\+\_\+\+ENTITIES -\/ 1. \Hypertarget{class_core_1_1_entity_manager_a5701c41bcf4d31cfdb2f278f425e3a43}\index{Core::EntityManager@{Core::EntityManager}!````~EntityManager@{\texorpdfstring{$\sim$}{\string~}EntityManager}}
+\index{````~EntityManager@{\texorpdfstring{$\sim$}{\string~}EntityManager}!Core::EntityManager@{Core::EntityManager}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}EntityManager()}{\string~EntityManager()}}
+{\footnotesize\ttfamily \label{class_core_1_1_entity_manager_a5701c41bcf4d31cfdb2f278f425e3a43} 
+Core\+::\+Entity\+Manager\+::\texorpdfstring{$\sim$}{\string~}\+Entity\+Manager (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_core_1_1_entity_manager_a933cfc686ea79d3b0e0b2442f355036d}\index{Core::EntityManager@{Core::EntityManager}!CreateEntity@{CreateEntity}}
+\index{CreateEntity@{CreateEntity}!Core::EntityManager@{Core::EntityManager}}
+\doxysubsubsection{\texorpdfstring{CreateEntity()}{CreateEntity()}}
+{\footnotesize\ttfamily \label{class_core_1_1_entity_manager_a933cfc686ea79d3b0e0b2442f355036d} 
+\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} Core\+::\+Entity\+Manager\+::\+Create\+Entity (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Creates a new entity and returns its unique identifier.
+
+\begin{DoxyReturn}{Returns}
+The unique identifier of the newly created entity.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the maximum number of entities has been reached. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_entity_manager_a9b61b2f8349e794bce81453e93152a66}\index{Core::EntityManager@{Core::EntityManager}!DestroyEntity@{DestroyEntity}}
+\index{DestroyEntity@{DestroyEntity}!Core::EntityManager@{Core::EntityManager}}
+\doxysubsubsection{\texorpdfstring{DestroyEntity()}{DestroyEntity()}}
+{\footnotesize\ttfamily \label{class_core_1_1_entity_manager_a9b61b2f8349e794bce81453e93152a66} 
+void Core\+::\+Entity\+Manager\+::\+Destroy\+Entity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{}\end{DoxyParamCaption})}
+
+Destroys an entity and makes its ID available for reuse.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The ID of the entity to be destroyed.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the entity ID is out of range. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_entity_manager_a1e710b7192039138614228803c2d4c17}\index{Core::EntityManager@{Core::EntityManager}!GetSignature@{GetSignature}}
+\index{GetSignature@{GetSignature}!Core::EntityManager@{Core::EntityManager}}
+\doxysubsubsection{\texorpdfstring{GetSignature()}{GetSignature()}}
+{\footnotesize\ttfamily \label{class_core_1_1_entity_manager_a1e710b7192039138614228803c2d4c17} 
+\mbox{\hyperlink{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}{Signature}} Core\+::\+Entity\+Manager\+::\+Get\+Signature (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{}\end{DoxyParamCaption})}
+
+Retrieves the signature associated with a given entity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The ID of the entity to retrieve the signature for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The signature associated with the given entity.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the entity ID is out of range. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_entity_manager_ac6b6d398262ce27d33fb1c0f0f98b2e6}\index{Core::EntityManager@{Core::EntityManager}!SetSignature@{SetSignature}}
+\index{SetSignature@{SetSignature}!Core::EntityManager@{Core::EntityManager}}
+\doxysubsubsection{\texorpdfstring{SetSignature()}{SetSignature()}}
+{\footnotesize\ttfamily \label{class_core_1_1_entity_manager_ac6b6d398262ce27d33fb1c0f0f98b2e6} 
+\mbox{\hyperlink{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}{Signature}} Core\+::\+Entity\+Manager\+::\+Set\+Signature (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{, }\item[{\mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}}}]{component\+Type}{}\end{DoxyParamCaption})}
+
+Sets the signature for a given entity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The ID of the entity to set the signature for. \\
+\hline
+{\em component\+Type} & The signature to be set for the entity.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the entity ID is out of range. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_entity_manager_a156611404ea542eb714ea3736f5fa617}\index{Core::EntityManager@{Core::EntityManager}!ToString@{ToString}}
+\index{ToString@{ToString}!Core::EntityManager@{Core::EntityManager}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily \label{class_core_1_1_entity_manager_a156611404ea542eb714ea3736f5fa617} 
+std\+::string Core\+::\+Entity\+Manager\+::\+To\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+Prints the contents of \doxylink{class_core_1_1_component_manager}{Component\+Manager} to the console. This is mostly for debugging purposes and should be removed in a production build. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/core/managers/\mbox{\hyperlink{entity__manager_8hpp}{entity\+\_\+manager.\+hpp}}\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/core/managers/\mbox{\hyperlink{entity__manager_8cpp}{entity\+\_\+manager.\+cpp}}\end{DoxyCompactItemize}

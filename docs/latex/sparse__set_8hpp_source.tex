@@ -1,0 +1,105 @@
+\doxysection{sparse\+\_\+set.\+hpp}
+\hypertarget{sparse__set_8hpp_source}{}\label{sparse__set_8hpp_source}\index{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/sparse\_set.hpp@{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/sparse\_set.hpp}}
+\mbox{\hyperlink{sparse__set_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ecs_8hpp}{ecs.hpp}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_core}{Core}}\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keywordtype}{size\_t}\ MAX\_ITEMS>}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_core_1_1_sparse_set_a4de1f6385c85391a4ebc9ac808de6eb9}{SparseSet}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_i_sparse_set}{ISparseSet}}\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Creates\ two\ arrays,\ one\ with\ a\ \_dense\ array\ and\ one\ with\ a\ \_sparse\ array.}}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_core_1_1_sparse_set_a4de1f6385c85391a4ebc9ac808de6eb9}{SparseSet}}()\ :\ \_size(0)\ \{\};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_core_1_1_sparse_set_a330a0bb89c2bf04cd9c42aad32481449}{ToString}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ str;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \_size;\ i++)\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_object}{Object}}*\ \textcolor{keywordtype}{object}\ =\ \textcolor{keyword}{dynamic\_cast<}\textcolor{keyword}{const\ }\mbox{\hyperlink{struct_object}{Object}}*\textcolor{keyword}{>}(\&\_dense[i]);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{object}\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\ +=\ \textcolor{stringliteral}{"{}\ \ Index:\ "{}}\ +\ std::to\_string(i)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\ +=\ \textcolor{keywordtype}{object}-\/>ToString();}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_core_1_1_sparse_set_a0046c1957563231d22966576c5ca04f0}{Insert}}(\textcolor{keywordtype}{size\_t}\ index,\ T\ data)\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(0\ <=\ index\ \&\&\ index\ <=\ MAX\_ITEMS\ \&\&\ \textcolor{stringliteral}{"{}Adding\ element\ outside\ of\ valid\ range."{}});}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Maps\ data\ to\ end\ of\ \_dense\ array}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_dense[\_size]\ =\ data;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Maps\ this\ data's\ \_dense\ array\ index\ (\_size)\ to\ the\ \_sparse\ array\ index\ (data)}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_sparse[index]\ =\ \_size;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ \_dense\ array\ size}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_size++;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{class_core_1_1_sparse_set_a0b9a0ee492604c622a735ec51873a844}{GetElement}}(\textcolor{keywordtype}{size\_t}\ index)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(0\ <=\ index\ \&\&\ index\ <=\ MAX\_ITEMS\ \&\&\ \textcolor{stringliteral}{"{}Element\ out\ of\ range."{}});}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (\_dense[\_sparse[index]]\ ==\ T())\ \{}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ throw\ std::runtime\_error("{}Element\ is\ nullptr"{});}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Return\ a\ reference\ to\ the\ value}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_dense[\_sparse[index]];}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_core_1_1_sparse_set_a8b07d53b983b9f5c79b8436a8e5c5838}{Remove}}(\textcolor{keywordtype}{size\_t}\ index)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(0\ <=\ index\ \&\&\ index\ <=\ MAX\_ITEMS\ \&\&\ \textcolor{stringliteral}{"{}Removing\ item\ out\ of\ range."{}});}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\_sparse[index]\ ==\ -\/1\ \&\&\ \textcolor{stringliteral}{"{}Removing\ non-\/existent\ element."{}});}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Replaces\ the\ element\ in\ the\ \_dense\ array\ with\ the\ last\ element\ in\ the\ \_dense\ array}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_dense[\_sparse[index]]\ =\ \_dense[\_size];}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_sparse[index]\ =\ -\/1;}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_dense[\_size]\ =\ T\{\};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_size-\/-\/;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_core_1_1_sparse_set_af9d11944ffdd20440090171dfd6c803f}{Size}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_size;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Range\ based\ Iterator}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator_a47aee0b6ce15cb72fe2a1aec98c5299b}{Iterator}}\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator_a47aee0b6ce15cb72fe2a1aec98c5299b}{Iterator}}(T\ *\ ptr):\ ptr(ptr)\ \{\}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator_a47aee0b6ce15cb72fe2a1aec98c5299b}{Iterator}}\ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator_a2540dd99a98225cf2e908f7f865fce27}{operator++}}()\ \{\ ++ptr;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator_a17ea9e1255f6d11bb3df5d41208044e4}{operator!=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator_a47aee0b6ce15cb72fe2a1aec98c5299b}{Iterator}}\ \&\ other)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ptr\ !=\ other.ptr;\ \ \}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator_a49567d4f86158367d18725620e69da5a}{operator*}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ *ptr;\ \}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T*\ ptr;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}}\ \mbox{\hyperlink{class_core_1_1_sparse_set_ad83d02d6bbc23adde35255a4279bbd06}{begin}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}}(\_dense.data());\ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}}\ \mbox{\hyperlink{class_core_1_1_sparse_set_abc2e3eb62423b7c88d2293596af1e178}{end}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_core_1_1_sparse_set_1_1_iterator}{Iterator}}(\_dense.data()\ +\ \_size);\ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Current\ size\ of\ the\ \_dense\ array}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \_size;}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ packed\ array\ with\ no\ gaps}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ std::array<T,\ MAX\_ITEMS>\ \_dense;}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sparse\ array\ that\ can\ have\ gaps,\ each\ element\ is\ an\ index\ in\ the\ \_dense\ array}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ std::array<size\_t,\ MAX\_ITEMS>\ \_sparse;}
+\DoxyCodeLine{00119\ \ \ \ \ \};}
+\DoxyCodeLine{00120\ \}}
+
+\end{DoxyCode}

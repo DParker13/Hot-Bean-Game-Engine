@@ -1,0 +1,29 @@
+\doxysection{texture.\+hpp}
+\hypertarget{texture_8hpp_source}{}\label{texture_8hpp_source}\index{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/components/texture.hpp@{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/components/texture.hpp}}
+\mbox{\hyperlink{texture_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <SDL.h>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_components}{Components}}\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_components_1_1_texture_aac83493abfacbc69286e60cb77e7f610}{Texture}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_object}{Object}}\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ SDL\_Texture*\ \mbox{\hyperlink{struct_components_1_1_texture_a7581ecfc3dd7ef7d873daf4a6ab86a43}{\_texture}};}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ glm::ivec2\ \mbox{\hyperlink{struct_components_1_1_texture_ab95b3b3248feb22670530f7a00a05b45}{\_size}};}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_components_1_1_texture_a2803abd8f904944fd6f77c4bd0ca1577}{\string~Texture}}()\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_DestroyTexture(\mbox{\hyperlink{struct_components_1_1_texture_a7581ecfc3dd7ef7d873daf4a6ab86a43}{\_texture}});}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_components_1_1_texture_aac83493abfacbc69286e60cb77e7f610}{Texture}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{struct_components_1_1_texture_aa77783bfbda3b17846513ecf798cce4e}{ToString}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ std::stringstream\ str;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ Component:\ Texture\ \(\backslash\)n"{}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str.str();}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \};}
+\DoxyCodeLine{00030\ \}}
+
+\end{DoxyCode}

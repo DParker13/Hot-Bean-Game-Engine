@@ -1,0 +1,129 @@
+\doxysection{C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/core/ecs.hpp File Reference}
+\hypertarget{ecs_8hpp}{}\label{ecs_8hpp}\index{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/ecs.hpp@{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/ecs.hpp}}
+{\ttfamily \#include $<$SDL\+\_\+stdinc.\+h$>$}\newline
+{\ttfamily \#include $<$SDL.\+h$>$}\newline
+{\ttfamily \#include $<$bitset$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_object}{Object}}
+\item 
+struct \mbox{\hyperlink{struct_i_sparse_set}{ISparse\+Set}}
+\item 
+struct \mbox{\hyperlink{struct_system}{System}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_core}{Core}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{ecs_8hpp_a80fc185b41629e3c3352b30d8428cab8}{Entity\+Type}} = Uint32
+\item 
+using \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} = Uint32
+\item 
+using \mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} = \mbox{\hyperlink{ecs_8hpp_a80fc185b41629e3c3352b30d8428cab8}{Entity\+Type}}
+\item 
+using \mbox{\hyperlink{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}{Signature}} = std\+::bitset$<$\mbox{\hyperlink{ecs_8hpp_aaada9ea12b74f92a9c7cc564321e7e5e}{MAX\+\_\+\+COMPONENTS}}$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3}{Game\+Loop\+State}} \{ \newline
+\mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3afb56fb9b26e7037590b59fc139f9ca3d}{On\+Init}}
+, \mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a3dc69d5cdda4fd3fe9de88e4e4db15ee}{On\+Pre\+Event}}
+, \mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a2c47bd0a4185c2e5a187d4642ed0a2d4}{On\+Event}}
+, \mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3adad07967ee58700afec07a543d5a5e46}{On\+Update}}
+, \newline
+\mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a6c03367cce64232b2e7b1c4939dd937b}{On\+Render}}
+, \mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a2e59d0f48c520dbcc3d9630761fd5dd7}{On\+Post\+Render}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} \mbox{\hyperlink{ecs_8hpp_a4851adb72a1790d96048936c4e845d7a}{MAX\+\_\+\+ENTITIES}} = 5000
+\item 
+const \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} \mbox{\hyperlink{ecs_8hpp_aaada9ea12b74f92a9c7cc564321e7e5e}{MAX\+\_\+\+COMPONENTS}} = 32
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}\index{ecs.hpp@{ecs.hpp}!ComponentType@{ComponentType}}
+\index{ComponentType@{ComponentType}!ecs.hpp@{ecs.hpp}}
+\doxysubsubsection{\texorpdfstring{ComponentType}{ComponentType}}
+{\footnotesize\ttfamily \label{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a} 
+using \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} = Uint32}
+
+\Hypertarget{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}\index{ecs.hpp@{ecs.hpp}!Entity@{Entity}}
+\index{Entity@{Entity}!ecs.hpp@{ecs.hpp}}
+\doxysubsubsection{\texorpdfstring{Entity}{Entity}}
+{\footnotesize\ttfamily \label{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c} 
+using \mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} = \mbox{\hyperlink{ecs_8hpp_a80fc185b41629e3c3352b30d8428cab8}{Entity\+Type}}}
+
+\Hypertarget{ecs_8hpp_a80fc185b41629e3c3352b30d8428cab8}\index{ecs.hpp@{ecs.hpp}!EntityType@{EntityType}}
+\index{EntityType@{EntityType}!ecs.hpp@{ecs.hpp}}
+\doxysubsubsection{\texorpdfstring{EntityType}{EntityType}}
+{\footnotesize\ttfamily \label{ecs_8hpp_a80fc185b41629e3c3352b30d8428cab8} 
+using \mbox{\hyperlink{ecs_8hpp_a80fc185b41629e3c3352b30d8428cab8}{Entity\+Type}} = Uint32}
+
+\Hypertarget{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}\index{ecs.hpp@{ecs.hpp}!Signature@{Signature}}
+\index{Signature@{Signature}!ecs.hpp@{ecs.hpp}}
+\doxysubsubsection{\texorpdfstring{Signature}{Signature}}
+{\footnotesize\ttfamily \label{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807} 
+using \mbox{\hyperlink{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}{Signature}} = std\+::bitset$<$\mbox{\hyperlink{ecs_8hpp_aaada9ea12b74f92a9c7cc564321e7e5e}{MAX\+\_\+\+COMPONENTS}}$>$}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3}\index{ecs.hpp@{ecs.hpp}!GameLoopState@{GameLoopState}}
+\index{GameLoopState@{GameLoopState}!ecs.hpp@{ecs.hpp}}
+\doxysubsubsection{\texorpdfstring{GameLoopState}{GameLoopState}}
+{\footnotesize\ttfamily \label{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3} 
+enum class \mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3}{Game\+Loop\+State}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OnInit@{OnInit}!ecs.hpp@{ecs.hpp}}\index{ecs.hpp@{ecs.hpp}!OnInit@{OnInit}}}\Hypertarget{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3afb56fb9b26e7037590b59fc139f9ca3d}\label{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3afb56fb9b26e7037590b59fc139f9ca3d} 
+On\+Init&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OnPreEvent@{OnPreEvent}!ecs.hpp@{ecs.hpp}}\index{ecs.hpp@{ecs.hpp}!OnPreEvent@{OnPreEvent}}}\Hypertarget{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a3dc69d5cdda4fd3fe9de88e4e4db15ee}\label{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a3dc69d5cdda4fd3fe9de88e4e4db15ee} 
+On\+Pre\+Event&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OnEvent@{OnEvent}!ecs.hpp@{ecs.hpp}}\index{ecs.hpp@{ecs.hpp}!OnEvent@{OnEvent}}}\Hypertarget{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a2c47bd0a4185c2e5a187d4642ed0a2d4}\label{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a2c47bd0a4185c2e5a187d4642ed0a2d4} 
+On\+Event&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OnUpdate@{OnUpdate}!ecs.hpp@{ecs.hpp}}\index{ecs.hpp@{ecs.hpp}!OnUpdate@{OnUpdate}}}\Hypertarget{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3adad07967ee58700afec07a543d5a5e46}\label{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3adad07967ee58700afec07a543d5a5e46} 
+On\+Update&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OnRender@{OnRender}!ecs.hpp@{ecs.hpp}}\index{ecs.hpp@{ecs.hpp}!OnRender@{OnRender}}}\Hypertarget{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a6c03367cce64232b2e7b1c4939dd937b}\label{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a6c03367cce64232b2e7b1c4939dd937b} 
+On\+Render&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OnPostRender@{OnPostRender}!ecs.hpp@{ecs.hpp}}\index{ecs.hpp@{ecs.hpp}!OnPostRender@{OnPostRender}}}\Hypertarget{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a2e59d0f48c520dbcc3d9630761fd5dd7}\label{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3a2e59d0f48c520dbcc3d9630761fd5dd7} 
+On\+Post\+Render&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{ecs_8hpp_aaada9ea12b74f92a9c7cc564321e7e5e}\index{ecs.hpp@{ecs.hpp}!MAX\_COMPONENTS@{MAX\_COMPONENTS}}
+\index{MAX\_COMPONENTS@{MAX\_COMPONENTS}!ecs.hpp@{ecs.hpp}}
+\doxysubsubsection{\texorpdfstring{MAX\_COMPONENTS}{MAX\_COMPONENTS}}
+{\footnotesize\ttfamily \label{ecs_8hpp_aaada9ea12b74f92a9c7cc564321e7e5e} 
+const \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} MAX\+\_\+\+COMPONENTS = 32}
+
+\Hypertarget{ecs_8hpp_a4851adb72a1790d96048936c4e845d7a}\index{ecs.hpp@{ecs.hpp}!MAX\_ENTITIES@{MAX\_ENTITIES}}
+\index{MAX\_ENTITIES@{MAX\_ENTITIES}!ecs.hpp@{ecs.hpp}}
+\doxysubsubsection{\texorpdfstring{MAX\_ENTITIES}{MAX\_ENTITIES}}
+{\footnotesize\ttfamily \label{ecs_8hpp_a4851adb72a1790d96048936c4e845d7a} 
+const \mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} MAX\+\_\+\+ENTITIES = 5000}
+

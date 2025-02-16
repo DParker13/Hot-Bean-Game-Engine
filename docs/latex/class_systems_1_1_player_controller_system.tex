@@ -1,0 +1,117 @@
+\doxysection{Systems\+::Player\+Controller\+System Class Reference}
+\hypertarget{class_systems_1_1_player_controller_system}{}\label{class_systems_1_1_player_controller_system}\index{Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}}
+
+
+{\ttfamily \#include $<$player\+\_\+controller\+\_\+system.\+hpp$>$}
+
+Inheritance diagram for Systems\+::Player\+Controller\+System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_systems_1_1_player_controller_system}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_systems_1_1_player_controller_system_a51d2c4b36ff30bca517e2267fd5d4a67}{Player\+Controller\+System}} (\mbox{\hyperlink{class_core_1_1_core_manager}{Core\+::\+Core\+Manager}} \&core\+Manager)
+\item 
+void \mbox{\hyperlink{class_systems_1_1_player_controller_system_ae27f172a171c4bb69a1e332cef96dd57}{On\+Update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{class_systems_1_1_player_controller_system_ad0fc8bae8db2625ad1bbccf494a37395}{Move}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity, std\+::unordered\+\_\+set$<$ SDL\+\_\+\+Keycode $>$ keys\+Pressed, float delta\+Time, float speed)
+\item 
+std\+::string \mbox{\hyperlink{class_systems_1_1_player_controller_system_af26a3f35d5d818ecbbb56e02220e79df}{To\+String}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{struct_system}{System}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_system_ae6cc6014c0abcb1c92bde07135bbcc4b}{System}} (\mbox{\hyperlink{class_core_1_1_core_manager}{Core\+::\+Core\+Manager}} \&core\+Manager)
+\item 
+virtual \mbox{\hyperlink{struct_system_ad652aa3c77ed19131f598a7355c0939a}{\texorpdfstring{$\sim$}{\string~}\+System}} ()=default
+\item 
+virtual void \mbox{\hyperlink{struct_system_ab2599efd39c3969bf4da3ded49574f28}{On\+Init}} ()
+\item 
+virtual void \mbox{\hyperlink{struct_system_a1bf379937d47f5ccca004c5d389da01c}{On\+Pre\+Event}} ()
+\item 
+virtual void \mbox{\hyperlink{struct_system_a61bd75271f49b539f518d36a1fde846d}{On\+Event}} (SDL\+\_\+\+Event \&event)
+\item 
+virtual void \mbox{\hyperlink{struct_system_aa6434d8ab169ed165ec8bfee06dfb802}{On\+Render}} (SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}renderer, SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*}window, SDL\+\_\+\+Surface \texorpdfstring{$\ast$}{*}surface)
+\item 
+virtual void \mbox{\hyperlink{struct_system_aa390bde827dbabcf73b229daf07b0c85}{On\+Post\+Render}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{struct_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{struct_object_a226f2ae2af766b77d83c09a4d766b725}{\texorpdfstring{$\sim$}{\string~}\+Object}} ()=default
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{struct_system}{System}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_core_1_1_core_manager}{Core\+::\+Core\+Manager}} \& \mbox{\hyperlink{struct_system_ae18988425304b3ba2d2e02aa43552fc2}{\+\_\+core\+Manager}}
+\item 
+std\+::set$<$ \mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} $>$ \mbox{\hyperlink{struct_system_a669e06d140158c7d75083d5d0b436845}{\+\_\+entities}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_systems_1_1_player_controller_system_a51d2c4b36ff30bca517e2267fd5d4a67}\index{Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}!PlayerControllerSystem@{PlayerControllerSystem}}
+\index{PlayerControllerSystem@{PlayerControllerSystem}!Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}}
+\doxysubsubsection{\texorpdfstring{PlayerControllerSystem()}{PlayerControllerSystem()}}
+{\footnotesize\ttfamily \label{class_systems_1_1_player_controller_system_a51d2c4b36ff30bca517e2267fd5d4a67} 
+Systems\+::\+Player\+Controller\+System\+::\+Player\+Controller\+System (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_core_1_1_core_manager}{Core\+::\+Core\+Manager}} \&}]{core\+Manager}{}\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_systems_1_1_player_controller_system_ad0fc8bae8db2625ad1bbccf494a37395}\index{Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}!Move@{Move}}
+\index{Move@{Move}!Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}}
+\doxysubsubsection{\texorpdfstring{Move()}{Move()}}
+{\footnotesize\ttfamily \label{class_systems_1_1_player_controller_system_ad0fc8bae8db2625ad1bbccf494a37395} 
+void Systems\+::\+Player\+Controller\+System\+::\+Move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{, }\item[{std\+::unordered\+\_\+set$<$ SDL\+\_\+\+Keycode $>$}]{keys\+Pressed}{, }\item[{float}]{delta\+Time}{, }\item[{float}]{speed}{}\end{DoxyParamCaption})}
+
+Moves the given entity based on the given input keys and time elapsed since the last frame.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The entity to move. \\
+\hline
+{\em keys\+Pressed} & The set of keys currently pressed. \\
+\hline
+{\em delta\+Time} & The time elapsed since the last frame. \\
+\hline
+{\em speed} & The speed at which the entity will move, in pixels per second. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_systems_1_1_player_controller_system_ae27f172a171c4bb69a1e332cef96dd57}\index{Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}!OnUpdate@{OnUpdate}}
+\index{OnUpdate@{OnUpdate}!Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}}
+\doxysubsubsection{\texorpdfstring{OnUpdate()}{OnUpdate()}}
+{\footnotesize\ttfamily \label{class_systems_1_1_player_controller_system_ae27f172a171c4bb69a1e332cef96dd57} 
+void Systems\+::\+Player\+Controller\+System\+::\+On\+Update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Updates the state of all entities managed by the \doxylink{class_systems_1_1_player_controller_system}{Player\+Controller\+System}. This function is called every frame and processes input to move entities.
+
+
+\begin{DoxyParams}{Parameters}
+{\em delta\+Time} & The time elapsed since the last frame, used to ensure consistent movement speed. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{struct_system_a0d8b330012d07717e3acd766150072c6}{System}}.
+
+\Hypertarget{class_systems_1_1_player_controller_system_af26a3f35d5d818ecbbb56e02220e79df}\index{Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}!ToString@{ToString}}
+\index{ToString@{ToString}!Systems::PlayerControllerSystem@{Systems::PlayerControllerSystem}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily \label{class_systems_1_1_player_controller_system_af26a3f35d5d818ecbbb56e02220e79df} 
+std\+::string Systems\+::\+Player\+Controller\+System\+::\+To\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{struct_object_a5ba02cfbbf442727ebda872e864ea172}{Object}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/systems/\mbox{\hyperlink{player__controller__system_8hpp}{player\+\_\+controller\+\_\+system.\+hpp}}\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/systems/\mbox{\hyperlink{player__controller__system_8cpp}{player\+\_\+controller\+\_\+system.\+cpp}}\end{DoxyCompactItemize}

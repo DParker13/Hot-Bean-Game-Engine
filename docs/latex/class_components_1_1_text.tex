@@ -1,0 +1,193 @@
+\doxysection{Components\+::Text Class Reference}
+\hypertarget{class_components_1_1_text}{}\label{class_components_1_1_text}\index{Components::Text@{Components::Text}}
+
+
+{\ttfamily \#include $<$text.\+hpp$>$}
+
+Inheritance diagram for Components\+::Text\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_components_1_1_text}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_components_1_1_text_a5b85d21e97a382e0d2dc35fd8d461b24}{\texorpdfstring{$\sim$}{\string~}\+Text}} ()
+\item 
+\mbox{\hyperlink{class_components_1_1_text_adfa33885ddf603773ccff01ccad4bb2b}{Text}} ()
+\item 
+\mbox{\hyperlink{class_components_1_1_text_a6d8d4cef2483589b6de2d13f118c7598}{Text}} (std\+::string text, Uint32 size, Uint32 style, SDL\+\_\+\+Color color)
+\item 
+int \mbox{\hyperlink{class_components_1_1_text_a60bd28279ada2832f9cf2b639ef66c40}{Set\+Text}} (std\+::string text)
+\item 
+std\+::string \mbox{\hyperlink{class_components_1_1_text_a1ce6bbb034091692f8eeb5b4624030f2}{Get\+String}} () const
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_components_1_1_text_af2051599c1131dfab00797a723672079}{Get\+Char}} () const
+\item 
+std\+::string \mbox{\hyperlink{class_components_1_1_text_a6917b36be0f0367ee19b9202e00d43ff}{To\+String}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{struct_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{struct_object_a226f2ae2af766b77d83c09a4d766b725}{\texorpdfstring{$\sim$}{\string~}\+Object}} ()=default
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+TTF\+\_\+\+Font \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_components_1_1_text_a8473d3c834e03064b4dd7ac2b2154ab3}{\+\_\+font}} = nullptr
+\item 
+SDL\+\_\+\+Surface \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_components_1_1_text_aacbe951c0b87527fcc2a1815cb3b2f29}{\+\_\+surface}} = nullptr
+\item 
+SDL\+\_\+\+Color \mbox{\hyperlink{class_components_1_1_text_a6bb4a1b1e6cb152c3dfe3a83a7464647}{\+\_\+color}} = SDL\+\_\+\+Color()
+\item 
+Uint32 \mbox{\hyperlink{class_components_1_1_text_a41a6c67e9b06eb2abff82138ef08d608}{\+\_\+size}} = 10
+\item 
+Uint32 \mbox{\hyperlink{class_components_1_1_text_a0e4c50373fae3ae67cb6f5915ad13275}{\+\_\+style}} = TTF\+\_\+\+STYLE\+\_\+\+NORMAL
+\item 
+bool \mbox{\hyperlink{class_components_1_1_text_a4433f4f7c85bfe10fcc7db8cac959939}{\+\_\+text\+\_\+updated}} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a text component, which can be attached to an entity. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_components_1_1_text_a5b85d21e97a382e0d2dc35fd8d461b24}\index{Components::Text@{Components::Text}!````~Text@{\texorpdfstring{$\sim$}{\string~}Text}}
+\index{````~Text@{\texorpdfstring{$\sim$}{\string~}Text}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Text()}{\string~Text()}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a5b85d21e97a382e0d2dc35fd8d461b24} 
+Components\+::\+Text\+::\texorpdfstring{$\sim$}{\string~}\+Text (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Destructor for the \doxylink{class_components_1_1_text}{Text} class.
+
+This function destroys the SDL\+\_\+\+Surface and SDL\+\_\+\+Font\+TTF. \Hypertarget{class_components_1_1_text_adfa33885ddf603773ccff01ccad4bb2b}\index{Components::Text@{Components::Text}!Text@{Text}}
+\index{Text@{Text}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{Text()}{Text()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_adfa33885ddf603773ccff01ccad4bb2b} 
+Components\+::\+Text\+::\+Text (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Default constructor for the \doxylink{class_components_1_1_text}{Text} class.
+
+This constructor initializes the text color to white with full opacity. \Hypertarget{class_components_1_1_text_a6d8d4cef2483589b6de2d13f118c7598}\index{Components::Text@{Components::Text}!Text@{Text}}
+\index{Text@{Text}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{Text()}{Text()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a6d8d4cef2483589b6de2d13f118c7598} 
+Components\+::\+Text\+::\+Text (\begin{DoxyParamCaption}\item[{std\+::string}]{text}{, }\item[{Uint32}]{size}{, }\item[{Uint32}]{style}{, }\item[{SDL\+\_\+\+Color}]{color}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor for the \doxylink{class_components_1_1_text}{Text} class.
+
+This constructor initializes the text properties. The font size must be greater than 0. The font style must be one of the following\+: TTF\+\_\+\+STYLE\+\_\+\+NORMAL, TTF\+\_\+\+STYLE\+\_\+\+BOLD, TTF\+\_\+\+STYLE\+\_\+\+ITALIC, TTF\+\_\+\+STYLE\+\_\+\+UNDERLINE, TTF\+\_\+\+STYLE\+\_\+\+STRIKETHROUGH. The font path must exist.
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & The text to be rendered. \\
+\hline
+{\em size} & The size of the font in pixels. \\
+\hline
+{\em style} & The style of the font. \\
+\hline
+{\em color} & The color of the text. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_components_1_1_text_af2051599c1131dfab00797a723672079}\index{Components::Text@{Components::Text}!GetChar@{GetChar}}
+\index{GetChar@{GetChar}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{GetChar()}{GetChar()}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_af2051599c1131dfab00797a723672079} 
+const char \texorpdfstring{$\ast$}{*} Components\+::\+Text\+::\+Get\+Char (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets the C string representation of the text.
+
+This function is a convenience function that returns the C string representation of the text. This is the same as calling \doxylink{class_components_1_1_text_a1ce6bbb034091692f8eeb5b4624030f2}{Get\+String()}.c\+\_\+str().
+
+\begin{DoxyReturn}{Returns}
+A pointer to the C string representation of the text. 
+\end{DoxyReturn}
+\Hypertarget{class_components_1_1_text_a1ce6bbb034091692f8eeb5b4624030f2}\index{Components::Text@{Components::Text}!GetString@{GetString}}
+\index{GetString@{GetString}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{GetString()}{GetString()}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a1ce6bbb034091692f8eeb5b4624030f2} 
+std\+::string Components\+::\+Text\+::\+Get\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets the text of the \doxylink{class_components_1_1_text}{Text} component.
+
+This function gets the current text being rendered.
+
+\begin{DoxyReturn}{Returns}
+The text being rendered. 
+\end{DoxyReturn}
+\Hypertarget{class_components_1_1_text_a60bd28279ada2832f9cf2b639ef66c40}\index{Components::Text@{Components::Text}!SetText@{SetText}}
+\index{SetText@{SetText}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{SetText()}{SetText()}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a60bd28279ada2832f9cf2b639ef66c40} 
+int Components\+::\+Text\+::\+Set\+Text (\begin{DoxyParamCaption}\item[{std\+::string}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets the text of the \doxylink{class_components_1_1_text}{Text} component.
+
+This function sets the text to render to the given string. If the text is different from the current one, it sets a flag to update the text.
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & The text to be rendered.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if the text has changed, -\/1 otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_components_1_1_text_a6917b36be0f0367ee19b9202e00d43ff}\index{Components::Text@{Components::Text}!ToString@{ToString}}
+\index{ToString@{ToString}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a6917b36be0f0367ee19b9202e00d43ff} 
+std\+::string Components\+::\+Text\+::\+To\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{struct_object_a5ba02cfbbf442727ebda872e864ea172}{Object}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_components_1_1_text_a6bb4a1b1e6cb152c3dfe3a83a7464647}\index{Components::Text@{Components::Text}!\_color@{\_color}}
+\index{\_color@{\_color}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{\_color}{\_color}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a6bb4a1b1e6cb152c3dfe3a83a7464647} 
+SDL\+\_\+\+Color Components\+::\+Text\+::\+\_\+color = SDL\+\_\+\+Color()}
+
+The color of the text, represented as an SDL color struct. \Hypertarget{class_components_1_1_text_a8473d3c834e03064b4dd7ac2b2154ab3}\index{Components::Text@{Components::Text}!\_font@{\_font}}
+\index{\_font@{\_font}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{\_font}{\_font}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a8473d3c834e03064b4dd7ac2b2154ab3} 
+TTF\+\_\+\+Font\texorpdfstring{$\ast$}{*} Components\+::\+Text\+::\+\_\+font = nullptr}
+
+A pointer to the TTF font object. Can be null if the font has not been loaded. \Hypertarget{class_components_1_1_text_a41a6c67e9b06eb2abff82138ef08d608}\index{Components::Text@{Components::Text}!\_size@{\_size}}
+\index{\_size@{\_size}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{\_size}{\_size}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a41a6c67e9b06eb2abff82138ef08d608} 
+Uint32 Components\+::\+Text\+::\+\_\+size = 10}
+
+The size of the font, represented as an unsigned 32-\/bit integer. \Hypertarget{class_components_1_1_text_a0e4c50373fae3ae67cb6f5915ad13275}\index{Components::Text@{Components::Text}!\_style@{\_style}}
+\index{\_style@{\_style}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{\_style}{\_style}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a0e4c50373fae3ae67cb6f5915ad13275} 
+Uint32 Components\+::\+Text\+::\+\_\+style = TTF\+\_\+\+STYLE\+\_\+\+NORMAL}
+
+The style of the font, represented as an unsigned 32-\/bit integer. \Hypertarget{class_components_1_1_text_aacbe951c0b87527fcc2a1815cb3b2f29}\index{Components::Text@{Components::Text}!\_surface@{\_surface}}
+\index{\_surface@{\_surface}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{\_surface}{\_surface}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_aacbe951c0b87527fcc2a1815cb3b2f29} 
+SDL\+\_\+\+Surface\texorpdfstring{$\ast$}{*} Components\+::\+Text\+::\+\_\+surface = nullptr}
+
+A pointer to the SDL surface object. Can be null if the surface has not been created. \Hypertarget{class_components_1_1_text_a4433f4f7c85bfe10fcc7db8cac959939}\index{Components::Text@{Components::Text}!\_text\_updated@{\_text\_updated}}
+\index{\_text\_updated@{\_text\_updated}!Components::Text@{Components::Text}}
+\doxysubsubsection{\texorpdfstring{\_text\_updated}{\_text\_updated}}
+{\footnotesize\ttfamily \label{class_components_1_1_text_a4433f4f7c85bfe10fcc7db8cac959939} 
+bool Components\+::\+Text\+::\+\_\+text\+\_\+updated = false}
+
+A flag indicating whether the text has been updated since the last render. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/components/\mbox{\hyperlink{components_2text_8hpp}{text.\+hpp}}\end{DoxyCompactItemize}

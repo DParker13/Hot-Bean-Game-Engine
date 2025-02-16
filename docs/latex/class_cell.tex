@@ -1,0 +1,75 @@
+\doxysection{Cell Class Reference}
+\hypertarget{class_cell}{}\label{class_cell}\index{Cell@{Cell}}
+
+
+{\ttfamily \#include $<$Cell.\+h$>$}
+
+Inheritance diagram for Cell\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_cell}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_cell_a4df945e034a2846d79308bf4e3b2cbda}{Cell}} (std\+::shared\+\_\+ptr$<$ Fast\+Noise\+Lite $>$ noise, std\+::shared\+\_\+ptr$<$ Uint8 $>$ max\+Height)
+\item 
+void \mbox{\hyperlink{class_cell_a795db2f0feaceec712719779757c8a3c}{On\+Initialize}} () override
+\item 
+void \mbox{\hyperlink{class_cell_a71536bb04114704d22dca2affad8bccb}{On\+Update}} (std\+::shared\+\_\+ptr$<$ float $>$ delta\+Time) override
+\item 
+void \mbox{\hyperlink{class_cell_ae205870f8133ea082abac4436e1f5a15}{On\+Render}} (SDL\+\_\+\+Surface \texorpdfstring{$\ast$}{*}surface, SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}renderer) override
+\item 
+void \mbox{\hyperlink{class_cell_abcf386c283cd02b08a175649fd508094}{Set\+Position}} (Position$<$ float $>$ new\+Pos) override
+\item 
+void \mbox{\hyperlink{class_cell_a4d6521c014d1684f7f6d88217a96cc3b}{Set\+Noise\+Position}} (float x, float y)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_cell_a4df945e034a2846d79308bf4e3b2cbda}\index{Cell@{Cell}!Cell@{Cell}}
+\index{Cell@{Cell}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{Cell()}{Cell()}}
+{\footnotesize\ttfamily \label{class_cell_a4df945e034a2846d79308bf4e3b2cbda} 
+Cell\+::\+Cell (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ Fast\+Noise\+Lite $>$}]{noise}{, }\item[{std\+::shared\+\_\+ptr$<$ Uint8 $>$}]{max\+Height}{}\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cell_a795db2f0feaceec712719779757c8a3c}\index{Cell@{Cell}!OnInitialize@{OnInitialize}}
+\index{OnInitialize@{OnInitialize}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{OnInitialize()}{OnInitialize()}}
+{\footnotesize\ttfamily \label{class_cell_a795db2f0feaceec712719779757c8a3c} 
+void Cell\+::\+On\+Initialize (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\Hypertarget{class_cell_ae205870f8133ea082abac4436e1f5a15}\index{Cell@{Cell}!OnRender@{OnRender}}
+\index{OnRender@{OnRender}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{OnRender()}{OnRender()}}
+{\footnotesize\ttfamily \label{class_cell_ae205870f8133ea082abac4436e1f5a15} 
+void Cell\+::\+On\+Render (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Surface \texorpdfstring{$\ast$}{*}}]{surface}{, }\item[{SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}}]{renderer}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\Hypertarget{class_cell_a71536bb04114704d22dca2affad8bccb}\index{Cell@{Cell}!OnUpdate@{OnUpdate}}
+\index{OnUpdate@{OnUpdate}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{OnUpdate()}{OnUpdate()}}
+{\footnotesize\ttfamily \label{class_cell_a71536bb04114704d22dca2affad8bccb} 
+void Cell\+::\+On\+Update (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ float $>$}]{delta\+Time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\Hypertarget{class_cell_a4d6521c014d1684f7f6d88217a96cc3b}\index{Cell@{Cell}!SetNoisePosition@{SetNoisePosition}}
+\index{SetNoisePosition@{SetNoisePosition}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{SetNoisePosition()}{SetNoisePosition()}}
+{\footnotesize\ttfamily \label{class_cell_a4d6521c014d1684f7f6d88217a96cc3b} 
+void Cell\+::\+Set\+Noise\+Position (\begin{DoxyParamCaption}\item[{float}]{x}{, }\item[{float}]{y}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_cell_abcf386c283cd02b08a175649fd508094}\index{Cell@{Cell}!SetPosition@{SetPosition}}
+\index{SetPosition@{SetPosition}!Cell@{Cell}}
+\doxysubsubsection{\texorpdfstring{SetPosition()}{SetPosition()}}
+{\footnotesize\ttfamily \label{class_cell_abcf386c283cd02b08a175649fd508094} 
+void Cell\+::\+Set\+Position (\begin{DoxyParamCaption}\item[{Position$<$ float $>$}]{new\+Pos}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/world-\/generator/\mbox{\hyperlink{_cell_8h}{Cell.\+h}}\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/world-\/generator/\mbox{\hyperlink{_cell_8cpp}{Cell.\+cpp}}\end{DoxyCompactItemize}

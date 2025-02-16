@@ -1,0 +1,39 @@
+\doxysection{transform.\+hpp}
+\hypertarget{transform_8hpp_source}{}\label{transform_8hpp_source}\index{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/components/transform.hpp@{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/components/transform.hpp}}
+\mbox{\hyperlink{transform_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <vec3.hpp>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <gtc/quaternion.hpp>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ecs_8hpp}{../core/ecs.hpp}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_components}{Components}}\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_components_1_1_transform_a9704b31f2f03176e200ef0dd03314c48}{Transform}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_object}{Object}}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{struct_components_1_1_transform_a86fbbbcdf4a57975adb2d0b7b70a3a11}{position}};}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ glm::quat\ \mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}};}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{struct_components_1_1_transform_ae2dc762d1785f056c109f87d070e9829}{scale}};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_components_1_1_transform_a9704b31f2f03176e200ef0dd03314c48}{Transform}}()}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{struct_components_1_1_transform_a86fbbbcdf4a57975adb2d0b7b70a3a11}{position}}(glm::vec3(0.0f,\ 0.0f,\ 0.0f)),}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}}(glm::quat(0.0f,\ 0.0f,\ 0.0f,\ 1.0f)),}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_components_1_1_transform_ae2dc762d1785f056c109f87d070e9829}{scale}}(glm::vec3(1.0f,\ 1.0f,\ 1.0f))\ \{\};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_components_1_1_transform_a32b23b44509bf236ce9e7b41820236d3}{Transform}}(\textcolor{keyword}{const}\ glm::vec3\ \mbox{\hyperlink{struct_components_1_1_transform_a86fbbbcdf4a57975adb2d0b7b70a3a11}{position}},\ \textcolor{keyword}{const}\ glm::quat\ \mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}},\ \textcolor{keyword}{const}\ glm::vec3\ \mbox{\hyperlink{struct_components_1_1_transform_ae2dc762d1785f056c109f87d070e9829}{scale}})}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{struct_components_1_1_transform_a86fbbbcdf4a57975adb2d0b7b70a3a11}{position}}(\mbox{\hyperlink{struct_components_1_1_transform_a86fbbbcdf4a57975adb2d0b7b70a3a11}{position}}),\ \mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}}(\mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}}),\ \mbox{\hyperlink{struct_components_1_1_transform_ae2dc762d1785f056c109f87d070e9829}{scale}}(\mbox{\hyperlink{struct_components_1_1_transform_ae2dc762d1785f056c109f87d070e9829}{scale}})\ \{\}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{struct_components_1_1_transform_aa25998647dd4903fa535dff1a754872f}{ToString}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ std::stringstream\ str;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ Component:\ Transform\ \(\backslash\)n"{}};}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ Position:\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_a86fbbbcdf4a57975adb2d0b7b70a3a11}{position}}.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_a86fbbbcdf4a57975adb2d0b7b70a3a11}{position}}.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_a86fbbbcdf4a57975adb2d0b7b70a3a11}{position}}.z\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ Rotation:\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}}.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}}.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}}.z\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_a634827bca9a2bc3ed7e31cd57414123c}{rotation}}.w\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ str\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ Scale:\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_ae2dc762d1785f056c109f87d070e9829}{scale}}.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_ae2dc762d1785f056c109f87d070e9829}{scale}}.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{struct_components_1_1_transform_ae2dc762d1785f056c109f87d070e9829}{scale}}.z\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str.str();}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \};}
+\DoxyCodeLine{00038\ \}}
+
+\end{DoxyCode}

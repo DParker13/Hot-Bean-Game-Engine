@@ -23,15 +23,20 @@ namespace Application {
 
     
     /**
-     * Initializes the game with some objects.
-     *
-     * This function is called after all systems have been initialized.
+     * @brief Called before the main game loop starts. Used to initialize objects.
+     * 
      */
     void Game::OnInit() {
         Application::OnInit();
 
-        auto debugText = GameObjects::Text(&_coreManager);
+        auto fpsText = GameObjects::Text(&_coreManager);
+        auto testText = GameObjects::Text(&_coreManager);
         auto playerObj = GameObjects::Player(&_coreManager);
+
+        testText.GetTransform().position = { 500.0f, 500.0f, 0.0f };
+        testText.GetTexture()._size = { 1000.0f, 100.0f };
+        testText.GetText()._size = 50;
+        testText.GetText().SetText("Hello World!");
     }
 
     /**

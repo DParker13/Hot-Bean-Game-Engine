@@ -9,6 +9,11 @@ namespace Systems {
         coreManager.SetSignature<PhysicsSystem, Components::RigidBody>();
     }
 
+    /**
+     * @brief Updates the physics of all entities in the system.
+     * @details Applies gravity to all entities in the system.
+     * @param deltaTime The time elapsed since the last frame in seconds.
+     */
     void PhysicsSystem::OnUpdate(float deltaTime) {
         for (auto& entity : _entities) {
             auto& transform = _coreManager.GetComponent<Components::Transform>(entity);

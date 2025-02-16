@@ -9,7 +9,7 @@ namespace GameObjects {
         Core::CoreManager* _coreManager;
 
         GameObject(Core::CoreManager* coreManager);
-        ~GameObject() = default;
+        ~GameObject();
 
         Entity GetEntity();
         virtual std::string ToString() const = 0;

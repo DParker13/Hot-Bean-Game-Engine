@@ -5,6 +5,7 @@ namespace GameObjects {
         : GameObject(coreManager) {
         _coreManager->AddComponent<Components::Transform>(_entity, Components::Transform());
         _coreManager->AddComponent<Components::Text>(_entity, Components::Text());
+        _coreManager->AddComponent<Components::Texture>(_entity, Components::Texture());
     }
 
     Components::Transform& Text::GetTransform() {
@@ -13,6 +14,10 @@ namespace GameObjects {
 
     Components::Text& Text::GetText() {
         return _coreManager->GetComponent<Components::Text>(_entity);
+    }
+
+    Components::Texture& Text::GetTexture() {
+        return _coreManager->GetComponent<Components::Texture>(_entity);
     }
     
     std::string Text::ToString() const {

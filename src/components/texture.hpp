@@ -4,7 +4,21 @@
 
 namespace Components {
     struct Texture : public Object {
-        SDL_Texture* texture;
+        /// @brief A pointer to the SDL texture object. Can be null if the texture has not been loaded.
+        SDL_Texture* _texture;
+        /// @brief Size of the texture in pixels
+        glm::ivec2 _size;
+
+        /**
+         * Destructor for the Texture class.
+         *
+         * This function destroys the SDL_Texture.
+         */
+        ~Texture() {
+            SDL_DestroyTexture(_texture);
+        }
+
+        Texture() = default;
 
         std::string ToString() const override {
             std::stringstream str;

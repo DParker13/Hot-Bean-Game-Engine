@@ -9,10 +9,26 @@ namespace Systems {
         coreManager.SetSignature<TileMapSystem, Components::Tile>();
     }
 
+    /**
+     * @brief Initializes the tile map by calling InitMap with the given parameters.
+     *
+     * @details This function is a part of the System interface and is called by the
+     *          CoreManager when the system is first initialized.
+     */
     void TileMapSystem::OnInit() {
         InitMap(_coreManager, 10, 20, 50, 50);
     }
 
+    /**
+     * @brief Renders all entities in the system to the screen.
+     *
+     * @details This function is a part of the System interface and is called by the
+     *          CoreManager when the system is updated.
+     *
+     * @param[in] renderer The SDL_Renderer to render to.
+     * @param[in] window The SDL_Window the renderer is rendering to.
+     * @param[in] surface The SDL_Surface of the window.
+     */
     void TileMapSystem::OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
         SDL_Color color = { 0xFF, 0xFF, 0xFF, 0xFF };
 

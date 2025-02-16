@@ -1,0 +1,324 @@
+\doxysection{Core\+::Core\+Manager Class Reference}
+\hypertarget{class_core_1_1_core_manager}{}\label{class_core_1_1_core_manager}\index{Core::CoreManager@{Core::CoreManager}}
+
+
+{\ttfamily \#include $<$core\+\_\+manager.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_core_1_1_core_manager_a02d879bce7a65c70bb7c848bfa8d9a46}{Core\+Manager}} ()
+\item 
+\mbox{\hyperlink{class_core_1_1_core_manager_a0fe31838f86f1f17874d21477dc8293b}{\texorpdfstring{$\sim$}{\string~}\+Core\+Manager}} ()
+\item 
+\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} \mbox{\hyperlink{class_core_1_1_core_manager_a09868b7decab2447885fe878cf0417e6}{Create\+Entity}} ()
+\item 
+void \mbox{\hyperlink{class_core_1_1_core_manager_ad219ba7fae23e80e57ece72e99fd0894}{Destroy\+Entity}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity)
+\item 
+void \mbox{\hyperlink{class_core_1_1_core_manager_ad4aaf797b2081fef1a0ccca7a441465c}{Remove\+All\+Components}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity)
+\item 
+std\+::string \mbox{\hyperlink{class_core_1_1_core_manager_ab6c44b676d995167c03300e7ab6d6a98}{To\+String}} () const
+\item 
+{\footnotesize template$<$typename T$>$ }\\\mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} \mbox{\hyperlink{class_core_1_1_core_manager_a2da53373472209de51be01e9a25002f5}{Register\+Component\+Type}} ()
+\item 
+{\footnotesize template$<$typename T$>$ }\\void \mbox{\hyperlink{class_core_1_1_core_manager_ac0b1c77871333cf787627ebab691843c}{Add\+Component}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity, T component)
+\item 
+{\footnotesize template$<$typename T$>$ }\\void \mbox{\hyperlink{class_core_1_1_core_manager_a2a4c5e0e8a56ff3382533ee8ab534aa9}{Remove\+Component}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity)
+\item 
+{\footnotesize template$<$typename T$>$ }\\T \& \mbox{\hyperlink{class_core_1_1_core_manager_a3aaa26343dceea1e668a1366a6ac4538}{Get\+Component}} (\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} entity)
+\item 
+{\footnotesize template$<$typename T$>$ }\\\mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} \mbox{\hyperlink{class_core_1_1_core_manager_a663fbe94d9ea11c93ba8f558e6bb3f31}{Get\+Component\+Type}} ()
+\item 
+{\footnotesize template$<$typename T$>$ }\\T \& \mbox{\hyperlink{class_core_1_1_core_manager_a994b6fbcc5d5f60a0bceffb3d59a437b}{Register\+System}} (T \texorpdfstring{$\ast$}{*}system)
+\item 
+{\footnotesize template$<$typename T$>$ }\\void \mbox{\hyperlink{class_core_1_1_core_manager_ac141b9bf0e8938fe9899c9fb1504f142}{Set\+Signature}} (\mbox{\hyperlink{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}{Signature}} signature)
+\item 
+{\footnotesize template$<$typename S, typename C$>$ }\\void \mbox{\hyperlink{class_core_1_1_core_manager_a2a6823c970238f8e7f79dc0694086a21}{Set\+Signature}} ()
+\item 
+{\footnotesize template$<$typename T$>$ }\\T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_core_1_1_core_manager_a580cb2373a6c60b01babeadd76d58fbf}{Get\+System}} ()
+\item 
+void \mbox{\hyperlink{class_core_1_1_core_manager_a227e78082cff77e383a8a86fc0b1a647}{Iterate\+Systems}} (\mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3}{Game\+Loop\+State}} state)
+\item 
+void \mbox{\hyperlink{class_core_1_1_core_manager_ad8d984d88b641732f65d8c6f5b8c831c}{Iterate\+Systems}} (SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}renderer, SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*}window, SDL\+\_\+\+Surface \texorpdfstring{$\ast$}{*}surface)
+\item 
+void \mbox{\hyperlink{class_core_1_1_core_manager_ad622cad76707f7fdc5310b7d9b7428f7}{Iterate\+Systems}} (float delta\+Time)
+\item 
+void \mbox{\hyperlink{class_core_1_1_core_manager_ae7c349cc62d467f45d3ab20945155f38}{Iterate\+Systems}} (SDL\+\_\+\+Event \&event)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_core_1_1_core_manager_a02d879bce7a65c70bb7c848bfa8d9a46}\index{Core::CoreManager@{Core::CoreManager}!CoreManager@{CoreManager}}
+\index{CoreManager@{CoreManager}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{CoreManager()}{CoreManager()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a02d879bce7a65c70bb7c848bfa8d9a46} 
+Core\+::\+Core\+Manager\+::\+Core\+Manager (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_core_1_1_core_manager_a0fe31838f86f1f17874d21477dc8293b}\index{Core::CoreManager@{Core::CoreManager}!````~CoreManager@{\texorpdfstring{$\sim$}{\string~}CoreManager}}
+\index{````~CoreManager@{\texorpdfstring{$\sim$}{\string~}CoreManager}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}CoreManager()}{\string~CoreManager()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a0fe31838f86f1f17874d21477dc8293b} 
+Core\+::\+Core\+Manager\+::\texorpdfstring{$\sim$}{\string~}\+Core\+Manager (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_core_1_1_core_manager_ac0b1c77871333cf787627ebab691843c}\index{Core::CoreManager@{Core::CoreManager}!AddComponent@{AddComponent}}
+\index{AddComponent@{AddComponent}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{AddComponent()}{AddComponent()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_ac0b1c77871333cf787627ebab691843c} 
+template$<$typename T$>$ \\
+void Core\+::\+Core\+Manager\+::\+Add\+Component (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{, }\item[{T}]{component}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Adds a component to an entity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The ID of the entity to add the component to. \\
+\hline
+{\em component} & The component to add.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the entity ID is out of range. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_a09868b7decab2447885fe878cf0417e6}\index{Core::CoreManager@{Core::CoreManager}!CreateEntity@{CreateEntity}}
+\index{CreateEntity@{CreateEntity}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{CreateEntity()}{CreateEntity()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a09868b7decab2447885fe878cf0417e6} 
+\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} Core\+::\+Core\+Manager\+::\+Create\+Entity (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Creates a new entity and returns its unique identifier.
+
+\begin{DoxyReturn}{Returns}
+The unique identifier of the newly created entity.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the maximum number of entities has been reached. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_ad219ba7fae23e80e57ece72e99fd0894}\index{Core::CoreManager@{Core::CoreManager}!DestroyEntity@{DestroyEntity}}
+\index{DestroyEntity@{DestroyEntity}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{DestroyEntity()}{DestroyEntity()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_ad219ba7fae23e80e57ece72e99fd0894} 
+void Core\+::\+Core\+Manager\+::\+Destroy\+Entity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{}\end{DoxyParamCaption})}
+
+Destroys an entity and releases its resources.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The ID of the entity to destroy.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the entity ID is out of range or invalid. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_a3aaa26343dceea1e668a1366a6ac4538}\index{Core::CoreManager@{Core::CoreManager}!GetComponent@{GetComponent}}
+\index{GetComponent@{GetComponent}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{GetComponent()}{GetComponent()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a3aaa26343dceea1e668a1366a6ac4538} 
+template$<$typename T$>$ \\
+T \& Core\+::\+Core\+Manager\+::\+Get\+Component (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Retrieves a component of type T associated with a given entity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The ID of the entity to retrieve the component for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to the component of type T.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the component type is not registered. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_a663fbe94d9ea11c93ba8f558e6bb3f31}\index{Core::CoreManager@{Core::CoreManager}!GetComponentType@{GetComponentType}}
+\index{GetComponentType@{GetComponentType}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{GetComponentType()}{GetComponentType()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a663fbe94d9ea11c93ba8f558e6bb3f31} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} Core\+::\+Core\+Manager\+::\+Get\+Component\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Retrieves the \doxylink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type} id associated with a given component type.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of component to retrieve the \doxylink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type} id for.\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+The \doxylink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type} id associated with the given component type.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the component type is not registered. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_a580cb2373a6c60b01babeadd76d58fbf}\index{Core::CoreManager@{Core::CoreManager}!GetSystem@{GetSystem}}
+\index{GetSystem@{GetSystem}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{GetSystem()}{GetSystem()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a580cb2373a6c60b01babeadd76d58fbf} 
+template$<$typename T$>$ \\
+T \texorpdfstring{$\ast$}{*} Core\+::\+Core\+Manager\+::\+Get\+System (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Retrieves a previously registered system by its type.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of system to be retrieved.\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to the system.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the system type has not been registered. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_ad622cad76707f7fdc5310b7d9b7428f7}\index{Core::CoreManager@{Core::CoreManager}!IterateSystems@{IterateSystems}}
+\index{IterateSystems@{IterateSystems}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{IterateSystems()}{IterateSystems()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_ad622cad76707f7fdc5310b7d9b7428f7} 
+void Core\+::\+Core\+Manager\+::\+Iterate\+Systems (\begin{DoxyParamCaption}\item[{float}]{delta\+Time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_core_1_1_core_manager_a227e78082cff77e383a8a86fc0b1a647}\index{Core::CoreManager@{Core::CoreManager}!IterateSystems@{IterateSystems}}
+\index{IterateSystems@{IterateSystems}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{IterateSystems()}{IterateSystems()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a227e78082cff77e383a8a86fc0b1a647} 
+void Core\+::\+Core\+Manager\+::\+Iterate\+Systems (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_ada58492778ce3a14520fd61a5481fef3}{Game\+Loop\+State}}}]{state}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_core_1_1_core_manager_ae7c349cc62d467f45d3ab20945155f38}\index{Core::CoreManager@{Core::CoreManager}!IterateSystems@{IterateSystems}}
+\index{IterateSystems@{IterateSystems}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{IterateSystems()}{IterateSystems()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_ae7c349cc62d467f45d3ab20945155f38} 
+void Core\+::\+Core\+Manager\+::\+Iterate\+Systems (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Event \&}]{event}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_core_1_1_core_manager_ad8d984d88b641732f65d8c6f5b8c831c}\index{Core::CoreManager@{Core::CoreManager}!IterateSystems@{IterateSystems}}
+\index{IterateSystems@{IterateSystems}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{IterateSystems()}{IterateSystems()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_ad8d984d88b641732f65d8c6f5b8c831c} 
+void Core\+::\+Core\+Manager\+::\+Iterate\+Systems (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}}]{renderer}{, }\item[{SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*}}]{window}{, }\item[{SDL\+\_\+\+Surface \texorpdfstring{$\ast$}{*}}]{surface}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_core_1_1_core_manager_a2da53373472209de51be01e9a25002f5}\index{Core::CoreManager@{Core::CoreManager}!RegisterComponentType@{RegisterComponentType}}
+\index{RegisterComponentType@{RegisterComponentType}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{RegisterComponentType()}{RegisterComponentType()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a2da53373472209de51be01e9a25002f5} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type}} Core\+::\+Core\+Manager\+::\+Register\+Component\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Registers a component type with the \doxylink{class_core_1_1_component_manager}{Component\+Manager} and assigns it a \doxylink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type} id.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of component to be registered.\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+The \doxylink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{Component\+Type} id associated with the given component type.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the maximum number of component types has been reached. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_a994b6fbcc5d5f60a0bceffb3d59a437b}\index{Core::CoreManager@{Core::CoreManager}!RegisterSystem@{RegisterSystem}}
+\index{RegisterSystem@{RegisterSystem}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{RegisterSystem()}{RegisterSystem()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a994b6fbcc5d5f60a0bceffb3d59a437b} 
+template$<$typename T$>$ \\
+T \& Core\+::\+Core\+Manager\+::\+Register\+System (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{system}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Registers a system of type S with the \doxylink{class_core_1_1_core_manager}{Core\+Manager}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of system to be registered.\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to the registered system.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the system type has already been registered. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_ad4aaf797b2081fef1a0ccca7a441465c}\index{Core::CoreManager@{Core::CoreManager}!RemoveAllComponents@{RemoveAllComponents}}
+\index{RemoveAllComponents@{RemoveAllComponents}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{RemoveAllComponents()}{RemoveAllComponents()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_ad4aaf797b2081fef1a0ccca7a441465c} 
+void Core\+::\+Core\+Manager\+::\+Remove\+All\+Components (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{}\end{DoxyParamCaption})}
+
+Removes all components associated with a given entity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The ID of the entity from which all components are to be removed.\\
+\hline
+\end{DoxyParams}
+This function retrieves the signature of the entity, which represents the components attached to the entity. It iterates over each component type indicated by the signature and removes the corresponding components from the component manager. \Hypertarget{class_core_1_1_core_manager_a2a4c5e0e8a56ff3382533ee8ab534aa9}\index{Core::CoreManager@{Core::CoreManager}!RemoveComponent@{RemoveComponent}}
+\index{RemoveComponent@{RemoveComponent}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{RemoveComponent()}{RemoveComponent()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a2a4c5e0e8a56ff3382533ee8ab534aa9} 
+template$<$typename T$>$ \\
+void Core\+::\+Core\+Manager\+::\+Remove\+Component (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}}]{entity}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Removes a component of type T from an entity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity} & The ID of the entity to remove the component from.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em assertion} & failure if the entity ID is out of range. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_core_1_1_core_manager_a2a6823c970238f8e7f79dc0694086a21}\index{Core::CoreManager@{Core::CoreManager}!SetSignature@{SetSignature}}
+\index{SetSignature@{SetSignature}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{SetSignature()}{SetSignature()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_a2a6823c970238f8e7f79dc0694086a21} 
+template$<$typename S, typename C$>$ \\
+void Core\+::\+Core\+Manager\+::\+Set\+Signature (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_core_1_1_core_manager_ac141b9bf0e8938fe9899c9fb1504f142}\index{Core::CoreManager@{Core::CoreManager}!SetSignature@{SetSignature}}
+\index{SetSignature@{SetSignature}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{SetSignature()}{SetSignature()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_ac141b9bf0e8938fe9899c9fb1504f142} 
+template$<$typename T$>$ \\
+void Core\+::\+Core\+Manager\+::\+Set\+Signature (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ecs_8hpp_aeb9b9235190f907fe8b0994938dd2807}{Signature}}}]{signature}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets the signature for a system that has already been registered with the \doxylink{class_core_1_1_core_manager}{Core\+Manager}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of system for which to set the signature. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em signature} & The new signature to be set for the system.\\
+\hline
+\end{DoxyParams}
+This function delegates to the \doxylink{class_core_1_1_system_manager}{System\+Manager} to update the signature for the specified system type. \Hypertarget{class_core_1_1_core_manager_ab6c44b676d995167c03300e7ab6d6a98}\index{Core::CoreManager@{Core::CoreManager}!ToString@{ToString}}
+\index{ToString@{ToString}!Core::CoreManager@{Core::CoreManager}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily \label{class_core_1_1_core_manager_ab6c44b676d995167c03300e7ab6d6a98} 
+std\+::string Core\+::\+Core\+Manager\+::\+To\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+Prints out the state of the \doxylink{class_core_1_1_component_manager}{Component\+Manager} for debugging purposes. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/core/managers/\mbox{\hyperlink{core__manager_8hpp}{core\+\_\+manager.\+hpp}}\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/core/managers/\mbox{\hyperlink{core__manager_8cpp}{core\+\_\+manager.\+cpp}}\end{DoxyCompactItemize}

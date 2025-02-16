@@ -1,0 +1,163 @@
+\doxysection{component\+\_\+manager.\+hpp}
+\hypertarget{component__manager_8hpp_source}{}\label{component__manager_8hpp_source}\index{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/managers/component\_manager.hpp@{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/managers/component\_manager.hpp}}
+\mbox{\hyperlink{component__manager_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <any>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{sparse__set_8hpp}{sparse\_set.hpp}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ecs_8hpp}{ecs.hpp}}"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_core}{Core}}\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//\ ComponentManager\ manages\ the\ creation\ and\ destruction\ of\ components\ for\ entities}}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_core_1_1_component_manager_a4c5e69f9c4aed710b399e32864d221dc}{ComponentManager}}\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_core_1_1_component_manager_a4c5e69f9c4aed710b399e32864d221dc}{ComponentManager}}();}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_core_1_1_component_manager_a6c1843e64a597a7f373db7752b729ffc}{\string~ComponentManager}}();}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_core_1_1_component_manager_abe5179330516cd1a63fc79a579f2d788}{ToString}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{ComponentType}}\ \mbox{\hyperlink{class_core_1_1_component_manager_a1b797b1029c76e2b07820842fd4265da}{RegisterComponentType}}()\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ typeName\ =\ \textcolor{keyword}{typeid}(T).name();}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_base\_of<Object,\ T>::value,\ \textcolor{stringliteral}{"{}T\ must\ inherit\ from\ Object!"{}});}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ assert(\_registeredComponents\ <\ \mbox{\hyperlink{ecs_8hpp_aaada9ea12b74f92a9c7cc564321e7e5e}{MAX\_COMPONENTS}}\ \&\&\ \textcolor{stringliteral}{"{}Reached\ maximum\ number\ of\ component!"{}});}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{ComponentType}}\ componentType\ =\ \_registeredComponents;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Maps\ ComponentType\ id\ to\ Component\ Object\ Type\ name}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \_componentTypeToName[componentType]\ =\ typeName;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Maps\ ComponentType\ to\ an\ id}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \_componentNameToType[typeName]\ =\ componentType;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ new\ sparse\ set\ for\ component\ data}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \_componentNameToData[typeName]\ =\ std::make\_shared<SparseSet<T,\ MAX\_ENTITIES>>();}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \_registeredComponents++;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ componentType;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ \ \ \ \ \ \ \ When\ you\ add\ a\ component\ to\ an\ entity,\ check\ if\ the\ component\ is\ registered.}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ \ \ \ \ \ \ \ If\ a\ component\ is\ not\ registered,\ a\ component\ array\ must\ be\ created.}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ \ \ \ \ \ \ \ This\ array\ keeps\ track\ of\ the\ entities\ that\ have\ that\ component.}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ \ \ \ \ \ \ \ This\ function\ creates\ a\ unique\ signature\ for\ all\ the\ components.}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{ComponentType}}\ \mbox{\hyperlink{class_core_1_1_component_manager_a259e693eba3e8a4f630a1ccbdf942609}{AddComponent}}(\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}\ entity,\ T\&\ componentData)\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_base\_of<Object,\ T>::value,\ \textcolor{stringliteral}{"{}T\ must\ inherit\ from\ Object!"{}});}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Component\ Type\ Name}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ typeName\ =\ \textcolor{keyword}{typeid}(T).name();}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Register\ component\ type\ if\ it's\ not\ already\ registered}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_componentNameToType.find(typeName)\ ==\ \_componentNameToType.end())\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_core_1_1_component_manager_a1b797b1029c76e2b07820842fd4265da}{RegisterComponentType<T>}}();}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ GetComponentSet<T>()-\/>Insert(entity,\ componentData);}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_componentNameToType[typeName];}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{ComponentType}}\ \mbox{\hyperlink{class_core_1_1_component_manager_aaeb24de9e243a5edfe54fe27f7721ded}{RemoveComponent}}(\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}\ entity)\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Component\ Type\ Name}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ typeName\ =\ \textcolor{keyword}{typeid}(T).name();}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ assert(\_componentNameToType.find(typeName)\ !=\ \_componentNameToType.end()\ \&\&\ \textcolor{stringliteral}{"{}Component\ not\ registered!"{}});}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<SparseSet<T,\ MAX\_ENTITIES>>\ sparseSet\ =\ GetComponentSet<T>();}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Removes\ entity\ from\ component\ sparse\ set}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ sparseSet-\/>Remove(entity);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ last\ component\ is\ removed,\ the\ component\ array\ must\ be\ destroyed\ and\ unregistered}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sparseSet-\/>Size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_componentNameToType.erase(typeName);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_componentNameToData.erase(typeName);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_registeredComponents-\/-\/;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Return\ component\ type\ to\ update\ entity\ signature}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_componentNameToType[typeName];}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_core_1_1_component_manager_a4cd58eaa40944a42ac8a640a3ff142b1}{RemoveComponent}}(\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}\ entity,\ \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{ComponentType}}\ componentType)\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Component\ Type\ Name}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ typeName\ =\ \_componentTypeToName[componentType];}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ assert(\_componentNameToType.find(typeName)\ !=\ \_componentNameToType.end()\ \&\&\ \textcolor{stringliteral}{"{}Component\ not\ registered!"{}});}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ componentSparseSet\ =\ \_componentNameToData[typeName];}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Removes\ entity\ from\ component\ sparse\ set}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ componentSparseSet-\/>Remove(entity);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ last\ component\ is\ removed,\ the\ component\ array\ must\ be\ destroyed\ and\ unregistered}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (componentSparseSet-\/>Size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_componentTypeToName.erase(componentType);}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_componentNameToType.erase(typeName);}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_componentNameToData.erase(typeName);}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_registeredComponents-\/-\/;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{class_core_1_1_component_manager_abc42c18a5db50ba3396b5f9fe164b18c}{GetComponentData}}(\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}\ entity)\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GetComponentSet<T>()-\/>GetElement(entity);}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{ComponentType}}\ \mbox{\hyperlink{class_core_1_1_component_manager_aabef71bcce2b2ba7f94a87f7e99f6ef9}{GetComponentType}}()\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ typeName\ =\ \textcolor{keyword}{typeid}(T).name();}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_componentNameToType.find(typeName)\ ==\ \_componentNameToType.end())\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_componentNameToType[typeName];}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Keeps\ track\ of\ the\ number\ of\ component\ types\ registered}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{ComponentType}}\ \_registeredComponents;}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Maps\ ComponentType\ id\ to\ Component\ Object\ Type\ name}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ std::unordered\_map<ComponentType,\ std::string>\ \_componentTypeToName;}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Maps\ Component\ Object\ Type\ name\ to\ ComponentType\ id}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ ComponentType>\ \_componentNameToType;}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Maps\ Component\ Object\ Type\ name\ to\ sparse\ set\ of\ component\ data}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ComponentType\ names\ are\ the\ keys,\ sparse\ set\ of\ component\ data\ is\ the\ value}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ std::shared\_ptr<ISparseSet>>\ \_componentNameToData;}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ std::shared\_ptr<SparseSet<T,\ MAX\_ENTITIES>>\ GetComponentSet()\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ typeName\ =\ \textcolor{keyword}{typeid}(T).name();}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ assert(\_componentNameToData.find(typeName)\ !=\ \_componentNameToData.end()\ \&\&\ \textcolor{stringliteral}{"{}Component\ not\ registered!"{}});}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::static\_pointer\_cast<SparseSet<T,\ MAX\_ENTITIES>>(\_componentNameToData[typeName]);}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ std::string\ GetComponentTypeName(\mbox{\hyperlink{ecs_8hpp_ac2369446dd4b54ed7837b6f44e55013a}{ComponentType}}\ componentType)\ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\_componentTypeToName.find(componentType)\ !=\ \_componentTypeToName.end())\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_componentTypeToName[componentType];}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00206\ \ \ \ \ \};}
+\DoxyCodeLine{00207\ \}}
+
+\end{DoxyCode}

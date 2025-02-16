@@ -9,6 +9,12 @@ namespace Systems {
         coreManager.SetSignature<PlayerControllerSystem, Components::Player>();
     }
 
+    /**
+     * Updates the state of all entities managed by the PlayerControllerSystem.
+     * This function is called every frame and processes input to move entities.
+     *
+     * @param deltaTime The time elapsed since the last frame, used to ensure consistent movement speed.
+     */
     void PlayerControllerSystem::OnUpdate(float deltaTime) {
         auto keysPressed = _coreManager.GetSystem<Systems::InputSystem>()->_keysPressed;
 
@@ -17,6 +23,14 @@ namespace Systems {
         }
     }
 
+    /**
+     * Moves the given entity based on the given input keys and time elapsed since the last frame.
+     *
+     * @param entity The entity to move.
+     * @param keysPressed The set of keys currently pressed.
+     * @param deltaTime The time elapsed since the last frame.
+     * @param speed The speed at which the entity will move, in pixels per second.
+     */
     void PlayerControllerSystem::Move(Entity entity, std::unordered_set<SDL_Keycode> keysPressed, float deltaTime, float speed) {
         if (keysPressed.size() > 0) {
             float distance = speed * deltaTime;

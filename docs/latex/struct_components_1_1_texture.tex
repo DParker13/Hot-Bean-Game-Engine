@@ -1,0 +1,91 @@
+\doxysection{Components\+::Texture Struct Reference}
+\hypertarget{struct_components_1_1_texture}{}\label{struct_components_1_1_texture}\index{Components::Texture@{Components::Texture}}
+
+
+{\ttfamily \#include $<$texture.\+hpp$>$}
+
+Inheritance diagram for Components\+::Texture\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_components_1_1_texture}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_components_1_1_texture_a2803abd8f904944fd6f77c4bd0ca1577}{\texorpdfstring{$\sim$}{\string~}\+Texture}} ()
+\item 
+\mbox{\hyperlink{struct_components_1_1_texture_aac83493abfacbc69286e60cb77e7f610}{Texture}} ()=default
+\item 
+std\+::string \mbox{\hyperlink{struct_components_1_1_texture_aa77783bfbda3b17846513ecf798cce4e}{To\+String}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{struct_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{struct_object_a226f2ae2af766b77d83c09a4d766b725}{\texorpdfstring{$\sim$}{\string~}\+Object}} ()=default
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{struct_components_1_1_texture_a7581ecfc3dd7ef7d873daf4a6ab86a43}{\+\_\+texture}}
+\begin{DoxyCompactList}\small\item\em A pointer to the SDL texture object. Can be null if the texture has not been loaded. \end{DoxyCompactList}\item 
+glm\+::ivec2 \mbox{\hyperlink{struct_components_1_1_texture_ab95b3b3248feb22670530f7a00a05b45}{\+\_\+size}}
+\begin{DoxyCompactList}\small\item\em Size of the texture in pixels. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_components_1_1_texture_a2803abd8f904944fd6f77c4bd0ca1577}\index{Components::Texture@{Components::Texture}!````~Texture@{\texorpdfstring{$\sim$}{\string~}Texture}}
+\index{````~Texture@{\texorpdfstring{$\sim$}{\string~}Texture}!Components::Texture@{Components::Texture}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Texture()}{\string~Texture()}}
+{\footnotesize\ttfamily \label{struct_components_1_1_texture_a2803abd8f904944fd6f77c4bd0ca1577} 
+Components\+::\+Texture\+::\texorpdfstring{$\sim$}{\string~}\+Texture (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Destructor for the \doxylink{struct_components_1_1_texture}{Texture} class.
+
+This function destroys the SDL\+\_\+\+Texture. \Hypertarget{struct_components_1_1_texture_aac83493abfacbc69286e60cb77e7f610}\index{Components::Texture@{Components::Texture}!Texture@{Texture}}
+\index{Texture@{Texture}!Components::Texture@{Components::Texture}}
+\doxysubsubsection{\texorpdfstring{Texture()}{Texture()}}
+{\footnotesize\ttfamily \label{struct_components_1_1_texture_aac83493abfacbc69286e60cb77e7f610} 
+Components\+::\+Texture\+::\+Texture (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_components_1_1_texture_aa77783bfbda3b17846513ecf798cce4e}\index{Components::Texture@{Components::Texture}!ToString@{ToString}}
+\index{ToString@{ToString}!Components::Texture@{Components::Texture}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily \label{struct_components_1_1_texture_aa77783bfbda3b17846513ecf798cce4e} 
+std\+::string Components\+::\+Texture\+::\+To\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{struct_object_a5ba02cfbbf442727ebda872e864ea172}{Object}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_components_1_1_texture_ab95b3b3248feb22670530f7a00a05b45}\index{Components::Texture@{Components::Texture}!\_size@{\_size}}
+\index{\_size@{\_size}!Components::Texture@{Components::Texture}}
+\doxysubsubsection{\texorpdfstring{\_size}{\_size}}
+{\footnotesize\ttfamily \label{struct_components_1_1_texture_ab95b3b3248feb22670530f7a00a05b45} 
+glm\+::ivec2 Components\+::\+Texture\+::\+\_\+size}
+
+
+
+Size of the texture in pixels. 
+
+\Hypertarget{struct_components_1_1_texture_a7581ecfc3dd7ef7d873daf4a6ab86a43}\index{Components::Texture@{Components::Texture}!\_texture@{\_texture}}
+\index{\_texture@{\_texture}!Components::Texture@{Components::Texture}}
+\doxysubsubsection{\texorpdfstring{\_texture}{\_texture}}
+{\footnotesize\ttfamily \label{struct_components_1_1_texture_a7581ecfc3dd7ef7d873daf4a6ab86a43} 
+SDL\+\_\+\+Texture\texorpdfstring{$\ast$}{*} Components\+::\+Texture\+::\+\_\+texture}
+
+
+
+A pointer to the SDL texture object. Can be null if the texture has not been loaded. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/components/\mbox{\hyperlink{texture_8hpp}{texture.\+hpp}}\end{DoxyCompactItemize}

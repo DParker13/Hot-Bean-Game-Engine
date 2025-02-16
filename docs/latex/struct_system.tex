@@ -1,0 +1,135 @@
+\doxysection{System Struct Reference}
+\hypertarget{struct_system}{}\label{struct_system}\index{System@{System}}
+
+
+{\ttfamily \#include $<$ecs.\+hpp$>$}
+
+Inheritance diagram for System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.170732cm]{struct_system}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_system_ae6cc6014c0abcb1c92bde07135bbcc4b}{System}} (\mbox{\hyperlink{class_core_1_1_core_manager}{Core\+::\+Core\+Manager}} \&core\+Manager)
+\item 
+virtual \mbox{\hyperlink{struct_system_ad652aa3c77ed19131f598a7355c0939a}{\texorpdfstring{$\sim$}{\string~}\+System}} ()=default
+\item 
+virtual void \mbox{\hyperlink{struct_system_ab2599efd39c3969bf4da3ded49574f28}{On\+Init}} ()
+\item 
+virtual void \mbox{\hyperlink{struct_system_a1bf379937d47f5ccca004c5d389da01c}{On\+Pre\+Event}} ()
+\item 
+virtual void \mbox{\hyperlink{struct_system_a61bd75271f49b539f518d36a1fde846d}{On\+Event}} (SDL\+\_\+\+Event \&event)
+\item 
+virtual void \mbox{\hyperlink{struct_system_a0d8b330012d07717e3acd766150072c6}{On\+Update}} (float delta\+Time)
+\item 
+virtual void \mbox{\hyperlink{struct_system_aa6434d8ab169ed165ec8bfee06dfb802}{On\+Render}} (SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}renderer, SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*}window, SDL\+\_\+\+Surface \texorpdfstring{$\ast$}{*}surface)
+\item 
+virtual void \mbox{\hyperlink{struct_system_aa390bde827dbabcf73b229daf07b0c85}{On\+Post\+Render}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{struct_object}{Object}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{struct_object_a226f2ae2af766b77d83c09a4d766b725}{\texorpdfstring{$\sim$}{\string~}\+Object}} ()=default
+\item 
+virtual std\+::string \mbox{\hyperlink{struct_object_a5ba02cfbbf442727ebda872e864ea172}{To\+String}} () const =0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_core_1_1_core_manager}{Core\+::\+Core\+Manager}} \& \mbox{\hyperlink{struct_system_ae18988425304b3ba2d2e02aa43552fc2}{\+\_\+core\+Manager}}
+\item 
+std\+::set$<$ \mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}} $>$ \mbox{\hyperlink{struct_system_a669e06d140158c7d75083d5d0b436845}{\+\_\+entities}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_system_ae6cc6014c0abcb1c92bde07135bbcc4b}\index{System@{System}!System@{System}}
+\index{System@{System}!System@{System}}
+\doxysubsubsection{\texorpdfstring{System()}{System()}}
+{\footnotesize\ttfamily \label{struct_system_ae6cc6014c0abcb1c92bde07135bbcc4b} 
+System\+::\+System (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_core_1_1_core_manager}{Core\+::\+Core\+Manager}} \&}]{core\+Manager}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{struct_system_ad652aa3c77ed19131f598a7355c0939a}\index{System@{System}!````~System@{\texorpdfstring{$\sim$}{\string~}System}}
+\index{````~System@{\texorpdfstring{$\sim$}{\string~}System}!System@{System}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}System()}{\string~System()}}
+{\footnotesize\ttfamily \label{struct_system_ad652aa3c77ed19131f598a7355c0939a} 
+virtual System\+::\texorpdfstring{$\sim$}{\string~}\+System (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_system_a61bd75271f49b539f518d36a1fde846d}\index{System@{System}!OnEvent@{OnEvent}}
+\index{OnEvent@{OnEvent}!System@{System}}
+\doxysubsubsection{\texorpdfstring{OnEvent()}{OnEvent()}}
+{\footnotesize\ttfamily \label{struct_system_a61bd75271f49b539f518d36a1fde846d} 
+virtual void System\+::\+On\+Event (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Event \&}]{event}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{class_systems_1_1_input_system_a85f2d20ebee82290a7eb8b42fdfb4bc7}{Systems\+::\+Input\+System}}.
+
+\Hypertarget{struct_system_ab2599efd39c3969bf4da3ded49574f28}\index{System@{System}!OnInit@{OnInit}}
+\index{OnInit@{OnInit}!System@{System}}
+\doxysubsubsection{\texorpdfstring{OnInit()}{OnInit()}}
+{\footnotesize\ttfamily \label{struct_system_ab2599efd39c3969bf4da3ded49574f28} 
+virtual void System\+::\+On\+Init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{class_systems_1_1_audio_system_abd2043b54f89a45a04c65c1c13616153}{Systems\+::\+Audio\+System}}, and \mbox{\hyperlink{class_systems_1_1_tile_map_system_a4ece316c7abf6f4efb7cf9be27bc83a7}{Systems\+::\+Tile\+Map\+System}}.
+
+\Hypertarget{struct_system_aa390bde827dbabcf73b229daf07b0c85}\index{System@{System}!OnPostRender@{OnPostRender}}
+\index{OnPostRender@{OnPostRender}!System@{System}}
+\doxysubsubsection{\texorpdfstring{OnPostRender()}{OnPostRender()}}
+{\footnotesize\ttfamily \label{struct_system_aa390bde827dbabcf73b229daf07b0c85} 
+virtual void System\+::\+On\+Post\+Render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+\Hypertarget{struct_system_a1bf379937d47f5ccca004c5d389da01c}\index{System@{System}!OnPreEvent@{OnPreEvent}}
+\index{OnPreEvent@{OnPreEvent}!System@{System}}
+\doxysubsubsection{\texorpdfstring{OnPreEvent()}{OnPreEvent()}}
+{\footnotesize\ttfamily \label{struct_system_a1bf379937d47f5ccca004c5d389da01c} 
+virtual void System\+::\+On\+Pre\+Event (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+\Hypertarget{struct_system_aa6434d8ab169ed165ec8bfee06dfb802}\index{System@{System}!OnRender@{OnRender}}
+\index{OnRender@{OnRender}!System@{System}}
+\doxysubsubsection{\texorpdfstring{OnRender()}{OnRender()}}
+{\footnotesize\ttfamily \label{struct_system_aa6434d8ab169ed165ec8bfee06dfb802} 
+virtual void System\+::\+On\+Render (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*}}]{renderer}{, }\item[{SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*}}]{window}{, }\item[{SDL\+\_\+\+Surface \texorpdfstring{$\ast$}{*}}]{surface}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{class_systems_1_1_tile_map_system_a617b5ff23955e4831a49649deabd3ff0}{Systems\+::\+Tile\+Map\+System}}, and \mbox{\hyperlink{class_systems_1_1_u_i_system_a3769168212841bb861276ea10ccd0cae}{Systems\+::\+UISystem}}.
+
+\Hypertarget{struct_system_a0d8b330012d07717e3acd766150072c6}\index{System@{System}!OnUpdate@{OnUpdate}}
+\index{OnUpdate@{OnUpdate}!System@{System}}
+\doxysubsubsection{\texorpdfstring{OnUpdate()}{OnUpdate()}}
+{\footnotesize\ttfamily \label{struct_system_a0d8b330012d07717e3acd766150072c6} 
+virtual void System\+::\+On\+Update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{class_systems_1_1_physics_system_a639652a117498b89a1d0cbc3fbce7b4d}{Systems\+::\+Physics\+System}}, \mbox{\hyperlink{class_systems_1_1_player_controller_system_ae27f172a171c4bb69a1e332cef96dd57}{Systems\+::\+Player\+Controller\+System}}, and \mbox{\hyperlink{class_systems_1_1_u_i_system_a47450bc362fbc3e496da88c233502da7}{Systems\+::\+UISystem}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_system_ae18988425304b3ba2d2e02aa43552fc2}\index{System@{System}!\_coreManager@{\_coreManager}}
+\index{\_coreManager@{\_coreManager}!System@{System}}
+\doxysubsubsection{\texorpdfstring{\_coreManager}{\_coreManager}}
+{\footnotesize\ttfamily \label{struct_system_ae18988425304b3ba2d2e02aa43552fc2} 
+\mbox{\hyperlink{class_core_1_1_core_manager}{Core\+::\+Core\+Manager}}\& System\+::\+\_\+core\+Manager}
+
+\Hypertarget{struct_system_a669e06d140158c7d75083d5d0b436845}\index{System@{System}!\_entities@{\_entities}}
+\index{\_entities@{\_entities}!System@{System}}
+\doxysubsubsection{\texorpdfstring{\_entities}{\_entities}}
+{\footnotesize\ttfamily \label{struct_system_a669e06d140158c7d75083d5d0b436845} 
+std\+::set$<$\mbox{\hyperlink{ecs_8hpp_a12a1ee35f3e280975cb30c584524238c}{Entity}}$>$ System\+::\+\_\+entities}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/danie/\+Documents/\+Git\+Hub/\+Hot\+Bean\+Engine/src/core/\mbox{\hyperlink{ecs_8hpp}{ecs.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,22 @@
+\doxysection{render\+\_\+system.\+hpp}
+\hypertarget{render__system_8hpp_source}{}\label{render__system_8hpp_source}\index{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/systems/render\_system.hpp@{C:/Users/danie/Documents/GitHub/HotBeanEngine/src/systems/render\_system.hpp}}
+\mbox{\hyperlink{render__system_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <SDL.h>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{core__manager_8hpp}{../core/managers/core\_manager.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{transform_8hpp}{../components/transform.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{texture_8hpp}{../components/texture.hpp}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_systems}{Systems}}\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_systems_1_1_render_system_a7b8f67c94dd3f89fa21a663a72cfb6e2}{RenderSystem}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_system_ae6cc6014c0abcb1c92bde07135bbcc4b}{System}}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_systems_1_1_render_system_a7b8f67c94dd3f89fa21a663a72cfb6e2}{RenderSystem}}(\mbox{\hyperlink{class_core_1_1_core_manager}{Core::CoreManager}}\&\ coreManager);}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_systems_1_1_render_system_aec88751ab8bf4a8e708d581aabca3723}{Render}}(SDL\_Surface*\ surface,\ SDL\_Renderer*\ renderer,\ \mbox{\hyperlink{class_core_1_1_core_manager}{Core::CoreManager}}\&\ coreManager);}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_systems_1_1_render_system_a289edc38b9c1523ced420784b042870c}{ToString}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00015\ \ \ \ \ \};}
+\DoxyCodeLine{00016\ \}}
+
+\end{DoxyCode}
