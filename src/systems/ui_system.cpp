@@ -2,15 +2,14 @@
 
 namespace Systems {
     UISystem::UISystem(Core::CoreManager& coreManager)
-        : System(coreManager) {
+        : System(coreManager), _font(nullptr) {
         coreManager.RegisterSystem<UISystem>(this);
 
-        coreManager.SetSignature<UISystem, Components::Transform>();
+        coreManager.SetSignature<UISystem, Components::Transform2D>();
         coreManager.SetSignature<UISystem, Components::Text>();
         coreManager.SetSignature<UISystem, Components::Texture>();
 
-        auto fontPath = std::filesystem::current_path().parent_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
-        _font = TTF_OpenFont(fontPath.string().data(), 10);
+        _font = TTF_OpenFont(_font_path.string().data(), 10);
 
         if (!_font) {
             SDL_Log("Couldn't load font: %s\n", SDL_GetError());
@@ -23,78 +22,60 @@ namespace Systems {
         }
     }
 
+    UISystem::~UISystem() {
+        TTF_CloseFont(_font);
+        _font = nullptr;
+    }
+
     /**
-     * Updates all UI entities.
+     * Updates all UI element textures
      *
-     * This function is part of the System interface and is called by the Application layer.
-     * It is responsible for updating all UI entities that have both a Transform, Text, and Texture component.
      *
+     * @param renderer The SDL_Renderer to render to.
      * @param deltaTime The time elapsed since the last update in seconds.
+     *
+     * @throws None
      */
-    void UISystem::OnUpdate(float deltaTime) {
+    void UISystem::OnUpdate(SDL_Renderer* renderer, float deltaTime) {
         for (auto& entity : _entities) {
-            auto& transform = _coreManager.GetComponent<Components::Transform>(entity);
+            auto& transform = _coreManager.GetComponent<Components::Transform2D>(entity);
             auto& text = _coreManager.GetComponent<Components::Text>(entity);
             auto& texture = _coreManager.GetComponent<Components::Texture>(entity);
+
+            _framesCounter++;
 
             // Initialize font
             if (!text._font) {
                 text._font = _font;
             }
-
-            _framesCounter++;
-            // if (_lastTickCount < SDL_GetTicks() - 1000) {
-            //     _lastTickCount = SDL_GetTicks();
-            //     _fps = _framesCounter;
-            //     _framesCounter = 0;
-
-            //     text.SetText("FPS: " + std::to_string(_fps));
-            // }
-
-            if (text._text_updated) {
+            
+            if (text._awaiting_update) {
                 text._surface = TTF_RenderUTF8_Solid_Wrapped(_font, text.GetChar(), text._color, texture._size.x);
                 // Update texture size
-                if (TTF_SizeUTF8(_font, text.GetChar(), &texture._size.x, &texture._size.y) == -1) {
-                    std::cerr << "Text sizing error: " << TTF_GetError() << std::endl;
-                }
+                // if (TTF_SizeUTF8(_font, text.GetChar(), &texture._size.x, &texture._size.y) == -1) {
+                //     std::cerr << "Text sizing error: " << TTF_GetError() << std::endl;
+                //     return;
+                // }
             }
-        }
-    }
-
-    /**
-     * Renders all UI entities to the screen.
-     *
-     * This function is part of the System interface and is called by the
-     * Application layer. It is responsible for rendering all UI entities
-     * that have both a Transform, Text, and Texture component.
-     *
-     * @param renderer The SDL_Renderer to render to.
-     * @param window The SDL_Window that the renderer is attached to.
-     * @param surface The SDL_Surface to render to.
-     *
-     * @throws None
-     */
-    void UISystem::OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
-        for (auto& entity : _entities) {
-            auto& transform = _coreManager.GetComponent<Components::Transform>(entity);
-            auto& text = _coreManager.GetComponent<Components::Text>(entity);
-            auto& texture = _coreManager.GetComponent<Components::Texture>(entity);
 
             // Update texture with new surface
-            if (text._font && text.GetString() != "" && text._text_updated) {
+            if (text._font && text.GetString() != "" && text._awaiting_update) {
                 texture._texture = SDL_CreateTextureFromSurface(renderer, text._surface);
-                text._text_updated = false;
+                SDL_SetTextureBlendMode(texture._texture, SDL_BLENDMODE_BLEND);
+                text._awaiting_update = false;
             }
 
             if (texture._texture) {
-                const SDL_Rect* rect = new SDL_Rect({ (int)transform.position.x, (int)transform.position.y, texture._size.x, texture._size.y });
+                const SDL_Rect* rect = new SDL_Rect({ (int)transform._position.x, (int)transform._position.y, texture._size.x, texture._size.y });
                 
                 if (SDL_RenderCopy(renderer, texture._texture, NULL, rect) < 0) {
                     std::cerr << "Error: " << SDL_GetError() << std::endl;
                     return;
                 }
 
-                delete rect;
+                if (rect) {
+                    delete rect;
+                }
             }
         }
     }

@@ -1,9 +1,19 @@
+/**
+ * @file component_manager.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Manages the entity-component relationship.
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "component_manager.hpp"
 
 namespace Core {
 
     ComponentManager::ComponentManager() : _registeredComponents(0) {}
-
     ComponentManager::~ComponentManager() = default;
 
     /**

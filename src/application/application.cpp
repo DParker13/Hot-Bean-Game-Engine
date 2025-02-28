@@ -1,10 +1,21 @@
+/**
+ * @file application.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Main entry point of the application.
+ * Initializes SDL, creates the window and renderer, and manages the main game loop.
+ * @version 0.1
+ * @date 2025-02-18
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "application.hpp"
 
 namespace Application {
     
     /**
-     * Constructs an Application instance with the specified window title, width, and height.
-     * Initializes the SDL systems required for rendering.
+     * @brief Constructs an Application instance with the specified window title, width, and height.
      *
      * @param title The title of the application window.
      * @param width The width of the application window.
@@ -21,14 +32,12 @@ namespace Application {
     }
 
     /**
-     * Runs the application main loop.
+     * @brief Runs the application main loop.
      *
-     * It is responsible for initializing the application,
+     * This is responsible for initializing the application,
      * polling for events, calculating the delta time,
      * updating the application state, rendering the application
      * state, and cleaning up after itself.
-     *
-     * @throws None
      */
     void Application::Run() {
         SDL_Event event;
@@ -51,21 +60,20 @@ namespace Application {
                 }
             }
 
-            OnUpdate(_deltaTime);
-
             SDL_SetRenderDrawColor(_renderer, 0x00, 0x00, 0x00, 0xFF);
             SDL_RenderClear(_renderer);
 
+            OnUpdate(_renderer, _deltaTime);
             OnRender(_renderer, _window, _surface);
 
             SDL_RenderPresent(_renderer);
 
-            OnPostRender();
+            OnPostRender(_renderer);
         }
     }
 
     /**
-     * Initializes SDL and creates a window, renderer, and surface.
+     * @brief Initializes SDL and creates a window, renderer, and surface.
      *
      * @param title The title of the window.
      * @param width The width of the window.
@@ -123,6 +131,7 @@ namespace Application {
         }
         }
 
+        // Initialize Image
         if (IMG_Init(IMG_INIT_PNG) < 0) {
             std::cerr << "Image could not be initialized! IMG_Error: " << IMG_GetError() << std::endl;
             exit(-1);
@@ -130,15 +139,13 @@ namespace Application {
     }
 
     /**
-     * Cleans up the SDL resources by destroying the renderer, window, surface,
+     * @brief Cleans up the SDL resources by destroying the renderer, window, surface,
      * and _quitting the SDL library.
-     *
-     * @throws None
      */
     void Application::CleanUpSDL() {
         SDL_DestroyRenderer(_renderer);
+        SDL_FreeSurface(_surface);
         SDL_DestroyWindow(_window);
-        SDL_FreeSurface(_surface); // THIS IS CAUSING A SEGMENTATION FAULT ON APPLICATION CLOSE
  
         // TTF
         TTF_Quit();
@@ -153,11 +160,7 @@ namespace Application {
     }
 
     /**
-     * Updates the delta time by calculating the difference in time since the
-     * last frame in milliseconds and dividing by 1000.0f to convert to
-     * seconds.
-     *
-     * @throws None
+     * @brief Updates the delta time (time elapsed) between frames.
      */
     void Application::UpdateDeltaTime() {
         Uint32 currentTime = SDL_GetTicks();
@@ -167,13 +170,8 @@ namespace Application {
     }
 
     /**
-     * Initializes the application systems and iterates through them in the OnInit state.
-     *
-     * This function sets up the necessary systems for the application and ensures
-     * that each system is properly initialized by invoking their OnInit method 
-     * within the system manager.
-     *
-     * @throws None
+     * @brief Initializes the application systems and iterates through the
+     * systems in the system manager, calling their OnInit methods.
      */
     void Application::OnInit() {
         InitSystems();
@@ -181,37 +179,36 @@ namespace Application {
     }
 
     /**
-     * Updates all systems within the application by invoking their OnEvent method.
+     * @brief Calls the OnEvent method of each system in the system manager.
      *
      * @param event The SDL event to be handled.
-     *
-     * @throws None
      */
     void Application::OnEvent(SDL_Event& event) {
         _coreManager.IterateSystems(event);
     }
 
     /**
-     * Updates all systems within the application by invoking their OnUpdate method.
+     * @brief Calls the OnUpdate method of each system in the system manager.
      *
+     * @param renderer The SDL_Renderer to render with.
      * @param deltaTime The time in seconds since the last frame.
-     *
-     * @throws None
      */
-    void Application::OnUpdate(float deltaTime) {
-        _coreManager.IterateSystems(deltaTime);
+    void Application::OnUpdate(SDL_Renderer* renderer, float deltaTime) {
+        _coreManager.IterateSystems(renderer, deltaTime);
     }
 
     /**
-     * Renders all systems within the application by invoking their OnRender method.
+     * @brief Renders all systems within the application by invoking their OnRender method.
      *
      * @param renderer The SDL_Renderer to render with.
      * @param window The SDL_Window that the renderer is attached to.
      * @param surface The SDL_Surface to render to.
-     *
-     * @throws None
      */
     void Application::OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
         _coreManager.IterateSystems(renderer, window, surface);
+    }
+
+    void Application::OnPostRender(SDL_Renderer* renderer) {
+        _coreManager.IterateSystems(renderer);
     }
 }

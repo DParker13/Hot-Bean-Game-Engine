@@ -1,15 +1,28 @@
+/**
+ * @file game.cpp
+ * @author Daniel Parker
+ * @brief Game logic implementation.
+ * Handles game state updates, user input processing, and rendering ontop of the Application class.
+ * @version 0.1
+ * @date 2025-02-18
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "game.hpp"
 
 namespace Application {
-
-    Game::~Game() = default;
+    Game::~Game() {
+        Application::~Application();
+    }
 
     /**
-     * Initializes all systems in the game.
-     *
-     * This function creates an instance of each system that is used in the game.
-     * The System Manager is responsible for cleaning up these systems when they're
-     * no longer needed.
+     * @brief Initializes all systems in the game. This function creates an 
+     * instance of each system that is used in the game.
+     * 
+     * @note The System Manager is responsible for cleaning up these
+     * systems when they're no longer needed.
      */
     void Game::InitSystems() {
         new Systems::PhysicsSystem(_coreManager);
@@ -21,64 +34,65 @@ namespace Application {
         new Systems::AudioSystem(_coreManager);
     }
 
-    
     /**
-     * @brief Called before the main game loop starts. Used to initialize objects.
-     * 
+     * @brief Initializes gameobjects and sets up their starting state.
      */
     void Game::OnInit() {
         Application::OnInit();
 
-        auto fpsText = GameObjects::Text(&_coreManager);
-        auto testText = GameObjects::Text(&_coreManager);
-        auto playerObj = GameObjects::Player(&_coreManager);
+        auto fpsText = GameObjects::UI::Text(&_coreManager);
+        auto testText = GameObjects::UI::Text(&_coreManager);
 
-        testText.GetTransform().position = { 500.0f, 500.0f, 0.0f };
+        fpsText.GetTexture()._size = { 1000.0f, 100.0f };
+        fpsText.GetText()._size = 50;
+        fpsText.GetText().SetText("Layer 0!");
+
+        testText.GetTransform2D()._position = { 500.0f, 50.0f };
+        testText.GetTransform2D()._layer = 1;
         testText.GetTexture()._size = { 1000.0f, 100.0f };
         testText.GetText()._size = 50;
-        testText.GetText().SetText("Hello World!");
+        testText.GetText().SetText("Layer 1!");
+        _coreManager.AddComponent<Components::Controller>(fpsText.GetEntity(), Components::Controller());
     }
 
     /**
-     * Handles SDL events for the game.
+     * @brief Calls the OnEvent method of all systems and each system
+     * will handle their SDL events.
      *
      * @param event The SDL event to handle.
-     *
-     * @throws None
      */
     void Game::OnEvent(SDL_Event& event) {
         Application::OnEvent(event);
     }
 
     /**
-     * Updates the game state.
-     *
-     * This function calls the Application::OnUpdate() function to update the
-     * state of all systems in the game. The deltaTime parameter is the time in
-     * seconds since the last frame.
-     *
+     * @brief Calls the OnUpdate method of all systems and each system
+     * will update their entities.
+     * 
      * @param deltaTime The time in seconds since the last frame.
-     *
-     * @throws None
      */
-    void Game::OnUpdate(float deltaTime) {
-        Application::OnUpdate(deltaTime);
+    void Game::OnUpdate(SDL_Renderer* renderer, float deltaTime) {
+        Application::OnUpdate(renderer, deltaTime);
     }
 
     /**
-     * Renders the game state to the screen.
-     *
-     * This function calls the Application::OnRender() function to render the
-     * state of all systems in the game. This is where the game is drawn to the
-     * screen.
+     * @brief Calls the OnRender method of all systems and each system
+     * will render their entities and resources to the screen.
      *
      * @param renderer The renderer to use to render the game.
      * @param window The window to render to.
      * @param surface The surface to render to.
-     *
-     * @throws None
      */
     void Game::OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
         Application::OnRender(renderer, window, surface);
+    }
+
+    /**
+     * @brief Calls the OnPostRender method of all systems.
+     *
+     * @param renderer The renderer to use to render the game.
+     */
+    void Game::OnPostRender(SDL_Renderer* renderer) {
+        Application::OnPostRender(renderer);
     }
 }

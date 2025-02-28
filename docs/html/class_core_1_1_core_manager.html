@@ -157,10 +157,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a227e78082cff77e383a8a86fc0b1a647"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8d984d88b641732f65d8c6f5b8c831c" id="r_ad8d984d88b641732f65d8c6f5b8c831c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8d984d88b641732f65d8c6f5b8c831c">IterateSystems</a> (SDL_Renderer *renderer, SDL_Window *window, SDL_Surface *surface)</td></tr>
 <tr class="separator:ad8d984d88b641732f65d8c6f5b8c831c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad622cad76707f7fdc5310b7d9b7428f7" id="r_ad622cad76707f7fdc5310b7d9b7428f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad622cad76707f7fdc5310b7d9b7428f7">IterateSystems</a> (float deltaTime)</td></tr>
-<tr class="separator:ad622cad76707f7fdc5310b7d9b7428f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6b13e09b904e64561a1d800e3a4526e" id="r_ab6b13e09b904e64561a1d800e3a4526e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6b13e09b904e64561a1d800e3a4526e">IterateSystems</a> (SDL_Renderer *renderer, float deltaTime)</td></tr>
+<tr class="separator:ab6b13e09b904e64561a1d800e3a4526e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7c349cc62d467f45d3ab20945155f38" id="r_ae7c349cc62d467f45d3ab20945155f38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7c349cc62d467f45d3ab20945155f38">IterateSystems</a> (SDL_Event &amp;event)</td></tr>
 <tr class="separator:ae7c349cc62d467f45d3ab20945155f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68fada684167948d2e842e4b3ce62c83" id="r_a68fada684167948d2e842e4b3ce62c83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68fada684167948d2e842e4b3ce62c83">IterateSystems</a> (SDL_Renderer *renderer)</td></tr>
+<tr class="separator:a68fada684167948d2e842e4b3ce62c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a02d879bce7a65c70bb7c848bfa8d9a46" name="a02d879bce7a65c70bb7c848bfa8d9a46"></a>
@@ -429,33 +431,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="ad622cad76707f7fdc5310b7d9b7428f7" name="ad622cad76707f7fdc5310b7d9b7428f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad622cad76707f7fdc5310b7d9b7428f7">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Core::CoreManager::IterateSystems </td>
-          <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a227e78082cff77e383a8a86fc0b1a647" name="a227e78082cff77e383a8a86fc0b1a647"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a227e78082cff77e383a8a86fc0b1a647">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a227e78082cff77e383a8a86fc0b1a647">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -476,11 +453,19 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Iterates over each system and calls the correct function based on the <a class="el" href="ecs_8hpp.html#ada58492778ce3a14520fd61a5481fef3">GameLoopState</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>The current state of the game loop.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function iterates over each system and calls OnInit, OnPreEvent, or OnPostRender based on the current state of the game loop. </p>
 
 </div>
 </div>
 <a id="ae7c349cc62d467f45d3ab20945155f38" name="ae7c349cc62d467f45d3ab20945155f38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7c349cc62d467f45d3ab20945155f38">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7c349cc62d467f45d3ab20945155f38">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -501,11 +486,89 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Iterates over each system and calls its OnEvent method.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>The SDL_Event that contains the event data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function iterates over each system and calls its OnEvent method, passing through the given event. </p>
+
+</div>
+</div>
+<a id="a68fada684167948d2e842e4b3ce62c83" name="a68fada684167948d2e842e4b3ce62c83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68fada684167948d2e842e4b3ce62c83">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::CoreManager::IterateSystems </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Iterates over each system and calls its OnEvent method.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>The SDL_Event that contains the event data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function iterates over each system and calls its OnEvent method, passing through the given event. </p>
+
+</div>
+</div>
+<a id="ab6b13e09b904e64561a1d800e3a4526e" name="ab6b13e09b904e64561a1d800e3a4526e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6b13e09b904e64561a1d800e3a4526e">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::CoreManager::IterateSystems </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Iterates over each system and calls its OnUpdate method.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">deltaTime</td><td>The time in seconds since the last frame.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function iterates over each system and calls its OnUpdate method, passing through the given deltaTime. </p>
 
 </div>
 </div>
 <a id="ad8d984d88b641732f65d8c6f5b8c831c" name="ad8d984d88b641732f65d8c6f5b8c831c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8d984d88b641732f65d8c6f5b8c831c">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8d984d88b641732f65d8c6f5b8c831c">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -535,6 +598,16 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Iterates over each system and calls its OnRender method.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>The SDL_Renderer to render with. </td></tr>
+    <tr><td class="paramname">window</td><td>The SDL_Window that the renderer is attached to. </td></tr>
+    <tr><td class="paramname">surface</td><td>The SDL_Surface to render to.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function iterates over each system and calls its OnRender method, passing through the given renderer, window, and surface. </p>
 
 </div>
 </div>
@@ -709,6 +782,15 @@ template&lt;typename S, typename C&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Sets the signature for a system that has already been registered with the <a class="el" href="class_core_1_1_core_manager.html">CoreManager</a>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">S</td><td>The type of system for which to set the signature. </td></tr>
+    <tr><td class="paramname">C</td><td>The type of component to be added to the signature.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function first checks if the component type has been registered yet. If not, it registers the component type and sets the signature for the given system type. If the component type has been registered, it simply sets the signature for the given system type. Finally, it delegates to the <a class="el" href="class_core_1_1_system_manager.html">SystemManager</a> to update the signature for the specified system type. </p>
 
 </div>
 </div>

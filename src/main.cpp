@@ -13,8 +13,6 @@ const int SCREEN_HEIGHT = 720;
  * @param args an array of command line arguments
  *
  * @return an integer indicating the exit status of the program
- *
- * @throws None
  */
 int main(int argc, char* argv[]) {
     Application::Game game = Application::Game("Hot Bean Engine", SCREEN_WIDTH, SCREEN_HEIGHT);

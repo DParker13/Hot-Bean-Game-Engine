@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['sparseset_0',['SparseSet',['../class_core_1_1_sparse_set.html',1,'Core']]],
-  ['system_1',['System',['../struct_system.html',1,'']]],
-  ['systemmanager_2',['SystemManager',['../class_core_1_1_system_manager.html',1,'Core']]]
+  ['rendersystem_0',['RenderSystem',['../class_systems_1_1_render_system.html',1,'Systems']]],
+  ['rigidbody_1',['RigidBody',['../struct_components_1_1_rigid_body.html',1,'Components']]]
 ];

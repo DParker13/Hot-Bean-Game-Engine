@@ -118,7 +118,8 @@ Inheritance diagram for System:</div>
  <div class="center">
   <img src="struct_system.png" usemap="#System_map" alt=""/>
   <map id="System_map" name="System_map">
-<area href="struct_object.html" alt="Object" shape="rect" coords="621,0,818,24"/>
+<area href="struct_object.html" alt="Object" shape="rect" coords="517,0,714,24"/>
+<area href="struct_i_game_loop.html" alt="IGameLoop" shape="rect" coords="724,0,921,24"/>
 <area href="class_systems_1_1_audio_system.html" alt="Systems::AudioSystem" shape="rect" coords="0,112,197,136"/>
 <area href="class_systems_1_1_input_system.html" alt="Systems::InputSystem" shape="rect" coords="207,112,404,136"/>
 <area href="class_systems_1_1_physics_system.html" alt="Systems::PhysicsSystem" shape="rect" coords="414,112,611,136"/>
@@ -141,12 +142,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1bf379937d47f5ccca004c5d389da01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61bd75271f49b539f518d36a1fde846d" id="r_a61bd75271f49b539f518d36a1fde846d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61bd75271f49b539f518d36a1fde846d">OnEvent</a> (SDL_Event &amp;event)</td></tr>
 <tr class="separator:a61bd75271f49b539f518d36a1fde846d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d8b330012d07717e3acd766150072c6" id="r_a0d8b330012d07717e3acd766150072c6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d8b330012d07717e3acd766150072c6">OnUpdate</a> (float deltaTime)</td></tr>
-<tr class="separator:a0d8b330012d07717e3acd766150072c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdb3fc3dba97a65dd6f1b899ed17a52" id="r_afcdb3fc3dba97a65dd6f1b899ed17a52"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcdb3fc3dba97a65dd6f1b899ed17a52">OnUpdate</a> (SDL_Renderer *renderer, float deltaTime)</td></tr>
+<tr class="separator:afcdb3fc3dba97a65dd6f1b899ed17a52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6434d8ab169ed165ec8bfee06dfb802" id="r_aa6434d8ab169ed165ec8bfee06dfb802"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6434d8ab169ed165ec8bfee06dfb802">OnRender</a> (SDL_Renderer *renderer, SDL_Window *window, SDL_Surface *surface)</td></tr>
 <tr class="separator:aa6434d8ab169ed165ec8bfee06dfb802"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa390bde827dbabcf73b229daf07b0c85" id="r_aa390bde827dbabcf73b229daf07b0c85"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa390bde827dbabcf73b229daf07b0c85">OnPostRender</a> ()</td></tr>
-<tr class="separator:aa390bde827dbabcf73b229daf07b0c85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a241efa1123d95603dcf31ff4a86ca50f" id="r_a241efa1123d95603dcf31ff4a86ca50f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a241efa1123d95603dcf31ff4a86ca50f">OnPostRender</a> (SDL_Renderer *renderer)</td></tr>
+<tr class="separator:a241efa1123d95603dcf31ff4a86ca50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_struct_object"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_object.html">Object</a></td></tr>
 <tr class="memitem:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object" id="r_a226f2ae2af766b77d83c09a4d766b725"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_object.html#a226f2ae2af766b77d83c09a4d766b725">~Object</a> ()=default</td></tr>
 <tr class="separator:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -235,6 +236,8 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Implements <a class="el" href="struct_i_game_loop.html#ad7f9ce4a8fa01f0f6a3418d9a271a8b9">IGameLoop</a>.</p>
+
 <p>Reimplemented in <a class="el" href="class_systems_1_1_input_system.html#a85f2d20ebee82290a7eb8b42fdfb4bc7">Systems::InputSystem</a>.</p>
 
 </div>
@@ -262,12 +265,14 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Implements <a class="el" href="struct_i_game_loop.html#a21f6e65786e1f96a361a70022a43542a">IGameLoop</a>.</p>
+
 <p>Reimplemented in <a class="el" href="class_systems_1_1_audio_system.html#abd2043b54f89a45a04c65c1c13616153">Systems::AudioSystem</a>, and <a class="el" href="class_systems_1_1_tile_map_system.html#a4ece316c7abf6f4efb7cf9be27bc83a7">Systems::TileMapSystem</a>.</p>
 
 </div>
 </div>
-<a id="aa390bde827dbabcf73b229daf07b0c85" name="aa390bde827dbabcf73b229daf07b0c85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa390bde827dbabcf73b229daf07b0c85">&#9670;&#160;</a></span>OnPostRender()</h2>
+<a id="a241efa1123d95603dcf31ff4a86ca50f" name="a241efa1123d95603dcf31ff4a86ca50f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a241efa1123d95603dcf31ff4a86ca50f">&#9670;&#160;</a></span>OnPostRender()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,7 +283,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">virtual void System::OnPostRender </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -288,6 +293,10 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Implements <a class="el" href="struct_i_game_loop.html#a0c2484f42b543fcf3ec8c9d0de732c6a">IGameLoop</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_systems_1_1_render_system.html#aa8d8da936c5b15bfb3a01284d0646d22">Systems::RenderSystem</a>.</p>
 
 </div>
 </div>
@@ -313,6 +322,8 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Implements <a class="el" href="struct_i_game_loop.html#a18755c7804f20739bf8f6761cda52800">IGameLoop</a>.</p>
 
 </div>
 </div>
@@ -348,12 +359,14 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="class_systems_1_1_tile_map_system.html#a617b5ff23955e4831a49649deabd3ff0">Systems::TileMapSystem</a>, and <a class="el" href="class_systems_1_1_u_i_system.html#a3769168212841bb861276ea10ccd0cae">Systems::UISystem</a>.</p>
+<p>Implements <a class="el" href="struct_i_game_loop.html#a01d9842b2715a9760925baef82dd34f4">IGameLoop</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_systems_1_1_render_system.html#a78023987c9195c8eb33c65807c95adc1">Systems::RenderSystem</a>, and <a class="el" href="class_systems_1_1_tile_map_system.html#a617b5ff23955e4831a49649deabd3ff0">Systems::TileMapSystem</a>.</p>
 
 </div>
 </div>
-<a id="a0d8b330012d07717e3acd766150072c6" name="a0d8b330012d07717e3acd766150072c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d8b330012d07717e3acd766150072c6">&#9670;&#160;</a></span>OnUpdate()</h2>
+<a id="afcdb3fc3dba97a65dd6f1b899ed17a52" name="afcdb3fc3dba97a65dd6f1b899ed17a52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcdb3fc3dba97a65dd6f1b899ed17a52">&#9670;&#160;</a></span>OnUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -364,8 +377,12 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">virtual void System::OnUpdate </td>
           <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span></td><td>)</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -375,7 +392,9 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="class_systems_1_1_physics_system.html#a639652a117498b89a1d0cbc3fbce7b4d">Systems::PhysicsSystem</a>, <a class="el" href="class_systems_1_1_player_controller_system.html#ae27f172a171c4bb69a1e332cef96dd57">Systems::PlayerControllerSystem</a>, and <a class="el" href="class_systems_1_1_u_i_system.html#a47450bc362fbc3e496da88c233502da7">Systems::UISystem</a>.</p>
+<p>Implements <a class="el" href="struct_i_game_loop.html#a54db5ac4840fc31e968c547341f96f97">IGameLoop</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_systems_1_1_physics_system.html#a8d1cad7be1ba05370e2dfd22a8a2ea82">Systems::PhysicsSystem</a>, <a class="el" href="class_systems_1_1_player_controller_system.html#af98eb7533171e97f654921b5f37f37ab">Systems::PlayerControllerSystem</a>, and <a class="el" href="class_systems_1_1_u_i_system.html#a42edcb1c8ed7ed4c97253a38e9c305f3">Systems::UISystem</a>.</p>
 
 </div>
 </div>

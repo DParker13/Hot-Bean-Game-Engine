@@ -1,3 +1,14 @@
+/**
+ * @file entity_manager.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Manages the creation and destruction of entities.
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "entity_manager.hpp"
 
 namespace Core {

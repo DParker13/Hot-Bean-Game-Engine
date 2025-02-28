@@ -114,10 +114,8 @@ $(function(){initNavTree('class_core_1_1_system_manager.html',''); initResizable
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1a7d2a6d89140070a94dd38496acdbf0" id="r_a1a7d2a6d89140070a94dd38496acdbf0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a7d2a6d89140070a94dd38496acdbf0">SystemManager</a> ()</td></tr>
-<tr class="separator:a1a7d2a6d89140070a94dd38496acdbf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e59f5a46118f5c1b86d35b0a5146f2d" id="r_a9e59f5a46118f5c1b86d35b0a5146f2d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e59f5a46118f5c1b86d35b0a5146f2d">~SystemManager</a> ()</td></tr>
-<tr class="separator:a9e59f5a46118f5c1b86d35b0a5146f2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dbce59e543ca8d22f2f3137c6920508" id="r_a3dbce59e543ca8d22f2f3137c6920508"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dbce59e543ca8d22f2f3137c6920508">SystemManager</a> ()=default</td></tr>
+<tr class="separator:a3dbce59e543ca8d22f2f3137c6920508"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38574e173bcb7f1fa6846be3cbc786f0" id="r_a38574e173bcb7f1fa6846be3cbc786f0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38574e173bcb7f1fa6846be3cbc786f0">ToString</a> () const</td></tr>
 <tr class="separator:a38574e173bcb7f1fa6846be3cbc786f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86bd1290fda845b7bd3cad324ae4bc20" id="r_a86bd1290fda845b7bd3cad324ae4bc20"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
@@ -140,17 +138,23 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a787be99465aae7716ed11c87aab959a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4228a9dc877e1e41704a8e70f183d937" id="r_a4228a9dc877e1e41704a8e70f183d937"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4228a9dc877e1e41704a8e70f183d937">IterateSystems</a> (SDL_Renderer *renderer, SDL_Window *window, SDL_Surface *surface)</td></tr>
 <tr class="separator:a4228a9dc877e1e41704a8e70f183d937"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a684334bb378572c3dc399cee3e6569aa" id="r_a684334bb378572c3dc399cee3e6569aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a684334bb378572c3dc399cee3e6569aa">IterateSystems</a> (float deltaTime)</td></tr>
-<tr class="separator:a684334bb378572c3dc399cee3e6569aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31302f49126fbeaee400371e23e32132" id="r_a31302f49126fbeaee400371e23e32132"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31302f49126fbeaee400371e23e32132">IterateSystems</a> (SDL_Renderer *renderer, float deltaTime)</td></tr>
+<tr class="separator:a31302f49126fbeaee400371e23e32132"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefdc8b5699f21da8fb1bf8bcb05bd96d" id="r_aefdc8b5699f21da8fb1bf8bcb05bd96d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefdc8b5699f21da8fb1bf8bcb05bd96d">IterateSystems</a> (SDL_Event &amp;event)</td></tr>
 <tr class="separator:aefdc8b5699f21da8fb1bf8bcb05bd96d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70fd215d642f98db2b19655e0a67a334" id="r_a70fd215d642f98db2b19655e0a67a334"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70fd215d642f98db2b19655e0a67a334">IterateSystems</a> (SDL_Renderer *renderer)</td></tr>
+<tr class="memdesc:a70fd215d642f98db2b19655e0a67a334"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterates over each system and calls OnPostRender with the given renderer.  <br /></td></tr>
+<tr class="separator:a70fd215d642f98db2b19655e0a67a334"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1a7d2a6d89140070a94dd38496acdbf0" name="a1a7d2a6d89140070a94dd38496acdbf0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a7d2a6d89140070a94dd38496acdbf0">&#9670;&#160;</a></span>SystemManager()</h2>
+<a id="a3dbce59e543ca8d22f2f3137c6920508" name="a3dbce59e543ca8d22f2f3137c6920508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dbce59e543ca8d22f2f3137c6920508">&#9670;&#160;</a></span>SystemManager()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Core::SystemManager::SystemManager </td>
@@ -159,23 +163,11 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9e59f5a46118f5c1b86d35b0a5146f2d" name="a9e59f5a46118f5c1b86d35b0a5146f2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e59f5a46118f5c1b86d35b0a5146f2d">&#9670;&#160;</a></span>~SystemManager()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Core::SystemManager::~SystemManager </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -333,33 +325,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a684334bb378572c3dc399cee3e6569aa" name="a684334bb378572c3dc399cee3e6569aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a684334bb378572c3dc399cee3e6569aa">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Core::SystemManager::IterateSystems </td>
-          <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a787be99465aae7716ed11c87aab959a6" name="a787be99465aae7716ed11c87aab959a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a787be99465aae7716ed11c87aab959a6">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a787be99465aae7716ed11c87aab959a6">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -380,11 +347,18 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Iterates over each system and calls the correct function based on the <a class="el" href="ecs_8hpp.html#ada58492778ce3a14520fd61a5481fef3">GameLoopState</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>The current state of the game loop. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <a id="aefdc8b5699f21da8fb1bf8bcb05bd96d" name="aefdc8b5699f21da8fb1bf8bcb05bd96d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefdc8b5699f21da8fb1bf8bcb05bd96d">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aefdc8b5699f21da8fb1bf8bcb05bd96d">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -405,11 +379,87 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Iterates over each system and calls OnEvent with the given event.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>The SDL_Event that contains the event data. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a70fd215d642f98db2b19655e0a67a334" name="a70fd215d642f98db2b19655e0a67a334"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70fd215d642f98db2b19655e0a67a334">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::SystemManager::IterateSystems </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Iterates over each system and calls OnPostRender with the given renderer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>The SDL_Renderer that is currently being used to render the game. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a31302f49126fbeaee400371e23e32132" name="a31302f49126fbeaee400371e23e32132"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31302f49126fbeaee400371e23e32132">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Core::SystemManager::IterateSystems </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Iterates over each system and calls OnUpdate with the given deltaTime.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">deltaTime</td><td>The time that has elapsed since the last frame. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <a id="a4228a9dc877e1e41704a8e70f183d937" name="a4228a9dc877e1e41704a8e70f183d937"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4228a9dc877e1e41704a8e70f183d937">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4228a9dc877e1e41704a8e70f183d937">&#9670;&#160;</a></span>IterateSystems() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -439,6 +489,15 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Iterates over each system and calls OnRender.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>The SDL_Renderer that is currently being used to render the game. </td></tr>
+    <tr><td class="paramname">window</td><td>The SDL_Window that the game is being rendered to. </td></tr>
+    <tr><td class="paramname">surface</td><td>The SDL_Surface that the game is being rendered to. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

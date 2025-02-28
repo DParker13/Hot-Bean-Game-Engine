@@ -6,12 +6,13 @@ var annotated_dup =
     ] ],
     [ "Components", "namespace_components.html", [
       [ "AudioSource", "struct_components_1_1_audio_source.html", "struct_components_1_1_audio_source" ],
-      [ "Player", "struct_components_1_1_player.html", "struct_components_1_1_player" ],
+      [ "Controller", "struct_components_1_1_controller.html", "struct_components_1_1_controller" ],
       [ "RigidBody", "struct_components_1_1_rigid_body.html", "struct_components_1_1_rigid_body" ],
       [ "Text", "class_components_1_1_text.html", "class_components_1_1_text" ],
       [ "Texture", "struct_components_1_1_texture.html", "struct_components_1_1_texture" ],
       [ "Tile", "struct_components_1_1_tile.html", "struct_components_1_1_tile" ],
-      [ "Transform", "struct_components_1_1_transform.html", "struct_components_1_1_transform" ]
+      [ "Transform2D", "struct_components_1_1_transform2_d.html", "struct_components_1_1_transform2_d" ],
+      [ "UIElement", "class_components_1_1_u_i_element.html", null ]
     ] ],
     [ "Core", "namespace_core.html", [
       [ "ComponentManager", "class_core_1_1_component_manager.html", "class_core_1_1_component_manager" ],
@@ -21,9 +22,14 @@ var annotated_dup =
       [ "SystemManager", "class_core_1_1_system_manager.html", "class_core_1_1_system_manager" ]
     ] ],
     [ "GameObjects", "namespace_game_objects.html", [
+      [ "UI", "namespace_game_objects_1_1_u_i.html", [
+        [ "FPSCounter", "class_game_objects_1_1_u_i_1_1_f_p_s_counter.html", "class_game_objects_1_1_u_i_1_1_f_p_s_counter" ],
+        [ "Text", "class_game_objects_1_1_u_i_1_1_text.html", "class_game_objects_1_1_u_i_1_1_text" ],
+        [ "TextBox", "class_game_objects_1_1_u_i_1_1_text_box.html", "class_game_objects_1_1_u_i_1_1_text_box" ],
+        [ "UIElement", "class_game_objects_1_1_u_i_1_1_u_i_element.html", "class_game_objects_1_1_u_i_1_1_u_i_element" ]
+      ] ],
       [ "GameObject", "class_game_objects_1_1_game_object.html", "class_game_objects_1_1_game_object" ],
       [ "Player", "class_game_objects_1_1_player.html", "class_game_objects_1_1_player" ],
-      [ "Text", "class_game_objects_1_1_text.html", "class_game_objects_1_1_text" ],
       [ "Tile", "class_game_objects_1_1_tile.html", "class_game_objects_1_1_tile" ]
     ] ],
     [ "Systems", "namespace_systems.html", [
@@ -36,7 +42,10 @@ var annotated_dup =
       [ "UISystem", "class_systems_1_1_u_i_system.html", "class_systems_1_1_u_i_system" ]
     ] ],
     [ "Cell", "class_cell.html", "class_cell" ],
+    [ "Component", "struct_component.html", "struct_component" ],
+    [ "Game", "class_game.html", null ],
     [ "Grid", "class_grid.html", "class_grid" ],
+    [ "IGameLoop", "struct_i_game_loop.html", "struct_i_game_loop" ],
     [ "ISparseSet", "struct_i_sparse_set.html", "struct_i_sparse_set" ],
     [ "Object", "struct_object.html", "struct_object" ],
     [ "System", "struct_system.html", "struct_system" ]

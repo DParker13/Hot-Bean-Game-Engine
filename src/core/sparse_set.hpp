@@ -1,3 +1,18 @@
+/**
+ * @file sparse_set.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Sparse set data structure.
+ * 
+ * @details Keeps track of two arrays, dense array and sparse array.
+ * The Dense array is a packed array with no gaps. This array is iterated through.
+ * The Sparse array is an array that can have gaps, each element is an index in the Dense array.
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #pragma once
 
 #include <array>

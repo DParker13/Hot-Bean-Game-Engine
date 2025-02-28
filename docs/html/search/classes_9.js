@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['text_0',['Text',['../class_components_1_1_text.html',1,'Components::Text'],['../class_game_objects_1_1_text.html',1,'GameObjects::Text']]],
-  ['texture_1',['Texture',['../struct_components_1_1_texture.html',1,'Components']]],
-  ['tile_2',['Tile',['../struct_components_1_1_tile.html',1,'Components::Tile'],['../class_game_objects_1_1_tile.html',1,'GameObjects::Tile']]],
-  ['tilemapsystem_3',['TileMapSystem',['../class_systems_1_1_tile_map_system.html',1,'Systems']]],
-  ['transform_4',['Transform',['../struct_components_1_1_transform.html',1,'Components']]]
+  ['sparseset_0',['SparseSet',['../class_core_1_1_sparse_set.html',1,'Core']]],
+  ['system_1',['System',['../struct_system.html',1,'']]],
+  ['systemmanager_2',['SystemManager',['../class_core_1_1_system_manager.html',1,'Core']]]
 ];

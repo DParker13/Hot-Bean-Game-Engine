@@ -106,40 +106,42 @@ $(function(){initNavTree('components_2tile_8hpp_source.html',''); initResizable(
   <div class="headertitle"><div class="title">tile.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="components_2tile_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;SDL.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_components.html">Components</a> {</div>
-<div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html">    6</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_components_1_1_tile.html">Tile</a> : <span class="keyword">public</span> <a class="code hl_struct" href="struct_object.html">Object</a> {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a9a056d42dc90c3c50ec15bac9e424089">    7</a></span>        Uint8 <a class="code hl_variable" href="struct_components_1_1_tile.html#a9a056d42dc90c3c50ec15bac9e424089">_type</a>;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a79df1d6d83d0d3927ada10652e2e4524">    8</a></span>        Uint8 <a class="code hl_variable" href="struct_components_1_1_tile.html#a79df1d6d83d0d3927ada10652e2e4524">_size</a>;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a0be1cd4aebc6a11e5aac525cc9c3953e">    9</a></span>        SDL_Vertex <a class="code hl_variable" href="struct_components_1_1_tile.html#a0be1cd4aebc6a11e5aac525cc9c3953e">_vertices</a>[4];</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a413950755d1669dd824a0589695f7198">   10</a></span>        SDL_Color <a class="code hl_variable" href="struct_components_1_1_tile.html#a413950755d1669dd824a0589695f7198">_color</a>;</div>
+<a href="components_2tile_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#ae2b9c2cd08bac3b00b7ae160053bd736">   12</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_components_1_1_tile.html#ae2b9c2cd08bac3b00b7ae160053bd736">_INDICES</a>[6] = { 0, 1, 2, 1, 3, 2 };</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a38c7fe35d60bb53d87ea282604126f76">   14</a></span>        std::string <a class="code hl_function" href="struct_components_1_1_tile.html#a38c7fe35d60bb53d87ea282604126f76">ToString</a>()<span class="keyword"> const override </span>{</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            std::stringstream str;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            str &lt;&lt; <span class="stringliteral">&quot;    Component: Tile \n&quot;</span>;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            <span class="keywordflow">return</span> str.str();</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        }</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;SDL.h&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_components.html">Components</a> {</div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html">   17</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_components_1_1_tile.html">Tile</a> : <span class="keyword">public</span> <a class="code hl_function" href="struct_component.html#a404098a91640552f9d0284d08b53def4">Component</a> {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a9a056d42dc90c3c50ec15bac9e424089">   18</a></span>        Uint8 <a class="code hl_variable" href="struct_components_1_1_tile.html#a9a056d42dc90c3c50ec15bac9e424089">_type</a>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a79df1d6d83d0d3927ada10652e2e4524">   19</a></span>        Uint8 <a class="code hl_variable" href="struct_components_1_1_tile.html#a79df1d6d83d0d3927ada10652e2e4524">_size</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a0be1cd4aebc6a11e5aac525cc9c3953e">   20</a></span>        SDL_Vertex <a class="code hl_variable" href="struct_components_1_1_tile.html#a0be1cd4aebc6a11e5aac525cc9c3953e">_vertices</a>[4];</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a413950755d1669dd824a0589695f7198">   21</a></span>        SDL_Color <a class="code hl_variable" href="struct_components_1_1_tile.html#a413950755d1669dd824a0589695f7198">_color</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#ae2b9c2cd08bac3b00b7ae160053bd736">   23</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_components_1_1_tile.html#ae2b9c2cd08bac3b00b7ae160053bd736">_INDICES</a>[6] = { 0, 1, 2, 1, 3, 2 };</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="struct_components_1_1_tile.html#a38c7fe35d60bb53d87ea282604126f76">   25</a></span>        std::string <a class="code hl_function" href="struct_components_1_1_tile.html#a38c7fe35d60bb53d87ea282604126f76">ToString</a>()<span class="keyword"> const override </span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            std::stringstream str;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            str &lt;&lt; <span class="stringliteral">&quot;    Component: Tile \n&quot;</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keywordflow">return</span> str.str();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
 </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    };</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    };</div>
 </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
-<div class="ttc" id="anamespace_components_html"><div class="ttname"><a href="namespace_components.html">Components</a></div><div class="ttdef"><b>Definition</b> audio_source.hpp:5</div></div>
-<div class="ttc" id="astruct_components_1_1_tile_html"><div class="ttname"><a href="struct_components_1_1_tile.html">Components::Tile</a></div><div class="ttdef"><b>Definition</b> tile.hpp:6</div></div>
-<div class="ttc" id="astruct_components_1_1_tile_html_a0be1cd4aebc6a11e5aac525cc9c3953e"><div class="ttname"><a href="struct_components_1_1_tile.html#a0be1cd4aebc6a11e5aac525cc9c3953e">Components::Tile::_vertices</a></div><div class="ttdeci">SDL_Vertex _vertices[4]</div><div class="ttdef"><b>Definition</b> tile.hpp:9</div></div>
-<div class="ttc" id="astruct_components_1_1_tile_html_a38c7fe35d60bb53d87ea282604126f76"><div class="ttname"><a href="struct_components_1_1_tile.html#a38c7fe35d60bb53d87ea282604126f76">Components::Tile::ToString</a></div><div class="ttdeci">std::string ToString() const override</div><div class="ttdef"><b>Definition</b> tile.hpp:14</div></div>
-<div class="ttc" id="astruct_components_1_1_tile_html_a413950755d1669dd824a0589695f7198"><div class="ttname"><a href="struct_components_1_1_tile.html#a413950755d1669dd824a0589695f7198">Components::Tile::_color</a></div><div class="ttdeci">SDL_Color _color</div><div class="ttdef"><b>Definition</b> tile.hpp:10</div></div>
-<div class="ttc" id="astruct_components_1_1_tile_html_a79df1d6d83d0d3927ada10652e2e4524"><div class="ttname"><a href="struct_components_1_1_tile.html#a79df1d6d83d0d3927ada10652e2e4524">Components::Tile::_size</a></div><div class="ttdeci">Uint8 _size</div><div class="ttdef"><b>Definition</b> tile.hpp:8</div></div>
-<div class="ttc" id="astruct_components_1_1_tile_html_a9a056d42dc90c3c50ec15bac9e424089"><div class="ttname"><a href="struct_components_1_1_tile.html#a9a056d42dc90c3c50ec15bac9e424089">Components::Tile::_type</a></div><div class="ttdeci">Uint8 _type</div><div class="ttdef"><b>Definition</b> tile.hpp:7</div></div>
-<div class="ttc" id="astruct_components_1_1_tile_html_ae2b9c2cd08bac3b00b7ae160053bd736"><div class="ttname"><a href="struct_components_1_1_tile.html#ae2b9c2cd08bac3b00b7ae160053bd736">Components::Tile::_INDICES</a></div><div class="ttdeci">int _INDICES[6]</div><div class="ttdef"><b>Definition</b> tile.hpp:12</div></div>
-<div class="ttc" id="astruct_object_html"><div class="ttname"><a href="struct_object.html">Object</a></div><div class="ttdef"><b>Definition</b> ecs.hpp:25</div></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
+<div class="ttc" id="anamespace_components_html"><div class="ttname"><a href="namespace_components.html">Components</a></div><div class="ttdef"><b>Definition</b> audio_source.hpp:16</div></div>
+<div class="ttc" id="astruct_component_html_a404098a91640552f9d0284d08b53def4"><div class="ttname"><a href="struct_component.html#a404098a91640552f9d0284d08b53def4">Component::Component</a></div><div class="ttdeci">Component()=default</div></div>
+<div class="ttc" id="astruct_components_1_1_tile_html"><div class="ttname"><a href="struct_components_1_1_tile.html">Components::Tile</a></div><div class="ttdef"><b>Definition</b> tile.hpp:17</div></div>
+<div class="ttc" id="astruct_components_1_1_tile_html_a0be1cd4aebc6a11e5aac525cc9c3953e"><div class="ttname"><a href="struct_components_1_1_tile.html#a0be1cd4aebc6a11e5aac525cc9c3953e">Components::Tile::_vertices</a></div><div class="ttdeci">SDL_Vertex _vertices[4]</div><div class="ttdef"><b>Definition</b> tile.hpp:20</div></div>
+<div class="ttc" id="astruct_components_1_1_tile_html_a38c7fe35d60bb53d87ea282604126f76"><div class="ttname"><a href="struct_components_1_1_tile.html#a38c7fe35d60bb53d87ea282604126f76">Components::Tile::ToString</a></div><div class="ttdeci">std::string ToString() const override</div><div class="ttdef"><b>Definition</b> tile.hpp:25</div></div>
+<div class="ttc" id="astruct_components_1_1_tile_html_a413950755d1669dd824a0589695f7198"><div class="ttname"><a href="struct_components_1_1_tile.html#a413950755d1669dd824a0589695f7198">Components::Tile::_color</a></div><div class="ttdeci">SDL_Color _color</div><div class="ttdef"><b>Definition</b> tile.hpp:21</div></div>
+<div class="ttc" id="astruct_components_1_1_tile_html_a79df1d6d83d0d3927ada10652e2e4524"><div class="ttname"><a href="struct_components_1_1_tile.html#a79df1d6d83d0d3927ada10652e2e4524">Components::Tile::_size</a></div><div class="ttdeci">Uint8 _size</div><div class="ttdef"><b>Definition</b> tile.hpp:19</div></div>
+<div class="ttc" id="astruct_components_1_1_tile_html_a9a056d42dc90c3c50ec15bac9e424089"><div class="ttname"><a href="struct_components_1_1_tile.html#a9a056d42dc90c3c50ec15bac9e424089">Components::Tile::_type</a></div><div class="ttdeci">Uint8 _type</div><div class="ttdef"><b>Definition</b> tile.hpp:18</div></div>
+<div class="ttc" id="astruct_components_1_1_tile_html_ae2b9c2cd08bac3b00b7ae160053bd736"><div class="ttname"><a href="struct_components_1_1_tile.html#ae2b9c2cd08bac3b00b7ae160053bd736">Components::Tile::_INDICES</a></div><div class="ttdeci">int _INDICES[6]</div><div class="ttdef"><b>Definition</b> tile.hpp:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -1,3 +1,14 @@
+/**
+ * @file entity_manager.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Manages the creation and destruction of entities.
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #pragma once
 
 #include <SDL_stdinc.h>

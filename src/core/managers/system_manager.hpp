@@ -1,3 +1,15 @@
+/**
+ * @file system_manager.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Manages component-system relationship.
+ * 
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #pragma once
 
 #include <unordered_map>
@@ -10,9 +22,7 @@
 namespace Core {
 	class SystemManager {
 		public:
-			SystemManager();
-			~SystemManager();
-
+			SystemManager() = default;
 			std::string ToString() const;
 
 			/**
@@ -134,6 +144,11 @@ namespace Core {
 				}
 			}
 
+			/**
+			 * Iterates over each system and calls the correct function based on the GameLoopState.
+			 *
+			 * @param state The current state of the game loop.
+			 */
 			void IterateSystems(GameLoopState state) {
 				for (auto& [typeName, system] : _systems) {
 					switch(state) {
@@ -143,28 +158,53 @@ namespace Core {
 						case GameLoopState::OnPreEvent:
 							system->OnPreEvent();
 							break;
-						case GameLoopState::OnPostRender:
-							system->OnPostRender();
-							break;
 					}
 				}
 			}
 
+			/**
+			 * Iterates over each system and calls OnRender.
+			 *
+			 * @param renderer The SDL_Renderer that is currently being used to render the game.
+			 * @param window The SDL_Window that the game is being rendered to.
+			 * @param surface The SDL_Surface that the game is being rendered to.
+			 */
 			void IterateSystems(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
 				for (auto& [typeName, system] : _systems) {
 					system->OnRender(renderer, window, surface);
 				}
 			}
 
-			void IterateSystems(float deltaTime) {
+			/**
+			 * Iterates over each system and calls OnUpdate with the given deltaTime.
+			 *
+			 * @param deltaTime The time that has elapsed since the last frame.
+			 */
+			void IterateSystems(SDL_Renderer* renderer, float deltaTime) {
 				for (auto& [typeName, system] : _systems) {
-					system->OnUpdate(deltaTime);
+					system->OnUpdate(renderer, deltaTime);
 				}
 			}
 
+			/**
+			 * Iterates over each system and calls OnEvent with the given event.
+			 *
+			 * @param event The SDL_Event that contains the event data.
+			 */
 			void IterateSystems(SDL_Event& event) {
 				for (auto& [typeName, system] : _systems) {
 					system->OnEvent(event);
+				}
+			}
+
+			/**
+			 * @brief Iterates over each system and calls OnPostRender with the given renderer.
+			 * 
+			 * @param renderer The SDL_Renderer that is currently being used to render the game.
+			 */
+			void IterateSystems(SDL_Renderer* renderer) {
+				for (auto& [typeName, system] : _systems) {
+					system->OnPostRender(renderer);
 				}
 			}
 

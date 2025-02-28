@@ -118,6 +118,7 @@ Inheritance diagram for Components::Text:</div>
  <div class="center">
   <img src="class_components_1_1_text.png" usemap="#Components::Text_map" alt=""/>
   <map id="Components::Text_map" name="Components::Text_map">
+<area href="struct_component.html" alt="Component" shape="rect" coords="0,56,110,80"/>
 <area href="struct_object.html" alt="Object" shape="rect" coords="0,0,110,24"/>
   </map>
 </div></div>
@@ -128,8 +129,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5b85d21e97a382e0d2dc35fd8d461b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfa33885ddf603773ccff01ccad4bb2b" id="r_adfa33885ddf603773ccff01ccad4bb2b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfa33885ddf603773ccff01ccad4bb2b">Text</a> ()</td></tr>
 <tr class="separator:adfa33885ddf603773ccff01ccad4bb2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d8d4cef2483589b6de2d13f118c7598" id="r_a6d8d4cef2483589b6de2d13f118c7598"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d8d4cef2483589b6de2d13f118c7598">Text</a> (std::string text, Uint32 size, Uint32 style, SDL_Color color)</td></tr>
-<tr class="separator:a6d8d4cef2483589b6de2d13f118c7598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60bd28279ada2832f9cf2b639ef66c40" id="r_a60bd28279ada2832f9cf2b639ef66c40"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60bd28279ada2832f9cf2b639ef66c40">SetText</a> (std::string text)</td></tr>
 <tr class="separator:a60bd28279ada2832f9cf2b639ef66c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ce6bbb034091692f8eeb5b4624030f2" id="r_a1ce6bbb034091692f8eeb5b4624030f2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ce6bbb034091692f8eeb5b4624030f2">GetString</a> () const</td></tr>
@@ -138,6 +137,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af2051599c1131dfab00797a723672079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6917b36be0f0367ee19b9202e00d43ff" id="r_a6917b36be0f0367ee19b9202e00d43ff"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6917b36be0f0367ee19b9202e00d43ff">ToString</a> () const override</td></tr>
 <tr class="separator:a6917b36be0f0367ee19b9202e00d43ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_struct_component"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_component')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_component.html">Component</a></td></tr>
+<tr class="memitem:a404098a91640552f9d0284d08b53def4 inherit pub_methods_struct_component" id="r_a404098a91640552f9d0284d08b53def4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_component.html#a404098a91640552f9d0284d08b53def4">Component</a> ()=default</td></tr>
+<tr class="separator:a404098a91640552f9d0284d08b53def4 inherit pub_methods_struct_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad82d7393e339c1b19cc17a0d55b5674d inherit pub_methods_struct_component" id="r_ad82d7393e339c1b19cc17a0d55b5674d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_component.html#ad82d7393e339c1b19cc17a0d55b5674d">~Component</a> ()=default</td></tr>
+<tr class="separator:ad82d7393e339c1b19cc17a0d55b5674d inherit pub_methods_struct_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_struct_object"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_object.html">Object</a></td></tr>
 <tr class="memitem:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object" id="r_a226f2ae2af766b77d83c09a4d766b725"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_object.html#a226f2ae2af766b77d83c09a4d766b725">~Object</a> ()=default</td></tr>
 <tr class="separator:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,17 +149,23 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a8473d3c834e03064b4dd7ac2b2154ab3" id="r_a8473d3c834e03064b4dd7ac2b2154ab3"><td class="memItemLeft" align="right" valign="top">TTF_Font *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8473d3c834e03064b4dd7ac2b2154ab3">_font</a> = nullptr</td></tr>
+<tr class="memdesc:a8473d3c834e03064b4dd7ac2b2154ab3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the TTF font object. Can be null if the font has not been loaded.  <br /></td></tr>
 <tr class="separator:a8473d3c834e03064b4dd7ac2b2154ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacbe951c0b87527fcc2a1815cb3b2f29" id="r_aacbe951c0b87527fcc2a1815cb3b2f29"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacbe951c0b87527fcc2a1815cb3b2f29">_surface</a> = nullptr</td></tr>
+<tr class="memdesc:aacbe951c0b87527fcc2a1815cb3b2f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the SDL surface object. Can be null if the surface has not been created.  <br /></td></tr>
 <tr class="separator:aacbe951c0b87527fcc2a1815cb3b2f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bb4a1b1e6cb152c3dfe3a83a7464647" id="r_a6bb4a1b1e6cb152c3dfe3a83a7464647"><td class="memItemLeft" align="right" valign="top">SDL_Color&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6bb4a1b1e6cb152c3dfe3a83a7464647">_color</a> = SDL_Color()</td></tr>
+<tr class="memdesc:a6bb4a1b1e6cb152c3dfe3a83a7464647"><td class="mdescLeft">&#160;</td><td class="mdescRight">The color of the text, represented as an SDL color struct.  <br /></td></tr>
 <tr class="separator:a6bb4a1b1e6cb152c3dfe3a83a7464647"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41a6c67e9b06eb2abff82138ef08d608" id="r_a41a6c67e9b06eb2abff82138ef08d608"><td class="memItemLeft" align="right" valign="top">Uint32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41a6c67e9b06eb2abff82138ef08d608">_size</a> = 10</td></tr>
+<tr class="memdesc:a41a6c67e9b06eb2abff82138ef08d608"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the font, represented as an unsigned 32-bit integer.  <br /></td></tr>
 <tr class="separator:a41a6c67e9b06eb2abff82138ef08d608"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e4c50373fae3ae67cb6f5915ad13275" id="r_a0e4c50373fae3ae67cb6f5915ad13275"><td class="memItemLeft" align="right" valign="top">Uint32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e4c50373fae3ae67cb6f5915ad13275">_style</a> = TTF_STYLE_NORMAL</td></tr>
+<tr class="memdesc:a0e4c50373fae3ae67cb6f5915ad13275"><td class="mdescLeft">&#160;</td><td class="mdescRight">The style of the font, represented as an unsigned 32-bit integer.  <br /></td></tr>
 <tr class="separator:a0e4c50373fae3ae67cb6f5915ad13275"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4433f4f7c85bfe10fcc7db8cac959939" id="r_a4433f4f7c85bfe10fcc7db8cac959939"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4433f4f7c85bfe10fcc7db8cac959939">_text_updated</a> = false</td></tr>
-<tr class="separator:a4433f4f7c85bfe10fcc7db8cac959939"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a085c5c8cb1f4ae5080026459594efcde" id="r_a085c5c8cb1f4ae5080026459594efcde"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a085c5c8cb1f4ae5080026459594efcde">_awaiting_update</a> = false</td></tr>
+<tr class="memdesc:a085c5c8cb1f4ae5080026459594efcde"><td class="mdescLeft">&#160;</td><td class="mdescRight">A flag indicating whether the text texture needs to be updated.  <br /></td></tr>
+<tr class="separator:a085c5c8cb1f4ae5080026459594efcde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a text component, which can be attached to an entity. </p>
@@ -188,7 +198,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a id="adfa33885ddf603773ccff01ccad4bb2b" name="adfa33885ddf603773ccff01ccad4bb2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfa33885ddf603773ccff01ccad4bb2b">&#9670;&#160;</a></span>Text() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adfa33885ddf603773ccff01ccad4bb2b">&#9670;&#160;</a></span>Text()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -211,56 +221,6 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Default constructor for the <a class="el" href="class_components_1_1_text.html">Text</a> class.</p>
 <p>This constructor initializes the text color to white with full opacity. </p>
-
-</div>
-</div>
-<a id="a6d8d4cef2483589b6de2d13f118c7598" name="a6d8d4cef2483589b6de2d13f118c7598"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d8d4cef2483589b6de2d13f118c7598">&#9670;&#160;</a></span>Text() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Components::Text::Text </td>
-          <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Uint32</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Uint32</td>          <td class="paramname"><span class="paramname"><em>style</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">SDL_Color</td>          <td class="paramname"><span class="paramname"><em>color</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Constructor for the <a class="el" href="class_components_1_1_text.html">Text</a> class.</p>
-<p>This constructor initializes the text properties. The font size must be greater than 0. The font style must be one of the following: TTF_STYLE_NORMAL, TTF_STYLE_BOLD, TTF_STYLE_ITALIC, TTF_STYLE_UNDERLINE, TTF_STYLE_STRIKETHROUGH. The font path must exist.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">text</td><td>The text to be rendered. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the font in pixels. </td></tr>
-    <tr><td class="paramname">style</td><td>The style of the font. </td></tr>
-    <tr><td class="paramname">color</td><td>The color of the text. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -383,6 +343,22 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a085c5c8cb1f4ae5080026459594efcde" name="a085c5c8cb1f4ae5080026459594efcde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a085c5c8cb1f4ae5080026459594efcde">&#9670;&#160;</a></span>_awaiting_update</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Components::Text::_awaiting_update = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A flag indicating whether the text texture needs to be updated. </p>
+
+</div>
+</div>
 <a id="a6bb4a1b1e6cb152c3dfe3a83a7464647" name="a6bb4a1b1e6cb152c3dfe3a83a7464647"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6bb4a1b1e6cb152c3dfe3a83a7464647">&#9670;&#160;</a></span>_color</h2>
 
@@ -394,6 +370,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>The color of the text, represented as an SDL color struct. </p>
 
 </div>
@@ -409,6 +386,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>A pointer to the TTF font object. Can be null if the font has not been loaded. </p>
 
 </div>
@@ -424,6 +402,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>The size of the font, represented as an unsigned 32-bit integer. </p>
 
 </div>
@@ -439,6 +418,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>The style of the font, represented as an unsigned 32-bit integer. </p>
 
 </div>
@@ -454,22 +434,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>A pointer to the SDL surface object. Can be null if the surface has not been created. </p>
-
-</div>
-</div>
-<a id="a4433f4f7c85bfe10fcc7db8cac959939" name="a4433f4f7c85bfe10fcc7db8cac959939"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4433f4f7c85bfe10fcc7db8cac959939">&#9670;&#160;</a></span>_text_updated</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Components::Text::_text_updated = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>A flag indicating whether the text has been updated since the last render. </p>
 
 </div>
 </div>

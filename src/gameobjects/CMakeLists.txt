@@ -1,8 +1,6 @@
 add_library(gameobjects STATIC
     gameobject.hpp
     gameobject.cpp
-    text.hpp
-    text.cpp
     player.hpp
     player.cpp
     tile.hpp
@@ -15,4 +13,7 @@ target_include_directories(gameobjects PUBLIC
 
 target_link_libraries(gameobjects PRIVATE
     core
+    gameobjects-ui
 )
+
+add_subdirectory(ui)

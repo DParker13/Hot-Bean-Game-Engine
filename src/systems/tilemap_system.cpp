@@ -5,7 +5,7 @@ namespace Systems {
         : System(coreManager) {
         coreManager.RegisterSystem<TileMapSystem>(this);
 
-        coreManager.SetSignature<TileMapSystem, Components::Transform>();
+        coreManager.SetSignature<TileMapSystem, Components::Transform2D>();
         coreManager.SetSignature<TileMapSystem, Components::Tile>();
     }
 
@@ -33,34 +33,19 @@ namespace Systems {
         SDL_Color color = { 0xFF, 0xFF, 0xFF, 0xFF };
 
         for(auto& entity : _entities) {
-            auto& transform = _coreManager.GetComponent<Components::Transform>(entity);
+            auto& transform = _coreManager.GetComponent<Components::Transform2D>(entity);
             auto& tile = _coreManager.GetComponent<Components::Tile>(entity);
 
             //CreateRect(surface, renderer, &color, &transform);
             CreateRect(renderer, &transform, &tile);
         }
-
-        // Renders all rectangles to the screen
-        // if (!_rects.empty()) {
-        //     SDL_RenderFillRectsF(renderer, _rects.data(), _rects.size());
-        //     _rects.clear();
-        // }
     }
 
-    // Function to fill a rectangle on an SDL_Surface
-    void TileMapSystem::CreateRect(SDL_Surface* surface, SDL_Renderer* renderer,
-                                SDL_Color* color, Components::Transform* transform) {
-        SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, color->a);
-
-        // Define a rectangle and insert it into the vector
-        _rects.emplace_back() = { transform->position.x, transform->position.y, 10, 10 };
-    }
-
-    void TileMapSystem::CreateRect(SDL_Renderer* renderer, Components::Transform* transform, Components::Tile* tile) {
-        tile->_vertices[0] = { transform->position.x, transform->position.y, tile->_color };
-        tile->_vertices[1] = { transform->position.x, transform->position.y + tile->_size, tile->_color };
-        tile->_vertices[2] = { transform->position.x + tile->_size, transform->position.y, tile->_color };
-        tile->_vertices[3] = { transform->position.x + tile->_size, transform->position.y + tile->_size, tile->_color };
+    void TileMapSystem::CreateRect(SDL_Renderer* renderer, Components::Transform2D* transform, Components::Tile* tile) {
+        tile->_vertices[0] = { transform->_position.x, transform->_position.y, tile->_color };
+        tile->_vertices[1] = { transform->_position.x, transform->_position.y + tile->_size, tile->_color };
+        tile->_vertices[2] = { transform->_position.x + tile->_size, transform->_position.y, tile->_color };
+        tile->_vertices[3] = { transform->_position.x + tile->_size, transform->_position.y + tile->_size, tile->_color };
         
         // Render the vertex buffer
         SDL_RenderGeometry(renderer, NULL, tile->_vertices,
@@ -81,8 +66,8 @@ namespace Systems {
                 tile.GetTile()._color = { static_cast<Uint8>(255 / ((x + 1) + (y + 1))),
                                         static_cast<Uint8>(255 / ((x + 1) + (y + 1))),
                                         static_cast<Uint8>(255 / ((x + 1) + (y + 1))), 0xFF };
-                tile.GetTransform().position.x = x * spacing;
-                tile.GetTransform().position.y = y * spacing;
+                tile.GetTransform2D()._position.x = x * spacing;
+                tile.GetTransform2D()._position.y = y * spacing;
             }
         }
     }

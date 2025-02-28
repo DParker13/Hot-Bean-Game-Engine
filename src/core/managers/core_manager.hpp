@@ -1,3 +1,20 @@
+/**
+ * @file core_manager.hpp
+ * @author Daniel Parker
+ * @brief Manages all ECS managers (entities, components, and systems).
+ * 
+ * @details Merges EntityManager, ComponentManager, and SystemManager into one 
+ * class for easier management of entities, components, and systems. A singleton is created in Application.cpp to handle
+ * all entities, components, and systems in the game. This class handles all the backend management of the ECS framework
+ * and has been further expanded by gameobject classes that act as a single class. Gameobjects follow the ECS framework
+ * but are able to be manipulated by the user directly without a system.
+ * @version 0.1
+ * @date 2025-02-18
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #pragma once
 
 #include <memory>
@@ -119,6 +136,17 @@ namespace Core {
             _systemManager->SetSignature<T>(signature);
         }
 
+        /**
+         * Sets the signature for a system that has already been registered with the CoreManager.
+         *
+         * @tparam S The type of system for which to set the signature.
+         * @tparam C The type of component to be added to the signature.
+         *
+         * This function first checks if the component type has been registered yet. If not, it registers the component type
+         * and sets the signature for the given system type. If the component type has been registered, it simply sets the
+         * signature for the given system type. Finally, it delegates to the SystemManager to update the signature for the
+         * specified system type.
+         */
         template<typename S, typename C>
         void SetSignature() {
             Signature& signature = _systemManager->GetSignature<S>();
@@ -147,20 +175,62 @@ namespace Core {
             return _systemManager->GetSystem<T>();
         }
 
+        
+        /**
+         * Iterates over each system and calls the correct function based on the GameLoopState.
+         *
+         * @param state The current state of the game loop.
+         *
+         * This function iterates over each system and calls OnInit, OnPreEvent, or OnPostRender based on the current state of the game loop.
+         */
         void IterateSystems(GameLoopState state) {
             _systemManager->IterateSystems(state);
         }
 
+        /**
+         * Iterates over each system and calls its OnRender method.
+         *
+         * @param renderer The SDL_Renderer to render with.
+         * @param window The SDL_Window that the renderer is attached to.
+         * @param surface The SDL_Surface to render to.
+         *
+         * This function iterates over each system and calls its OnRender method, passing through the given renderer, window, and surface.
+         */
         void IterateSystems(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
             _systemManager->IterateSystems(renderer, window, surface);
         }
 
-        void IterateSystems(float deltaTime) {
-            _systemManager->IterateSystems(deltaTime);
+        /**
+         * Iterates over each system and calls its OnUpdate method.
+         *
+         * @param deltaTime The time in seconds since the last frame.
+         *
+         * This function iterates over each system and calls its OnUpdate method, passing through the given deltaTime.
+         */
+        void IterateSystems(SDL_Renderer* renderer, float deltaTime) {
+            _systemManager->IterateSystems(renderer, deltaTime);
         }
 
+        /**
+         * Iterates over each system and calls its OnEvent method.
+         *
+         * @param event The SDL_Event that contains the event data.
+         *
+         * This function iterates over each system and calls its OnEvent method, passing through the given event.
+         */
         void IterateSystems(SDL_Event& event) {
             _systemManager->IterateSystems(event);
+        }
+
+        /**
+         * Iterates over each system and calls its OnEvent method.
+         *
+         * @param event The SDL_Event that contains the event data.
+         *
+         * This function iterates over each system and calls its OnEvent method, passing through the given event.
+         */
+        void IterateSystems(SDL_Renderer* renderer) {
+            _systemManager->IterateSystems(renderer);
         }
 
     private:

@@ -111,6 +111,9 @@ $(function(){initNavTree('class_application_1_1_application.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 
+<p>Interface for all <a class="el" href="class_application_1_1_application.html" title="Interface for all Application layers ordered in calling order.">Application</a> layers ordered in calling order.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="application_8hpp_source.html">application.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Application::Application:</div>
@@ -118,41 +121,54 @@ Inheritance diagram for Application::Application:</div>
  <div class="center">
   <img src="class_application_1_1_application.png" usemap="#Application::Application_map" alt=""/>
   <map id="Application::Application_map" name="Application::Application_map">
-<area href="class_application_1_1_game.html" alt="Application::Game" shape="rect" coords="0,56,144,80"/>
+<area href="struct_i_game_loop.html" alt="IGameLoop" shape="rect" coords="0,0,144,24"/>
+<area href="class_application_1_1_game.html" alt="Application::Game" shape="rect" coords="0,112,144,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9289fd9c8ab9cd07e8ce5a5688a67fd7" id="r_a9289fd9c8ab9cd07e8ce5a5688a67fd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9289fd9c8ab9cd07e8ce5a5688a67fd7">Application</a> (std::string title, int width, int height)</td></tr>
+<tr class="memdesc:a9289fd9c8ab9cd07e8ce5a5688a67fd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="class_application_1_1_application.html" title="Interface for all Application layers ordered in calling order.">Application</a> instance with the specified window title, width, and height.  <br /></td></tr>
 <tr class="separator:a9289fd9c8ab9cd07e8ce5a5688a67fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeef3ff221435f74e41115640239e6f34" id="r_aeef3ff221435f74e41115640239e6f34"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeef3ff221435f74e41115640239e6f34">~Application</a> ()</td></tr>
 <tr class="separator:aeef3ff221435f74e41115640239e6f34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af74ec8bfbcdf66960afd0729a021ab47" id="r_af74ec8bfbcdf66960afd0729a021ab47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af74ec8bfbcdf66960afd0729a021ab47">Run</a> ()</td></tr>
+<tr class="memdesc:af74ec8bfbcdf66960afd0729a021ab47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entry point for the main loop of the application.  <br /></td></tr>
 <tr class="separator:af74ec8bfbcdf66960afd0729a021ab47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22b1d8f5e682bb161c3edbabd6c231cc" id="r_a22b1d8f5e682bb161c3edbabd6c231cc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22b1d8f5e682bb161c3edbabd6c231cc">InitSystems</a> ()=0</td></tr>
+<tr class="memdesc:a22b1d8f5e682bb161c3edbabd6c231cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the application systems in the system manager.  <br /></td></tr>
 <tr class="separator:a22b1d8f5e682bb161c3edbabd6c231cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4eebaafd7460451203010420261bf4b9" id="r_a4eebaafd7460451203010420261bf4b9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4eebaafd7460451203010420261bf4b9">OnInit</a> ()=0</td></tr>
+<tr class="memdesc:a4eebaafd7460451203010420261bf4b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the start of the game.  <br /></td></tr>
 <tr class="separator:a4eebaafd7460451203010420261bf4b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a269a5054286a8760303ff6ac109e74f5" id="r_a269a5054286a8760303ff6ac109e74f5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a269a5054286a8760303ff6ac109e74f5">OnPreEvent</a> ()=0</td></tr>
+<tr class="memdesc:a269a5054286a8760303ff6ac109e74f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called before handling events.  <br /></td></tr>
 <tr class="separator:a269a5054286a8760303ff6ac109e74f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4d60caebebb40f3418f5085c13cb7ea" id="r_ab4d60caebebb40f3418f5085c13cb7ea"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4d60caebebb40f3418f5085c13cb7ea">OnEvent</a> (SDL_Event &amp;event)=0</td></tr>
+<tr class="memdesc:ab4d60caebebb40f3418f5085c13cb7ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when an event occurs.  <br /></td></tr>
 <tr class="separator:ab4d60caebebb40f3418f5085c13cb7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1184073f1a39f9712abe14c2cc67d67c" id="r_a1184073f1a39f9712abe14c2cc67d67c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1184073f1a39f9712abe14c2cc67d67c">OnUpdate</a> (float deltaTime)=0</td></tr>
-<tr class="separator:a1184073f1a39f9712abe14c2cc67d67c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab578061a12e4902f141cba383d1be4b5" id="r_ab578061a12e4902f141cba383d1be4b5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab578061a12e4902f141cba383d1be4b5">OnUpdate</a> (SDL_Renderer *renderer, float deltaTime)=0</td></tr>
+<tr class="memdesc:ab578061a12e4902f141cba383d1be4b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called after handling events. Meant to update system and entity game states.  <br /></td></tr>
+<tr class="separator:ab578061a12e4902f141cba383d1be4b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a408a8b9dde88d61e1a14ef6ad17a5dcd" id="r_a408a8b9dde88d61e1a14ef6ad17a5dcd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a408a8b9dde88d61e1a14ef6ad17a5dcd">OnRender</a> (SDL_Renderer *renderer, SDL_Window *window, SDL_Surface *surface)=0</td></tr>
+<tr class="memdesc:a408a8b9dde88d61e1a14ef6ad17a5dcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called to prepare the screen for rendering.  <br /></td></tr>
 <tr class="separator:a408a8b9dde88d61e1a14ef6ad17a5dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae99ebd2c7c34ee220383115662bcf11e" id="r_ae99ebd2c7c34ee220383115662bcf11e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae99ebd2c7c34ee220383115662bcf11e">OnPostRender</a> ()=0</td></tr>
-<tr class="separator:ae99ebd2c7c34ee220383115662bcf11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc473245b6321f37dd2a7bbdcc5d0ba4" id="r_abc473245b6321f37dd2a7bbdcc5d0ba4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc473245b6321f37dd2a7bbdcc5d0ba4">OnPostRender</a> (SDL_Renderer *renderer)=0</td></tr>
+<tr class="memdesc:abc473245b6321f37dd2a7bbdcc5d0ba4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called after rendering each frame.  <br /></td></tr>
+<tr class="separator:abc473245b6321f37dd2a7bbdcc5d0ba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ac24e8b9c814c9d61d370987cf05555e3" id="r_ac24e8b9c814c9d61d370987cf05555e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_core_1_1_core_manager.html">Core::CoreManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac24e8b9c814c9d61d370987cf05555e3">_coreManager</a></td></tr>
 <tr class="separator:ac24e8b9c814c9d61d370987cf05555e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada53786564bddf10fe28ebaea123cea0" id="r_ada53786564bddf10fe28ebaea123cea0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada53786564bddf10fe28ebaea123cea0">_quit</a></td></tr>
+<tr class="memdesc:ada53786564bddf10fe28ebaea123cea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag to quit the application.  <br /></td></tr>
 <tr class="separator:ada53786564bddf10fe28ebaea123cea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interface for all <a class="el" href="class_application_1_1_application.html" title="Interface for all Application layers ordered in calling order.">Application</a> layers ordered in calling order. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9289fd9c8ab9cd07e8ce5a5688a67fd7" name="a9289fd9c8ab9cd07e8ce5a5688a67fd7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9289fd9c8ab9cd07e8ce5a5688a67fd7">&#9670;&#160;</a></span>Application()</h2>
 
@@ -176,7 +192,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Constructs an <a class="el" href="class_application_1_1_application.html">Application</a> instance with the specified window title, width, and height. Initializes the SDL systems required for rendering.</p>
+
+<p>Constructs an <a class="el" href="class_application_1_1_application.html" title="Interface for all Application layers ordered in calling order.">Application</a> instance with the specified window title, width, and height. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">title</td><td>The title of the application window. </td></tr>
@@ -229,7 +246,9 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_application_1_1_game.html#af93eae9c46c59bbcd62768e70f5be0b2">Application::Game</a>.</p>
+<p>Initializes the application systems in the system manager. </p>
+
+<p>Implemented in <a class="el" href="class_application_1_1_game.html#a0e2520f48313338840f2d5a4edf7a009">Application::Game</a>.</p>
 
 </div>
 </div>
@@ -255,21 +274,20 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Updates all systems within the application by invoking their OnEvent method.</p>
+
+<p>Called when an event occurs. </p>
+<p>Calls the OnEvent method of each system in the system manager.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">event</td><td>The SDL event to be handled.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td></td></tr>
+    <tr><td class="paramname">event</td><td>The SDL event to handle.</td></tr>
+    <tr><td class="paramname">event</td><td>The SDL event to be handled. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_application_1_1_game.html#a21e61b3d631b271d1b0ac201309c0dfc">Application::Game</a>.</p>
+<p>Implements <a class="el" href="struct_i_game_loop.html#ad7f9ce4a8fa01f0f6a3418d9a271a8b9">IGameLoop</a>.</p>
+
+<p>Implemented in <a class="el" href="class_application_1_1_game.html#a4f25ab9d8c9a2f461c615ac98aef72ff">Application::Game</a>.</p>
 
 </div>
 </div>
@@ -295,21 +313,18 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Initializes the application systems and iterates through them in the OnInit state.</p>
-<p>This function sets up the necessary systems for the application and ensures that each system is properly initialized by invoking their OnInit method within the system manager.</p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Implemented in <a class="el" href="class_application_1_1_game.html#ad97d49dd180b01bff1576462050d02f1">Application::Game</a>.</p>
+<p>Called once at the start of the game. </p>
+<p>Initializes the application systems and iterates through the systems in the system manager, calling their OnInit methods. </p>
+
+<p>Implements <a class="el" href="struct_i_game_loop.html#a21f6e65786e1f96a361a70022a43542a">IGameLoop</a>.</p>
+
+<p>Implemented in <a class="el" href="class_application_1_1_game.html#aea28f5a14a727ddd824a7bb983f80c4a">Application::Game</a>.</p>
 
 </div>
 </div>
-<a id="ae99ebd2c7c34ee220383115662bcf11e" name="ae99ebd2c7c34ee220383115662bcf11e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae99ebd2c7c34ee220383115662bcf11e">&#9670;&#160;</a></span>OnPostRender()</h2>
+<a id="abc473245b6321f37dd2a7bbdcc5d0ba4" name="abc473245b6321f37dd2a7bbdcc5d0ba4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc473245b6321f37dd2a7bbdcc5d0ba4">&#9670;&#160;</a></span>OnPostRender()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -318,9 +333,9 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void Application::Application::OnPostRender </td>
+          <td class="memname">void Application::Application::OnPostRender </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -331,7 +346,17 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_application_1_1_game.html#a407443931f0d43935543cf009332b75c">Application::Game</a>.</p>
+<p>Called after rendering each frame. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>The SDL renderer used to render each frame. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="struct_i_game_loop.html#a0c2484f42b543fcf3ec8c9d0de732c6a">IGameLoop</a>.</p>
+
+<p>Implemented in <a class="el" href="class_application_1_1_game.html#a4613e56958a02d116682613dd18dfa55">Application::Game</a>.</p>
 
 </div>
 </div>
@@ -357,6 +382,10 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Called before handling events. </p>
+
+<p>Implements <a class="el" href="struct_i_game_loop.html#a18755c7804f20739bf8f6761cda52800">IGameLoop</a>.</p>
 
 <p>Implemented in <a class="el" href="class_application_1_1_game.html#a78f065362c6e29ff1d8b299f9979de17">Application::Game</a>.</p>
 
@@ -393,28 +422,29 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Called to prepare the screen for rendering. </p>
 <p>Renders all systems within the application by invoking their OnRender method.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">renderer</td><td>The SDL renderer used to render each frame. </td></tr>
+    <tr><td class="paramname">window</td><td>The SDL window used to render each frame. </td></tr>
+    <tr><td class="paramname">surface</td><td>The SDL surface used to render each frame.</td></tr>
     <tr><td class="paramname">renderer</td><td>The SDL_Renderer to render with. </td></tr>
     <tr><td class="paramname">window</td><td>The SDL_Window that the renderer is attached to. </td></tr>
-    <tr><td class="paramname">surface</td><td>The SDL_Surface to render to.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td></td></tr>
+    <tr><td class="paramname">surface</td><td>The SDL_Surface to render to. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_application_1_1_game.html#a9f0af875a8a2e1843d58a8eeb2166bde">Application::Game</a>.</p>
+<p>Implements <a class="el" href="struct_i_game_loop.html#a01d9842b2715a9760925baef82dd34f4">IGameLoop</a>.</p>
+
+<p>Implemented in <a class="el" href="class_application_1_1_game.html#acfe469c84eca5913f1d0f00cec8b3a78">Application::Game</a>.</p>
 
 </div>
 </div>
-<a id="a1184073f1a39f9712abe14c2cc67d67c" name="a1184073f1a39f9712abe14c2cc67d67c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1184073f1a39f9712abe14c2cc67d67c">&#9670;&#160;</a></span>OnUpdate()</h2>
+<a id="ab578061a12e4902f141cba383d1be4b5" name="ab578061a12e4902f141cba383d1be4b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab578061a12e4902f141cba383d1be4b5">&#9670;&#160;</a></span>OnUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -425,8 +455,12 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">void Application::Application::OnUpdate </td>
           <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span></td><td>)</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -435,21 +469,22 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Updates all systems within the application by invoking their OnUpdate method.</p>
+
+<p>Called after handling events. Meant to update system and entity game states. </p>
+<p>Calls the OnUpdate method of each system in the system manager.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">renderer</td><td>The SDL renderer used to render each frame. </td></tr>
     <tr><td class="paramname">deltaTime</td><td>The time in seconds since the last frame.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td></td></tr>
+    <tr><td class="paramname">renderer</td><td>The SDL_Renderer to render with. </td></tr>
+    <tr><td class="paramname">deltaTime</td><td>The time in seconds since the last frame. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_application_1_1_game.html#a405fdf86666568275c1b639cb84662c4">Application::Game</a>.</p>
+<p>Implements <a class="el" href="struct_i_game_loop.html#a54db5ac4840fc31e968c547341f96f97">IGameLoop</a>.</p>
+
+<p>Implemented in <a class="el" href="class_application_1_1_game.html#ab3ce02f813f4f22dfb8bd0d749c6c226">Application::Game</a>.</p>
 
 </div>
 </div>
@@ -467,14 +502,10 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Entry point for the main loop of the application. </p>
 <p>Runs the application main loop.</p>
-<p>It is responsible for initializing the application, polling for events, calculating the delta time, updating the application state, rendering the application state, and cleaning up after itself.</p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
+<p>This is responsible for initializing the application, polling for events, calculating the delta time, updating the application state, rendering the application state, and cleaning up after itself. </p>
 
 </div>
 </div>
@@ -504,6 +535,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Flag to quit the application. </p>
 
 </div>
 </div>

@@ -14,8 +14,8 @@ namespace Systems {
             void OnInit() override;
             void OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) override;
 
-            void CreateRect(SDL_Surface* surface, SDL_Renderer* renderer, SDL_Color* color, Components::Transform* transform);
-            void CreateRect(SDL_Renderer* renderer, Components::Transform* transform, Components::Tile* tile);
+            void CreateRect(SDL_Surface* surface, SDL_Renderer* renderer, SDL_Color* color, Components::Transform2D* transform);
+            void CreateRect(SDL_Renderer* renderer, Components::Transform2D* transform, Components::Tile* tile);
             void InitMap(Core::CoreManager& coreManager, Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY);
 
 

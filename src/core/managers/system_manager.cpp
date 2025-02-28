@@ -1,16 +1,18 @@
+/**
+ * @file system_manager.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Manages component-system relationship.
+ * 
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "system_manager.hpp"
 
 namespace Core {
-    
-    SystemManager::SystemManager() {}
-    SystemManager::~SystemManager() {
-        // Delete all systems from set
-        for (auto& entry : _systems) {
-            delete entry.second;
-        }
-
-        _systems.clear();
-    };
 
     /**
      * Prints the contents of SystemManager to the console. This is mostly for

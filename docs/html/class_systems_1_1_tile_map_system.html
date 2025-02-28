@@ -117,8 +117,9 @@ Inheritance diagram for Systems::TileMapSystem:</div>
  <div class="center">
   <img src="class_systems_1_1_tile_map_system.png" usemap="#Systems::TileMapSystem_map" alt=""/>
   <map id="Systems::TileMapSystem_map" name="Systems::TileMapSystem_map">
-<area href="struct_system.html" alt="System" shape="rect" coords="0,56,149,80"/>
+<area href="struct_system.html" alt="System" shape="rect" coords="79,56,228,80"/>
 <area href="struct_object.html" alt="Object" shape="rect" coords="0,0,149,24"/>
+<area href="struct_i_game_loop.html" alt="IGameLoop" shape="rect" coords="159,0,308,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -132,10 +133,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a617b5ff23955e4831a49649deabd3ff0" id="r_a617b5ff23955e4831a49649deabd3ff0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a617b5ff23955e4831a49649deabd3ff0">OnRender</a> (SDL_Renderer *renderer, SDL_Window *window, SDL_Surface *surface) override</td></tr>
 <tr class="memdesc:a617b5ff23955e4831a49649deabd3ff0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders all entities in the system to the screen.  <br /></td></tr>
 <tr class="separator:a617b5ff23955e4831a49649deabd3ff0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82de24c744e02733f3fe2ef8568efdd6" id="r_a82de24c744e02733f3fe2ef8568efdd6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82de24c744e02733f3fe2ef8568efdd6">CreateRect</a> (SDL_Surface *surface, SDL_Renderer *renderer, SDL_Color *color, <a class="el" href="struct_components_1_1_transform.html">Components::Transform</a> *transform)</td></tr>
-<tr class="separator:a82de24c744e02733f3fe2ef8568efdd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73649141a2555ce933711b81969b9c5d" id="r_a73649141a2555ce933711b81969b9c5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73649141a2555ce933711b81969b9c5d">CreateRect</a> (SDL_Renderer *renderer, <a class="el" href="struct_components_1_1_transform.html">Components::Transform</a> *transform, <a class="el" href="struct_components_1_1_tile.html">Components::Tile</a> *tile)</td></tr>
-<tr class="separator:a73649141a2555ce933711b81969b9c5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4f9d8b41a0ea3a8b8fb18f05c37bcf6" id="r_ad4f9d8b41a0ea3a8b8fb18f05c37bcf6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4f9d8b41a0ea3a8b8fb18f05c37bcf6">CreateRect</a> (SDL_Surface *surface, SDL_Renderer *renderer, SDL_Color *color, <a class="el" href="struct_components_1_1_transform2_d.html">Components::Transform2D</a> *transform)</td></tr>
+<tr class="separator:ad4f9d8b41a0ea3a8b8fb18f05c37bcf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acca32a00d1affe03cf36635b3cfad220" id="r_acca32a00d1affe03cf36635b3cfad220"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acca32a00d1affe03cf36635b3cfad220">CreateRect</a> (SDL_Renderer *renderer, <a class="el" href="struct_components_1_1_transform2_d.html">Components::Transform2D</a> *transform, <a class="el" href="struct_components_1_1_tile.html">Components::Tile</a> *tile)</td></tr>
+<tr class="separator:acca32a00d1affe03cf36635b3cfad220"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47e8908a05062a74b9d8b94aace9d1db" id="r_a47e8908a05062a74b9d8b94aace9d1db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47e8908a05062a74b9d8b94aace9d1db">InitMap</a> (<a class="el" href="class_core_1_1_core_manager.html">Core::CoreManager</a> &amp;coreManager, Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY)</td></tr>
 <tr class="separator:a47e8908a05062a74b9d8b94aace9d1db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6d4c50db85e93ed52ace76eeaf6a28c" id="r_aa6d4c50db85e93ed52ace76eeaf6a28c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6d4c50db85e93ed52ace76eeaf6a28c">ToString</a> () const</td></tr>
@@ -149,10 +150,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1bf379937d47f5ccca004c5d389da01c inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61bd75271f49b539f518d36a1fde846d inherit pub_methods_struct_system" id="r_a61bd75271f49b539f518d36a1fde846d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#a61bd75271f49b539f518d36a1fde846d">OnEvent</a> (SDL_Event &amp;event)</td></tr>
 <tr class="separator:a61bd75271f49b539f518d36a1fde846d inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d8b330012d07717e3acd766150072c6 inherit pub_methods_struct_system" id="r_a0d8b330012d07717e3acd766150072c6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#a0d8b330012d07717e3acd766150072c6">OnUpdate</a> (float deltaTime)</td></tr>
-<tr class="separator:a0d8b330012d07717e3acd766150072c6 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa390bde827dbabcf73b229daf07b0c85 inherit pub_methods_struct_system" id="r_aa390bde827dbabcf73b229daf07b0c85"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#aa390bde827dbabcf73b229daf07b0c85">OnPostRender</a> ()</td></tr>
-<tr class="separator:aa390bde827dbabcf73b229daf07b0c85 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdb3fc3dba97a65dd6f1b899ed17a52 inherit pub_methods_struct_system" id="r_afcdb3fc3dba97a65dd6f1b899ed17a52"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#afcdb3fc3dba97a65dd6f1b899ed17a52">OnUpdate</a> (SDL_Renderer *renderer, float deltaTime)</td></tr>
+<tr class="separator:afcdb3fc3dba97a65dd6f1b899ed17a52 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a241efa1123d95603dcf31ff4a86ca50f inherit pub_methods_struct_system" id="r_a241efa1123d95603dcf31ff4a86ca50f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#a241efa1123d95603dcf31ff4a86ca50f">OnPostRender</a> (SDL_Renderer *renderer)</td></tr>
+<tr class="separator:a241efa1123d95603dcf31ff4a86ca50f inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_struct_object"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_object.html">Object</a></td></tr>
 <tr class="memitem:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object" id="r_a226f2ae2af766b77d83c09a4d766b725"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_object.html#a226f2ae2af766b77d83c09a4d766b725">~Object</a> ()=default</td></tr>
 <tr class="separator:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,8 +185,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a73649141a2555ce933711b81969b9c5d" name="a73649141a2555ce933711b81969b9c5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73649141a2555ce933711b81969b9c5d">&#9670;&#160;</a></span>CreateRect() <span class="overload">[1/2]</span></h2>
+<a id="acca32a00d1affe03cf36635b3cfad220" name="acca32a00d1affe03cf36635b3cfad220"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acca32a00d1affe03cf36635b3cfad220">&#9670;&#160;</a></span>CreateRect() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +199,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="struct_components_1_1_transform.html">Components::Transform</a> *</td>          <td class="paramname"><span class="paramname"><em>transform</em></span>, </td>
+          <td class="paramtype"><a class="el" href="struct_components_1_1_transform2_d.html">Components::Transform2D</a> *</td>          <td class="paramname"><span class="paramname"><em>transform</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -210,8 +211,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a82de24c744e02733f3fe2ef8568efdd6" name="a82de24c744e02733f3fe2ef8568efdd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82de24c744e02733f3fe2ef8568efdd6">&#9670;&#160;</a></span>CreateRect() <span class="overload">[2/2]</span></h2>
+<a id="ad4f9d8b41a0ea3a8b8fb18f05c37bcf6" name="ad4f9d8b41a0ea3a8b8fb18f05c37bcf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4f9d8b41a0ea3a8b8fb18f05c37bcf6">&#9670;&#160;</a></span>CreateRect() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,7 +235,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="struct_components_1_1_transform.html">Components::Transform</a> *</td>          <td class="paramname"><span class="paramname"><em>transform</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="struct_components_1_1_transform2_d.html">Components::Transform2D</a> *</td>          <td class="paramname"><span class="paramname"><em>transform</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">

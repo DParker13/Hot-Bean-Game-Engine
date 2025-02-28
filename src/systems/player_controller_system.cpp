@@ -5,8 +5,8 @@ namespace Systems {
         : System(coreManager) {
         coreManager.RegisterSystem<PlayerControllerSystem>(this);
 
-        coreManager.SetSignature<PlayerControllerSystem, Components::Transform>();
-        coreManager.SetSignature<PlayerControllerSystem, Components::Player>();
+        coreManager.SetSignature<PlayerControllerSystem, Components::Transform2D>();
+        coreManager.SetSignature<PlayerControllerSystem, Components::Controller>();
     }
 
     /**
@@ -15,7 +15,7 @@ namespace Systems {
      *
      * @param deltaTime The time elapsed since the last frame, used to ensure consistent movement speed.
      */
-    void PlayerControllerSystem::OnUpdate(float deltaTime) {
+    void PlayerControllerSystem::OnUpdate(SDL_Renderer* renderer, float deltaTime) {
         auto keysPressed = _coreManager.GetSystem<Systems::InputSystem>()->_keysPressed;
 
         for (auto& entity : _entities) {
@@ -35,25 +35,25 @@ namespace Systems {
         if (keysPressed.size() > 0) {
             float distance = speed * deltaTime;
 
-            auto& player = _coreManager.GetComponent<Components::Player>(entity);
+            auto& controller = _coreManager.GetComponent<Components::Controller>(entity);
 
-            if (player.controllable) {
-                auto& transform = _coreManager.GetComponent<Components::Transform>(entity);
+            if (controller.controllable) {
+                auto& transform = _coreManager.GetComponent<Components::Transform2D>(entity);
 
                 if (keysPressed.find(SDLK_LEFT) != keysPressed.end()) {
-                    transform.position.x -= distance;
+                    transform._position.x -= distance;
                 }
                 
                 if (keysPressed.find(SDLK_RIGHT) != keysPressed.end()) {
-                    transform.position.x += distance;
+                    transform._position.x += distance;
                 }
                 
                 if (keysPressed.find(SDLK_UP) != keysPressed.end()) {
-                    transform.position.y -= distance;
+                    transform._position.y -= distance;
                 }
                 
                 if (keysPressed.find(SDLK_DOWN) != keysPressed.end()) {
-                    transform.position.y += distance;
+                    transform._position.y += distance;
                 }
             }
         }

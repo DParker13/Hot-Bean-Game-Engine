@@ -22,6 +22,7 @@ target_include_directories(systems PUBLIC
 
 # Link dependencies for the systems library
 target_link_libraries(systems PRIVATE
-    core
+    SDL2
     SDL2_mixer
+    core
 )

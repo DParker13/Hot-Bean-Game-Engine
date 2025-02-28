@@ -105,6 +105,7 @@ $(function(){initNavTree('class_systems_1_1_render_system.html',''); initResizab
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_systems_1_1_render_system-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Systems::RenderSystem Class Reference</div></div>
 </div><!--header-->
@@ -117,8 +118,9 @@ Inheritance diagram for Systems::RenderSystem:</div>
  <div class="center">
   <img src="class_systems_1_1_render_system.png" usemap="#Systems::RenderSystem_map" alt=""/>
   <map id="Systems::RenderSystem_map" name="Systems::RenderSystem_map">
-<area href="struct_system.html" alt="System" shape="rect" coords="0,56,145,80"/>
+<area href="struct_system.html" alt="System" shape="rect" coords="77,56,222,80"/>
 <area href="struct_object.html" alt="Object" shape="rect" coords="0,0,145,24"/>
+<area href="struct_i_game_loop.html" alt="IGameLoop" shape="rect" coords="155,0,300,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -126,8 +128,13 @@ Inheritance diagram for Systems::RenderSystem:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a7b8f67c94dd3f89fa21a663a72cfb6e2" id="r_a7b8f67c94dd3f89fa21a663a72cfb6e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b8f67c94dd3f89fa21a663a72cfb6e2">RenderSystem</a> (<a class="el" href="class_core_1_1_core_manager.html">Core::CoreManager</a> &amp;coreManager)</td></tr>
 <tr class="separator:a7b8f67c94dd3f89fa21a663a72cfb6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec88751ab8bf4a8e708d581aabca3723" id="r_aec88751ab8bf4a8e708d581aabca3723"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec88751ab8bf4a8e708d581aabca3723">Render</a> (SDL_Surface *surface, SDL_Renderer *renderer, <a class="el" href="class_core_1_1_core_manager.html">Core::CoreManager</a> &amp;coreManager)</td></tr>
-<tr class="separator:aec88751ab8bf4a8e708d581aabca3723"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8a4d589ab6b8a1ebd515a8c45fc1c6f" id="r_aa8a4d589ab6b8a1ebd515a8c45fc1c6f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8a4d589ab6b8a1ebd515a8c45fc1c6f">~RenderSystem</a> ()</td></tr>
+<tr class="separator:aa8a4d589ab6b8a1ebd515a8c45fc1c6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78023987c9195c8eb33c65807c95adc1" id="r_a78023987c9195c8eb33c65807c95adc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78023987c9195c8eb33c65807c95adc1">OnRender</a> (SDL_Renderer *renderer, SDL_Window *window, SDL_Surface *surface) override</td></tr>
+<tr class="separator:a78023987c9195c8eb33c65807c95adc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8d8da936c5b15bfb3a01284d0646d22" id="r_aa8d8da936c5b15bfb3a01284d0646d22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8d8da936c5b15bfb3a01284d0646d22">OnPostRender</a> (SDL_Renderer *renderer) override</td></tr>
+<tr class="memdesc:aa8d8da936c5b15bfb3a01284d0646d22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all the layer textures for the next frame.  <br /></td></tr>
+<tr class="separator:aa8d8da936c5b15bfb3a01284d0646d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a289edc38b9c1523ced420784b042870c" id="r_a289edc38b9c1523ced420784b042870c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a289edc38b9c1523ced420784b042870c">ToString</a> () const</td></tr>
 <tr class="separator:a289edc38b9c1523ced420784b042870c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_struct_system"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_system')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_system.html">System</a></td></tr>
@@ -141,18 +148,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1bf379937d47f5ccca004c5d389da01c inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61bd75271f49b539f518d36a1fde846d inherit pub_methods_struct_system" id="r_a61bd75271f49b539f518d36a1fde846d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#a61bd75271f49b539f518d36a1fde846d">OnEvent</a> (SDL_Event &amp;event)</td></tr>
 <tr class="separator:a61bd75271f49b539f518d36a1fde846d inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d8b330012d07717e3acd766150072c6 inherit pub_methods_struct_system" id="r_a0d8b330012d07717e3acd766150072c6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#a0d8b330012d07717e3acd766150072c6">OnUpdate</a> (float deltaTime)</td></tr>
-<tr class="separator:a0d8b330012d07717e3acd766150072c6 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6434d8ab169ed165ec8bfee06dfb802 inherit pub_methods_struct_system" id="r_aa6434d8ab169ed165ec8bfee06dfb802"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#aa6434d8ab169ed165ec8bfee06dfb802">OnRender</a> (SDL_Renderer *renderer, SDL_Window *window, SDL_Surface *surface)</td></tr>
-<tr class="separator:aa6434d8ab169ed165ec8bfee06dfb802 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa390bde827dbabcf73b229daf07b0c85 inherit pub_methods_struct_system" id="r_aa390bde827dbabcf73b229daf07b0c85"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#aa390bde827dbabcf73b229daf07b0c85">OnPostRender</a> ()</td></tr>
-<tr class="separator:aa390bde827dbabcf73b229daf07b0c85 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdb3fc3dba97a65dd6f1b899ed17a52 inherit pub_methods_struct_system" id="r_afcdb3fc3dba97a65dd6f1b899ed17a52"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#afcdb3fc3dba97a65dd6f1b899ed17a52">OnUpdate</a> (SDL_Renderer *renderer, float deltaTime)</td></tr>
+<tr class="separator:afcdb3fc3dba97a65dd6f1b899ed17a52 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_struct_object"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_object.html">Object</a></td></tr>
 <tr class="memitem:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object" id="r_a226f2ae2af766b77d83c09a4d766b725"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_object.html#a226f2ae2af766b77d83c09a4d766b725">~Object</a> ()=default</td></tr>
 <tr class="separator:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a8acfe19ad754123b8ea823945c96023f" id="r_a8acfe19ad754123b8ea823945c96023f"><td class="memItemLeft" align="right" valign="top">std::map&lt; int, SDL_Texture * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8acfe19ad754123b8ea823945c96023f">_layers</a></td></tr>
+<tr class="separator:a8acfe19ad754123b8ea823945c96023f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_struct_system"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_struct_system')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="struct_system.html">System</a></td></tr>
 <tr class="memitem:ae18988425304b3ba2d2e02aa43552fc2 inherit pub_attribs_struct_system" id="r_ae18988425304b3ba2d2e02aa43552fc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_core_1_1_core_manager.html">Core::CoreManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#ae18988425304b3ba2d2e02aa43552fc2">_coreManager</a></td></tr>
 <tr class="separator:ae18988425304b3ba2d2e02aa43552fc2 inherit pub_attribs_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,40 +182,92 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="aec88751ab8bf4a8e708d581aabca3723" name="aec88751ab8bf4a8e708d581aabca3723"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec88751ab8bf4a8e708d581aabca3723">&#9670;&#160;</a></span>Render()</h2>
+<a id="aa8a4d589ab6b8a1ebd515a8c45fc1c6f" name="aa8a4d589ab6b8a1ebd515a8c45fc1c6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8a4d589ab6b8a1ebd515a8c45fc1c6f">&#9670;&#160;</a></span>~RenderSystem()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Systems::RenderSystem::Render </td>
+          <td class="memname">Systems::RenderSystem::~RenderSystem </td>
           <td>(</td>
-          <td class="paramtype">SDL_Surface *</td>          <td class="paramname"><span class="paramname"><em>surface</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa8d8da936c5b15bfb3a01284d0646d22" name="aa8d8da936c5b15bfb3a01284d0646d22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8d8da936c5b15bfb3a01284d0646d22">&#9670;&#160;</a></span>OnPostRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Systems::RenderSystem::OnPostRender </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clears all the layer textures for the next frame. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="struct_system.html#a241efa1123d95603dcf31ff4a86ca50f">System</a>.</p>
+
+</div>
+</div>
+<a id="a78023987c9195c8eb33c65807c95adc1" name="a78023987c9195c8eb33c65807c95adc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78023987c9195c8eb33c65807c95adc1">&#9670;&#160;</a></span>OnRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Systems::RenderSystem::OnRender </td>
+          <td>(</td>
           <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_core_1_1_core_manager.html">Core::CoreManager</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>coreManager</em></span>&#160;)</td>
+          <td class="paramtype">SDL_Window *</td>          <td class="paramname"><span class="paramname"><em>window</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SDL_Surface *</td>          <td class="paramname"><span class="paramname"><em>surface</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Renders all entities with a Transform and Texture component to the screen.</p>
-<p>This function is part of the <a class="el" href="struct_system.html">System</a> interface and is called by the <a class="el" href="namespace_application.html">Application</a> layer. It is responsible for rendering all entities that have both a Transform and Texture component.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">surface</td><td>The SDL_Surface to render to. </td></tr>
-    <tr><td class="paramname">renderer</td><td>The SDL_Renderer to render with. </td></tr>
-    <tr><td class="paramname">coreManager</td><td>The CoreManager to get the entities from. </td></tr>
-  </table>
-  </dd>
-</dl>
+
+<p>Reimplemented from <a class="el" href="struct_system.html#aa6434d8ab169ed165ec8bfee06dfb802">System</a>.</p>
 
 </div>
 </div>
@@ -238,6 +295,21 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implements <a class="el" href="struct_object.html#a5ba02cfbbf442727ebda872e864ea172">Object</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a8acfe19ad754123b8ea823945c96023f" name="a8acfe19ad754123b8ea823945c96023f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8acfe19ad754123b8ea823945c96023f">&#9670;&#160;</a></span>_layers</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;int, SDL_Texture*&gt; Systems::RenderSystem::_layers</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

@@ -5,7 +5,7 @@ namespace Systems {
         : System(coreManager) {
         coreManager.RegisterSystem<AudioSystem>(this);
         
-        coreManager.SetSignature<AudioSystem, Components::Transform>();
+        coreManager.SetSignature<AudioSystem, Components::Transform2D>();
     }
 
     /**

@@ -9,12 +9,12 @@ namespace GameObjects {
      */
     Tile::Tile(Core::CoreManager* coreManager)
         : GameObject(coreManager) {
-        _coreManager->AddComponent<Components::Transform>(_entity, Components::Transform());
+        _coreManager->AddComponent<Components::Transform2D>(_entity, Components::Transform2D());
         _coreManager->AddComponent<Components::Tile>(_entity, Components::Tile());
     }
 
-    Components::Transform& Tile::GetTransform() {
-        return _coreManager->GetComponent<Components::Transform>(_entity);
+    Components::Transform2D& Tile::GetTransform2D() {
+        return _coreManager->GetComponent<Components::Transform2D>(_entity);
     }
 
     Components::Tile& Tile::GetTile() {

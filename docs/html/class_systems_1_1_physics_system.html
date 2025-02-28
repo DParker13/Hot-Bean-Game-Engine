@@ -117,8 +117,9 @@ Inheritance diagram for Systems::PhysicsSystem:</div>
  <div class="center">
   <img src="class_systems_1_1_physics_system.png" usemap="#Systems::PhysicsSystem_map" alt=""/>
   <map id="Systems::PhysicsSystem_map" name="Systems::PhysicsSystem_map">
-<area href="struct_system.html" alt="System" shape="rect" coords="0,56,148,80"/>
+<area href="struct_system.html" alt="System" shape="rect" coords="79,56,227,80"/>
 <area href="struct_object.html" alt="Object" shape="rect" coords="0,0,148,24"/>
+<area href="struct_i_game_loop.html" alt="IGameLoop" shape="rect" coords="158,0,306,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -126,9 +127,9 @@ Inheritance diagram for Systems::PhysicsSystem:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a086165951a6dcab7fb5a6b0b6a915068" id="r_a086165951a6dcab7fb5a6b0b6a915068"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a086165951a6dcab7fb5a6b0b6a915068">PhysicsSystem</a> (<a class="el" href="class_core_1_1_core_manager.html">Core::CoreManager</a> &amp;coreManager)</td></tr>
 <tr class="separator:a086165951a6dcab7fb5a6b0b6a915068"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a639652a117498b89a1d0cbc3fbce7b4d" id="r_a639652a117498b89a1d0cbc3fbce7b4d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a639652a117498b89a1d0cbc3fbce7b4d">OnUpdate</a> (float deltaTime) override</td></tr>
-<tr class="memdesc:a639652a117498b89a1d0cbc3fbce7b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the physics of all entities in the system.  <br /></td></tr>
-<tr class="separator:a639652a117498b89a1d0cbc3fbce7b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d1cad7be1ba05370e2dfd22a8a2ea82" id="r_a8d1cad7be1ba05370e2dfd22a8a2ea82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d1cad7be1ba05370e2dfd22a8a2ea82">OnUpdate</a> (SDL_Renderer *renderer, float deltaTime) override</td></tr>
+<tr class="memdesc:a8d1cad7be1ba05370e2dfd22a8a2ea82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the physics of all entities in the system.  <br /></td></tr>
+<tr class="separator:a8d1cad7be1ba05370e2dfd22a8a2ea82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3b6df357a4ab92c4d6d3fe8dd103b69" id="r_ad3b6df357a4ab92c4d6d3fe8dd103b69"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3b6df357a4ab92c4d6d3fe8dd103b69">ToString</a> () const</td></tr>
 <tr class="separator:ad3b6df357a4ab92c4d6d3fe8dd103b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_struct_system"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_system')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_system.html">System</a></td></tr>
@@ -144,8 +145,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a61bd75271f49b539f518d36a1fde846d inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6434d8ab169ed165ec8bfee06dfb802 inherit pub_methods_struct_system" id="r_aa6434d8ab169ed165ec8bfee06dfb802"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#aa6434d8ab169ed165ec8bfee06dfb802">OnRender</a> (SDL_Renderer *renderer, SDL_Window *window, SDL_Surface *surface)</td></tr>
 <tr class="separator:aa6434d8ab169ed165ec8bfee06dfb802 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa390bde827dbabcf73b229daf07b0c85 inherit pub_methods_struct_system" id="r_aa390bde827dbabcf73b229daf07b0c85"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#aa390bde827dbabcf73b229daf07b0c85">OnPostRender</a> ()</td></tr>
-<tr class="separator:aa390bde827dbabcf73b229daf07b0c85 inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a241efa1123d95603dcf31ff4a86ca50f inherit pub_methods_struct_system" id="r_a241efa1123d95603dcf31ff4a86ca50f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_system.html#a241efa1123d95603dcf31ff4a86ca50f">OnPostRender</a> (SDL_Renderer *renderer)</td></tr>
+<tr class="separator:a241efa1123d95603dcf31ff4a86ca50f inherit pub_methods_struct_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_struct_object"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_object.html">Object</a></td></tr>
 <tr class="memitem:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object" id="r_a226f2ae2af766b77d83c09a4d766b725"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_object.html#a226f2ae2af766b77d83c09a4d766b725">~Object</a> ()=default</td></tr>
 <tr class="separator:a226f2ae2af766b77d83c09a4d766b725 inherit pub_methods_struct_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,8 +178,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a639652a117498b89a1d0cbc3fbce7b4d" name="a639652a117498b89a1d0cbc3fbce7b4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a639652a117498b89a1d0cbc3fbce7b4d">&#9670;&#160;</a></span>OnUpdate()</h2>
+<a id="a8d1cad7be1ba05370e2dfd22a8a2ea82" name="a8d1cad7be1ba05370e2dfd22a8a2ea82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d1cad7be1ba05370e2dfd22a8a2ea82">&#9670;&#160;</a></span>OnUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,8 +190,12 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">void Systems::PhysicsSystem::OnUpdate </td>
           <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span></td><td>)</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>deltaTime</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -208,7 +213,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p>Reimplemented from <a class="el" href="struct_system.html#a0d8b330012d07717e3acd766150072c6">System</a>.</p>
+<p>Reimplemented from <a class="el" href="struct_system.html#afcdb3fc3dba97a65dd6f1b899ed17a52">System</a>.</p>
 
 </div>
 </div>

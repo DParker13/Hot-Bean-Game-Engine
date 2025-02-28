@@ -26,7 +26,12 @@ var NAVTREE =
 [
   [ "HotBeanEngine", "index.html", [
     [ "Namespaces", "namespaces.html", [
-      [ "Namespace List", "namespaces.html", "namespaces_dup" ]
+      [ "Namespace List", "namespaces.html", "namespaces_dup" ],
+      [ "Namespace Members", "namespacemembers.html", [
+        [ "All", "namespacemembers.html", null ],
+        [ "Enumerations", "namespacemembers_enum.html", null ],
+        [ "Enumerator", "namespacemembers_eval.html", null ]
+      ] ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -54,8 +59,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_cell_8cpp.html",
-"class_game_objects_1_1_player.html#af3eb47ead636cfec711b07f945dcdc0b",
-"struct_components_1_1_rigid_body.html#a5b99fa3427e01614eb1edd08e6d8c99e"
+"class_game_objects_1_1_player.html#a29f466ca4f1fdcc9c6876094ed827522",
+"namespace_components.html#a5f4fbc19433444a199c66d9129f2c7baa96a50e20f6308de2b2d32ed09c0c2060"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

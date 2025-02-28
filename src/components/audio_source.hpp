@@ -1,3 +1,14 @@
+/**
+ * @file audio_source.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Audio source component.
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #pragma once
 
 #include "../core/ecs.hpp"

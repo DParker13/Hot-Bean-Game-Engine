@@ -2,7 +2,7 @@
 
 #include "gameobject.hpp"
 
-#include "../components/transform.hpp"
+#include "../components/transform-2d.hpp"
 #include "../components/tile.hpp"
 
 namespace GameObjects {
@@ -10,7 +10,7 @@ namespace GameObjects {
     public:
         Tile(Core::CoreManager* coreManager);
 
-        Components::Transform& GetTransform();
+        Components::Transform2D& GetTransform2D();
         Components::Tile& GetTile();
         std::string ToString() const override;
     };

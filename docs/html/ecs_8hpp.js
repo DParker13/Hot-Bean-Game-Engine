@@ -1,8 +1,10 @@
 var ecs_8hpp =
 [
+    [ "IGameLoop", "struct_i_game_loop.html", "struct_i_game_loop" ],
     [ "Object", "struct_object.html", "struct_object" ],
     [ "ISparseSet", "struct_i_sparse_set.html", "struct_i_sparse_set" ],
     [ "System", "struct_system.html", "struct_system" ],
+    [ "Component", "struct_component.html", "struct_component" ],
     [ "ComponentType", "ecs_8hpp.html#ac2369446dd4b54ed7837b6f44e55013a", null ],
     [ "Entity", "ecs_8hpp.html#a12a1ee35f3e280975cb30c584524238c", null ],
     [ "EntityType", "ecs_8hpp.html#a80fc185b41629e3c3352b30d8428cab8", null ],

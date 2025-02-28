@@ -1,3 +1,20 @@
+/**
+ * @file core_manager.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Manages all ECS managers (entities, components, and systems).
+ * 
+ * @details Merges EntityManager, ComponentManager, and SystemManager into one 
+ * class for easier management of entities, components, and systems. A singleton is created in Application.cpp to handle
+ * all entities, components, and systems in the game. This class handles all the backend management of the ECS framework
+ * and has been further expanded by gameobject classes that act as a single class. Gameobjects follow the ECS framework
+ * but are able to be manipulated by the user directly without a system.
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "core_manager.hpp"
 
 namespace Core {

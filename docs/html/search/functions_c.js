@@ -1,12 +1,11 @@
 var searchData=
 [
-  ['setnoiseposition_0',['SetNoisePosition',['../class_cell.html#a4d6521c014d1684f7f6d88217a96cc3b',1,'Cell']]],
-  ['setposition_1',['SetPosition',['../class_cell.html#abcf386c283cd02b08a175649fd508094',1,'Cell']]],
-  ['setsignature_2',['SetSignature',['../class_core_1_1_core_manager.html#ac141b9bf0e8938fe9899c9fb1504f142',1,'Core::CoreManager::SetSignature(Signature signature)'],['../class_core_1_1_core_manager.html#a2a6823c970238f8e7f79dc0694086a21',1,'Core::CoreManager::SetSignature()'],['../class_core_1_1_entity_manager.html#ac6b6d398262ce27d33fb1c0f0f98b2e6',1,'Core::EntityManager::SetSignature()'],['../class_core_1_1_system_manager.html#a68173dae62d5a26d7f1a453756f71fca',1,'Core::SystemManager::SetSignature()']]],
-  ['settext_3',['SetText',['../class_components_1_1_text.html#a60bd28279ada2832f9cf2b639ef66c40',1,'Components::Text']]],
-  ['setvolume_4',['SetVolume',['../class_systems_1_1_audio_system.html#a2a36de7baf1e07441bbe143c4b2c1cf6',1,'Systems::AudioSystem']]],
-  ['size_5',['Size',['../struct_i_sparse_set.html#a161a747d701a71c37cff3dee9a51b018',1,'ISparseSet::Size()'],['../class_core_1_1_sparse_set.html#af9d11944ffdd20440090171dfd6c803f',1,'Core::SparseSet::Size() const override']]],
-  ['sparseset_6',['SparseSet',['../class_core_1_1_sparse_set.html#a4de1f6385c85391a4ebc9ac808de6eb9',1,'Core::SparseSet']]],
-  ['system_7',['System',['../struct_system.html#ae6cc6014c0abcb1c92bde07135bbcc4b',1,'System']]],
-  ['systemmanager_8',['SystemManager',['../class_core_1_1_system_manager.html#a1a7d2a6d89140070a94dd38496acdbf0',1,'Core::SystemManager']]]
+  ['registercomponenttype_0',['RegisterComponentType',['../class_core_1_1_component_manager.html#a1b797b1029c76e2b07820842fd4265da',1,'Core::ComponentManager::RegisterComponentType()'],['../class_core_1_1_core_manager.html#a2da53373472209de51be01e9a25002f5',1,'Core::CoreManager::RegisterComponentType()']]],
+  ['registersystem_1',['RegisterSystem',['../class_core_1_1_core_manager.html#a994b6fbcc5d5f60a0bceffb3d59a437b',1,'Core::CoreManager::RegisterSystem()'],['../class_core_1_1_system_manager.html#a86bd1290fda845b7bd3cad324ae4bc20',1,'Core::SystemManager::RegisterSystem()']]],
+  ['remove_2',['Remove',['../struct_i_sparse_set.html#a8dac010a4fd40af522d5c0695286ebec',1,'ISparseSet::Remove()'],['../class_core_1_1_sparse_set.html#a8b07d53b983b9f5c79b8436a8e5c5838',1,'Core::SparseSet::Remove()']]],
+  ['removeallcomponents_3',['RemoveAllComponents',['../class_core_1_1_core_manager.html#ad4aaf797b2081fef1a0ccca7a441465c',1,'Core::CoreManager']]],
+  ['removecomponent_4',['RemoveComponent',['../class_core_1_1_component_manager.html#aaeb24de9e243a5edfe54fe27f7721ded',1,'Core::ComponentManager::RemoveComponent(Entity entity)'],['../class_core_1_1_component_manager.html#a4cd58eaa40944a42ac8a640a3ff142b1',1,'Core::ComponentManager::RemoveComponent(Entity entity, ComponentType componentType)'],['../class_core_1_1_core_manager.html#a2a4c5e0e8a56ff3382533ee8ab534aa9',1,'Core::CoreManager::RemoveComponent()']]],
+  ['rendersystem_5',['RenderSystem',['../class_systems_1_1_render_system.html#a7b8f67c94dd3f89fa21a663a72cfb6e2',1,'Systems::RenderSystem']]],
+  ['rigidbody_6',['RigidBody',['../struct_components_1_1_rigid_body.html#ad3e8ed89acf40f1ed3d90b07ba75cbfd',1,'Components::RigidBody::RigidBody()=default'],['../struct_components_1_1_rigid_body.html#a42dd4dd4742e89653c629893fcc8eedc',1,'Components::RigidBody::RigidBody(const glm::vec3 velocity, const glm::vec3 acceleration, float gravity)']]],
+  ['run_7',['Run',['../class_application_1_1_application.html#af74ec8bfbcdf66960afd0729a021ab47',1,'Application::Application']]]
 ];
