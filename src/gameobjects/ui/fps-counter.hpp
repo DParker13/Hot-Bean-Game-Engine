@@ -4,11 +4,25 @@
 
 namespace GameObjects {
     namespace UI {
-        class FPSCounter : public Text {
-        public:
-            FPSCounter(Core::CoreManager* coreManager);
+        struct FPSCounter : public Text {
+            Uint32 _framesCounter = 0;
+            Uint32 _lastTickCount = 0;
+            Uint32 _fps = 0;
 
-            
+            FPSCounter(App& app)
+                : Text(app) {};
+
+            void OnUpdate(Entity entity) override {
+                GameObject::OnUpdate(entity);
+
+                _framesCounter++;
+
+                if (SDL_GetTicks() - _lastTickCount >= 1000) {
+                    _fps = _framesCounter;
+                    GetComponent<Components::Text>().SetText("FPS: " + std::to_string(_fps));
+                    _framesCounter = 0;
+                }
+            };
         };
     }
 }

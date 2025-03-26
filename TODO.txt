@@ -1,17 +1,10 @@
-1. Create smarter text system
-2. Print out visual representation of data
-3. Create logging system
-4. Create serialization system
-5. Create documentation
-  a. Write in-line code comments for every method and class
-  b. Write high-level documentation
-6. Create texture/sprite component (needs more planning)
-  a. textures can be added to UISystem and RenderSystem signature
-  b. ui system updates the texture of text. Perhaps it could be used in a better way
-  c. Add "HasChanged" flag to components to only update their texture when flag has been modified
-7. Create scene system
-8. Create test cases
-9. Add image to EXE
-10. Add splashscreen
-11. Create settings menu
-12. Add animation system
+- Create smarter text system
+- Create logging manager (Should include this in the core)
+- Create serialization system
+- Create test cases
+- Add image to EXE
+- Add splashscreen
+- Add animation system
+- Create basic ui library
+- Create textured sprite class
+- Create settings menu

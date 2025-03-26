@@ -1,20 +1,25 @@
 #pragma once
 
 #include <map>
+#include <core.hpp>
 
-#include "../core/managers/core_manager.hpp"
-#include "../components/transform-2d.hpp"
+#include "../components/transform_2d.hpp"
 #include "../components/texture.hpp"
+
+using namespace Components;
+using namespace Core::Application;
+using namespace Core::ECS;
 
 namespace Systems {
     class RenderSystem : public System {
         public:
             std::map<int, SDL_Texture*> _layers;
 
-            RenderSystem(Core::CoreManager& coreManager);
+            RenderSystem(App& app);
             ~RenderSystem();
-            void OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) override;
-            void OnPostRender(SDL_Renderer* renderer) override;
+            void OnEvent(SDL_Event& event) override;
+            void OnRender() override;
+            void OnPostRender() override;
             std::string ToString() const;
     };
 }

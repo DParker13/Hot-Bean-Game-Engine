@@ -18,8 +18,9 @@ message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}'")
 
 include(FetchContent)
 # Turn off FetchContent for offline mode
-set(FETCHCONTENT_FULLY_DISCONNECTED OFF)
-set(FETCHCONTENT_QUIET FALSE)
+set(FETCHCONTENT_FULLY_DISCONNECTED TRUE)
+set(FETCHCONTENT_QUIET TRUE)
+set(CMAKE_VERBOSE_MAKEFILE FALSE)
 
 # Fetch glm
 FetchContent_Declare(
@@ -76,15 +77,20 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/third_party/FastNoiseLite
     ${SDL2_SOURCE_DIR}/include
     ${SDL2TTF_SOURCE_DIR}
+    ${SDL2Mixer_SOURCE_DIR}/include
+    ${SDL2Image_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}/glm
+    src/core
 )
 
 # Add subdirectories for project modules
 add_subdirectory(src/core)
 add_subdirectory(src/components)
-add_subdirectory(src/systems)
 add_subdirectory(src/gameobjects)
-add_subdirectory(src/application)
+add_subdirectory(src/systems)
+add_subdirectory(src/scenes)
+add_subdirectory(src/config)
+add_subdirectory(src/game)
 
 # Link libraries
 if (WIN32)
@@ -92,33 +98,22 @@ if (WIN32)
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         message(STATUS "Debug mode is enabled, no additional linker flags")
         target_link_libraries(${PROJECT_NAME} PRIVATE
-            SDL2
             SDL2main
-            SDL2_mixer
-            SDL2_image
-            core
-            systems
-            application
+            game
         )
     else()
         message(STATUS "Debug mode is disabled, applying linker flags")
         target_link_libraries(${PROJECT_NAME} PRIVATE
-            SDL2
             SDL2main
-            SDL2_mixer
-            SDL2_image
-            core
-            systems
-            application
+            game
             ${CMAKE_LINKER_FLAGS} -Wl,-subsystem,windows
         )
     endif()
 else ()
+    # I have never tried this. I have only tested building on Windows
     target_link_libraries(${PROJECT_NAME} PRIVATE
         SDL2
-        core
-        systems
-        application
+        game
     )
 endif()
 

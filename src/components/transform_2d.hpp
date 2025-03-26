@@ -1,5 +1,5 @@
 /**
- * @file transform-2d.hpp
+ * @file transform_2d.hpp
  * @author Daniel Parker (DParker13)
  * @brief Transform 2D component. Used to keep track of entity position, rotation, and scale.
  * @version 0.1
@@ -13,9 +13,8 @@
 
 #include <vec3.hpp>
 #include <gtc/quaternion.hpp>
-#include <string>
 
-#include "../core/ecs.hpp"
+#include <core.hpp>
 
 namespace Components {
     struct Transform2D : public Component {

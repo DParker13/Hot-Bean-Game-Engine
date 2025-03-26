@@ -13,13 +13,13 @@
 
 #include <vec3.hpp>
 
-#include "../core/ecs.hpp"
+#include <core.hpp>
 
 namespace Components {
     struct RigidBody : public Component {
         glm::vec3 velocity = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
-        float gravity = 0.0f;
+        float gravity = -9.8f;
 
         RigidBody() = default;
 

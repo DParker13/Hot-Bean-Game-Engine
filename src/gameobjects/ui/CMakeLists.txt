@@ -1,16 +1,9 @@
-add_library(gameobjects-ui STATIC
-    ui-element.hpp
-    ui-element.cpp
+add_library(gameobjects-ui INTERFACE
     text.hpp
-    text.cpp
     textbox.hpp
-    textbox.cpp
+    fps-counter.hpp
 )
 
-target_include_directories(gameobjects-ui PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}
-)
-
-target_link_libraries(gameobjects-ui PRIVATE
+target_link_libraries(gameobjects-ui INTERFACE
     core
 )

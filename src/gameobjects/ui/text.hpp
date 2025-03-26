@@ -1,16 +1,13 @@
 #pragma once
 
-#include "ui-element.hpp"
+#include "ui_element.hpp"
 #include "../../components/text.hpp"
 
 namespace GameObjects {
     namespace UI {
-        class Text : public UIElement {
-        public:
-            Text(Core::CoreManager* coreManager);
-            
-            Components::Text& GetText();
-            std::string ToString() const override;
+        struct Text : public UIElement<Components::Text> {
+            Text(App& app)
+                : UIElement<Components::Text>(app) {};
         };
     }
 }

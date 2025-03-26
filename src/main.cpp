@@ -1,10 +1,9 @@
-#include <SDL.h>
 #include <SDL_main.h> // only include this one in the source file with main()!
 
-#include "application/game.hpp"
+#include "config/config.hpp"
+#include "game/game.hpp"
 
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 720;
+using namespace Core::Application;
 
 /**
  * The main function of the program.
@@ -15,7 +14,7 @@ const int SCREEN_HEIGHT = 720;
  * @return an integer indicating the exit status of the program
  */
 int main(int argc, char* argv[]) {
-    Application::Game game = Application::Game("Hot Bean Engine", SCREEN_WIDTH, SCREEN_HEIGHT);
+    Game game = Game(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     game.Run();
 

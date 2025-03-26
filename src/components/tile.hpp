@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <core.hpp>
 
 namespace Components {
     struct Tile : public Component {
@@ -21,6 +21,8 @@ namespace Components {
         SDL_Color _color;
 
         int _INDICES[6] = { 0, 1, 2, 1, 3, 2 };
+
+        Tile() = default;
 
         std::string ToString() const override {
             std::stringstream str;

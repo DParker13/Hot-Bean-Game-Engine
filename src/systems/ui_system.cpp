@@ -1,13 +1,11 @@
 #include "ui_system.hpp"
 
 namespace Systems {
-    UISystem::UISystem(Core::CoreManager& coreManager)
-        : System(coreManager), _font(nullptr) {
-        coreManager.RegisterSystem<UISystem>(this);
+    UISystem::UISystem(App& app)
+        : System(app), _font(nullptr) {
+        app.GetCoreManager().RegisterSystem<UISystem>(this);
 
-        coreManager.SetSignature<UISystem, Components::Transform2D>();
-        coreManager.SetSignature<UISystem, Components::Text>();
-        coreManager.SetSignature<UISystem, Components::Texture>();
+        app.GetCoreManager().SetSignature<UISystem, Transform2D, Text, Texture>();
 
         _font = TTF_OpenFont(_font_path.string().data(), 10);
 
@@ -23,26 +21,31 @@ namespace Systems {
     }
 
     UISystem::~UISystem() {
-        TTF_CloseFont(_font);
+        TTF_CloseFont(_font); // This causes a segmentation fault on exit for some reason
         _font = nullptr;
+    }
+
+    void UISystem::OnEvent(SDL_Event& event) {
+        if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
+            for (auto& entity : _entities) {
+                auto& text = _app.GetCoreManager().GetComponent<Text>(entity);
+
+                text._awaiting_update = true;
+            }
+        }
     }
 
     /**
      * Updates all UI element textures
-     *
-     *
-     * @param renderer The SDL_Renderer to render to.
-     * @param deltaTime The time elapsed since the last update in seconds.
-     *
-     * @throws None
      */
-    void UISystem::OnUpdate(SDL_Renderer* renderer, float deltaTime) {
-        for (auto& entity : _entities) {
-            auto& transform = _coreManager.GetComponent<Components::Transform2D>(entity);
-            auto& text = _coreManager.GetComponent<Components::Text>(entity);
-            auto& texture = _coreManager.GetComponent<Components::Texture>(entity);
+    void UISystem::OnUpdate() {
+        auto& coreManager = _app.GetCoreManager();
+        auto* renderer = _app.GetRenderer();
 
-            _framesCounter++;
+        for (auto& entity : _entities) {
+            auto& transform = coreManager.GetComponent<Transform2D>(entity);
+            auto& text = coreManager.GetComponent<Text>(entity);
+            auto& texture = coreManager.GetComponent<Texture>(entity);
 
             // Initialize font
             if (!text._font) {
@@ -50,19 +53,16 @@ namespace Systems {
             }
             
             if (text._awaiting_update) {
-                text._surface = TTF_RenderUTF8_Solid_Wrapped(_font, text.GetChar(), text._color, texture._size.x);
-                // Update texture size
-                // if (TTF_SizeUTF8(_font, text.GetChar(), &texture._size.x, &texture._size.y) == -1) {
-                //     std::cerr << "Text sizing error: " << TTF_GetError() << std::endl;
-                //     return;
-                // }
-            }
+                // Render text to surface
+                text._surface = TTF_RenderUTF8_Solid_Wrapped(_font, text.GetChar(), text._color, text._wrapping_width);
 
-            // Update texture with new surface
-            if (text._font && text.GetString() != "" && text._awaiting_update) {
-                texture._texture = SDL_CreateTextureFromSurface(renderer, text._surface);
-                SDL_SetTextureBlendMode(texture._texture, SDL_BLENDMODE_BLEND);
-                text._awaiting_update = false;
+                // Update texture with new surface
+                if (text._font && text.GetString() != "") {
+                    texture._texture = SDL_CreateTextureFromSurface(renderer, text._surface);
+                    texture._size = { text._surface->w, text._surface->h };
+                    SDL_SetTextureBlendMode(texture._texture, SDL_BLENDMODE_BLEND);
+                    text._awaiting_update = false;
+                }
             }
 
             if (texture._texture) {

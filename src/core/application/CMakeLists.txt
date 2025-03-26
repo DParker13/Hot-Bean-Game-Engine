@@ -1,18 +1,15 @@
 # Create a static library for the application
 add_library(application STATIC
-    application.cpp
-    application.hpp
-    game.cpp
-    game.hpp
+    all_application.hpp
+    app.cpp
+    app.hpp
+    gameobject.hpp
 )
 
 # Link dependencies for the application library
-target_link_libraries(application PRIVATE
+target_link_libraries(application PUBLIC
     SDL2_ttf
     SDL2_mixer
     SDL2_image
-    core
     managers
-    gameobjects
-    systems
 )

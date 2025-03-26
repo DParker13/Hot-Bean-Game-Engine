@@ -1,11 +1,11 @@
 #include "input_system.hpp"
 
 namespace Systems {
-    InputSystem::InputSystem(Core::CoreManager& coreManager)
-        : System(coreManager) {
-        coreManager.RegisterSystem<InputSystem>(this);
+    InputSystem::InputSystem(App& app)
+        : System(app) {
+        app.GetCoreManager().RegisterSystem<InputSystem>(this);
         
-        coreManager.SetSignature<InputSystem>(Signature{});
+        app.GetCoreManager().SetSignature<InputSystem>(Signature{});
     }
 
     /**

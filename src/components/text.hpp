@@ -11,9 +11,9 @@
 
 #pragma once
 
-#include <SDL_ttf.h>
 #include <vector>
 #include <filesystem>
+#include <core.hpp>
 
 namespace Components {
 
@@ -28,24 +28,14 @@ namespace Components {
             Uint32 _size = 10; ///< The size of the font, represented as an unsigned 32-bit integer.
             Uint32 _style = TTF_STYLE_NORMAL; ///< The style of the font, represented as an unsigned 32-bit integer.
             bool _awaiting_update = false; ///< A flag indicating whether the text texture needs to be updated.
+            Uint32 _wrapping_width = 0;
 
         private:
             std::string _text = "default text"; /**< The text to be rendered. */
         
         public:
             /**
-             * Destructor for the Text class.
-             *
-             * This function destroys the SDL_Surface and SDL_FontTTF.
-             */
-            ~Text() {
-                SDL_FreeSurface(_surface);
-            }
-
-            /**
-             * Default constructor for the Text class.
-             *
-             * This constructor initializes the text color to white with full opacity.
+             * @brief Construct a new Text component
              */
             Text() {
                 _color = SDL_Color();
@@ -54,6 +44,13 @@ namespace Components {
                 _color.b = 255;
                 _color.a = 255;
             };
+
+            /**
+             * @brief Destroy the Text component
+             */
+            ~Text() {
+                SDL_FreeSurface(_surface);
+            }
 
             /**
              * Sets the text of the Text component.

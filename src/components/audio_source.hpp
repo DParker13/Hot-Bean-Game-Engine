@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "../core/ecs.hpp"
+#include <core.hpp>
 
 namespace Components {
     struct AudioSource : public Object {

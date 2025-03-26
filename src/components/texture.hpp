@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <core.hpp>
 
 namespace Components {
     struct Texture : public Component {
@@ -23,9 +23,7 @@ namespace Components {
         Texture() = default;
 
         /**
-         * Destructor for the Texture class.
-         *
-         * This function destroys the SDL_Texture.
+         * @brief Destroy the Texture component
          */
         ~Texture() {
             if (_texture) {

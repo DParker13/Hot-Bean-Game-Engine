@@ -13,16 +13,11 @@ add_library(systems STATIC
     tilemap_system.cpp
     audio_system.hpp
     audio_system.cpp
-)
-
-# Specify include directories for the systems library
-target_include_directories(systems PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    collision_system.cpp
+    collision_system.hpp
 )
 
 # Link dependencies for the systems library
 target_link_libraries(systems PRIVATE
-    SDL2
-    SDL2_mixer
     core
 )

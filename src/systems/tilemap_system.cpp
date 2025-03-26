@@ -1,12 +1,11 @@
 #include "tilemap_system.hpp"
 
 namespace Systems {
-    TileMapSystem::TileMapSystem(Core::CoreManager& coreManager)
-        : System(coreManager) {
-        coreManager.RegisterSystem<TileMapSystem>(this);
+    TileMapSystem::TileMapSystem(App& app)
+        : System(app) {
+        app.GetCoreManager().RegisterSystem<TileMapSystem>(this);
 
-        coreManager.SetSignature<TileMapSystem, Components::Transform2D>();
-        coreManager.SetSignature<TileMapSystem, Components::Tile>();
+        app.GetCoreManager().SetSignature<TileMapSystem, Transform2D, Tile, RigidBody>();
     }
 
     /**
@@ -16,7 +15,7 @@ namespace Systems {
      *          CoreManager when the system is first initialized.
      */
     void TileMapSystem::OnInit() {
-        InitMap(_coreManager, 10, 20, 50, 50);
+        InitMap(10, 15, 50, 50);
     }
 
     /**
@@ -29,19 +28,21 @@ namespace Systems {
      * @param[in] window The SDL_Window the renderer is rendering to.
      * @param[in] surface The SDL_Surface of the window.
      */
-    void TileMapSystem::OnRender(SDL_Renderer* renderer, SDL_Window* window, SDL_Surface* surface) {
+    void TileMapSystem::OnRender() {
+        auto& coreManager = _app.GetCoreManager();
         SDL_Color color = { 0xFF, 0xFF, 0xFF, 0xFF };
 
         for(auto& entity : _entities) {
-            auto& transform = _coreManager.GetComponent<Components::Transform2D>(entity);
-            auto& tile = _coreManager.GetComponent<Components::Tile>(entity);
+            auto& transform = coreManager.GetComponent<Transform2D>(entity);
+            auto& tile = coreManager.GetComponent<Tile>(entity);
 
-            //CreateRect(surface, renderer, &color, &transform);
-            CreateRect(renderer, &transform, &tile);
+            CreateRect(&transform, &tile);
         }
     }
 
-    void TileMapSystem::CreateRect(SDL_Renderer* renderer, Components::Transform2D* transform, Components::Tile* tile) {
+    void TileMapSystem::CreateRect(Transform2D* transform, Components::Tile* tile) {
+        auto* renderer = _app.GetRenderer();
+
         tile->_vertices[0] = { transform->_position.x, transform->_position.y, tile->_color };
         tile->_vertices[1] = { transform->_position.x, transform->_position.y + tile->_size, tile->_color };
         tile->_vertices[2] = { transform->_position.x + tile->_size, transform->_position.y, tile->_color };
@@ -58,16 +59,18 @@ namespace Systems {
     }
 
     // Should this be defined in TileMapSystem instead?
-    void TileMapSystem::InitMap(Core::CoreManager& coreManager, Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY) {
+    void TileMapSystem::InitMap(Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY) {
+        auto& coreManager = _app.GetCoreManager();
+        
         for (int x = 0; x < numTilesX; x++) {
             for (int y = 0; y < numTilesY; y++) {
-                auto tile = GameObjects::Tile(&coreManager);
-                tile.GetTile()._size = tileSize;
-                tile.GetTile()._color = { static_cast<Uint8>(255 / ((x + 1) + (y + 1))),
+                auto tile = GameObjects::Tile(_app);
+                tile.GetComponent<Tile>()._size = tileSize;
+                tile.GetComponent<Tile>()._color = { static_cast<Uint8>(255 / ((x + 1) + (y + 1))),
                                         static_cast<Uint8>(255 / ((x + 1) + (y + 1))),
                                         static_cast<Uint8>(255 / ((x + 1) + (y + 1))), 0xFF };
-                tile.GetTransform2D()._position.x = x * spacing;
-                tile.GetTransform2D()._position.y = y * spacing;
+                tile.GetComponent<Transform2D>()._position.x = x * spacing;
+                tile.GetComponent<Transform2D>()._position.y = y * spacing;
             }
         }
     }

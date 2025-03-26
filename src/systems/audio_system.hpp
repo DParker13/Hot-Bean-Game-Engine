@@ -1,9 +1,13 @@
 #pragma once
 
 #include <SDL_mixer.h>
+#include <core.hpp>
 
-#include "../core/managers/core_manager.hpp"
-#include "../components/transform-2d.hpp"
+#include "../components/transform_2d.hpp"
+
+using namespace Core::ECS;
+using namespace Core::Application;
+using namespace Components;
 
 namespace Systems {
     class AudioSystem : public System {
@@ -12,7 +16,7 @@ namespace Systems {
             const Uint32 DEFAULT_MUSIC_CHANNEL = 1;
 
         public:
-            AudioSystem(Core::CoreManager& coreManager);
+            AudioSystem(App& app);
             
             //System Interface
             void OnInit() override;

@@ -8,7 +8,6 @@
  * @copyright Copyright (c) 2025
  * 
  */
-
 #pragma once
 
 #include <SDL_stdinc.h>
@@ -16,31 +15,36 @@
 #include <queue>
 #include <cassert>
 #include <iostream>
+#include <sstream>
 
-#include "ecs.hpp"
+#include "../ecs/all_ecs.hpp"
+
+using namespace Core::ECS;
 
 namespace Core {
-    // EntityManager manages the creation and destruction of entities
-    class EntityManager {
-        public:
-            EntityManager();
-            ~EntityManager();
+    namespace Managers {
+        // EntityManager manages the creation and destruction of entities
+        class EntityManager {
+            public:
+                EntityManager();
+                ~EntityManager();
 
-            std::string ToString() const;
+                std::string ToString() const;
 
-            Entity CreateEntity();
-            void DestroyEntity(Entity entity);
-            Signature SetSignature(Entity entity, ComponentType componentType);
-            Signature GetSignature(Entity entity);
+                Entity CreateEntity();
+                void DestroyEntity(Entity entity);
+                Signature SetSignature(Entity entity, ComponentType componentType);
+                Signature GetSignature(Entity entity);
 
-        private:
-            // Queue of unused entity IDs
-            std::queue<Entity> _availableEntities{};
+            private:
+                // Queue of unused entity IDs
+                std::queue<Entity> _availableEntities{};
 
-            // Array of signatures where the index corresponds to the entity ID
-            std::array<Signature, MAX_ENTITIES> _signatures{};
+                // Array of signatures where the index corresponds to the entity ID
+                std::array<Signature, MAX_ENTITIES> _signatures{};
 
-            // Total living entities - used to keep limits on how many exist
-            Uint32 _livingEntityCount{};
-    };
+                // Total living entities - used to keep limits on how many exist
+                Uint32 _livingEntityCount{};
+        };
+    }
 }

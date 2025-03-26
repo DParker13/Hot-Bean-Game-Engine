@@ -1,17 +1,22 @@
 #pragma once
 
-#include "gameobject.hpp"
+#include <core.hpp>
 
-#include "../components/transform-2d.hpp"
+#include "../components/transform_2d.hpp"
 #include "../components/controller.hpp"
+#include "../components/texture.hpp"
+#include "../components/collider_2d.hpp"
 
 namespace GameObjects {
-    class Player : public GameObject {
-    public:
-        Player(Core::CoreManager* coreManager);
+    struct Player : public GameObject<Components::Transform2D,
+                                    Components::Controller,
+                                    Components::Texture,
+                                    Components::Collider2D> {
 
-        Components::Transform2D& GetTransform2D();
-        Components::Controller& GetController();
-        std::string ToString() const override;
+        Player(App& app)
+            : GameObject<Components::Transform2D,
+                        Components::Controller,
+                        Components::Texture,
+                        Components::Collider2D>(app) {};
     };
 }

@@ -1,5 +1,5 @@
 /**
- * @file ui-element.hpp
+ * @file ui_element.hpp
  * @author Daniel Parker (DParker13)
  * @brief UI element component. Used for rendering UI elements.
  * @version 0.1
@@ -12,11 +12,8 @@
 #pragma once
 
 namespace Components {
- 
-    /**
-     * Represents a UI component, which can be attached to an entity.
-     */
-    class UIElement : public Component {
+
+    struct UIElement : public Component {
         UIType _type;
     };
 

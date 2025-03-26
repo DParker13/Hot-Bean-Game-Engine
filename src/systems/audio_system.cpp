@@ -1,11 +1,11 @@
 #include "audio_system.hpp"
 
 namespace Systems {
-    AudioSystem::AudioSystem(Core::CoreManager& coreManager)
-        : System(coreManager) {
-        coreManager.RegisterSystem<AudioSystem>(this);
+    AudioSystem::AudioSystem(App& app)
+        : System(app) {
+        app.GetCoreManager().RegisterSystem<AudioSystem>(this);
         
-        coreManager.SetSignature<AudioSystem, Components::Transform2D>();
+        app.GetCoreManager().SetSignature<AudioSystem, Transform2D>();
     }
 
     /**

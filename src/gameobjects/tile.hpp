@@ -1,17 +1,17 @@
 #pragma once
 
-#include "gameobject.hpp"
+#include <core.hpp>
 
-#include "../components/transform-2d.hpp"
+#include "../components/transform_2d.hpp"
 #include "../components/tile.hpp"
+#include "../components/rigidbody.hpp"
+
+using namespace Core::ECS;
 
 namespace GameObjects {
-    class Tile : public GameObject {
-    public:
-        Tile(Core::CoreManager* coreManager);
+    struct Tile : public GameObject<Components::Transform2D, Components::Tile, Components::RigidBody> {
 
-        Components::Transform2D& GetTransform2D();
-        Components::Tile& GetTile();
-        std::string ToString() const override;
+        Tile(App& app)
+            : GameObject<Components::Transform2D, Components::Tile, Components::RigidBody>(app) {};
     };
 }

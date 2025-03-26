@@ -1,18 +1,9 @@
-add_library(gameobjects STATIC
-    gameobject.hpp
-    gameobject.cpp
+add_library(gameobjects INTERFACE
     player.hpp
-    player.cpp
     tile.hpp
-    tile.cpp
 )
 
-target_include_directories(gameobjects PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}
-)
-
-target_link_libraries(gameobjects PRIVATE
-    core
+target_link_libraries(gameobjects INTERFACE
     gameobjects-ui
 )
 
