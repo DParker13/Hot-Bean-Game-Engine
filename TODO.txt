@@ -1,5 +1,6 @@
+- Use text files to handle loading components
+    + Can modify components in realtime without recompiling
 - Create smarter text system
-- Create logging manager (Should include this in the core)
 - Create serialization system
 - Create test cases
 - Add image to EXE

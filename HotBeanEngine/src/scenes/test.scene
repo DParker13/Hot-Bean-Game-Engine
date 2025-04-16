@@ -1,0 +1,26 @@
+entities:
+    - entity:
+        - type: Transform2D
+            position: [0, 0]
+            scale: [1, 1]
+            rotation: [0, 0, 0, 1]
+            layer: 0
+        - type: Text
+            text: "The quick brown fox jumps over the lazy dog"
+            color: [255, 255, 255, 255]
+            size: 10
+            style: TTF_STYLE_NORMAL
+            wrapping_width: 0
+        - type: Controller
+    - entity:
+        - type: Transform2D
+            position: [500, 200]
+            scale: [1, 1]
+            rotation: [0, 0, 0, 1]
+            layer: 2
+        - type: Text
+            text: "Layer 2"
+            color: [255, 255, 255, 255]
+            size: 10
+            style: TTF_STYLE_NORMAL
+            wrapping_width: 0
