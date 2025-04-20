@@ -1,5 +1,5 @@
 /**
- * @file tile.h
+ * @file tile.hpp
  * @author Daniel Parker (DParker13)
  * @brief Tile component. Used for rendering tiles (simple rectangles).
  * @version 0.1
@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <core.hpp>
+#include "../core/core.hpp"
 
 namespace Components {
     struct Tile : public Component {
@@ -22,7 +22,9 @@ namespace Components {
 
         int _INDICES[6] = { 0, 1, 2, 1, 3, 2 };
 
-        Tile() = default;
+        Tile() {
+            Component::_name = "Tile";
+        }
 
         std::string ToString() const override {
             std::stringstream str;

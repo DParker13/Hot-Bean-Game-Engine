@@ -1,9 +1,8 @@
 #include "collision_system.hpp"
 
 namespace Systems {
-    CollisionSystem::CollisionSystem(App& app, int resolution)
-        : System(app) {
-        app.SetupSystem<CollisionSystem, Transform2D, RigidBody, Collider2D>(this);
+    CollisionSystem::CollisionSystem(int resolution) : System() {
+        App::GetInstance().SetupSystem<CollisionSystem, Transform2D, RigidBody, Collider2D>(this);
 
         _grid = std::vector<int>(resolution * resolution, 0);
     }
@@ -27,11 +26,13 @@ namespace Systems {
     }
 
     bool CollisionSystem::CheckCollision(Entity entity_one, Entity entity_two) {
-        auto& transform_one = _app.GetECSManager()->GetComponent<Transform2D>(entity_one);
-        auto& transform_two = _app.GetECSManager()->GetComponent<Transform2D>(entity_two);
+        App& app = App::GetInstance();
+        
+        auto& transform_one = app.GetECSManager()->GetComponent<Transform2D>(entity_one);
+        auto& transform_two = app.GetECSManager()->GetComponent<Transform2D>(entity_two);
 
-        auto& collider_one = _app.GetECSManager()->GetComponent<Collider2D>(entity_one);
-        auto& collider_two = _app.GetECSManager()->GetComponent<Collider2D>(entity_two);
+        auto& collider_one = app.GetECSManager()->GetComponent<Collider2D>(entity_one);
+        auto& collider_two = app.GetECSManager()->GetComponent<Collider2D>(entity_two);
 
         // Bounding box one (top, right, bottom, left)
         float bounding_box_one[] = {transform_one._position.y,
@@ -60,18 +61,20 @@ namespace Systems {
     }
 
     void CollisionSystem::ResolveCollision(Entity entity_one, Entity entity_two) {
-        auto& collider_one = _app.GetECSManager()->GetComponent<Collider2D>(entity_one);
-        auto& collider_two = _app.GetECSManager()->GetComponent<Collider2D>(entity_two);
+        App& app = App::GetInstance();
+
+        auto& collider_one = app.GetECSManager()->GetComponent<Collider2D>(entity_one);
+        auto& collider_two = app.GetECSManager()->GetComponent<Collider2D>(entity_two);
         
         // Check if either entity is a trigger (no need to update physics/transforms)
         if (collider_one._is_trigger || collider_two._is_trigger) {
             return;
         }
         else {
-            auto& transform_one = _app.GetECSManager()->GetComponent<Transform2D>(entity_one);
-            auto& transform_two = _app.GetECSManager()->GetComponent<Transform2D>(entity_two);
-            //auto& rigidbody_one = _app.GetComponent<RigidBody>(entity_one);
-            //auto& rigidbody_two = _app.GetComponent<RigidBody>(entity_two);
+            auto& transform_one = app.GetECSManager()->GetComponent<Transform2D>(entity_one);
+            auto& transform_two = app.GetECSManager()->GetComponent<Transform2D>(entity_two);
+            //auto& rigidbody_one = app.GetComponent<RigidBody>(entity_one);
+            //auto& rigidbody_two = app.GetComponent<RigidBody>(entity_two);
 
             // Calculate the collision normal
             float dx = transform_one._position.x - transform_two._position.x;

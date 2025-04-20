@@ -1,10 +1,9 @@
-add_library(game STATIC
-    game.cpp
-    game.hpp
+add_library(test_game STATIC
+    test_game.cpp
+    test_game.hpp
 )
 
-target_link_libraries(game PUBLIC
-    core
-    gameobjects
+target_link_libraries(test_game PUBLIC
+    game
     systems
 )

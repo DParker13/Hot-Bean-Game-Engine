@@ -14,10 +14,10 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 include_directories(
     ${SDL2_SOURCE_DIR}/include
-    ${HotBeanEngine_SOURCE_DIR}/src/core
+    ${HotBeanEngine_SOURCE_DIR}/include
 )
 
-add_subdirectory(src/game)
+add_subdirectory(src)
 
 # Link libraries
 if (WIN32)
@@ -26,13 +26,13 @@ if (WIN32)
         message(STATUS "Debug mode is enabled, no additional linker flags")
         target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL2main
-            game
+            test_game
         )
     else()
         message(STATUS "Debug mode is disabled, applying linker flags")
         target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL2main
-            game
+            test_game
             ${CMAKE_LINKER_FLAGS} -Wl,-subsystem,windows
         )
     endif()
@@ -40,7 +40,7 @@ else ()
     # I have never tried this. I have only tested building on Windows
     target_link_libraries(${PROJECT_NAME} PRIVATE
         SDL2
-        game
+        test_game
     )
 endif()
 

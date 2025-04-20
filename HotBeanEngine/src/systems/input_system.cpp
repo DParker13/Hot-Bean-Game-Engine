@@ -1,9 +1,8 @@
 #include "input_system.hpp"
 
 namespace Systems {
-    InputSystem::InputSystem(App& app)
-        : System(app) {
-        app.SetupSystem<InputSystem>(this);
+    InputSystem::InputSystem() : System() {
+        App::GetInstance().SetupSystem<InputSystem>(this);
     }
 
     /**

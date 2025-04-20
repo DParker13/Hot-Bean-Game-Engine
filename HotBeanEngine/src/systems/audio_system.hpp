@@ -1,7 +1,8 @@
 #pragma once
 
 #include <SDL_mixer.h>
-#include <core.hpp>
+
+#include "../core/core.hpp"
 
 #include "../components/transform_2d.hpp"
 
@@ -16,7 +17,7 @@ namespace Systems {
             const Uint32 DEFAULT_MUSIC_CHANNEL = 1;
 
         public:
-            AudioSystem(App& app);
+            AudioSystem();
             
             //System Interface
             void OnInit() override;

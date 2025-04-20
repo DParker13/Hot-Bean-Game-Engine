@@ -11,7 +11,7 @@
  */
 #pragma once
 
-#include <core.hpp>
+#include "../core/core.hpp"
 
 #include "../components/transform_2d.hpp"
 #include "../components/rigidbody.hpp"
@@ -29,7 +29,7 @@ namespace Systems {
             void ResolveCollision(Entity entity_one, Entity entity_two);
 
         public:
-            CollisionSystem(App& app, int resolution);
+            CollisionSystem(int resolution);
 
             //System interface
             void OnUpdate() override;

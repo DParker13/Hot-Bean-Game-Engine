@@ -35,8 +35,12 @@ namespace Core {
             public:
                 bool _quit; ///< Flag to quit the application
     
-                App(std::string title, int width, int height);
                 ~App();
+                App(const App&) = delete;
+                App& operator=(const App&) = delete;
+
+                // Singleton
+                static App& GetInstance();
 
                 // Getters and Setters
                 SDL_Renderer* GetRenderer() const;
@@ -72,7 +76,9 @@ namespace Core {
                 SDL_Surface* _surface;
                 float _deltaTime; ///< Time elapsed between frames
                 float _previousFrameTime; ///< Previous frame time
-    
+                
+                App(std::string title, int width, int height);
+
                 /**
                  * @brief Cleans up the SDL window and renderer.
                  */
@@ -92,34 +98,37 @@ namespace Core {
                 /**
                  * @brief Called once at the start of the game.
                  */
-                virtual void OnInit() = 0;
+                virtual void OnInit();
     
                 /**
                  * @brief Called before handling events.
                  */
-                virtual void OnPreEvent() = 0;
+                virtual void OnPreEvent();
     
                 /**
                  * @brief Called when an event occurs.
                  * 
                  * @param event The SDL event to handle.
                  */
-                virtual void OnEvent(SDL_Event& event) = 0;
+                virtual void OnEvent(SDL_Event& event);
     
                 /**
                  * @brief Called after handling events. Meant to update system and entity game states.
                  */
-                virtual void OnUpdate() = 0;
+                virtual void OnUpdate();
     
                 /**
                  * @brief Called to prepare the screen for rendering.
                  */
-                virtual void OnRender() = 0;
+                virtual void OnRender();
     
                 /**
                  * @brief Called after rendering each frame.
                  */
-                virtual void OnPostRender() = 0;
+                virtual void OnPostRender();
+
+            private:
+                static App* _instance; // singleton of the application
         };
     }
 }

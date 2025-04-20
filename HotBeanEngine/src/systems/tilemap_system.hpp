@@ -1,7 +1,6 @@
 #pragma once
 
-#include <core.hpp>
-
+#include "../core/core.hpp"
 #include "../gameobjects/tile.hpp"
 
 using namespace Components;
@@ -11,7 +10,7 @@ using namespace Core::ECS;
 namespace Systems {
     class TileMapSystem : public System {
         public:
-            TileMapSystem(App& app);
+            TileMapSystem();
 
             //System Interface Overrides
             void OnInit() override;

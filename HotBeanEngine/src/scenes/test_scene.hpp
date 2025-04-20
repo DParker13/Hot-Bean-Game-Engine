@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core.hpp>
+#include "../core/core.hpp"
 
 // Include GameObjects
 #include "../gameobjects/ui/text.hpp"

@@ -1,5 +1,5 @@
 /**
- * @file rigidbody.h
+ * @file rigidbody.hpp
  * @author Daniel Parker (DParker13)
  * @brief Rigidbody component. Used for physics calculations.
  * @version 0.1
@@ -13,7 +13,7 @@
 
 #include <glm/vec3.hpp>
 
-#include <core.hpp>
+#include "../core/core.hpp"
 
 namespace Components {
     struct RigidBody : public Component {
@@ -21,7 +21,9 @@ namespace Components {
         glm::vec3 acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
         float gravity = -9.8f;
 
-        RigidBody() = default;
+        RigidBody() {
+            Component::_name = "RigidBody";
+        }
 
         RigidBody(const glm::vec3 velocity, const glm::vec3 acceleration, float gravity)
         : velocity(velocity), acceleration(acceleration), gravity(gravity) {}

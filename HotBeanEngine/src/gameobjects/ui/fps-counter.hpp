@@ -9,8 +9,8 @@ namespace GameObjects {
             Uint32 _lastTickCount = 0;
             Uint32 _fps = 0;
 
-            FPSCounter(App& app)
-                : Text(app) {};
+            FPSCounter()
+                : Text() {};
 
             // void OnUpdate(Entity entity) override {
             //     GameObject::OnUpdate(entity);

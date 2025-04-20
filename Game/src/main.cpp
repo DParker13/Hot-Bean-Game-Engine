@@ -1,7 +1,6 @@
 #include <SDL_main.h> // only include this one in the source file with main()!
 
-#include <core.hpp>
-#include "game/game.hpp"
+#include "game/test_game.hpp"
 
 using namespace Core::Application;
 using namespace Config;
@@ -15,7 +14,7 @@ using namespace Config;
  * @return an integer indicating the exit status of the program
  */
 int main(int argc, char* argv[]) {
-    Game game = Game(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT);
+    TestGame game = TestGame(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     game.Run();
 

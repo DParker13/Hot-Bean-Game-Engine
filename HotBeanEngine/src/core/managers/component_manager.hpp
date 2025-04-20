@@ -29,36 +29,6 @@ namespace Core {
                 ~ComponentManager();
         
                 std::string ToString() const;
-        
-                /**
-                 * Registers a component type with the ComponentManager and assigns it a ComponentType id.
-                 *
-                 * @param typeName The name of the component type to be registered as a string.
-                 *
-                 * @throws assertion failure if the maximum number of component types has been reached.
-                 */
-                template<typename T>
-                ComponentType RegisterComponentType() {
-                    std::string typeName = typeid(T).name();
-        
-                    static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component!");
-                    assert(_registeredComponents < MAX_COMPONENTS && "Reached maximum number of component!");
-        
-                    ComponentType componentType = _registeredComponents;
-        
-                    // Maps ComponentType id to Component Object Type name
-                    _componentTypeToName[componentType] = typeName;
-        
-                    // Maps ComponentType to an id
-                    _componentNameToType[typeName] = componentType;
-        
-                    // Create new sparse set for component data
-                    _componentNameToData[typeName] = std::make_shared<SparseSet<T, MAX_ENTITIES>>();
-        
-                    _registeredComponents++;
-        
-                    return componentType;
-                }
 
                 /**
                  * Registers a component type with the ComponentManager and assigns it a ComponentType id.
@@ -68,20 +38,26 @@ namespace Core {
                  * @throws assertion failure if the maximum number of component types has been reached.
                  */
                 template<typename T>
-                ComponentType RegisterComponentType(std::string typeName) {
+                ComponentType RegisterComponentType() {
                     static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component!");
                     assert(_registeredComponents < MAX_COMPONENTS && "Reached maximum number of component!");
+
+                    Component* component = static_cast<Component*>(new T());
+                    std::string component_name = component->_name;
+                    delete(component);
+
+                    assert(!component_name.empty() && "Component name not set!");
         
                     ComponentType componentType = _registeredComponents;
         
                     // Maps ComponentType id to Component Object Type name
-                    _componentTypeToName[componentType] = typeName;
+                    _componentTypeToName[componentType] = component_name;
         
                     // Maps ComponentType to an id
-                    _componentNameToType[typeName] = componentType;
+                    _componentNameToType[component_name] = componentType;
         
                     // Create new sparse set for component data
-                    _componentNameToData[typeName] = std::make_shared<SparseSet<T, MAX_ENTITIES>>();
+                    _componentNameToData[component_name] = std::make_shared<SparseSet<T, MAX_ENTITIES>>();
         
                     _registeredComponents++;
         
@@ -97,17 +73,20 @@ namespace Core {
                 template<typename T>
                 ComponentType AddComponent(Entity entity, T& componentData) {
                     static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component!");
-                    
-                    // Component Type Name
-                    std::string typeName = typeid(T).name();
+
+                    Component* component = static_cast<Component*>(new T());
+                    std::string component_name = component->_name;
+                    delete(component);
+
+                    assert(!component_name.empty() && "Component name not set!");
         
                     // Register component type if it's not already registered
-                    if (_componentNameToType.find(typeName) == _componentNameToType.end()) {
+                    if (_componentNameToType.find(component_name) == _componentNameToType.end()) {
                         RegisterComponentType<T>();
                     }
         
                     GetComponentSet<T>()->Insert(entity, componentData);
-                    return _componentNameToType[typeName];
+                    return _componentNameToType[component_name];
                 }
         
                 
@@ -122,10 +101,14 @@ namespace Core {
                  */
                 template<typename T>
                 ComponentType RemoveComponent(Entity entity) {
-                    // Component Type Name
-                    std::string typeName = typeid(T).name();
-        
-                    assert(_componentNameToType.find(typeName) != _componentNameToType.end() && "Component not registered!");
+                    static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component!");
+
+                    Component* component = static_cast<Component*>(new T());
+                    std::string component_name = component->_name;
+                    delete(component);
+
+                    assert(!component_name.empty() && "Component name not set!");
+                    assert(_componentNameToType.find(component_name) != _componentNameToType.end() && "Component not registered!");
         
                     std::shared_ptr<SparseSet<T, MAX_ENTITIES>> sparseSet = GetComponentSet<T>();
         
@@ -134,13 +117,13 @@ namespace Core {
         
                     // If the last component is removed, the component array must be destroyed and unregistered
                     if (sparseSet->Size() == 0) {
-                        _componentNameToType.erase(typeName);
-                        _componentNameToData.erase(typeName);
+                        _componentNameToType.erase(component_name);
+                        _componentNameToData.erase(component_name);
                         _registeredComponents--;
                     }
         
                     // Return component type to update entity signature
-                    return _componentNameToType[typeName];
+                    return _componentNameToType[component_name];
                 }
         
                 /**
@@ -153,11 +136,10 @@ namespace Core {
                  * @throws assertion failure if the component type is not registered.
                  */
                 void RemoveComponent(Entity entity, ComponentType componentType) {
-                    // Component Type Name
-                    std::string typeName = _componentTypeToName[componentType];
+                    std::string component_name = _componentTypeToName[componentType];
         
-                    assert(_componentNameToType.find(typeName) != _componentNameToType.end() && "Component not registered!");
-                    auto componentSparseSet = _componentNameToData[typeName];
+                    assert(_componentNameToType.find(component_name) != _componentNameToType.end() && "Component not registered!");
+                    auto componentSparseSet = _componentNameToData[component_name];
         
                     // Removes entity from component sparse set
                     componentSparseSet->Remove(entity);
@@ -165,8 +147,8 @@ namespace Core {
                     // If the last component is removed, the component array must be destroyed and unregistered
                     if (componentSparseSet->Size() == 0) {
                         _componentTypeToName.erase(componentType);
-                        _componentNameToType.erase(typeName);
-                        _componentNameToData.erase(typeName);
+                        _componentNameToType.erase(component_name);
+                        _componentNameToData.erase(component_name);
                         _registeredComponents--;
                     }
                 }
@@ -187,13 +169,19 @@ namespace Core {
         
                 template<typename T>
                 ComponentType GetComponentType() {
-                    std::string typeName = typeid(T).name();
+                    static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component!");
+
+                    Component* component = static_cast<Component*>(new T());
+                    std::string component_name = component->_name;
+                    delete(component);
+
+                    assert(!component_name.empty() && "Component name not set!");
         
-                    if (_componentNameToType.find(typeName) == _componentNameToType.end()) {
+                    if (_componentNameToType.find(component_name) == _componentNameToType.end()) {
                         return -1;
                     }
                     else {
-                        return _componentNameToType[typeName];
+                        return _componentNameToType[component_name];
                     }
                 }
                 
@@ -222,11 +210,16 @@ namespace Core {
                  */
                 template<typename T>
                 std::shared_ptr<SparseSet<T, MAX_ENTITIES>> GetComponentSet() {
-                    std::string typeName = typeid(T).name();
+                    static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component!");
+
+                    Component* component = static_cast<Component*>(new T());
+                    std::string component_name = component->_name;
+                    delete(component);
+
+                    assert(!component_name.empty() && "Component name not set!");
+                    assert(_componentNameToData.find(component_name) != _componentNameToData.end() && "Component not registered!");
         
-                    assert(_componentNameToData.find(typeName) != _componentNameToData.end() && "Component not registered!");
-        
-                    return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(_componentNameToData[typeName]);
+                    return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(_componentNameToData[component_name]);
                 }
         
                 /**

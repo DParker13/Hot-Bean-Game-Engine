@@ -44,7 +44,7 @@ namespace Core {
                 std::array<Signature, MAX_ENTITIES> _signatures{};
 
                 // Total living entities - used to keep limits on how many exist
-                Uint32 _livingEntityCount{};
+                Uint32 _livingEntityCount = 0;
         };
     }
 }

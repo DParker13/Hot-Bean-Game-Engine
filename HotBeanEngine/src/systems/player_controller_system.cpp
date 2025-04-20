@@ -1,9 +1,8 @@
 #include "player_controller_system.hpp"
 
 namespace Systems {
-    PlayerControllerSystem::PlayerControllerSystem(App& app)
-        : System(app) {
-        app.SetupSystem<PlayerControllerSystem, Transform2D, Controller>(this);
+    PlayerControllerSystem::PlayerControllerSystem() : System() {
+        App::GetInstance().SetupSystem<PlayerControllerSystem, Transform2D, Controller>(this);
     }
 
     /**
@@ -11,7 +10,7 @@ namespace Systems {
      * This function is called every frame and processes input to move entities.
      */
     void PlayerControllerSystem::OnUpdate() {
-        auto keysPressed = _app.GetECSManager()->GetSystem<Systems::InputSystem>()->_keysPressed;
+        auto keysPressed = App::GetInstance().GetECSManager()->GetSystem<Systems::InputSystem>()->_keysPressed;
 
         for (auto& entity : _entities) {
             Move(entity, keysPressed, 100);
@@ -26,13 +25,15 @@ namespace Systems {
      * @param speed The speed at which the entity will move, in pixels per second.
      */
     void PlayerControllerSystem::Move(Entity entity, std::unordered_set<SDL_Keycode> keysPressed, float speed) {
+        App& app = App::GetInstance();
+        
         if (keysPressed.size() > 0) {
-            float distance = speed * _app.GetDeltaTime();
+            float distance = speed * app.GetDeltaTime();
 
-            auto& controller = _app.GetECSManager()->GetComponent<Controller>(entity);
+            auto& controller = app.GetECSManager()->GetComponent<Controller>(entity);
 
             if (controller.controllable) {
-                auto& transform = _app.GetECSManager()->GetComponent<Transform2D>(entity);
+                auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
 
                 if (keysPressed.find(SDLK_LEFT) != keysPressed.end()) {
                     transform._position.x -= distance;

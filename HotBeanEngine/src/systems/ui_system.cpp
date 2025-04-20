@@ -1,11 +1,8 @@
 #include "ui_system.hpp"
 
 namespace Systems {
-    UISystem::UISystem(App& app)
-        : System(app), _font(nullptr) {
-        app.SetupSystem<UISystem, Transform2D, Text, Texture>(this);
-
-        SetupFont();
+    UISystem::UISystem(std::string font_path) : System(), _font_path(font_path), _font(nullptr) {
+        App::GetInstance().SetupSystem<UISystem, Transform2D, Text, Texture>(this);
     }
 
     UISystem::~UISystem() {
@@ -13,10 +10,14 @@ namespace Systems {
         _font = nullptr;
     }
 
+    void UISystem::OnInit() {
+        SetupFont();
+    }
+
     void UISystem::OnEvent(SDL_Event& event) {
         if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
             for (auto& entity : _entities) {
-                auto& text = _app.GetECSManager()->GetComponent<Text>(entity);
+                auto& text = App::GetInstance().GetECSManager()->GetComponent<Text>(entity);
 
                 text._dirty = true;
             }
@@ -28,7 +29,7 @@ namespace Systems {
      */
     void UISystem::OnUpdate() {
         for (auto& entity : _entities) {
-            auto& ui_element = _app.GetECSManager()->GetComponent<UIElement>(entity);
+            auto& ui_element = App::GetInstance().GetECSManager()->GetComponent<UIElement>(entity);
 
             switch(ui_element._type) {
                 case Enums::UIType::Text:
@@ -40,10 +41,11 @@ namespace Systems {
     }
 
     void UISystem::OnUpdateText(Entity entity) {
-        auto* renderer = _app.GetRenderer();
+        App& app = App::GetInstance();
+        auto* renderer = app.GetRenderer();
 
-        auto& text = _app.GetECSManager()->GetComponent<Text>(entity);
-        auto& texture = _app.GetECSManager()->GetComponent<Texture>(entity);
+        auto& text = app.GetECSManager()->GetComponent<Text>(entity);
+        auto& texture = app.GetECSManager()->GetComponent<Texture>(entity);
 
         // Initialize font
         if (!text._font) {
@@ -66,10 +68,11 @@ namespace Systems {
     }
 
     void UISystem::OnUpdateTexture(Entity entity) {
-        auto* renderer = _app.GetRenderer();
+        App& app = App::GetInstance();
+        auto* renderer = app.GetRenderer();
 
-        auto& transform = _app.GetECSManager()->GetComponent<Transform2D>(entity);
-        auto& texture = _app.GetECSManager()->GetComponent<Texture>(entity);
+        auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
+        auto& texture = app.GetECSManager()->GetComponent<Texture>(entity);
 
         if (texture._texture) {
             const SDL_Rect* rect = new SDL_Rect({ (int)transform._position.x, (int)transform._position.y, texture._size.x, texture._size.y });
@@ -86,7 +89,7 @@ namespace Systems {
     }
 
     void UISystem::SetupFont() {
-        _font = TTF_OpenFont(_font_path.string().data(), 10);
+        _font = TTF_OpenFont(_font_path.data(), 10);
 
         if (!_font) {
             SDL_Log("Couldn't load font: %s\n", SDL_GetError());

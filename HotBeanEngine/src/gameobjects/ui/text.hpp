@@ -6,8 +6,8 @@
 namespace GameObjects {
     namespace UI {
         struct Text : public UIElement<Components::Text> {
-            Text(App& app)
-                : UIElement<Components::Text>(app) {};
+            Text()
+                : UIElement<Components::Text>() {};
         };
     }
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core.hpp>
+#include "../core/core.hpp"
 
 #include "../components/transform_2d.hpp"
 #include "../components/controller.hpp"
@@ -13,10 +13,10 @@ namespace GameObjects {
                                     Components::Texture,
                                     Components::Collider2D> {
 
-        Player(App& app)
+        Player()
             : GameObject<Components::Transform2D,
                         Components::Controller,
                         Components::Texture,
-                        Components::Collider2D>(app) {};
+                        Components::Collider2D>() {};
     };
 }

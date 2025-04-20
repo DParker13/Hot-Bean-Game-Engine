@@ -1,9 +1,8 @@
 #include "tilemap_system.hpp"
 
 namespace Systems {
-    TileMapSystem::TileMapSystem(App& app)
-        : System(app) {
-        app.SetupSystem<TileMapSystem, Transform2D, Tile, RigidBody>(this);
+    TileMapSystem::TileMapSystem() : System() {
+        App::GetInstance().SetupSystem<TileMapSystem, Transform2D, Tile, RigidBody>(this);
     }
 
     /**
@@ -27,18 +26,19 @@ namespace Systems {
      * @param[in] surface The SDL_Surface of the window.
      */
     void TileMapSystem::OnRender() {
+        App& app = App::GetInstance();
         SDL_Color color = { 0xFF, 0xFF, 0xFF, 0xFF };
 
         for(auto& entity : _entities) {
-            auto& transform = _app.GetECSManager()->GetComponent<Transform2D>(entity);
-            auto& tile = _app.GetECSManager()->GetComponent<Tile>(entity);
+            auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
+            auto& tile = app.GetECSManager()->GetComponent<Tile>(entity);
 
             CreateRect(&transform, &tile);
         }
     }
 
     void TileMapSystem::CreateRect(Transform2D* transform, Components::Tile* tile) {
-        auto* renderer = _app.GetRenderer();
+        auto* renderer = App::GetInstance().GetRenderer();
 
         tile->_vertices[0] = { transform->_position.x, transform->_position.y, tile->_color };
         tile->_vertices[1] = { transform->_position.x, transform->_position.y + tile->_size, tile->_color };
@@ -57,9 +57,11 @@ namespace Systems {
 
     // Should this be defined in TileMapSystem instead?
     void TileMapSystem::InitMap(Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY) {
+        App& app = App::GetInstance();
+        
         for (int x = 0; x < numTilesX; x++) {
             for (int y = 0; y < numTilesY; y++) {
-                auto tile = GameObjects::Tile(_app);
+                auto tile = GameObjects::Tile();
                 tile.GetComponent<Tile>()._size = tileSize;
                 tile.GetComponent<Tile>()._color = { static_cast<Uint8>(255 / ((x + 1) + (y + 1))),
                                         static_cast<Uint8>(255 / ((x + 1) + (y + 1))),

@@ -9,28 +9,28 @@ namespace Core {
         template <typename... Components>
         class GameObject {
             public:
-                GameObject(App& app)
-                    : GameObject(app, std::make_index_sequence<sizeof...(Components)>{}) {}
+                GameObject()
+                    : GameObject(std::make_index_sequence<sizeof...(Components)>{}) {}
         
                 template <std::size_t... Cs>
-                GameObject(App& app, std::index_sequence<Cs...>)
-                    : _app(app) {
-                    _entity = _app.GetECSManager()->CreateEntity();
-                    (_app.GetECSManager()->AddComponent<Components>(_entity, Components()), ...);
+                GameObject(std::index_sequence<Cs...>) {
+                    App& app = App::GetInstance();
+                    _entity = app.GetECSManager()->CreateEntity();
+                    (app.GetECSManager()->AddComponent<Components>(_entity, Components()), ...);
                 }
         
                 ~GameObject() {
-                    _app.GetECSManager()->DestroyEntity(_entity);
+                    //App::GetInstance().GetECSManager()->DestroyEntity(_entity);
                 }
         
                 template <typename Component>
                 Component& GetComponent() {
-                    return _app.GetECSManager()->GetComponent<Component>(_entity);
+                    return App::GetInstance().GetECSManager()->GetComponent<Component>(_entity);
                 }
         
                 template <typename Component>
                 void AddComponent() {
-                    _app.GetECSManager()->AddComponent<Component>(_entity, Component());
+                    App::GetInstance().GetECSManager()->AddComponent<Component>(_entity, Component());
                 }
 
                 Entity GetEntity() {
@@ -62,7 +62,6 @@ namespace Core {
             
             protected:
                 Entity _entity = -1;
-                App& _app;
                 
         };
     }

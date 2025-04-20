@@ -15,6 +15,7 @@ add_library(systems STATIC
     audio_system.cpp
     collision_system.cpp
     collision_system.hpp
+    default_systems.hpp
 )
 
 # Link dependencies for the systems library

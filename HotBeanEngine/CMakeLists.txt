@@ -70,11 +70,7 @@ include_directories(
     ${SDL2_mixer_SOURCE_DIR}/include
     ${SDL2_image_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}/glm
-    src/core
 )
-
-message(STATUS "YAML: ${yaml_cpp_BINARY_DIR}")
-
 
 add_library(${PROJECT_NAME} STATIC
     src

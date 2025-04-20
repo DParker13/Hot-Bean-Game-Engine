@@ -1,8 +1,8 @@
 #pragma once
 
 #include <map>
-#include <core.hpp>
 
+#include "../core/core.hpp"
 #include "../components/transform_2d.hpp"
 #include "../components/texture.hpp"
 
@@ -15,7 +15,7 @@ namespace Systems {
         public:
             std::map<int, SDL_Texture*> _layers;
 
-            RenderSystem(App& app);
+            RenderSystem();
             ~RenderSystem();
             void OnEvent(SDL_Event& event) override;
             void OnRender() override;

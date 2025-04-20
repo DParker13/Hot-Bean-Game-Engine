@@ -15,9 +15,8 @@
 using namespace Components;
 
 namespace Systems {
-    RenderSystem::RenderSystem(App& app)
-        : System(app) {
-        app.SetupSystem<RenderSystem, Transform2D, Texture>(this);
+    RenderSystem::RenderSystem() : System() {
+        App::GetInstance().SetupSystem<RenderSystem, Transform2D, Texture>(this);
     }
 
     RenderSystem::~RenderSystem() {
@@ -34,9 +33,11 @@ namespace Systems {
      */
     void RenderSystem::OnEvent(SDL_Event& event) {
         if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
-            _app.Log(LoggingType::INFO, "Window being resized - Resetting renderer...");
+            App& app = App::GetInstance();
 
-            SDL_Renderer* renderer = _app.GetRenderer();
+            app.Log(LoggingType::INFO, "Window being resized - Resetting renderer...");
+
+            SDL_Renderer* renderer = app.GetRenderer();
             SDL_Window* window = SDL_GetWindowFromID(event.window.windowID);
 
             // Destroy the old surface and renderer
@@ -46,28 +47,29 @@ namespace Systems {
             // Create a new renderer
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
             if (renderer == nullptr) {
-                _app.Log(LoggingType::ERROR, std::string("Failed to create renderer: ") + SDL_GetError());
+                app.Log(LoggingType::ERROR, std::string("Failed to create renderer: ") + SDL_GetError());
             }
 
             // Set the new renderer and window
-            _app.SetRenderer(SDL_GetRenderer(window));
-            _app.SetWindow(window);
+            app.SetRenderer(SDL_GetRenderer(window));
+            app.SetWindow(window);
             
             // Prepare the renderer for the next frame
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             SDL_RenderClear(renderer);
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-            _app.Log(LoggingType::INFO, "Window finished resizing");
+            app.Log(LoggingType::INFO, "Window finished resizing");
         }
     }
     
     void RenderSystem::OnRender() {
-        auto* renderer = _app.GetRenderer();
+        App& app = App::GetInstance();
+        auto* renderer = app.GetRenderer();
 
         for (auto& entity : _entities) {
-            auto& transform = _app.GetECSManager()->GetComponent<Transform2D>(entity);
-            auto& texture = _app.GetECSManager()->GetComponent<Texture>(entity);
+            auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
+            auto& texture = app.GetECSManager()->GetComponent<Texture>(entity);
 
             // Create a new texture layer if it doesn't exist
             if (_layers.find(transform._layer) == _layers.end()) {
@@ -119,7 +121,7 @@ namespace Systems {
      * @param renderer 
      */
     void RenderSystem::OnPostRender() {
-        auto* renderer = _app.GetRenderer();
+        auto* renderer = App::GetInstance().GetRenderer();
 
         for (auto& layer : _layers) {
             SDL_SetRenderTarget(renderer, layer.second);

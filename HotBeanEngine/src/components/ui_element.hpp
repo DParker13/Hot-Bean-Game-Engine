@@ -1,5 +1,5 @@
 /**
- * @file ui_element.h
+ * @file ui_element.hpp
  * @author Daniel Parker (DParker13)
  * @brief UI element component. Used for rendering UI elements.
  * @version 0.1
@@ -11,7 +11,8 @@
 
 #pragma once
 
-#include <core.hpp>
+#include "../core/core.hpp"
+
 #include "enums/ui_type.hpp"
 
 namespace Components {
@@ -20,7 +21,9 @@ namespace Components {
         Enums::UIType _type;
         bool _dirty = false;
 
-        UIElement() = default;
+        UIElement() {
+            Component::_name = "UIElement";
+        }
 
         std::string ToString() const override {
             return "UIElement";

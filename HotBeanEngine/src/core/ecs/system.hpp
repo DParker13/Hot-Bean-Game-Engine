@@ -14,11 +14,7 @@ namespace Core {
     namespace ECS {
         class System : public Object, public GameLoop {
             public:
-                App& _app;
                 std::set<Entity> _entities;
-        
-                System(App& app)
-                    : _app(app) {};
         
                 System() = default;
                 virtual ~System() = default;

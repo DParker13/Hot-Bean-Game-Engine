@@ -1,9 +1,8 @@
 #include "audio_system.hpp"
 
 namespace Systems {
-    AudioSystem::AudioSystem(App& app)
-        : System(app) {
-        app.SetupSystem<AudioSystem>(this);
+    AudioSystem::AudioSystem() : System() {
+        App::GetInstance().SetupSystem<AudioSystem>(this);
     }
 
     /**

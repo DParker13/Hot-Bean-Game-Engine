@@ -1,5 +1,5 @@
 /**
- * @file transform_2d.h
+ * @file transform_2d.hpp
  * @author Daniel Parker (DParker13)
  * @brief Transform 2D component. Used to keep track of entity position, rotation, and scale.
  * @version 0.1
@@ -14,7 +14,7 @@
 #include <glm/vec2.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-#include <core.hpp>
+#include "../core/core.hpp"
 
 namespace Components {
     struct Transform2D : public Component {
@@ -23,7 +23,9 @@ namespace Components {
         glm::vec2 _scale = glm::vec2(1.0f, 1.0f);
         Uint8 _layer = 0;
 
-        Transform2D() = default;
+        Transform2D() {
+            Component::_name = "Transform2D";
+        }
 
         Transform2D(const glm::vec2 position, const glm::quat rotation, const glm::vec3 scale)
         : _position(position), _rotation(rotation), _scale(scale) {}

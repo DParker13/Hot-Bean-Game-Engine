@@ -1,5 +1,5 @@
 /**
- * @file player.h
+ * @file player.hpp
  * @author Daniel Parker (DParker13)
  * @brief Player component. Used to control an entity using user input.
  * @version 0.1
@@ -11,13 +11,15 @@
 
 #pragma once
 
-#include <core.hpp>
+#include "../core/core.hpp"
 
 namespace Components {
     struct Controller : public Component {
         bool controllable = true;
 
-        Controller() {}
+        Controller() {
+            Component::_name = "Controller";
+        }
 
         std::string ToString() const override {
             std::stringstream str;

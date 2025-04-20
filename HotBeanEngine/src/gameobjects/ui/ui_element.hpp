@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core.hpp>
+#include "../../core/core.hpp"
 
 #include "../../components/transform_2d.hpp"
 #include "../../components/texture.hpp"
@@ -14,11 +14,11 @@ namespace GameObjects {
                                             Components::Texture,
                                             Components::UIElement,
                                             Cs...> {
-            UIElement(App& app)
+            UIElement()
                 : GameObject<Components::Transform2D,
                             Components::Texture,
                             Components::UIElement,
-                            Cs...>(app) {};
+                            Cs...>() {};
         };
     }
 }

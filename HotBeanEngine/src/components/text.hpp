@@ -1,5 +1,5 @@
 /**
- * @file text.h
+ * @file text.hpp
  * @author Daniel Parker (DParker13)
  * @brief Text component. Used for keeping track of text.
  * @version 0.1
@@ -34,6 +34,7 @@ namespace Components {
              * @brief Construct a new Text component
              */
             Text() {
+                Component::_name = "Text";
                 _color = SDL_Color();
                 _color.r = 255;
                 _color.g = 255;

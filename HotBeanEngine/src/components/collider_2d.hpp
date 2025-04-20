@@ -1,5 +1,5 @@
 /**
- * @file collider_2d.h
+ * @file collider_2d.hpp
  * @author Daniel Parker (DParker13)
  * @brief Used for 2D collision detection.
  * @version 0.1
@@ -10,7 +10,9 @@
  */
 #pragma once
 
-#include <core.hpp>
+#include <glm/vec2.hpp>
+
+#include "../core/core.hpp"
 
 namespace Components {
     struct Collider2D : public Component {
@@ -18,7 +20,9 @@ namespace Components {
         bool _is_static;
         bool _is_trigger;
 
-        Collider2D() = default;
+        Collider2D() {
+            Component::_name = "Collider2D";
+        }
 
         std::string ToString() const override {
             std::stringstream str;

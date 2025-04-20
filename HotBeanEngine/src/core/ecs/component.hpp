@@ -15,6 +15,8 @@ namespace Core {
         const ComponentType MAX_COMPONENTS = 64;
     
         struct Component : public Object {
+            std::string _name;
+
             Component() = default;
             virtual ~Component() = default;
         };

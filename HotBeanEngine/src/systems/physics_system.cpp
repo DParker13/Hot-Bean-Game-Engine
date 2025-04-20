@@ -1,9 +1,8 @@
 #include "physics_system.hpp"
 
 namespace Systems {
-    PhysicsSystem::PhysicsSystem(App& app)
-        : System(app) {
-        app.SetupSystem<PhysicsSystem, Transform2D, RigidBody>(this);
+    PhysicsSystem::PhysicsSystem() : System() {
+        App::GetInstance().SetupSystem<PhysicsSystem, Transform2D, RigidBody>(this);
     }
 
     /**
@@ -11,12 +10,14 @@ namespace Systems {
      * @details Applies gravity to all entities in the system.
      */
     void PhysicsSystem::OnUpdate() {
-        for (auto& entity : _entities) {
-            auto& transform = _app.GetECSManager()->GetComponent<Transform2D>(entity);
-            auto& rigidbody = _app.GetECSManager()->GetComponent<RigidBody>(entity);
+        App& app = App::GetInstance();
 
-            transform._position.y -= rigidbody.velocity.y * _app.GetDeltaTime();
-		    rigidbody.velocity.y += rigidbody.gravity * _app.GetDeltaTime();
+        for (auto& entity : _entities) {
+            auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
+            auto& rigidbody = app.GetECSManager()->GetComponent<RigidBody>(entity);
+
+            transform._position.y -= rigidbody.velocity.y * app.GetDeltaTime();
+		    rigidbody.velocity.y += rigidbody.gravity * app.GetDeltaTime();
         }
     }
 

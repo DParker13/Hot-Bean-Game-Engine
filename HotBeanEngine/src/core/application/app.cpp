@@ -14,6 +14,8 @@
 
 namespace Core {
     namespace Application {
+        App* App::_instance = nullptr;
+
         /**
          * @brief Constructs an Application instance with the specified window title, width, and height.
          *
@@ -24,6 +26,8 @@ namespace Core {
         App::App(std::string title, int width, int height)
             : _window(nullptr), _renderer(nullptr), _quit(false),
             _deltaTime(0.0f), _previousFrameTime(0.0f) {
+
+            _instance = this;
 
             // Initialize managers
             _ecsManager = std::make_shared<ECSManager>();
@@ -90,6 +94,10 @@ namespace Core {
     
         App::~App() {
             CleanUpSDL();
+        }
+
+        App& App::GetInstance() {
+            return *_instance;
         }
 
         // Getters and Setters
@@ -224,6 +232,15 @@ namespace Core {
             InitSystems();
     
             _ecsManager->IterateSystems(GameLoopState::OnInit);
+        }
+
+        /**
+         * @brief Calls the OnEvent method of each system in the system manager.
+         *
+         * @param event The SDL event to be handled.
+         */
+        void App::OnPreEvent() {
+            _ecsManager->IterateSystems(GameLoopState::OnPreEvent);
         }
     
         /**

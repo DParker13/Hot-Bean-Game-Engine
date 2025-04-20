@@ -1,17 +1,9 @@
 add_library(src INTERFACE
-    components
-    core
-    gameobjects
-    systems
-    scenes
+    game
 )
 
 target_link_libraries(src INTERFACE
-    components
-    core
-    gameobjects
-    systems
-    scenes
+    game
 )
 
 # Add subdirectories for project modules
@@ -20,3 +12,4 @@ add_subdirectory(components)
 add_subdirectory(gameobjects)
 add_subdirectory(systems)
 add_subdirectory(scenes)
+add_subdirectory(game)
