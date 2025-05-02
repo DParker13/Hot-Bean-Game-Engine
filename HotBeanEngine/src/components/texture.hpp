@@ -18,8 +18,10 @@ namespace Components {
         SDL_Texture* _texture = nullptr; ///< A pointer to the SDL texture object. Can be null if the texture has not been loaded.
         glm::ivec2 _size = {0, 0}; ///< Size of the texture in pixels.
 
-        Texture() {
-            Component::_name = "Texture";
+        Texture() = default;
+
+        std::string GetName() const override {
+            return "Texture";
         }
 
         /**
@@ -29,6 +31,10 @@ namespace Components {
             if (_texture) {
                 SDL_DestroyTexture(_texture);
             }
+        }
+
+        void Serialize(YAML::Emitter& out) const override {
+            out << YAML::Key << "size" << YAML::Value << _size;
         }
 
         std::string ToString() const override {

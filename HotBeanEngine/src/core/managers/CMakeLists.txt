@@ -9,8 +9,8 @@ add_library(managers STATIC
     entity_manager.hpp
     system_manager.cpp
     system_manager.hpp
-    scene_manager.cpp
-    scene_manager.hpp
+    serialization_manager.cpp
+    serialization_manager.hpp
     logging_manager.cpp
     logging_manager.hpp
 )
@@ -20,4 +20,7 @@ add_library(managers STATIC
 target_link_libraries(managers PUBLIC
     ecs
     yaml-cpp
+    managers_helpers
 )
+
+add_subdirectory(helpers)

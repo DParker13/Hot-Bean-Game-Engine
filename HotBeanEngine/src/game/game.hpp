@@ -11,7 +11,7 @@
 #pragma once
 
 #include "../core/core.hpp"
-#include "../components/default_components.hpp"
+#include "../components/component_register.hpp"
 #include "../systems/default_systems.hpp"
 #include "../gameobjects/default_gameobjects.hpp"
 
@@ -33,9 +33,13 @@ namespace Core {
                  * @param height The height of the application window.
                  */
                 Game(std::string title, int width, int height);
+                Game(std::string title, int width, int height, ComponentRegister component_register);
                 ~Game() = default;
                 Game(const Game&) = delete;
                 Game& operator=(const Game&) = delete;
+
+            protected:
+                ComponentRegister _component_register;
         };
     }
 }

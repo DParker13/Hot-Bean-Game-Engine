@@ -1,11 +1,8 @@
 #pragma once
 
-#include "../core/core.hpp"
+#include <HotBeanEngine.hpp>
 
-// Include GameObjects
-#include "../gameobjects/ui/text.hpp"
-#include "../gameobjects/player.hpp"
-#include "../gameobjects/tile.hpp"
+#include "../scenes/test_scene.hpp"
 
 using namespace Core::ECS;
 using namespace Core::Application;
@@ -13,8 +10,8 @@ using namespace GameObjects;
 
 namespace Scenes {
     struct TestScene : Scene {
-        TestScene()
-        : Scene("TestScene") {}
+        TestScene(std::string path)
+        : Scene("TestScene", path) {}
 
         ~TestScene() = default;
 
@@ -22,27 +19,20 @@ namespace Scenes {
         std::shared_ptr<UI::Text> fpsText;
         std::shared_ptr<UI::Text> testText;
 
-        void RegisterComponents(App& app) override {
-            std::shared_ptr<ECSManager> ecs_manager = app.GetECSManager();
-            ecs_manager->RegisterComponentType<Text>();
-            ecs_manager->RegisterComponentType<Text>();
-            ecs_manager->RegisterComponentType<Transform2D>();
-            ecs_manager->RegisterComponentType<Texture>();
-            ecs_manager->RegisterComponentType<Controller>();
-        }
-
-        void SetupScene(App& app) override {
+        void SetupScene() override {
             std::cout << "Test scene setup" << std::endl;
 
-            fpsText = std::make_shared<UI::Text>(app);
-            testText = std::make_shared<UI::Text>(app);
+            App& app = App::GetInstance();
+
+            fpsText = std::make_shared<UI::Text>();
+            testText = std::make_shared<UI::Text>();
     
-            // Setup fps counter
+            // Setup test text 1
             fpsText->GetComponent<Text>()._size = 5;
             fpsText->GetComponent<Text>().SetText("The quick brown fox jumps over the lazy dog");
             fpsText->GetComponent<Text>()._wrapping_width = 50;
     
-            // Setup test text
+            // Setup test text 2
             testText->GetComponent<Transform2D>()._position = { 500.0f, 50.0f };
             testText->GetComponent<Transform2D>()._layer = 1;
             testText->GetComponent<Texture>()._size = { 500.0f, 100.0f };
@@ -50,8 +40,9 @@ namespace Scenes {
             testText->GetComponent<Text>().SetText("Layer 1!");
         }
 
-        void UnloadScene(App& app) override {
+        void UnloadScene() override {
             std::cout << "Test scene unloaded" << std::endl;
+            App& app = App::GetInstance();
             
             app.GetECSManager()->DestroyEntity(fpsText->GetEntity());
             app.GetECSManager()->DestroyEntity(fpsText->GetEntity());

@@ -13,6 +13,9 @@
 
 #include <HotBeanEngine.hpp>
 
+#include "../scenes/test_scene.hpp"
+
+using namespace Components;
 using namespace Systems;
 
 namespace Core {
@@ -22,7 +25,8 @@ namespace Core {
                 TestGame(std::string title, int width, int height);
                 ~TestGame() = default;
 
-                void InitSystems() override;
+                void SetupSystems() override;
+                void OnStart() override;
         };
     }
 }

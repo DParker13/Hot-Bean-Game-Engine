@@ -5,7 +5,7 @@
 namespace Core {
     namespace ECS {
         struct GameLoop {
-            virtual void OnInit() = 0;
+            virtual void OnStart() = 0;
             virtual void OnPreEvent() = 0;
             virtual void OnEvent(SDL_Event& event) = 0;
             virtual void OnUpdate() = 0;

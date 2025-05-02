@@ -29,6 +29,8 @@ namespace Core {
 			virtual ~ISparseSet() = default;
 			virtual void Remove(size_t index) = 0;
 			virtual size_t Size() const = 0;
+
+			virtual Component& GetComponent(size_t index) = 0;
 		};
 	
 		template <typename T, size_t MAX_ITEMS>
@@ -106,12 +108,16 @@ namespace Core {
 				T& GetElement(size_t index) {
 					assert(0 <= index && index <= MAX_ITEMS && "Element out of range.");
 	
-					// if (_dense[_sparse[index]] == T()) {
-					// 	throw std::runtime_error("Element is nullptr");
-					// }
-	
 					// Return a reference to the value
 					return _dense[_sparse[index]];
+				}
+
+				Component& GetComponent(size_t index) override {
+					static_assert(std::is_base_of<Component, T>::value, "T must be a Component.");
+					assert(0 <= index && index <= MAX_ITEMS && "Element out of range.");
+	
+					// Return a reference to the value
+					return static_cast<Component&>(_dense[_sparse[index]]);
 				}
 	
 				/**

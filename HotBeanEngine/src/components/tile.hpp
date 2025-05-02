@@ -22,8 +22,20 @@ namespace Components {
 
         int _INDICES[6] = { 0, 1, 2, 1, 3, 2 };
 
-        Tile() {
-            Component::_name = "Tile";
+        Tile() = default;
+
+        std::string GetName() const override {
+            return "Tile";
+        }
+
+        void Serialize(YAML::Emitter& out) const override {
+            out << YAML::Key << "type" << YAML::Value << _type;
+            out << YAML::Key << "size" << YAML::Value << _size;
+        }
+
+        void Deserialize(YAML::Node& node) override {
+            _type = node["type"].as<Uint8>();
+            _size = node["size"].as<Uint8>();
         }
 
         std::string ToString() const override {

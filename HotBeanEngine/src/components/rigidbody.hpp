@@ -21,12 +21,26 @@ namespace Components {
         glm::vec3 acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
         float gravity = -9.8f;
 
-        RigidBody() {
-            Component::_name = "RigidBody";
-        }
+        RigidBody() = default;
 
         RigidBody(const glm::vec3 velocity, const glm::vec3 acceleration, float gravity)
         : velocity(velocity), acceleration(acceleration), gravity(gravity) {}
+
+        std::string GetName() const override {
+            return "RigidBody";
+        }
+
+        void Serialize(YAML::Emitter& out) const override {
+            out << YAML::Key << "velocity" << YAML::Value << velocity;
+            out << YAML::Key << "acceleration" << YAML::Value << acceleration;
+            out << YAML::Key << "gravity" << YAML::Value << gravity;
+        }
+
+        void Deserialize(YAML::Node& node) override {
+            velocity = node["velocity"].as<glm::vec3>();
+            acceleration = node["acceleration"].as<glm::vec3>();
+            gravity = node["gravity"].as<float>();
+        }
 
         /**
          * Prints the details of the Rigidbody component to the console.

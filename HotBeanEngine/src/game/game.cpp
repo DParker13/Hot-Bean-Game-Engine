@@ -14,8 +14,11 @@
 namespace Core {
     namespace Application {
         Game::Game(std::string title, int width, int height)
-            : App(title, width, height) {
-            Components::DefaultComponents::RegisterComponents(App::GetInstance().GetECSManager());
+            : Game(title, width, height, ComponentRegister()) {}
+
+        Game::Game(std::string title, int width, int height, ComponentRegister component_register)
+            : App(title, width, height), _component_register(component_register) {
+                component_register.RegisterComponents();
         }
     }
 }

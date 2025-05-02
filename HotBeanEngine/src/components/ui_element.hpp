@@ -18,11 +18,27 @@
 namespace Components {
 
     struct UIElement : public Component {
-        Enums::UIType _type;
-        bool _dirty = false;
+        Enums::UIType _type = Enums::UIType::Empty;
+        bool _dirty = true;
 
-        UIElement() {
-            Component::_name = "UIElement";
+        UIElement() = default;
+
+        virtual std::string GetName() const override {
+            return "UIElement";
+        }
+
+        virtual void Serialize(YAML::Emitter& out) const override {
+            out << YAML::Key << "type" << YAML::Value << (int)_type;
+        }
+
+        virtual void Deserialize(YAML::Node& node) override {
+            if (node["type"]) {
+                _type = (Enums::UIType)node["type"].as<int>();
+            }
+
+            if (node["dirty"]) {
+                _dirty = node["dirty"].as<bool>();
+            }
         }
 
         std::string ToString() const override {

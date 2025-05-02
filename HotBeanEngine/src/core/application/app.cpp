@@ -29,14 +29,14 @@ namespace Core {
 
             _instance = this;
 
-            // Initialize managers
-            _ecsManager = std::make_shared<ECSManager>();
-            _loggingManager = std::make_unique<LoggingManager>();
-            _sceneManager = std::make_unique<SceneManager>(_ecsManager);
-
             // Setup logging first to capture any application initialization errors
-            _loggingManager->SetLogPath(Config::LOG_PATH);
-            _loggingManager->SetLoggingLevel(Config::LOGGING_LEVEL);
+            _logging_manager = std::make_shared<LoggingManager>();
+            _logging_manager->SetLogPath(Config::LOG_PATH);
+            _logging_manager->SetLoggingLevel(Config::LOGGING_LEVEL);
+
+            // Initialize other core managers
+            _ecs_manager = std::make_shared<ECSManager>(_logging_manager);
+            _serialization_manager = std::make_unique<SerializationManager>(_ecs_manager, _logging_manager);
 
             // Initialize SDL
             if (SDL_Init(SDL_INIT_VIDEO || SDL_INIT_AUDIO) < 0) {
@@ -130,7 +130,7 @@ namespace Core {
         }
 
         std::shared_ptr<ECSManager> App::GetECSManager() const {
-            return _ecsManager;
+            return _ecs_manager;
         }
 
         /**
@@ -139,15 +139,15 @@ namespace Core {
          * @param message 
          */
         void App::Log(LoggingType type, std::string message) {
-            _loggingManager->Log(type, message);
+            _logging_manager->Log(type, message);
         }
 
         void App::SetLoggingLevel(LoggingType level) {
-            _loggingManager->SetLoggingLevel(level);
+            _logging_manager->SetLoggingLevel(level);
         }
 
         void App::SetLogPath(std::string log_path) {
-            _loggingManager->SetLogPath(log_path);
+            _logging_manager->SetLogPath(log_path);
         }
     
         /**
@@ -161,7 +161,7 @@ namespace Core {
         void App::Run() {
             SDL_Event event;
     
-            OnInit();
+            OnStart();
     
             while (!_quit) {
                 //Calculates delta time
@@ -213,6 +213,14 @@ namespace Core {
             IMG_Quit();
             SDL_Quit();
         }
+
+        Entity App::CreateEntity() {
+            return _ecs_manager->CreateEntity();
+        }
+
+        void App::DestroyEntity(Entity entity) {
+            _ecs_manager->DestroyEntity(entity);
+        }
     
         /**
          * @brief Updates the delta time (time elapsed) between frames.
@@ -228,10 +236,10 @@ namespace Core {
          * @brief Initializes the application systems and iterates through the
          * systems in the system manager, calling their OnInit methods.
          */
-        void App::OnInit() {
-            InitSystems();
+        void App::OnStart() {
+            SetupSystems();
     
-            _ecsManager->IterateSystems(GameLoopState::OnInit);
+            _ecs_manager->IterateSystems(GameLoopState::OnInit);
         }
 
         /**
@@ -240,7 +248,7 @@ namespace Core {
          * @param event The SDL event to be handled.
          */
         void App::OnPreEvent() {
-            _ecsManager->IterateSystems(GameLoopState::OnPreEvent);
+            _ecs_manager->IterateSystems(GameLoopState::OnPreEvent);
         }
     
         /**
@@ -249,7 +257,7 @@ namespace Core {
          * @param event The SDL event to be handled.
          */
         void App::OnEvent(SDL_Event& event) {
-            _ecsManager->IterateSystems(event);
+            _ecs_manager->IterateSystems(event);
         }
     
         /**
@@ -259,7 +267,7 @@ namespace Core {
          * @param delta_time The time in seconds since the last frame.
          */
         void App::OnUpdate() {
-            _ecsManager->IterateSystems(GameLoopState::OnUpdate);
+            _ecs_manager->IterateSystems(GameLoopState::OnUpdate);
         }
     
         /**
@@ -270,7 +278,7 @@ namespace Core {
          * @param surface The SDL_Surface to render to.
          */
         void App::OnRender() {
-            _ecsManager->IterateSystems(GameLoopState::OnRender);
+            _ecs_manager->IterateSystems(GameLoopState::OnRender);
         }
     
         /**
@@ -279,7 +287,7 @@ namespace Core {
          * @param renderer The SDL_Renderer to render with.
          */
         void App::OnPostRender() {
-            _ecsManager->IterateSystems(GameLoopState::OnPostRender);
+            _ecs_manager->IterateSystems(GameLoopState::OnPostRender);
         }
     }
 }

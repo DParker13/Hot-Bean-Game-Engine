@@ -3,6 +3,7 @@
 namespace Components {
     namespace Enums {
         enum class UIType {
+            Empty,
             Text,
             Image,
             Button,

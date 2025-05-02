@@ -7,6 +7,7 @@
 #include "../components/transform_2d.hpp"
 #include "../components/text.hpp"
 #include "../components/texture.hpp"
+#include "../components/ui_element.hpp"
 
 using namespace Components;
 using namespace Core::Application;
@@ -22,7 +23,7 @@ namespace Systems {
             ~UISystem();
 
             //System interface
-            void OnInit() override;
+            void OnStart() override;
             void OnEvent(SDL_Event& event) override;
             void OnUpdate() override;
 

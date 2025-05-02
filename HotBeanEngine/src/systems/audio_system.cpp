@@ -9,7 +9,7 @@ namespace Systems {
      * OnInit is called when the system is initialized.
      * It loads a default music sample and starts playing it.
      */
-    void AudioSystem::OnInit() {
+    void AudioSystem::OnStart() {
         LoadMusic("../assets/music/Summer.wav");
         PlayMusic(-1);
     }

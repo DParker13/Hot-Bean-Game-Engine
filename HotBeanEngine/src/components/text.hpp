@@ -34,7 +34,6 @@ namespace Components {
              * @brief Construct a new Text component
              */
             Text() {
-                Component::_name = "Text";
                 _color = SDL_Color();
                 _color.r = 255;
                 _color.g = 255;
@@ -46,6 +45,43 @@ namespace Components {
              * @brief Destroy the Text component
              */
             ~Text() = default;
+
+            std::string GetName() const override {
+                return "Text";
+            }
+
+            void Deserialize(YAML::Node& node) override {
+                UIElement::Deserialize(node);
+
+                if (node["text"]) {
+                    _text = node["text"].as<std::string>();
+                }
+
+                if (node["color"]) {
+                    _color = node["color"].as<SDL_Color>();
+                }
+
+                if (node["size"]) {
+                    _size = node["size"].as<int>();
+                }
+
+                if (node["style"]) {
+                    _style = node["style"].as<int>();
+                }
+
+                if (node["wrapping_width"]) {
+                    _wrapping_width = node["wrapping_width"].as<int>();
+                }
+            }
+
+            void Serialize(YAML::Emitter& out) const override {
+                UIElement::Serialize(out);
+                out << YAML::Key << "text" << YAML::Value << _text;
+                out << YAML::Key << "color" << YAML::Value << _color;
+                out << YAML::Key << "size" << YAML::Value << _size;
+                out << YAML::Key << "style" << YAML::Value << _style;
+                out << YAML::Key << "wrapping_width" << YAML::Value << _wrapping_width;
+            }
 
             /**
              * Sets the text of the Text component.

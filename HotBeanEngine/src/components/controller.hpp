@@ -17,8 +17,20 @@ namespace Components {
     struct Controller : public Component {
         bool controllable = true;
 
-        Controller() {
-            Component::_name = "Controller";
+        Controller() = default;
+
+        std::string GetName() const override {
+            return "Controller";
+        }
+
+        void Serialize(YAML::Emitter& out) const override {
+            out << YAML::Key << "controllable" << YAML::Value << controllable;
+        }
+
+        void Deserialize(YAML::Node& node) override {
+            if (node["controllable"]) {
+                controllable = node["controllable"].as<bool>();
+            }
         }
 
         std::string ToString() const override {

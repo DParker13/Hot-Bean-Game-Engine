@@ -11,21 +11,19 @@
 
 using namespace Core::ECS;
 
-namespace Core {
-    namespace Managers {
-        class LoggingManager {
-            public:
-                LoggingManager() = default;
+namespace Core::Managers {
+    class LoggingManager {
+        public:
+            LoggingManager() = default;
 
-                void Log(LoggingType type, std::string message);
-                void SetLogPath(std::string log_path);
-                void SetLoggingLevel(LoggingType level);
-            
-            private:
-                std::string _log_path;
-                LoggingType _log_level;
+            void Log(LoggingType type, std::string message);
+            void SetLogPath(std::string log_path);
+            void SetLoggingLevel(LoggingType level);
+        
+        private:
+            std::string _log_path;
+            LoggingType _log_level;
 
-                void SetupDefaultLoggingPath();
-        };
-    }
+            void SetupDefaultLoggingPath();
+    };
 }

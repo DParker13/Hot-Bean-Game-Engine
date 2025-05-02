@@ -20,7 +20,7 @@ namespace Systems {
             AudioSystem();
             
             //System Interface
-            void OnInit() override;
+            void OnStart() override;
 
             void LoadMusic(std::string musicFilePath);
             void PlayMusic(int numLoops);

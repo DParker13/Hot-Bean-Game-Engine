@@ -21,30 +21,29 @@
 
 using namespace Core::ECS;
 
-namespace Core {
-    namespace Managers {
-        // EntityManager manages the creation and destruction of entities
-        class EntityManager {
-            public:
-                EntityManager();
-                ~EntityManager();
+namespace Core::Managers {
+    // EntityManager manages the creation and destruction of entities
+    class EntityManager {
+        public:
+            EntityManager();
+            ~EntityManager();
 
-                std::string ToString() const;
+            std::string ToString() const;
 
-                Entity CreateEntity();
-                void DestroyEntity(Entity entity);
-                Signature SetSignature(Entity entity, ComponentType componentType);
-                Signature GetSignature(Entity entity);
+            Entity CreateEntity();
+            void DestroyEntity(Entity entity);
+            Signature SetSignature(Entity entity, ComponentType componentType);
+            Signature GetSignature(Entity entity);
+            Entity EntityCount() const;
 
-            private:
-                // Queue of unused entity IDs
-                std::queue<Entity> _availableEntities{};
+        private:
+            // Queue of unused entity IDs
+            std::queue<Entity> _availableEntities{};
 
-                // Array of signatures where the index corresponds to the entity ID
-                std::array<Signature, MAX_ENTITIES> _signatures{};
+            // Array of signatures where the index corresponds to the entity ID
+            std::array<Signature, MAX_ENTITIES> _signatures{};
 
-                // Total living entities - used to keep limits on how many exist
-                Uint32 _livingEntityCount = 0;
-        };
-    }
+            // Total living entities - used to keep limits on how many exist
+            Entity _livingEntityCount = 0;
+    };
 }

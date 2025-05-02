@@ -17,67 +17,127 @@
 
 #include "ecs_manager.hpp"
 
-namespace Core {
-    namespace Managers {
-        ECSManager::ECSManager() {
-            _entityManager = std::make_unique<EntityManager>();
-            _componentManager = std::make_unique<ComponentManager>();
-            _systemManager = std::make_unique<SystemManager>();
-        }
-    
-        /**
-         * Creates a new entity and returns its unique identifier.
-         *
-         * @return The unique identifier of the newly created entity.
-         *
-         * @throws assertion failure if the maximum number of entities has been reached.
-         */
-        Entity ECSManager::CreateEntity() {
-            return _entityManager->CreateEntity();
-        }
-    
-        /**
-         * Destroys an entity and releases its resources.
-         *
-         * @param entity The ID of the entity to destroy.
-         *
-         * @throws assertion failure if the entity ID is out of range or invalid.
-         */
-        void ECSManager::DestroyEntity(Entity entity) {
-            _entityManager->DestroyEntity(entity);
-            RemoveAllComponents(entity);
-        }
-    
-        /**
-         * Removes all components associated with a given entity.
-         *
-         * @param entity The ID of the entity from which all components are to be removed.
-         *
-         * This function retrieves the signature of the entity, which represents the
-         * components attached to the entity. It iterates over each component type
-         * indicated by the signature and removes the corresponding components from
-         * the component manager.
-         */
-        void ECSManager::RemoveAllComponents(Entity entity) {
-            Signature signature = _entityManager->GetSignature(entity);
-    
-            for (int i = 0; i < signature.count(); i++) {
-                if(signature[i]) {
-                    _componentManager->RemoveComponent(entity, i);
-                }
+namespace Core::Managers {
+    ECSManager::ECSManager(std::shared_ptr<LoggingManager> logging_manager)
+        : _logging_manager(logging_manager) {
+        _entityManager = std::make_unique<EntityManager>();
+        _componentManager = std::make_unique<ComponentManager>();
+        _systemManager = std::make_unique<SystemManager>();
+    }
+
+    /**
+     * Creates a new entity and returns its unique identifier.
+     *
+     * @return The unique identifier of the newly created entity.
+     *
+     * @throws assertion failure if the maximum number of entities has been reached.
+     */
+    Entity ECSManager::CreateEntity() {
+        return _entityManager->CreateEntity();
+    }
+
+    /**
+     * Destroys an entity and releases its resources.
+     *
+     * @param entity The ID of the entity to destroy.
+     *
+     * @throws assertion failure if the entity ID is out of range or invalid.
+     */
+    void ECSManager::DestroyEntity(Entity entity) {
+        _entityManager->DestroyEntity(entity);
+        RemoveAllComponents(entity);
+    }
+
+    /**
+     * Removes all components associated with a given entity.
+     *
+     * @param entity The ID of the entity from which all components are to be removed.
+     *
+     * This function retrieves the signature of the entity, which represents the
+     * components attached to the entity. It iterates over each component type
+     * indicated by the signature and removes the corresponding components from
+     * the component manager.
+     */
+    void ECSManager::RemoveAllComponents(Entity entity) {
+        Signature signature = _entityManager->GetSignature(entity);
+
+        for (int i = 0; i < signature.count(); i++) {
+            if(signature[i]) {
+                _componentManager->RemoveComponent(entity, i);
             }
         }
-    
-        /**
-         * Prints out the state of the ComponentManager for debugging purposes.
-         */
-        std::string ECSManager::ToString() const {
-            std::stringstream str;
-            str << _entityManager->ToString();
-            str << _componentManager->ToString();
-            str << _systemManager->ToString();
-    
-            return str.str();
+    }
+
+    std::vector<Component*> ECSManager::GetAllComponents(Entity entity) {
+        Signature signature = _entityManager->GetSignature(entity);
+
+        std::vector<Component*> components = std::vector<Component*>();
+        for (int i = 0; i < signature.count(); i++) {
+            if(signature[i]) {
+                components.push_back(&_componentManager->GetComponent(entity, i));
+            }
         }
+
+        return components;
+    }
+
+    Entity ECSManager::EntityCount() const {
+        return _entityManager->EntityCount();
+    }
+
+    /**
+     * Retrieves the Component Name associated with the given component type.
+     *
+     * @param component_type The component type to retrieve the name for.
+     *
+     * @return The name associated with the given component type, or an empty string if the component is not registered.
+     */
+    std::string ECSManager::GetComponentName(ComponentType component_type) const {
+        return _componentManager->GetComponentName(component_type);
+    }
+
+    /**
+     * @brief Get the registered Component Type using the Component Name
+     * 
+     * @param component_name Component Name to search
+     * @return ComponentType
+     * @return -1 if not found
+     */
+    ComponentType ECSManager::GetComponentType(std::string component_name) const {
+        return _componentManager->GetComponentType(component_name);
+    }
+
+    /**
+     * @brief Checks if a component is registered
+     * 
+     * @param component_name The name of the component
+     * @return true 
+     * @return false 
+     */
+    bool ECSManager::IsComponentRegistered(std::string component_name) const {
+        return _componentManager->IsComponentRegistered(component_name);
+    }
+
+    /**
+     * @brief Checks if a component is registered
+     * 
+     * @param component_type The type of the component
+     * @return true 
+     * @return false 
+     */
+    bool ECSManager::IsComponentRegistered(ComponentType component_type) const {
+        return _componentManager->IsComponentRegistered(component_type);
+    }
+
+    /**
+     * Prints out the state of the ComponentManager for debugging purposes.
+     */
+    std::string ECSManager::ToString() const {
+        std::stringstream str;
+        str << _entityManager->ToString();
+        str << _componentManager->ToString();
+        str << _systemManager->ToString();
+
+        return str.str();
     }
 }

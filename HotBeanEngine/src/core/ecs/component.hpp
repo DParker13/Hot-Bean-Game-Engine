@@ -2,6 +2,7 @@
 
 #include <SDL_stdinc.h>
 #include <SDL.h>
+#include <yaml-cpp/yaml.h>
 
 #include "object.hpp"
 
@@ -15,10 +16,12 @@ namespace Core {
         const ComponentType MAX_COMPONENTS = 64;
     
         struct Component : public Object {
-            std::string _name;
-
             Component() = default;
             virtual ~Component() = default;
+
+            virtual std::string GetName() const = 0;
+            virtual void Serialize(YAML::Emitter& out) const {};
+            virtual void Deserialize(YAML::Node& node) {};
         };
     }
 }

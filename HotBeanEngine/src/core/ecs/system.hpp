@@ -20,7 +20,7 @@ namespace Core {
                 virtual ~System() = default;
         
                 // GameLoop interface
-                virtual void OnInit() {};
+                virtual void OnStart() {};
                 virtual void OnPreEvent() {};
                 virtual void OnEvent(SDL_Event& event) {};
                 virtual void OnUpdate() {};

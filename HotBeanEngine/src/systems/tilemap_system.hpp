@@ -13,7 +13,7 @@ namespace Systems {
             TileMapSystem();
 
             //System Interface Overrides
-            void OnInit() override;
+            void OnStart() override;
             void OnRender() override;
 
             void CreateRect(SDL_Color* color, Transform2D* transform);

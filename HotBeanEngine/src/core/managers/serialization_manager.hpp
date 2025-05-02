@@ -4,18 +4,21 @@
 #include <memory>
 
 #include "ecs_manager.hpp"
+#include "helpers/serialization_helper.hpp"
+#include "helpers/component_register.hpp"
 
 using namespace Core::ECS;
+using namespace Core::Managers::Helpers;
 
 namespace Core {
     namespace Managers {
-        class SceneManager {
+        class SerializationManager {
             public:
                 /// @brief Map of names to scenes
                 std::unordered_map<std::string, std::shared_ptr<Scene>> _scenes;
     
-                SceneManager(std::shared_ptr<ECSManager> ecsManager);
-                ~SceneManager() = default;
+                SerializationManager(std::shared_ptr<ECSManager> ecs_manager, std::shared_ptr<LoggingManager> logging_manager);
+                ~SerializationManager() = default;
     
                 void LoadScene(std::shared_ptr<Scene> scene);
                 void RegisterScene(std::shared_ptr<Scene> scene);
@@ -26,8 +29,11 @@ namespace Core {
 
             private:
                 /// @brief  Reference to the ecs manager
-                std::shared_ptr<ECSManager> _ecsManager;
-                std::shared_ptr<Scene> _currentScene;
+                std::shared_ptr<ECSManager> _ecs_manager;
+                std::shared_ptr<LoggingManager> _logging_manager;
+
+                /// @brief Current scene
+                std::shared_ptr<Scene> _current_scene;
 
                 void LoadScene();
                 void UnloadScene();

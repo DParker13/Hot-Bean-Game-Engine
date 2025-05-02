@@ -11,7 +11,7 @@ namespace Systems {
      * @details This function is a part of the System interface and is called by the
      *          CoreManager when the system is first initialized.
      */
-    void TileMapSystem::OnInit() {
+    void TileMapSystem::OnStart() {
         InitMap(10, 15, 50, 50);
     }
 

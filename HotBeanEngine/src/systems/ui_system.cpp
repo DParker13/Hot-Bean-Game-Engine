@@ -10,7 +10,7 @@ namespace Systems {
         _font = nullptr;
     }
 
-    void UISystem::OnInit() {
+    void UISystem::OnStart() {
         SetupFont();
     }
 
@@ -29,9 +29,9 @@ namespace Systems {
      */
     void UISystem::OnUpdate() {
         for (auto& entity : _entities) {
-            auto& ui_element = App::GetInstance().GetECSManager()->GetComponent<UIElement>(entity);
+            auto& text = App::GetInstance().GetECSManager()->GetComponent<Text>(entity);
 
-            switch(ui_element._type) {
+            switch(text._type) {
                 case Enums::UIType::Text:
                     OnUpdateText(entity);
             }

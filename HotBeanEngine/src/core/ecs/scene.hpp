@@ -16,21 +16,19 @@
 
 #include "app.hpp"
 #include "object.hpp"
-
-using namespace Core::Application;
  
 namespace Core {
     namespace ECS {
         struct Scene : public Object {
             std::string _name;
-            std::filesystem::path _scene_path;
+            std::string _scene_path;
             
-            Scene(std::string name) : _name(name) {}
+            Scene(std::string name, std::string scene_path)
+                : _name(name), _scene_path(scene_path) {}
             ~Scene() = default;
 
-            virtual void RegisterComponents(App& app) = 0;
-            virtual void SetupScene(App& app) = 0;
-            virtual void UnloadScene(App& app) = 0;
+            virtual void SetupScene() = 0;
+            virtual void UnloadScene() = 0;
     
             std::string ToString() const override {
                 std::stringstream str;

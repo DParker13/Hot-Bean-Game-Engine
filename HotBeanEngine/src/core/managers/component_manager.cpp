@@ -17,6 +17,105 @@ namespace Core {
         ComponentManager::~ComponentManager() = default;
 
         /**
+         * Retrieves the Component Name associated with the given component type.
+         *
+         * @param component_type The component type to retrieve the name for.
+         *
+         * @return The name associated with the given component type, or an empty string if the component is not registered.
+         */
+        std::string ComponentManager::GetComponentName(ComponentType component_type) {
+            if(IsComponentRegistered(component_type)) {
+                return _componentTypeToName[component_type];
+            }
+            else {
+                return "";
+            }
+        }
+
+        /**
+         * @brief Get the registered Component Type using the Component Name
+         * 
+         * @param component_name Component Name to search
+         * @return ComponentType
+         * @return -1 if not found
+         */
+        ComponentType ComponentManager::GetComponentType(std::string component_name) {
+            if(IsComponentRegistered(component_name)) {
+                return _componentNameToType[component_name];
+            }
+            else {
+                return -1;
+            }
+        }
+
+        /**
+         * Removes a component of type T from a given entity.
+         *
+         * @param entity The ID of the entity from which the component is to be removed.
+         *
+         * @return The type of the component that was removed, used to update the entity's signature.
+         *
+         * @throws assertion failure if the component type is not registered.
+         */
+        Component& ComponentManager::GetComponent(Entity entity, ComponentType component_type) {
+            std::string component_name = _componentTypeToName[component_type];
+
+            assert(_componentNameToType.find(component_name) != _componentNameToType.end() && "Component not registered!");
+            auto componentSparseSet = _componentNameToData[component_name];
+
+            return componentSparseSet->GetComponent(entity);
+        }
+
+        /**
+             * Removes a component of type T from a given entity.
+             *
+             * @param entity The ID of the entity from which the component is to be removed.
+             *
+             * @return The type of the component that was removed, used to update the entity's signature.
+             *
+             * @throws assertion failure if the component type is not registered.
+             */
+            void ComponentManager::RemoveComponent(Entity entity, ComponentType componentType) {
+                std::string component_name = _componentTypeToName[componentType];
+    
+                assert(_componentNameToType.find(component_name) != _componentNameToType.end() && "Component not registered!");
+                auto componentSparseSet = _componentNameToData[component_name];
+    
+                // Removes entity from component sparse set
+                componentSparseSet->Remove(entity);
+    
+                // If the last component is removed, the component array must be destroyed and unregistered
+                if (componentSparseSet->Size() == 0) {
+                    _componentTypeToName.erase(componentType);
+                    _componentNameToType.erase(component_name);
+                    _componentNameToData.erase(component_name);
+                    _registeredComponents--;
+                }
+            }
+
+        /**
+         * @brief Checks if a component is registered
+         * 
+         * @param component_name The name of the component
+         * @return true 
+         * @return false 
+         */
+        bool ComponentManager::IsComponentRegistered(std::string component_name) const {
+            return _componentNameToType.find(component_name) != _componentNameToType.end();
+        }
+
+        /**
+         * @brief Checks if a component is registered
+         * 
+         * @param component_type The type of the component
+         * @return true 
+         * @return false 
+         */
+        bool ComponentManager::IsComponentRegistered(ComponentType component_type) const {
+            return _componentTypeToName.find(component_type) != _componentTypeToName.end();
+        }
+
+        /**
          * Prints the contents of ComponentManager to the console. This is mostly for
          * debugging purposes and should be removed in a production build.
          */

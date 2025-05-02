@@ -19,8 +19,8 @@ set(CMAKE_VERBOSE_MAKEFILE FALSE)
 # Fetch glm
 FetchContent_Declare(
 	glm
-	GIT_REPOSITORY	https://github.com/g-truc/glm.git
-	GIT_TAG 	bf71a834948186f4097caa076cd2663c69a10e1e #refs/tags/1.0.1
+	GIT_REPOSITORY https://github.com/g-truc/glm.git
+	GIT_TAG 1.0.1
 )
 # Fetch SDL2
 FetchContent_Declare(
@@ -54,11 +54,12 @@ FetchContent_Declare(
 FetchContent_Declare(
     yaml_cpp
     GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-    GIT_TAG yaml-cpp-0.7.0
+    GIT_TAG 0.8.0
 )
 
 set(SDL2TTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
 set(SDL2MIXER_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+set(YAML_BUILD_SHARED_LIBS OFF)
 # set(SDL2TTF_HARFBUZZ OFF CACHE BOOL "Use harfbuzz to improve text shaping" FORCE)
 
 FetchContent_MakeAvailable(glm SDL2 SDL2TTF SDL2Mixer SDL2Image yaml_cpp)

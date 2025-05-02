@@ -20,8 +20,18 @@ namespace Components {
          */
         std::string path;
         
-        AudioSource() {
-            Component::_name = "AudioSource";
+        AudioSource() = default;
+
+        std::string GetName() const override {
+            return "AudioSource";
+        }
+
+        void Serialize(YAML::Emitter& out) const override {
+            out << YAML::Key << "path" << YAML::Value << path;
+        }
+
+        void Deserialize(YAML::Node& node) override {
+            path = node["path"].as<std::string>();
         }
 
         std::string ToString() const override {

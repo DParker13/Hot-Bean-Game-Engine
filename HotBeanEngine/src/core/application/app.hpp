@@ -19,7 +19,7 @@
 
 #include "../managers/ecs_manager.hpp"
 #include "../managers/logging_manager.hpp"
-#include "../managers/scene_manager.hpp"
+#include "../managers/serialization_manager.hpp"
 
 //using namespace Core::ECS;
 using namespace Core::Managers;
@@ -63,14 +63,33 @@ namespace Core {
 
                 template<typename S, typename... Cs>
                 void SetupSystem(S* system) {
-                    _ecsManager->RegisterSystem<S>(system);
-                    _ecsManager->SetSignature<S, Cs...>();
+                    _ecs_manager->RegisterSystem<S>(system);
+                    _ecs_manager->SetSignature<S, Cs...>();
+                }
+
+                // --- ECS Manager Extension --- //
+
+                Entity CreateEntity();
+                void DestroyEntity(Entity entity);
+                template<typename T>
+                void AddComponent(Entity entity, T component) {
+                    _ecs_manager->AddComponent<T>(entity, component);
+                }
+
+                template<typename T>
+                T& GetComponent(Entity entity) {
+                    return _ecs_manager->GetComponent<T>(entity);
+                }
+
+                template<typename T>
+                void RemoveComponent(Entity entity) {
+                    _ecs_manager->RemoveComponent<T>(entity);
                 }
     
             protected:
-                std::shared_ptr<ECSManager> _ecsManager;
-                std::unique_ptr<LoggingManager> _loggingManager;
-                std::unique_ptr<SceneManager> _sceneManager;
+                std::shared_ptr<ECSManager> _ecs_manager;
+                std::shared_ptr<LoggingManager> _logging_manager;
+                std::unique_ptr<SerializationManager> _serialization_manager;
                 SDL_Renderer* _renderer;
                 SDL_Window* _window;
                 SDL_Surface* _surface;
@@ -93,12 +112,12 @@ namespace Core {
                 /**
                  * @brief Initializes the application systems in the system manager.
                  */
-                virtual void InitSystems() = 0;
+                virtual void SetupSystems() = 0;
     
                 /**
                  * @brief Called once at the start of the game.
                  */
-                virtual void OnInit();
+                virtual void OnStart();
     
                 /**
                  * @brief Called before handling events.
