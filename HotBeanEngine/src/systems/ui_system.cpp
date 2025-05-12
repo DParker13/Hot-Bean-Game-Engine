@@ -16,7 +16,7 @@ namespace Systems {
 
     void UISystem::OnEvent(SDL_Event& event) {
         if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
-            for (auto& entity : _entities) {
+            for (auto& entity : m_entities) {
                 auto& text = App::GetInstance().GetECSManager()->GetComponent<Text>(entity);
 
                 text._dirty = true;
@@ -28,11 +28,11 @@ namespace Systems {
      * Updates all UI element textures
      */
     void UISystem::OnUpdate() {
-        for (auto& entity : _entities) {
+        for (auto& entity : m_entities) {
             auto& text = App::GetInstance().GetECSManager()->GetComponent<Text>(entity);
 
             switch(text._type) {
-                case Enums::UIType::Text:
+                case UIElement::UIType::Text:
                     OnUpdateText(entity);
             }
 
@@ -100,9 +100,5 @@ namespace Systems {
             TTF_SetFontKerning(_font, 1);
             TTF_SetFontHinting(_font, TTF_HINTING_MONO);
         }
-    }
-
-    std::string UISystem::ToString() const {
-        return "  UI System Entities: " + std::to_string(_entities.size()) + "\n";
     }
 }

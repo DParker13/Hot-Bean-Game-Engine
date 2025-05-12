@@ -7,5 +7,6 @@ target_link_libraries(core INTERFACE
 )
 
 add_subdirectory(ecs)
+add_subdirectory(components)
 add_subdirectory(managers)
 add_subdirectory(application)

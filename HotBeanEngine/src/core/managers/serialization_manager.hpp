@@ -1,14 +1,10 @@
 #pragma once
 
-#include <yaml-cpp/yaml.h>
 #include <memory>
 
-#include "ecs_manager.hpp"
-#include "helpers/serialization_helper.hpp"
-#include "helpers/component_register.hpp"
+#include "../components/component_factory.hpp"
 
 using namespace Core::ECS;
-using namespace Core::Managers::Helpers;
 
 namespace Core {
     namespace Managers {
@@ -21,6 +17,8 @@ namespace Core {
                 ~SerializationManager() = default;
     
                 void LoadScene(std::shared_ptr<Scene> scene);
+                void UnloadScene();
+
                 void RegisterScene(std::shared_ptr<Scene> scene);
                 void RemoveScene(std::string name);
                 void RemoveScene(std::shared_ptr<Scene> scene);
@@ -35,8 +33,12 @@ namespace Core {
                 /// @brief Current scene
                 std::shared_ptr<Scene> _current_scene;
 
-                void LoadScene();
-                void UnloadScene();
+                // void UnloadScene();
+                
+                void SerializeScene(const std::string& filepath);
+                void SerializeEntity(YAML::Emitter& out, Entity entity);
+                void DeserializeScene(const std::string& filepath);
+                void DeserializeEntity(const YAML::Node& node, Entity entity);
         };
     }
 }

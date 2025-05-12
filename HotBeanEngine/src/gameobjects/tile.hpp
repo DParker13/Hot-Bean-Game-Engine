@@ -2,10 +2,6 @@
 
 #include "../core/core.hpp"
 
-#include "../components/transform_2d.hpp"
-#include "../components/tile.hpp"
-#include "../components/rigidbody.hpp"
-
 using namespace Core::ECS;
 
 namespace GameObjects {

@@ -15,11 +15,10 @@
 #include <filesystem>
 
 #include "app.hpp"
-#include "object.hpp"
  
 namespace Core {
     namespace ECS {
-        struct Scene : public Object {
+        struct Scene {
             std::string _name;
             std::string _scene_path;
             
@@ -29,13 +28,6 @@ namespace Core {
 
             virtual void SetupScene() = 0;
             virtual void UnloadScene() = 0;
-    
-            std::string ToString() const override {
-                std::stringstream str;
-                str << "    Component: Scene \n";
-                
-                return str.str();
-            }
         };
     }
 }

@@ -1,20 +1,18 @@
 #pragma once
 
-#include <SDL.h>
 #include <set>
 
 #include "app.hpp"
 #include "entity.hpp"
 #include "game_loop.hpp"
-#include "object.hpp"
 
 using namespace Core::Application;
 
 namespace Core {
     namespace ECS {
-        class System : public Object, public GameLoop {
+        class System : public GameLoop {
             public:
-                std::set<Entity> _entities;
+                std::set<Entity> m_entities;
         
                 System() = default;
                 virtual ~System() = default;

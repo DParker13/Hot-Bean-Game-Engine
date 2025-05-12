@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "../core/core.hpp"
+#include "../ecs/all_ecs.hpp"
 
 namespace Components {
     struct Tile : public Component {
@@ -36,13 +36,6 @@ namespace Components {
         void Deserialize(YAML::Node& node) override {
             _type = node["type"].as<Uint8>();
             _size = node["size"].as<Uint8>();
-        }
-
-        std::string ToString() const override {
-            std::stringstream str;
-            str << "    Component: Tile \n";
-
-            return str.str();
         }
     };
 }

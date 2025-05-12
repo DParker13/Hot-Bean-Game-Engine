@@ -18,6 +18,7 @@
 #include <sstream>
 
 #include "../ecs/all_ecs.hpp"
+#include "../managers/logging_manager.hpp"
 
 using namespace Core::ECS;
 
@@ -25,25 +26,26 @@ namespace Core::Managers {
     // EntityManager manages the creation and destruction of entities
     class EntityManager {
         public:
-            EntityManager();
+            EntityManager(std::shared_ptr<LoggingManager> logging_manager);
             ~EntityManager();
-
-            std::string ToString() const;
 
             Entity CreateEntity();
             void DestroyEntity(Entity entity);
-            Signature SetSignature(Entity entity, ComponentType componentType);
+            Signature SetSignature(Entity entity, ComponentType component_type);
             Signature GetSignature(Entity entity);
             Entity EntityCount() const;
 
         private:
+            // Logging manager
+            std::shared_ptr<LoggingManager> m_logging_manager;
+
             // Queue of unused entity IDs
-            std::queue<Entity> _availableEntities{};
+            std::queue<Entity> m_available_entities{};
 
             // Array of signatures where the index corresponds to the entity ID
-            std::array<Signature, MAX_ENTITIES> _signatures{};
+            std::array<Signature, MAX_ENTITIES> m_signatures{};
 
             // Total living entities - used to keep limits on how many exist
-            Entity _livingEntityCount = 0;
+            Entity m_living_entity_count = 0;
     };
 }

@@ -2,9 +2,6 @@
 
 #include "../../core/core.hpp"
 
-#include "../../components/transform_2d.hpp"
-#include "../../components/texture.hpp"
-
 using namespace Core::ECS;
 
 namespace GameObjects {

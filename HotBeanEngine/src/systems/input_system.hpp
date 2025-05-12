@@ -15,7 +15,5 @@ namespace Systems {
             
             InputSystem();
             void OnEvent(SDL_Event& event) override;
-            std::string ToString() const;
-            
     };
 }

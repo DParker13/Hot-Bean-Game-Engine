@@ -5,15 +5,17 @@ add_library(ecs INTERFACE
     entity.hpp
     game_loop.hpp
     logging_type.hpp
-    object.hpp
     signature.hpp
     sparse_set.hpp
     system.hpp
     scene.hpp
+    yaml_extensions.hpp
 )
 
 target_link_libraries(ecs INTERFACE
     SDL2
 )
+
+include_directories(${SDL2_INCLUDE_DIRS})
 
 set_target_properties(ecs PROPERTIES LINKER_LANGUAGE CXX)

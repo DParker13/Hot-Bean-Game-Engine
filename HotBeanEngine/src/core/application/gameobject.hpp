@@ -54,10 +54,6 @@ namespace Core::ECS {
             virtual void OnPostRender(Entity entity) {
                 assert(entity >= 0 && entity < MAX_ENTITIES && "Entity out of range.");
             };
-    
-            virtual std::string ToString() const {
-                return "GameObject";
-            };
         
         protected:
             Entity _entity = -1;

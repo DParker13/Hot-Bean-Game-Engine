@@ -10,16 +10,11 @@
  */
 #pragma once
 
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
-#include <SDL_image.h>
 #include <vector>
 #include <memory>
 #include <iostream>
 
-#include "../managers/ecs_manager.hpp"
-#include "../managers/logging_manager.hpp"
-#include "../managers/serialization_manager.hpp"
+#include "../managers/all_managers.hpp"
 
 //using namespace Core::ECS;
 using namespace Core::Managers;
@@ -71,6 +66,7 @@ namespace Core {
 
                 Entity CreateEntity();
                 void DestroyEntity(Entity entity);
+                
                 template<typename T>
                 void AddComponent(Entity entity, T component) {
                     _ecs_manager->AddComponent<T>(entity, component);

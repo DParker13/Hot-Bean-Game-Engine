@@ -18,10 +18,17 @@ namespace Core::Managers {
      * This constructor fills the queue with all possible entity IDs, making them 
      * available for future use. The entity IDs range from 0 to MAX_ENTITIES - 1.
      */
-    EntityManager::EntityManager() {
-        for (Entity entityId = 0; entityId < MAX_ENTITIES; entityId++) {
-            _availableEntities.push(entityId);
+    EntityManager::EntityManager(std::shared_ptr<LoggingManager> logging_manager)
+        : m_logging_manager(logging_manager) {
+
+        m_logging_manager->Log(LoggingType::DEBUG, "Initializing EntityManager");
+
+        // Initializing available entities queue based on MAX_ENTITIES
+        for (Entity entity_id = 0; entity_id < MAX_ENTITIES; entity_id++) {
+            m_available_entities.push(entity_id);
         }
+
+        m_logging_manager->Log(LoggingType::DEBUG, "Initialized " + std::to_string(m_available_entities.size()) + " Entities");
     }
 
     /**
@@ -32,12 +39,19 @@ namespace Core::Managers {
      * @throws assertion failure if the maximum number of entities has been reached.
      */
     Entity EntityManager::CreateEntity() {
-        assert(_livingEntityCount < MAX_ENTITIES && "Too many entities in existence.");
+        assert(m_living_entity_count < MAX_ENTITIES && "Too many entities in existence.");
 
         // Take an ID from the front of the queue
-        Entity id = _availableEntities.front();
-        _availableEntities.pop();
-        ++_livingEntityCount;
+        Entity id = m_available_entities.front();
+
+        m_logging_manager->Log(LoggingType::DEBUG, "Creating Entity \"" + std::to_string(id) + "\"");
+
+        m_available_entities.pop();
+        ++m_living_entity_count;
+
+        m_logging_manager->Log(LoggingType::DEBUG, "Entity \"" + std::to_string(id) + "\" created.");
+        m_logging_manager->Log(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
+        m_logging_manager->Log(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
 
         return id;
     }
@@ -52,29 +66,38 @@ namespace Core::Managers {
     void EntityManager::DestroyEntity(Entity entity) {
         assert(entity < MAX_ENTITIES && "Entity out of range.");
 
+        m_logging_manager->Log(LoggingType::DEBUG, "Destroying Entity \"" + std::to_string(entity) + "\"...");
+
         // Invalidate the destroyed entity's signature
-        _signatures[entity].reset();
+        m_signatures[entity].reset();
 
         // Place the destroyed entity ID at the back of the queue
-        _availableEntities.push(entity);
-        --_livingEntityCount;
+        m_available_entities.push(entity);
+        --m_living_entity_count;
+
+        m_logging_manager->Log(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\" destroyed.");
+        m_logging_manager->Log(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
+        m_logging_manager->Log(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
     }
 
     /**
      * Sets the signature for a given entity.
      *
      * @param entity The ID of the entity to set the signature for.
-     * @param componentType The signature to be set for the entity.
+     * @param component_type The signature to be set for the entity.
      *
      * @throws assertion failure if the entity ID is out of range.
      */
-    Signature EntityManager::SetSignature(Entity entity, ComponentType componentType) {
+    Signature EntityManager::SetSignature(Entity entity, ComponentType component_type) {
         assert(entity < MAX_ENTITIES && "Entity out of range.");
 
         // Set the signature for the given entity
-        _signatures[entity].set(componentType);
+        m_signatures[entity].set(component_type);
 
-        return _signatures[entity];
+        m_logging_manager->Log(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\""
+            " signature set \"" + m_signatures[entity].to_string() + "\"");
+
+        return m_signatures[entity];
     }
 
     /**
@@ -89,31 +112,11 @@ namespace Core::Managers {
     Signature EntityManager::GetSignature(Entity entity) {
         assert(entity < MAX_ENTITIES && "Entity out of range.");
 
-        // Return the signature for the given entity
-        return _signatures[entity];
+        return m_signatures[entity];
     }
 
     Entity EntityManager::EntityCount() const {
-        return _livingEntityCount;
-    }
-
-    /**
-     * Prints the contents of ComponentManager to the console. This is mostly for
-     * debugging purposes and should be removed in a production build.
-     */
-    std::string EntityManager::ToString() const {
-        std::stringstream str;
-        str << "Entity Manager:\n";
-        str << "  Living Entity Count: " << _livingEntityCount << "\n";
-
-        for (Entity i = 0; i < _livingEntityCount; i++) {
-            str << "    Entity: " << i << "\n";
-            str << "    Signature: " << _signatures[i] << "\n";
-        }
-
-        str << "\n";
-
-        return str.str();
+        return m_living_entity_count;
     }
 
     EntityManager::~EntityManager() = default;

@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "../core/core.hpp"
+#include "../ecs/all_ecs.hpp"
 
 namespace Components {
     struct Texture : public Component {
@@ -35,13 +35,6 @@ namespace Components {
 
         void Serialize(YAML::Emitter& out) const override {
             out << YAML::Key << "size" << YAML::Value << _size;
-        }
-
-        std::string ToString() const override {
-            std::stringstream str;
-            str << "    Component: Texture \n";
-
-            return str.str();
         }
     };
 }

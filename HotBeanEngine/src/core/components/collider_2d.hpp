@@ -10,9 +10,7 @@
  */
 #pragma once
 
-#include <glm/vec2.hpp>
-
-#include "../core/core.hpp"
+#include "../ecs/all_ecs.hpp"
 
 namespace Components {
     struct Collider2D : public Component {
@@ -36,13 +34,6 @@ namespace Components {
             _bounding_box = node["bounding_box"].as<glm::vec2>();
             _is_static = node["is_static"].as<bool>();
             _is_trigger = node["is_trigger"].as<bool>();
-        }
-
-        std::string ToString() const override {
-            std::stringstream str;
-            str << "    Component: Collider2D \n";
-            
-            return str.str();
         }
     };
 }

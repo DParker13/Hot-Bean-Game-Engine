@@ -3,8 +3,6 @@
 #include <map>
 
 #include "../core/core.hpp"
-#include "../components/transform_2d.hpp"
-#include "../components/texture.hpp"
 
 using namespace Components;
 using namespace Core::Application;
@@ -20,6 +18,5 @@ namespace Systems {
             void OnEvent(SDL_Event& event) override;
             void OnRender() override;
             void OnPostRender() override;
-            std::string ToString() const;
     };
 }

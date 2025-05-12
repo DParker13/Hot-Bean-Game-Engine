@@ -4,8 +4,6 @@
 #include <SDL.h>
 #include <yaml-cpp/yaml.h>
 
-#include "object.hpp"
-
 namespace Core {
     namespace ECS {
         // ComponentType is an unsigned 32-bit integer
@@ -15,7 +13,7 @@ namespace Core {
         // Maximum number of components that can be registered
         const ComponentType MAX_COMPONENTS = 64;
     
-        struct Component : public Object {
+        struct Component {
             Component() = default;
             virtual ~Component() = default;
 

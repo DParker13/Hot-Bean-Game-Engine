@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "../core/core.hpp"
+#include "../ecs/all_ecs.hpp"
 
 namespace Components {
     struct AudioSource : public Component {
@@ -32,13 +32,6 @@ namespace Components {
 
         void Deserialize(YAML::Node& node) override {
             path = node["path"].as<std::string>();
-        }
-
-        std::string ToString() const override {
-            std::stringstream str;
-            str << "    Component: AudioSource \n";
-            str << "      Path: " << path << "\n";
-            return str.str();
         }
     };
 }

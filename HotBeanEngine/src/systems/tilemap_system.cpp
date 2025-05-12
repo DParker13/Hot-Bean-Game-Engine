@@ -29,7 +29,7 @@ namespace Systems {
         App& app = App::GetInstance();
         SDL_Color color = { 0xFF, 0xFF, 0xFF, 0xFF };
 
-        for(auto& entity : _entities) {
+        for(auto& entity : m_entities) {
             auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
             auto& tile = app.GetECSManager()->GetComponent<Tile>(entity);
 
@@ -49,10 +49,6 @@ namespace Systems {
         SDL_RenderGeometry(renderer, NULL, tile->_vertices,
                             sizeof(tile->_vertices) / sizeof(tile->_vertices[0]), tile->_INDICES,
                             sizeof(tile->_INDICES) / sizeof(tile->_INDICES[0]));
-    }
-
-    std::string TileMapSystem::ToString() const {
-        return "";
     }
 
     // Should this be defined in TileMapSystem instead?

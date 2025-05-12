@@ -4,10 +4,6 @@
 #include <unordered_set>
 
 #include "../core/core.hpp"
-#include "../components/transform_2d.hpp"
-#include "../components/text.hpp"
-#include "../components/texture.hpp"
-#include "../components/ui_element.hpp"
 
 using namespace Components;
 using namespace Core::Application;
@@ -26,8 +22,6 @@ namespace Systems {
             void OnStart() override;
             void OnEvent(SDL_Event& event) override;
             void OnUpdate() override;
-
-            std::string ToString() const;
         private:
             const std::string _font_path;
 

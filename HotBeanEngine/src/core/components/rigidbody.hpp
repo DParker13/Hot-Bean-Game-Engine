@@ -11,9 +11,7 @@
 
 #pragma once
 
-#include <glm/vec3.hpp>
-
-#include "../core/core.hpp"
+#include "../ecs/all_ecs.hpp"
 
 namespace Components {
     struct RigidBody : public Component {
@@ -40,17 +38,6 @@ namespace Components {
             velocity = node["velocity"].as<glm::vec3>();
             acceleration = node["acceleration"].as<glm::vec3>();
             gravity = node["gravity"].as<float>();
-        }
-
-        /**
-         * Prints the details of the Rigidbody component to the console.
-         * The output includes the velocity and acceleration of the component in a formatted string.
-         */
-        std::string ToString() const override {
-            std::string str = "    Component: Rigidbody \n";
-            str += "      Velocity: " + std::to_string(velocity.x) + ", " + std::to_string(velocity.y) + ", " + std::to_string(velocity.z) + "\n";
-            str += "      Acceleration: " + std::to_string(acceleration.x) + ", " + std::to_string(acceleration.y) + ", " + std::to_string(acceleration.z) + "\n";
-            return str;
         }
     };
 }

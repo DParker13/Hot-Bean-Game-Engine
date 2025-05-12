@@ -17,6 +17,7 @@
 #include <sstream>
 
 #include "../ecs/all_ecs.hpp"
+#include "../managers/logging_manager.hpp"
 
 using namespace Core::ECS;
 
@@ -24,12 +25,11 @@ namespace Core::Managers {
     // ComponentManager manages the creation and destruction of components for entities
     class ComponentManager {
         public:
-            ComponentManager();
+            ComponentManager(std::shared_ptr<LoggingManager> logging_manager);
             ~ComponentManager();
     
-            void RemoveComponent(Entity entity, ComponentType componentType);
+            void RemoveComponent(Entity entity, ComponentType component_type);
             Component& GetComponent(Entity entity, ComponentType component_type);
-            std::string ToString() const;
 
             /**
              * Registers a component type with the ComponentManager and assigns it a ComponentType id.
@@ -41,26 +41,32 @@ namespace Core::Managers {
             template<typename T>
             ComponentType RegisterComponentType() {
                 static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component!");
-                assert(_registeredComponents < MAX_COMPONENTS && "Reached maximum number of component!");
+                assert(m_registered_components < MAX_COMPONENTS && "Reached maximum number of component!");
 
                 T component;
                 std::string component_name = component.GetName();
                 assert(!component_name.empty() && "Component name not set!");
+
+                m_logging_manager->Log(LoggingType::DEBUG, "Registering Component \"" + component_name + "\"");
     
-                ComponentType componentType = _registeredComponents;
+                ComponentType component_type = m_registered_components;
+
+                m_logging_manager->Log(LoggingType::DEBUG, "\tComponentType \"" + std::to_string(component_type) + "\"");
     
                 // Maps ComponentType id to Component Object Type name
-                _componentTypeToName[componentType] = component_name;
+                m_component_type_to_name[component_type] = component_name;
     
                 // Maps ComponentType to an id
-                _componentNameToType[component_name] = componentType;
+                m_component_name_to_type[component_name] = component_type;
     
                 // Create new sparse set for component data
-                _componentNameToData[component_name] = std::make_shared<SparseSet<T, MAX_ENTITIES>>();
+                m_component_name_to_data[component_name] = std::make_shared<SparseSet<T, MAX_ENTITIES>>();
     
-                _registeredComponents++;
+                m_registered_components++;
+
+                m_logging_manager->Log(LoggingType::DEBUG, "\t" + std::to_string(m_registered_components) + " Registered Components");
     
-                return componentType;
+                return component_type;
             }
     
             /*
@@ -73,14 +79,18 @@ namespace Core::Managers {
             ComponentType AddComponent(Entity entity, T& componentData) {
                 static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component!");
                 assert(!componentData.GetName().empty() && "Component name not set!");
+
+                m_logging_manager->Log(LoggingType::DEBUG, "Adding Component \"" + componentData.GetName() + "\" to"
+                    " Entity \"" + std::to_string(entity) + "\"");
     
                 // Register component type if it's not already registered
-                if (_componentNameToType.find(componentData.GetName()) == _componentNameToType.end()) {
+                if (m_component_name_to_type.find(componentData.GetName()) == m_component_name_to_type.end()) {
+                    m_logging_manager->Log(LoggingType::DEBUG, "\tComponent \"" + componentData.GetName() + "\" not registered... Attempting to Register");
                     RegisterComponentType<T>();
                 }
     
                 GetComponentSet<T>()->Insert(entity, componentData);
-                return _componentNameToType[componentData.GetName()];
+                return m_component_name_to_type[componentData.GetName()];
             }
     
             
@@ -100,7 +110,10 @@ namespace Core::Managers {
                 T component;
                 std::string component_name = component.GetName();
                 assert(!component_name.empty() && "Component name not set!");
-                assert(_componentNameToType.find(component_name) != _componentNameToType.end() && "Component not registered!");
+                assert(m_component_name_to_type.find(component_name) != m_component_name_to_type.end() && "Component not registered!");
+
+                m_logging_manager->Log(LoggingType::DEBUG, "Removing Component \"" + component_name + "\" from"
+                    " Entity \"" + std::to_string(entity) + "\"");
     
                 std::shared_ptr<SparseSet<T, MAX_ENTITIES>> sparseSet = GetComponentSet<T>();
     
@@ -109,13 +122,14 @@ namespace Core::Managers {
     
                 // If the last component is removed, the component array must be destroyed and unregistered
                 if (sparseSet->Size() == 0) {
-                    _componentNameToType.erase(component_name);
-                    _componentNameToData.erase(component_name);
-                    _registeredComponents--;
+                    m_logging_manager->Log(LoggingType::DEBUG, "\tAll \"" + component_name + "\" Components removed... Destroying Component Array");
+                    m_component_name_to_type.erase(component_name);
+                    m_component_name_to_data.erase(component_name);
+                    m_registered_components--;
                 }
     
                 // Return component type to update entity signature
-                return _componentNameToType[component_name];
+                return m_component_name_to_type[component_name];
             }
     
             /**
@@ -140,11 +154,11 @@ namespace Core::Managers {
                 std::string component_name = component.GetName();
                 assert(!component_name.empty() && "Component name not set!");
     
-                if (_componentNameToType.find(component_name) == _componentNameToType.end()) {
+                if (m_component_name_to_type.find(component_name) == m_component_name_to_type.end()) {
                     return -1;
                 }
                 else {
-                    return _componentNameToType[component_name];
+                    return m_component_name_to_type[component_name];
                 }
             }
 
@@ -185,18 +199,20 @@ namespace Core::Managers {
             bool IsComponentRegistered(ComponentType component_type) const;
             
         private:
+            std::shared_ptr<LoggingManager> m_logging_manager;
+
             //Keeps track of the number of component types registered
-            ComponentType _registeredComponents;
+            ComponentType m_registered_components;
     
             //Maps ComponentType id to Component Object Type name
-            std::unordered_map<ComponentType, std::string> _componentTypeToName;
+            std::unordered_map<ComponentType, std::string> m_component_type_to_name;
     
             //Maps Component Object Type name to ComponentType id
-            std::unordered_map<std::string, ComponentType> _componentNameToType;
+            std::unordered_map<std::string, ComponentType> m_component_name_to_type;
     
             //Maps Component Object Type name to sparse set of component data
             //ComponentType names are the keys, sparse set of component data is the value
-            std::unordered_map<std::string, std::shared_ptr<ISparseSet>> _componentNameToData;
+            std::unordered_map<std::string, std::shared_ptr<ISparseSet>> m_component_name_to_data;
     
             /**
              * Retrieves the sparse set of component data associated with the given component type.
@@ -214,9 +230,9 @@ namespace Core::Managers {
                 T component;
                 std::string component_name = component.GetName();
                 assert(!component_name.empty() && "Component name not set!");
-                assert(_componentNameToData.find(component_name) != _componentNameToData.end() && "Component not registered!");
+                assert(m_component_name_to_data.find(component_name) != m_component_name_to_data.end() && "Component not registered!");
     
-                return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(_componentNameToData[component_name]);
+                return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(m_component_name_to_data[component_name]);
             }
     };
 }

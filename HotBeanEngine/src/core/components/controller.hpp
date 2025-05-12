@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "../core/core.hpp"
+#include "../ecs/all_ecs.hpp"
 
 namespace Components {
     struct Controller : public Component {
@@ -31,14 +31,6 @@ namespace Components {
             if (node["controllable"]) {
                 controllable = node["controllable"].as<bool>();
             }
-        }
-
-        std::string ToString() const override {
-            std::stringstream str;
-            str << "    Component: Controller \n";
-            str << "      Controllable: " << controllable << "\n";
-            
-            return str.str();
         }
     };
 }

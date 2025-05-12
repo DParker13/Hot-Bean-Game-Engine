@@ -67,7 +67,7 @@ namespace Systems {
         App& app = App::GetInstance();
         auto* renderer = app.GetRenderer();
 
-        for (auto& entity : _entities) {
+        for (auto& entity : m_entities) {
             auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
             auto& texture = app.GetECSManager()->GetComponent<Texture>(entity);
 
@@ -127,9 +127,5 @@ namespace Systems {
             SDL_SetRenderTarget(renderer, layer.second);
             SDL_RenderClear(renderer);
         }
-    }
-
-    std::string RenderSystem::ToString() const {
-        return "  Render System Entities: " + std::to_string(_entities.size()) + "\n";
     }
 }

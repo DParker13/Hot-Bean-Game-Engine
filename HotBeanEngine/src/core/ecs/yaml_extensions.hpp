@@ -1,11 +1,10 @@
 #pragma once
 
+#include <SDL.h>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <yaml-cpp/yaml.h>
-
-#include "../../ecs/all_ecs.hpp"
 
 namespace YAML {
 
@@ -33,12 +32,6 @@ namespace YAML {
         }
     };
 
-    YAML::Emitter& operator << (YAML::Emitter& out, const glm::vec2& v) {
-        out << YAML::Flow;
-        out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
-        return out;
-    }
-
     template<>
     struct convert<glm::ivec2> {
         static Node encode(const glm::ivec2& v2) {
@@ -61,12 +54,6 @@ namespace YAML {
             return true;
         }
     };
-
-    YAML::Emitter& operator << (YAML::Emitter& out, const glm::ivec2& v) {
-        out << YAML::Flow;
-        out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
-        return out;
-    }
 
     // Quaternion
     template<>
@@ -96,12 +83,6 @@ namespace YAML {
         }
     };
 
-    YAML::Emitter& operator << (YAML::Emitter& out, const glm::quat& quat) {
-        out << YAML::Flow;
-        out << YAML::BeginSeq << quat.x << quat.y << quat.z << quat.w << YAML::EndSeq;
-        return out;
-    }
-
     // Vec3
     template<>
     struct convert<glm::vec3> {
@@ -127,12 +108,6 @@ namespace YAML {
             return true;
         }
     };
-
-    YAML::Emitter& operator << (YAML::Emitter& out, const glm::vec3& vec) {
-        out << YAML::Flow;
-        out << YAML::BeginSeq << vec.x << vec.y << vec.z << YAML::EndSeq;
-        return out;
-    }
 
     template<>
     struct convert<SDL_Color> {
@@ -160,10 +135,39 @@ namespace YAML {
             return true;
         }
     };
+}
 
-    YAML::Emitter& operator << (YAML::Emitter& out, const SDL_Color& color) {
-        out << YAML::Flow;
-        out << YAML::BeginSeq << color.r << color.g << color.b << color.a << YAML::EndSeq;
-        return out;
-    }
+// Vec2
+inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::vec2& v) {
+    out << YAML::Flow;
+    out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
+    return out;
+}
+
+// iVec2
+inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::ivec2& v) {
+    out << YAML::Flow;
+    out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
+    return out;
+}
+
+// Quat
+inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::quat& quat) {
+    out << YAML::Flow;
+    out << YAML::BeginSeq << quat.x << quat.y << quat.z << quat.w << YAML::EndSeq;
+    return out;
+}
+
+// Vec3
+inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::vec3& vec) {
+    out << YAML::Flow;
+    out << YAML::BeginSeq << vec.x << vec.y << vec.z << YAML::EndSeq;
+    return out;
+}
+
+// SDL_Color
+inline YAML::Emitter& operator << (YAML::Emitter& out, const SDL_Color& color) {
+    out << YAML::Flow;
+    out << YAML::BeginSeq << (int)color.r << (int)color.g << (int)color.b << (int)color.a << YAML::EndSeq;
+    return out;
 }

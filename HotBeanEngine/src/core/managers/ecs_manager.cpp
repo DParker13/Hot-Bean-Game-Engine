@@ -20,9 +20,9 @@
 namespace Core::Managers {
     ECSManager::ECSManager(std::shared_ptr<LoggingManager> logging_manager)
         : _logging_manager(logging_manager) {
-        _entityManager = std::make_unique<EntityManager>();
-        _componentManager = std::make_unique<ComponentManager>();
-        _systemManager = std::make_unique<SystemManager>();
+        _entityManager = std::make_unique<EntityManager>(logging_manager);
+        _componentManager = std::make_unique<ComponentManager>(logging_manager);
+        _systemManager = std::make_unique<SystemManager>(logging_manager);
     }
 
     /**
@@ -72,10 +72,15 @@ namespace Core::Managers {
         Signature signature = _entityManager->GetSignature(entity);
 
         std::vector<Component*> components = std::vector<Component*>();
-        for (int i = 0; i < signature.count(); i++) {
-            if(signature[i]) {
-                components.push_back(&_componentManager->GetComponent(entity, i));
+
+        size_t index = signature._Find_first();
+        while (index < signature.size()) {
+            if(signature[index]) {
+                components.push_back(&_componentManager->GetComponent(entity, index));
             }
+
+            // Find the next 1
+            index = signature._Find_next(index);
         }
 
         return components;
@@ -127,17 +132,5 @@ namespace Core::Managers {
      */
     bool ECSManager::IsComponentRegistered(ComponentType component_type) const {
         return _componentManager->IsComponentRegistered(component_type);
-    }
-
-    /**
-     * Prints out the state of the ComponentManager for debugging purposes.
-     */
-    std::string ECSManager::ToString() const {
-        std::stringstream str;
-        str << _entityManager->ToString();
-        str << _componentManager->ToString();
-        str << _systemManager->ToString();
-
-        return str.str();
     }
 }

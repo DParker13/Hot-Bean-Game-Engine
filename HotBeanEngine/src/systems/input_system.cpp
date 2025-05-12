@@ -19,8 +19,4 @@ namespace Systems {
             _keysPressed.erase(event.key.keysym.sym);
         }
     }
-
-    std::string InputSystem::ToString() const {
-        return "  Input System Entities: " + std::to_string(_entities.size()) + "\n";
-    }
 }

@@ -52,7 +52,7 @@ namespace Core {
 
             Text& textComponent = GetComponent<Text>(text);
             textComponent.SetText("Loaded from code!");
-            textComponent._type = Enums::UIType::Text;
+            textComponent._type = UIElement::UIType::Text;
         }
     }
 }

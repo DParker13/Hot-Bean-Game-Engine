@@ -14,8 +14,8 @@ namespace Systems {
     void CollisionSystem::OnUpdate() {
         //TODO: Add a grid to check collisions locally instead of iterating through all entities
 
-        for (auto& entity : _entities) {
-            for (auto& other_entity : _entities) {
+        for (auto& entity : m_entities) {
+            for (auto& other_entity : m_entities) {
                 bool collision = CheckCollision(entity, other_entity);
 
                 if (collision) {
@@ -88,9 +88,5 @@ namespace Systems {
             transform_two._position.x -= collision_normal_x * collider_two._bounding_box.x;
             transform_two._position.y -= collision_normal_y * collider_two._bounding_box.y;
         }
-    }
-
-    std::string CollisionSystem::ToString() const {
-        return "  Physics System Entities: " + std::to_string(_entities.size()) + "\n";
     }
 }

@@ -12,7 +12,7 @@ namespace Systems {
     void PlayerControllerSystem::OnUpdate() {
         auto keysPressed = App::GetInstance().GetECSManager()->GetSystem<Systems::InputSystem>()->_keysPressed;
 
-        for (auto& entity : _entities) {
+        for (auto& entity : m_entities) {
             Move(entity, keysPressed, 100);
         }
     }
@@ -52,9 +52,5 @@ namespace Systems {
                 }
             }
         }
-    }
-
-    std::string PlayerControllerSystem::ToString() const {
-        return "  Player Controller System Entities: " + std::to_string(_entities.size()) + "\n";
     }
 }

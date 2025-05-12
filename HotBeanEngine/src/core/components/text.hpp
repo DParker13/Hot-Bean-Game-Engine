@@ -76,7 +76,10 @@ namespace Components {
 
             void Serialize(YAML::Emitter& out) const override {
                 UIElement::Serialize(out);
-                out << YAML::Key << "text" << YAML::Value << _text;
+
+                if (!_text.empty()) {
+                    out << YAML::Key << "text" << YAML::Value << _text;
+                }
                 out << YAML::Key << "color" << YAML::Value << _color;
                 out << YAML::Key << "size" << YAML::Value << _size;
                 out << YAML::Key << "style" << YAML::Value << _style;
@@ -125,15 +128,6 @@ namespace Components {
              */
             const char*  GetChar() const {
                 return _text.data();
-            }
-
-            std::string ToString() const override {
-                std::stringstream str;
-                str << "    Component: Text \n";
-                str << "      Text: " << _text << "\n";
-                str << "      Color: " << std::to_string(_color.r) << ", " << std::to_string(_color.g) << ", " << std::to_string(_color.b) << ", " << std::to_string(_color.a) << "\n";
-                
-                return str.str();
             }
     };
 }

@@ -45,7 +45,6 @@ namespace Core::Managers {
             void RemoveAllComponents(Entity entity);
             std::vector<Component*> GetAllComponents(Entity entity);
             Entity EntityCount() const;
-            std::string ToString() const;
     
             /**
              * Registers a component type with the ComponentManager and assigns it a ComponentType id.

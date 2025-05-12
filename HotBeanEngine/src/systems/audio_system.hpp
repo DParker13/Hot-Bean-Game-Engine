@@ -4,7 +4,7 @@
 
 #include "../core/core.hpp"
 
-#include "../components/transform_2d.hpp"
+#include "../core/components/transform_2d.hpp"
 
 using namespace Core::ECS;
 using namespace Core::Application;
@@ -28,6 +28,5 @@ namespace Systems {
             void PlayMusic(int channel, int numLoops, int fadeInTime);
             void PlayMusic(int channel, int numLoops, int fadeInTime, int timeLimit);
             void SetVolume(Uint32 volume);
-            std::string ToString() const;
     };
 }

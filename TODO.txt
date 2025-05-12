@@ -1,7 +1,6 @@
 - Use text files to handle loading components
     + Can modify components in realtime without recompiling
 - Create smarter text system
-- Create serialization system
 - Create test cases
 - Add image to EXE
 - Add splashscreen
@@ -9,3 +8,7 @@
 - Create basic ui library
 - Create textured sprite class
 - Create settings menu
+- Create config file
+    + Control Logger level
+    + Control whether or not logger logs to config
+    + Control application settings

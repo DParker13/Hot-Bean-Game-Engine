@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ui_element.hpp"
-#include "../../components/text.hpp"
 
 namespace GameObjects {
     namespace UI {

@@ -20,8 +20,6 @@ namespace Scenes {
         std::shared_ptr<UI::Text> testText;
 
         void SetupScene() override {
-            std::cout << "Test scene setup" << std::endl;
-
             App& app = App::GetInstance();
 
             fpsText = std::make_shared<UI::Text>();
@@ -41,7 +39,6 @@ namespace Scenes {
         }
 
         void UnloadScene() override {
-            std::cout << "Test scene unloaded" << std::endl;
             App& app = App::GetInstance();
             
             app.GetECSManager()->DestroyEntity(fpsText->GetEntity());

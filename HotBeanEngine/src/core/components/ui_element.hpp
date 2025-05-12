@@ -11,14 +11,23 @@
 
 #pragma once
 
-#include "../core/core.hpp"
-
-#include "enums/ui_type.hpp"
+#include "../ecs/all_ecs.hpp"
 
 namespace Components {
 
     struct UIElement : public Component {
-        Enums::UIType _type = Enums::UIType::Empty;
+        enum class UIType {
+            Empty,
+            Text,
+            Image,
+            Button,
+            Slider,
+            Dropdown,
+            Checkbox,
+            Radio,
+        };
+
+        UIType _type = UIType::Empty;
         bool _dirty = true;
 
         UIElement() = default;
@@ -33,16 +42,12 @@ namespace Components {
 
         virtual void Deserialize(YAML::Node& node) override {
             if (node["type"]) {
-                _type = (Enums::UIType)node["type"].as<int>();
+                _type = (UIType)node["type"].as<int>();
             }
 
             if (node["dirty"]) {
                 _dirty = node["dirty"].as<bool>();
             }
-        }
-
-        std::string ToString() const override {
-            return "UIElement";
         }
     };
 }

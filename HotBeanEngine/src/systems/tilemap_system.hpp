@@ -20,9 +20,6 @@ namespace Systems {
             void CreateRect(Transform2D* transform, Components::Tile* tile);
             void InitMap(Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY);
 
-
-            std::string ToString() const;
-
         private:
             std::vector<SDL_FRect> _rects;
             

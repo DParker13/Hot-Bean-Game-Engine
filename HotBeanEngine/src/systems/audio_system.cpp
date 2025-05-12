@@ -134,8 +134,4 @@ namespace Systems {
     void AudioSystem::SetVolume(Uint32 volume) {
         
     }
-
-    std::string AudioSystem::ToString() const {
-        return "  Audio System Entities: " + std::to_string(_entities.size()) + "\n";
-    }
 }

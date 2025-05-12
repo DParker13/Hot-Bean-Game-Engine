@@ -9,10 +9,10 @@ add_library(managers STATIC
     entity_manager.hpp
     system_manager.cpp
     system_manager.hpp
-    serialization_manager.cpp
-    serialization_manager.hpp
     logging_manager.cpp
     logging_manager.hpp
+    serialization_manager.cpp
+    serialization_manager.hpp
 )
 
 # Link other dependencies if needed (e.g., core library, SDL2, etc.)
@@ -20,7 +20,5 @@ add_library(managers STATIC
 target_link_libraries(managers PUBLIC
     ecs
     yaml-cpp
-    managers_helpers
+    glm
 )
-
-add_subdirectory(helpers)

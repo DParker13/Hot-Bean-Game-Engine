@@ -1,8 +1,6 @@
 #pragma once
 
 #include "../core/core.hpp"
-#include "../components/transform_2d.hpp"
-#include "../components/rigidbody.hpp"
 
 using namespace Components;
 using namespace Core::Application;
@@ -15,7 +13,5 @@ namespace Systems {
 
             //System interface
             void OnUpdate() override;
-
-            std::string ToString() const;
     };
 }

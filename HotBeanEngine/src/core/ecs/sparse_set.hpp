@@ -20,12 +20,10 @@
 #include <unordered_map>
 #include <stdexcept>
 
-#include "object.hpp"
-
 namespace Core {
 	namespace ECS {
 
-		struct ISparseSet : public Object {
+		struct ISparseSet {
 			virtual ~ISparseSet() = default;
 			virtual void Remove(size_t index) = 0;
 			virtual size_t Size() const = 0;
@@ -67,21 +65,6 @@ namespace Core {
 					for (size_t i = 0; i < _size; i++) {
 						T obj(std::move(this->GetElement(i)));
 					}
-				}
-	
-				std::string ToString() const override {
-					std::string str;
-	
-					for (size_t i = 0; i < _size; i++) {
-						const Object* object = dynamic_cast<const Object*>(&_dense[i]);
-	
-						if (object != nullptr) {
-							str += "  Index: " + std::to_string(i) + "\n";
-							str += object->ToString();
-						}
-					}
-	
-					return str;
 				}
 	
 				/**

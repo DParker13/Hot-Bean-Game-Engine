@@ -1,6 +1,6 @@
 add_library(components STATIC
-    component_register.cpp
-    component_register.hpp
+    component_factory.cpp
+    component_factory.hpp
     audio_source.hpp
     collider_2d.hpp
     controller.hpp
@@ -13,9 +13,6 @@ add_library(components STATIC
 )
 
 target_link_libraries(components PUBLIC
-    core
-    enums
     glm
+    yaml-cpp
 )
-
-add_subdirectory(enums)

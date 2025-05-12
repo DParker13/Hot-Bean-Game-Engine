@@ -14,11 +14,11 @@
 namespace Core {
     namespace Application {
         Game::Game(std::string title, int width, int height)
-            : Game(title, width, height, ComponentRegister()) {}
+            : Game(title, width, height, ComponentFactory()) {}
 
-        Game::Game(std::string title, int width, int height, ComponentRegister component_register)
-            : App(title, width, height), _component_register(component_register) {
-                component_register.RegisterComponents();
+        Game::Game(std::string title, int width, int height, ComponentFactory component_factory)
+            : App(title, width, height) {
+            component_factory.RegisterComponents(*_ecs_manager);
         }
     }
 }
