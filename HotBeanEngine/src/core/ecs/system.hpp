@@ -18,9 +18,11 @@ namespace Core {
                 virtual ~System() = default;
         
                 // GameLoop interface
+                virtual void SetSignature() = 0;
                 virtual void OnStart() {};
                 virtual void OnPreEvent() {};
                 virtual void OnEvent(SDL_Event& event) {};
+                virtual void OnWindowResize(SDL_Event& event) {};
                 virtual void OnUpdate() {};
                 virtual void OnRender() {};
                 virtual void OnPostRender() {};

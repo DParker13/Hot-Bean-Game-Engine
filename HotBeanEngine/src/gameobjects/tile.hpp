@@ -5,9 +5,9 @@
 using namespace Core::ECS;
 
 namespace GameObjects {
-    struct Tile : public GameObject<Components::Transform2D, Components::Tile, Components::RigidBody> {
+    struct Tile : public GameObject<Components::Transform2D, Components::Tile> {
 
         Tile()
-            : GameObject<Components::Transform2D, Components::Tile, Components::RigidBody>() {};
+            : GameObject<Components::Transform2D, Components::Tile>() {};
     };
 }

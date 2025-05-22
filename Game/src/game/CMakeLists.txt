@@ -4,6 +4,6 @@ add_library(test_game STATIC
 )
 
 target_link_libraries(test_game PUBLIC
-    game
-    systems
+    HotBeanEngine
+    test_systems
 )

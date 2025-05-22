@@ -2,8 +2,22 @@
 
 namespace Core::Managers {
 
+    LoggingManager::LoggingManager(const std::string& log_path, LoggingType level)
+        : m_log_path(log_path), m_log_level(level) {
+        SetupDefaultLoggingPath();
+
+        // Create the missing log directories if they don't exist
+        std::filesystem::create_directories(std::filesystem::path(m_log_path).parent_path());
+    }
+
+    LoggingManager::~LoggingManager() {
+        if (m_log_file.is_open()) {
+            m_log_file.close();
+        }
+    }
+
     void LoggingManager::Log(LoggingType type, std::string message) {
-        if (message.empty() || type < _log_level) {
+        if (message.empty() || type < m_log_level) {
             return;
         }
 
@@ -35,41 +49,41 @@ namespace Core::Managers {
                 std::cerr << final_message.str() << std::endl;
                 break;
         }
-
-        if (_log_path.empty()) {
-            SetupDefaultLoggingPath();
+        
+        if (m_log_file.is_open()) {
+            m_log_file << final_message.str();
         }
-
-        // Create the missing log directories if they don't exist
-        std::filesystem::create_directories(std::filesystem::path(_log_path).parent_path());
-
-        // Open the log file in append mode and write the message
-        std::ofstream log_file(_log_path, std::ios_base::app);
-        if (log_file.is_open()) {
-            log_file << final_message.str();
-            log_file.close();
+        else {
+            // Open the log file in append mode and write the message
+            m_log_file.open(m_log_path, std::ios_base::app);
+            if (m_log_file.is_open()) {
+                m_log_file << final_message.str();
+            }
+            else {
+                std::cerr << "Failed to open/create default log file " << m_log_path << std::endl;
+            }
         }
     }
 
     void LoggingManager::SetLogPath(std::string log_path) {
-        _log_path = log_path;
+        m_log_path = log_path;
     }
 
     void LoggingManager::SetLoggingLevel(LoggingType level) {
-        _log_level = level;
+        m_log_level = level;
     }
 
     void LoggingManager::SetupDefaultLoggingPath() {
-        if (_log_path.empty()) {
+        if (m_log_path.empty()) {
             // Determine the log directory based on the operating system and environment
             #ifdef _WIN32
-                _log_path = "C:\\Windows\\Logs\\HotBeanEngine.log";
+                m_log_path = "C:\\Windows\\Logs\\HotBeanEngine\\default.log";
             #elif __linux__
-                _log_path = "/var/log/HotBeanEngine.log";
+                m_log_path = "/var/log/HotBeanEngine.log";
             #elif __APPLE__
-                _log_path = "/var/log/HotBeanEngine.log";
+                m_log_path = "/var/log/HotBeanEngine.log";
             #else
-                _log_path = "logs/HotBeanEngine.log"; // default to a local logs directory
+                m_log_path = "logs/HotBeanEngine.log"; // default to a local logs directory
             #endif
         }
     }

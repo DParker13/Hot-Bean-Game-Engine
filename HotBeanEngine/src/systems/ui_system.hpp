@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <unordered_set>
 
 #include "../core/core.hpp"
@@ -19,15 +18,15 @@ namespace Systems {
             ~UISystem();
 
             //System interface
+            void SetSignature() override;
             void OnStart() override;
-            void OnEvent(SDL_Event& event) override;
+            void OnWindowResize(SDL_Event& event) override;
             void OnUpdate() override;
         private:
             const std::string _font_path;
 
             void SetupFont();
             void OnUpdateText(Entity entity);
-            void OnUpdateTexture(Entity entity);
             
     };
 }

@@ -2,9 +2,11 @@
 
 namespace Systems {
     CollisionSystem::CollisionSystem(int resolution) : System() {
-        App::GetInstance().SetupSystem<CollisionSystem, Transform2D, RigidBody, Collider2D>(this);
-
         _grid = std::vector<int>(resolution * resolution, 0);
+    }
+
+    void CollisionSystem::SetSignature() {
+        SETUP_SYSTEM(CollisionSystem, Transform2D, RigidBody, Collider2D);
     }
 
     /**
@@ -35,15 +37,15 @@ namespace Systems {
         auto& collider_two = app.GetECSManager()->GetComponent<Collider2D>(entity_two);
 
         // Bounding box one (top, right, bottom, left)
-        float bounding_box_one[] = {transform_one._position.y,
-                                    transform_one._position.x + collider_one._bounding_box.x,
-                                    transform_one._position.y + collider_one._bounding_box.y,
-                                    transform_one._position.x };
+        float bounding_box_one[] = {transform_one.m_world_position.y,
+                                    transform_one.m_world_position.x + collider_one._bounding_box.x,
+                                    transform_one.m_world_position.y + collider_one._bounding_box.y,
+                                    transform_one.m_world_position.x };
         // Bounding box two (top, right, bottom, left)
-        float bounding_box_two[] = {transform_two._position.y,
-                                    transform_two._position.x + collider_two._bounding_box.x,
-                                    transform_two._position.y + collider_two._bounding_box.y,
-                                    transform_two._position.x };
+        float bounding_box_two[] = {transform_two.m_world_position.y,
+                                    transform_two.m_world_position.x + collider_two._bounding_box.x,
+                                    transform_two.m_world_position.y + collider_two._bounding_box.y,
+                                    transform_two.m_world_position.x };
 
 
         // AABB collision
@@ -77,16 +79,16 @@ namespace Systems {
             //auto& rigidbody_two = app.GetComponent<RigidBody>(entity_two);
 
             // Calculate the collision normal
-            float dx = transform_one._position.x - transform_two._position.x;
-            float dy = transform_one._position.y - transform_two._position.y;
+            float dx = transform_one.m_world_position.x - transform_two.m_world_position.x;
+            float dy = transform_one.m_world_position.y - transform_two.m_world_position.y;
             float collision_normal_x = dx / (dx * dx + dy * dy);
             float collision_normal_y = dy / (dx * dx + dy * dy);
 
             // Move each entity out of the collision
-            transform_one._position.x += collision_normal_x * collider_one._bounding_box.x;
-            transform_one._position.y += collision_normal_y * collider_one._bounding_box.y;
-            transform_two._position.x -= collision_normal_x * collider_two._bounding_box.x;
-            transform_two._position.y -= collision_normal_y * collider_two._bounding_box.y;
+            transform_one.m_world_position.x += collision_normal_x * collider_one._bounding_box.x;
+            transform_one.m_world_position.y += collision_normal_y * collider_one._bounding_box.y;
+            transform_two.m_world_position.x -= collision_normal_x * collider_two._bounding_box.x;
+            transform_two.m_world_position.y -= collision_normal_y * collider_two._bounding_box.y;
         }
     }
 }

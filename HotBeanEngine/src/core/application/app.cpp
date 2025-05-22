@@ -23,20 +23,28 @@ namespace Core {
          * @param width The width of the application window.
          * @param height The height of the application window.
          */
-        App::App(std::string title, int width, int height)
-            : _window(nullptr), _renderer(nullptr), _quit(false),
-            _deltaTime(0.0f), _previousFrameTime(0.0f) {
+        App::App(const std::string& config_path)
+            : m_window(nullptr), m_renderer(nullptr), m_quit(false),
+            m_delta_time(0.0f), m_previous_frame_time(0.0f) {
 
             _instance = this;
 
+            bool config_loaded = Config::LoadConfig(config_path) == 0;
+
             // Setup logging first to capture any application initialization errors
-            _logging_manager = std::make_shared<LoggingManager>();
-            _logging_manager->SetLogPath(Config::LOG_PATH);
-            _logging_manager->SetLoggingLevel(Config::LOGGING_LEVEL);
+            m_logging_manager = std::make_shared<LoggingManager>(Config::LOG_PATH, Config::LOGGING_LEVEL);
+
+            if (config_loaded) {
+                Log(LoggingType::INFO, "Config file loaded.");
+            }
+            else {
+                Log(LoggingType::ERROR, "Failed to load config file at \"" + config_path + "\"");
+                Log(LoggingType::INFO, "\tLoading Default config");
+            }
 
             // Initialize other core managers
-            _ecs_manager = std::make_shared<ECSManager>(_logging_manager);
-            _serialization_manager = std::make_unique<SerializationManager>(_ecs_manager, _logging_manager);
+            m_ecs_manager = std::make_shared<ECSManager>(m_logging_manager);
+            m_serialization_manager = std::make_unique<SerializationManager>(m_ecs_manager, m_logging_manager);
 
             // Initialize SDL
             if (SDL_Init(SDL_INIT_VIDEO || SDL_INIT_AUDIO) < 0) {
@@ -45,26 +53,26 @@ namespace Core {
             }
     
             // Create window
-            _window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                    width, height, SDL_WINDOW_RESIZABLE);
-            if (_window == nullptr) {
+            m_window = SDL_CreateWindow(Config::WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                    Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
+            if (m_window == nullptr) {
                 Log(LoggingType::FATAL, std::string("Window could not be created! SDL_Error: ") + SDL_GetError());
                 exit(-1);
             }
     
             // Create renderer for window
-            _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
-            if (_renderer == nullptr) {
+            m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+            if (m_renderer == nullptr) {
                 Log(LoggingType::FATAL, std::string("Renderer could not be created! SDL_Error: ") + SDL_GetError());
                 exit(-1);
             }
     
             // Initialize renderer color
-            SDL_SetRenderDrawColor(_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+            SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     
             // Create surface
-            _surface = SDL_GetWindowSurface(_window);
-            if (_surface == nullptr) {
+            m_surface = SDL_GetWindowSurface(m_window);
+            if (m_surface == nullptr) {
                 Log(LoggingType::FATAL, std::string("Surface could not be created! SDL_Error: ") + SDL_GetError());
                 exit(-1);
             }
@@ -100,70 +108,65 @@ namespace Core {
             return *_instance;
         }
 
-        // Getters and Setters
+        // -- Getters and Setters -- //
         SDL_Renderer* App::GetRenderer() const {
-            return _renderer;
+            return m_renderer;
         }
         
         void App::SetRenderer(SDL_Renderer* renderer) {
-            _renderer = renderer;
+            m_renderer = renderer;
         }
 
         SDL_Window* App::GetWindow() const {
-            return _window;
+            return m_window;
         }
 
         void App::SetWindow(SDL_Window* window) {
-            _window = window;
+            m_window = window;
         }
 
         SDL_Surface* App::GetSurface() const {
-            return _surface;
+            return m_surface;
         }
 
         void App::SetSurface(SDL_Surface* surface) {
-            _surface = surface;
+            m_surface = surface;
         }
 
         float App::GetDeltaTime() const {
-            return _deltaTime;
+            return m_delta_time;
         }
 
         std::shared_ptr<ECSManager> App::GetECSManager() const {
-            return _ecs_manager;
+            return m_ecs_manager;
         }
 
         /**
          * @brief Logs a message to a log file.
          * 
-         * @param message 
+         * @param message Message to log to the log file
          */
         void App::Log(LoggingType type, std::string message) {
-            _logging_manager->Log(type, message);
+            m_logging_manager->Log(type, message);
         }
 
         void App::SetLoggingLevel(LoggingType level) {
-            _logging_manager->SetLoggingLevel(level);
+            m_logging_manager->SetLoggingLevel(level);
         }
 
         void App::SetLogPath(std::string log_path) {
-            _logging_manager->SetLogPath(log_path);
+            m_logging_manager->SetLogPath(log_path);
         }
     
         /**
-         * @brief Runs the application main loop.
-         *
-         * This is responsible for initializing the application,
-         * polling for events, calculating the delta time,
-         * updating the application state, rendering the application
-         * state, and cleaning up after itself.
+         * @brief Runs the main loop of the application.
          */
         void App::Run() {
             SDL_Event event;
     
             OnStart();
     
-            while (!_quit) {
+            while (!m_quit) {
                 //Calculates delta time
                 UpdateDeltaTime();
     
@@ -172,7 +175,10 @@ namespace Core {
                 //Polls for events
                 while (SDL_PollEvent(&event)) {
                     if (event.type == SDL_QUIT) {
-                        _quit = true;
+                        m_quit = true;
+                    }
+                    else if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
+                        OnWindowResize(event);
                     }
                     else {
                         OnEvent(event);
@@ -180,14 +186,14 @@ namespace Core {
                 }
     
                 // Clear the renderer and prepare for the next frame
-                SDL_SetRenderDrawColor(_renderer, 0x00, 0x00, 0x00, 0xFF);
-                SDL_RenderClear(_renderer);
+                SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0xFF);
+                SDL_RenderClear(m_renderer);
     
                 OnUpdate();
                 OnRender();
     
                 // Present the next frame
-                SDL_RenderPresent(_renderer);
+                SDL_RenderPresent(m_renderer);
     
                 OnPostRender();
             }
@@ -195,12 +201,12 @@ namespace Core {
     
         /**
          * @brief Cleans up the SDL resources by destroying the renderer, window, surface,
-         * and _quitting the SDL library.
+         * and m_quitting the SDL library.
          */
         void App::CleanUpSDL() {
-            SDL_DestroyRenderer(_renderer);
-            SDL_FreeSurface(_surface);
-            SDL_DestroyWindow(_window);
+            SDL_DestroyRenderer(m_renderer);
+            SDL_FreeSurface(m_surface);
+            SDL_DestroyWindow(m_window);
      
             // TTF
             TTF_Quit();
@@ -215,11 +221,11 @@ namespace Core {
         }
 
         Entity App::CreateEntity() {
-            return _ecs_manager->CreateEntity();
+            return m_ecs_manager->CreateEntity();
         }
 
         void App::DestroyEntity(Entity entity) {
-            _ecs_manager->DestroyEntity(entity);
+            m_ecs_manager->DestroyEntity(entity);
         }
     
         /**
@@ -227,9 +233,9 @@ namespace Core {
          */
         void App::UpdateDeltaTime() {
             Uint32 currentTime = SDL_GetTicks();
-            float newDeltaTime = (currentTime - _previousFrameTime) / 1000.0f;
-            _deltaTime = newDeltaTime;
-            _previousFrameTime = currentTime;
+            float newDeltaTime = (currentTime - m_previous_frame_time) / 1000.0f;
+            m_delta_time = newDeltaTime;
+            m_previous_frame_time = currentTime;
         }
     
         /**
@@ -239,7 +245,7 @@ namespace Core {
         void App::OnStart() {
             SetupSystems();
     
-            _ecs_manager->IterateSystems(GameLoopState::OnInit);
+            m_ecs_manager->IterateSystems(GameLoopState::OnInit);
         }
 
         /**
@@ -248,7 +254,7 @@ namespace Core {
          * @param event The SDL event to be handled.
          */
         void App::OnPreEvent() {
-            _ecs_manager->IterateSystems(GameLoopState::OnPreEvent);
+            m_ecs_manager->IterateSystems(GameLoopState::OnPreEvent);
         }
     
         /**
@@ -257,7 +263,15 @@ namespace Core {
          * @param event The SDL event to be handled.
          */
         void App::OnEvent(SDL_Event& event) {
-            _ecs_manager->IterateSystems(event);
+            m_ecs_manager->IterateSystems(event, GameLoopState::OnEvent);
+        }
+
+        /**
+         * @brief Calls the OnWindowResize method of each system in the system manager.
+         * 
+         */
+        void App::OnWindowResize(SDL_Event& event) {
+            m_ecs_manager->IterateSystems(event, GameLoopState::OnWindowResize);
         }
     
         /**
@@ -267,7 +281,7 @@ namespace Core {
          * @param delta_time The time in seconds since the last frame.
          */
         void App::OnUpdate() {
-            _ecs_manager->IterateSystems(GameLoopState::OnUpdate);
+            m_ecs_manager->IterateSystems(GameLoopState::OnUpdate);
         }
     
         /**
@@ -278,7 +292,7 @@ namespace Core {
          * @param surface The SDL_Surface to render to.
          */
         void App::OnRender() {
-            _ecs_manager->IterateSystems(GameLoopState::OnRender);
+            m_ecs_manager->IterateSystems(GameLoopState::OnRender);
         }
     
         /**
@@ -287,7 +301,7 @@ namespace Core {
          * @param renderer The SDL_Renderer to render with.
          */
         void App::OnPostRender() {
-            _ecs_manager->IterateSystems(GameLoopState::OnPostRender);
+            m_ecs_manager->IterateSystems(GameLoopState::OnPostRender);
         }
     }
 }

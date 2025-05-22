@@ -11,7 +11,6 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 #include <iostream>
 
 #include "../managers/all_managers.hpp"
@@ -28,7 +27,7 @@ namespace Core {
          */
         class App : public GameLoop {
             public:
-                bool _quit; ///< Flag to quit the application
+                bool m_quit; ///< Flag to quit the application
     
                 ~App();
                 App(const App&) = delete;
@@ -56,43 +55,52 @@ namespace Core {
                  */
                 void Run();
 
-                template<typename S, typename... Cs>
-                void SetupSystem(S* system) {
-                    _ecs_manager->RegisterSystem<S>(system);
-                    _ecs_manager->SetSignature<S, Cs...>();
-                }
-
                 // --- ECS Manager Extension --- //
 
                 Entity CreateEntity();
                 void DestroyEntity(Entity entity);
+
+                template<typename T, typename... Args>
+                T& RegisterSystem(Args&&... params) {
+                    return m_ecs_manager->RegisterSystem<T, Args...>(std::forward<Args>(params)...);
+                }
+
+                template<typename T>
+                T& RegisterSystem() {
+                    return m_ecs_manager->RegisterSystem<T>();
+                }
+
+                template<typename T>
+                void UnregisterSystem() {
+                    m_ecs_manager->UnregisterSystem<T>();
+                }
                 
                 template<typename T>
                 void AddComponent(Entity entity, T component) {
-                    _ecs_manager->AddComponent<T>(entity, component);
+                    m_ecs_manager->AddComponent<T>(entity, component);
                 }
 
                 template<typename T>
                 T& GetComponent(Entity entity) {
-                    return _ecs_manager->GetComponent<T>(entity);
+                    return m_ecs_manager->GetComponent<T>(entity);
                 }
 
                 template<typename T>
                 void RemoveComponent(Entity entity) {
-                    _ecs_manager->RemoveComponent<T>(entity);
+                    m_ecs_manager->RemoveComponent<T>(entity);
                 }
     
             protected:
-                std::shared_ptr<ECSManager> _ecs_manager;
-                std::shared_ptr<LoggingManager> _logging_manager;
-                std::unique_ptr<SerializationManager> _serialization_manager;
-                SDL_Renderer* _renderer;
-                SDL_Window* _window;
-                SDL_Surface* _surface;
-                float _deltaTime; ///< Time elapsed between frames
-                float _previousFrameTime; ///< Previous frame time
+                std::shared_ptr<ECSManager> m_ecs_manager;
+                std::shared_ptr<LoggingManager> m_logging_manager;
+                std::unique_ptr<SerializationManager> m_serialization_manager;
+                SDL_Renderer* m_renderer;
+                SDL_Window* m_window;
+                SDL_Surface* m_surface;
+                float m_delta_time; ///< Time elapsed between frames
+                float m_previous_frame_time; ///< Previous frame time
                 
-                App(std::string title, int width, int height);
+                App(const std::string& config_path);
 
                 /**
                  * @brief Cleans up the SDL window and renderer.
@@ -126,6 +134,11 @@ namespace Core {
                  * @param event The SDL event to handle.
                  */
                 virtual void OnEvent(SDL_Event& event);
+
+                /**
+                 * @brief Called when the window is resized.
+                 */
+                virtual void OnWindowResize(SDL_Event& event);
     
                 /**
                  * @brief Called after handling events. Meant to update system and entity game states.

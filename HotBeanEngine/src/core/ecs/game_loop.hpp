@@ -8,6 +8,7 @@ namespace Core {
             virtual void OnStart() = 0;
             virtual void OnPreEvent() = 0;
             virtual void OnEvent(SDL_Event& event) = 0;
+            virtual void OnWindowResize(SDL_Event& event) = 0;
             virtual void OnUpdate() = 0;
             virtual void OnRender() = 0;
             virtual void OnPostRender() = 0;
@@ -17,6 +18,7 @@ namespace Core {
             OnInit,
             OnPreEvent,
             OnEvent,
+            OnWindowResize,
             OnUpdate,
             OnRender,
             OnPostRender

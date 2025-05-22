@@ -13,8 +13,6 @@
 
 #include <unordered_map>
 #include <memory>
-#include <cassert>
-#include <sstream>
 
 #include "../ecs/all_ecs.hpp"
 #include "../managers/logging_manager.hpp"
@@ -163,15 +161,6 @@ namespace Core::Managers {
             }
 
             /**
-             * Retrieves the Component Name associated with the given component type.
-             *
-             * @param component_type The component type to retrieve the name for.
-             *
-             * @return The name associated with the given component type, or an empty string if the component is not registered.
-             */
-            std::string GetComponentName(ComponentType component_type);
-
-            /**
              * @brief Get the registered Component Type using the Component Name
              * 
              * @param component_name Component Name to search
@@ -179,6 +168,20 @@ namespace Core::Managers {
              * @return -1 if not found
              */
             ComponentType GetComponentType(std::string component_name);
+
+            template<typename T>
+            bool HasComponentType(Entity entity) const {
+                return GetComponentSet<T>()->GetElement(entity) != nullptr;
+            }
+
+            /**
+             * Retrieves the Component Name associated with the given component type.
+             *
+             * @param component_type The component type to retrieve the name for.
+             *
+             * @return The name associated with the given component type, or an empty string if the component is not registered.
+             */
+            std::string GetComponentName(ComponentType component_type);
 
             /**
              * @brief Checks if a component is registered

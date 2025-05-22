@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../core/core.hpp"
-#include "../gameobjects/tile.hpp"
+#include <HotBeanEngine.hpp>
 
 using namespace Components;
 using namespace Core::Application;
@@ -10,9 +9,10 @@ using namespace Core::ECS;
 namespace Systems {
     class TileMapSystem : public System {
         public:
-            TileMapSystem();
+            TileMapSystem() = default;
 
             //System Interface Overrides
+            void SetSignature() override;
             void OnStart() override;
             void OnRender() override;
 

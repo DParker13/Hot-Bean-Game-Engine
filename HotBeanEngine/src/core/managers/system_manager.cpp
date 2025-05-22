@@ -113,9 +113,16 @@ namespace Core::Managers {
         }
     }
 
-    void SystemManager::IterateSystems(SDL_Event& event) {
+    void SystemManager::IterateSystems(SDL_Event& event, GameLoopState state) {
         for (auto& [type_name, system] : m_systems) {
-            system->OnEvent(event);
+            switch(state) {
+                case GameLoopState::OnEvent:
+                    system->OnEvent(event);
+                    break;
+                case GameLoopState::OnWindowResize:
+                    system->OnWindowResize(event);
+                    break;
+            }
         }
     }
 }

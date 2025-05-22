@@ -14,7 +14,9 @@ using namespace Config;
  * @return an integer indicating the exit status of the program
  */
 int main(int argc, char* argv[]) {
-    TestGame game = TestGame(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT);
+    std::string config_path = "C:\\Users\\danie\\Documents\\GitHub\\HotBeanEngine\\Game\\src\\config.yaml";
+    
+    TestGame game = TestGame(config_path);
 
     game.Run();
 

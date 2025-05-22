@@ -1,17 +1,12 @@
 #include "audio_system.hpp"
 
 namespace Systems {
-    AudioSystem::AudioSystem() : System() {
-        App::GetInstance().SetupSystem<AudioSystem>(this);
+    AudioSystem::~AudioSystem() {
+        Mix_FreeChunk(m_music);
     }
 
-    /**
-     * OnInit is called when the system is initialized.
-     * It loads a default music sample and starts playing it.
-     */
-    void AudioSystem::OnStart() {
-        LoadMusic("../assets/music/Summer.wav");
-        PlayMusic(-1);
+    void AudioSystem::SetSignature() {
+        SETUP_SYSTEM(AudioSystem);
     }
 
     /**
@@ -19,12 +14,12 @@ namespace Systems {
      *
      * If the load fails, an error message will be printed to the console.
      *
-     * @param musicFilePath the path to the music file
+     * @param music_file_path the path to the music file
      */
-    void AudioSystem::LoadMusic(std::string musicFilePath) {
+    void AudioSystem::LoadMusic(std::string music_file_path) {
         // load sample.wav in to sample
-        _music = Mix_LoadWAV(musicFilePath.data());
-        if(!_music) {
+        m_music = Mix_LoadWAV(music_file_path.data());
+        if(!m_music) {
             printf("Mix_LoadWAV: %s\n", Mix_GetError());
         }
     }
@@ -41,7 +36,7 @@ namespace Systems {
      */
     void AudioSystem::PlayMusic(int numLoops) {
         if (Mix_Playing(DEFAULT_MUSIC_CHANNEL) == 0) {
-            if(Mix_PlayChannel(DEFAULT_MUSIC_CHANNEL, _music, numLoops) == -1) {
+            if(Mix_PlayChannel(DEFAULT_MUSIC_CHANNEL, m_music, numLoops) == -1) {
                 printf("Mix_PlayChannel: %s\n", Mix_GetError());
             }
         }
@@ -60,7 +55,7 @@ namespace Systems {
      */
     void AudioSystem::PlayMusic(int channel, int numLoops) {
         if (Mix_Playing(channel) == 0) {
-            if(Mix_PlayChannel(channel, _music, numLoops)==-1) {
+            if(Mix_PlayChannel(channel, m_music, numLoops)==-1) {
                 printf("Mix_PlayChannel: %s\n", Mix_GetError());
             }
         }
@@ -84,7 +79,7 @@ namespace Systems {
             PlayMusic(channel, numLoops);
         }
         else if (Mix_Playing(channel) == 0) {
-            if(Mix_FadeInChannel(channel, _music, numLoops, fadeInTime) == -1) {
+            if(Mix_FadeInChannel(channel, m_music, numLoops, fadeInTime) == -1) {
                 printf("Mix_FadeInChannel: %s\n", Mix_GetError());
             }
         }
@@ -110,7 +105,7 @@ namespace Systems {
             if (timeLimit <= 0) {
                 PlayMusic(channel, numLoops);
             }
-            else if (Mix_PlayChannelTimed(channel, _music, numLoops, timeLimit) == -1) {
+            else if (Mix_PlayChannelTimed(channel, m_music, numLoops, timeLimit) == -1) {
                 printf("Mix_PlayChannelTimed: %s\n", Mix_GetError());
             }
         }
@@ -118,7 +113,7 @@ namespace Systems {
             if (timeLimit <= 0) {
                 PlayMusic(channel, numLoops, fadeInTime);
             }
-            else if (Mix_FadeInChannelTimed(channel, _music, numLoops, fadeInTime, timeLimit) == -1) {
+            else if (Mix_FadeInChannelTimed(channel, m_music, numLoops, fadeInTime, timeLimit) == -1) {
                 printf("Mix_FadeInChannelTimed: %s\n", Mix_GetError());
             }
         }

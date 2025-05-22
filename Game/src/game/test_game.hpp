@@ -14,6 +14,8 @@
 #include <HotBeanEngine.hpp>
 
 #include "../scenes/test_scene.hpp"
+#include "../systems/tilemap_system.hpp"
+#include "../systems/audio_system.hpp"
 
 using namespace Components;
 using namespace Systems;
@@ -22,7 +24,7 @@ namespace Core {
     namespace Application {
         class TestGame : public Game {
             public:
-                TestGame(std::string title, int width, int height);
+                TestGame(const std::string& config_path);
                 ~TestGame() = default;
 
                 void SetupSystems() override;

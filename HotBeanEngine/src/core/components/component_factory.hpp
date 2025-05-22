@@ -2,6 +2,7 @@
 
 #include "../managers/ecs_manager.hpp"
 #include "audio_source.hpp"
+#include "camera.hpp"
 #include "collider_2d.hpp"
 #include "controller.hpp"
 #include "rigidbody.hpp"

@@ -31,8 +31,8 @@ namespace Scenes {
             fpsText->GetComponent<Text>()._wrapping_width = 50;
     
             // Setup test text 2
-            testText->GetComponent<Transform2D>()._position = { 500.0f, 50.0f };
-            testText->GetComponent<Transform2D>()._layer = 1;
+            testText->GetComponent<Transform2D>().m_world_position = { 500.0f, 50.0f };
+            testText->GetComponent<Transform2D>().m_layer = 1;
             testText->GetComponent<Texture>()._size = { 500.0f, 100.0f };
             testText->GetComponent<Text>()._size = 50;
             testText->GetComponent<Text>().SetText("Layer 1!");

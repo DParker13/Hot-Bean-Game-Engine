@@ -15,12 +15,12 @@
 
 namespace Components {
     struct Tile : public Component {
-        Uint8 _type;
-        Uint8 _size;
-        SDL_Vertex _vertices[4];
-        SDL_Color _color;
+        Uint8 m_type;
+        Uint8 m_size;
+        SDL_Vertex m_vertices[4];
+        SDL_Color m_color;
 
-        int _INDICES[6] = { 0, 1, 2, 1, 3, 2 };
+        int m_INDICES[6] = { 0, 1, 2, 1, 3, 2 };
 
         Tile() = default;
 
@@ -29,13 +29,13 @@ namespace Components {
         }
 
         void Serialize(YAML::Emitter& out) const override {
-            out << YAML::Key << "type" << YAML::Value << _type;
-            out << YAML::Key << "size" << YAML::Value << _size;
+            out << YAML::Key << "type" << YAML::Value << m_type;
+            out << YAML::Key << "size" << YAML::Value << m_size;
         }
 
         void Deserialize(YAML::Node& node) override {
-            _type = node["type"].as<Uint8>();
-            _size = node["size"].as<Uint8>();
+            m_type = (Uint8)node["type"].as<int>();
+            m_size = (Uint8)node["size"].as<int>();
         }
     };
 }

@@ -2,6 +2,7 @@ add_library(components STATIC
     component_factory.cpp
     component_factory.hpp
     audio_source.hpp
+    camera.hpp
     collider_2d.hpp
     controller.hpp
     rigidbody.hpp

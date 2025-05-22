@@ -1,8 +1,8 @@
 #include "player_controller_system.hpp"
 
 namespace Systems {
-    PlayerControllerSystem::PlayerControllerSystem() : System() {
-        App::GetInstance().SetupSystem<PlayerControllerSystem, Transform2D, Controller>(this);
+    void PlayerControllerSystem::SetSignature() {
+        SETUP_SYSTEM(PlayerControllerSystem, Transform2D, Controller);
     }
 
     /**
@@ -36,19 +36,19 @@ namespace Systems {
                 auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
 
                 if (keysPressed.find(SDLK_LEFT) != keysPressed.end()) {
-                    transform._position.x -= distance;
+                    transform.m_world_position.x -= distance;
                 }
                 
                 if (keysPressed.find(SDLK_RIGHT) != keysPressed.end()) {
-                    transform._position.x += distance;
+                    transform.m_world_position.x += distance;
                 }
                 
                 if (keysPressed.find(SDLK_UP) != keysPressed.end()) {
-                    transform._position.y -= distance;
+                    transform.m_world_position.y -= distance;
                 }
                 
                 if (keysPressed.find(SDLK_DOWN) != keysPressed.end()) {
-                    transform._position.y += distance;
+                    transform.m_world_position.y += distance;
                 }
             }
         }

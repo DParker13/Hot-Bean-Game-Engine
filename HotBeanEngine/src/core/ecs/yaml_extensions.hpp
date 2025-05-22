@@ -109,6 +109,7 @@ namespace YAML {
         }
     };
 
+    // SDL_Color
     template<>
     struct convert<SDL_Color> {
         static Node encode(const SDL_Color& color) {
@@ -135,6 +136,18 @@ namespace YAML {
             return true;
         }
     };
+}
+
+// Bitset
+static std::bitset<16> string_to_bitset(const std::string& s) {
+    assert(s.size() == 16 && "There must be 16 bits");
+
+    std::bitset<16> bitset;
+    for (int i = s.size() - 1; i >= 0; i--) {
+        bitset.set(i, s[i] == '1');
+    }
+
+    return bitset;
 }
 
 // Vec2

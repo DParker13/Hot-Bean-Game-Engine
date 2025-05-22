@@ -14,26 +14,14 @@
 
 namespace Core {
     namespace Application {
-        TestGame::TestGame(std::string title, int width, int height)
-            : Game(title, width, height) {}
-    
-        /**
-         * @brief Initializes all systems in the game. This function creates an 
-         * instance of each system that is used in the game.
-         * 
-         * @note The System Manager is responsible for cleaning up these
-         * systems when they're no longer needed.
-         */
-        void TestGame::SetupSystems() {
-            std::filesystem::path font_path = std::filesystem::current_path().parent_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
+        TestGame::TestGame(const std::string& config_path)
+            : Game(config_path) {}
 
-            new PhysicsSystem();
-            new RenderSystem();
-            new InputSystem();
-            new PlayerControllerSystem();
-            new UISystem(font_path.string());
-            //new TileMapSystem();
-            new AudioSystem();
+        void TestGame::SetupSystems() {
+            Game::SetupSystems();
+
+            RegisterSystem<CustomAudioSystem>();
+            RegisterSystem<TileMapSystem>();
         }
 
         void TestGame::OnStart() {
@@ -42,8 +30,8 @@ namespace Core {
             std::filesystem::path test_scene_path = std::filesystem::current_path().parent_path() / "scenes" / "test.yaml";
             std::shared_ptr<Scenes::TestScene> test_scene = std::make_shared<Scenes::TestScene>(test_scene_path.string());
 
-            _serialization_manager->RegisterScene(test_scene);
-            _serialization_manager->LoadScene(test_scene);
+            m_serialization_manager->RegisterScene(test_scene);
+            m_serialization_manager->LoadScene(test_scene);
 
             Entity text = CreateEntity();
             AddComponent<Transform2D>(text, Transform2D());

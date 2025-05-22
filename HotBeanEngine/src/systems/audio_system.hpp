@@ -4,8 +4,6 @@
 
 #include "../core/core.hpp"
 
-#include "../core/components/transform_2d.hpp"
-
 using namespace Core::ECS;
 using namespace Core::Application;
 using namespace Components;
@@ -13,16 +11,16 @@ using namespace Components;
 namespace Systems {
     class AudioSystem : public System {
         private:
-            Mix_Chunk* _music; // Channel 1
-            const Uint32 DEFAULT_MUSIC_CHANNEL = 1;
+            Mix_Chunk* m_music; // Channel 1
+            const Uint8 DEFAULT_MUSIC_CHANNEL = 1;
 
         public:
-            AudioSystem();
-            
-            //System Interface
-            void OnStart() override;
+            AudioSystem() = default;
+            ~AudioSystem();
 
-            void LoadMusic(std::string musicFilePath);
+            void SetSignature() override;
+
+            void LoadMusic(std::string music_file_path);
             void PlayMusic(int numLoops);
             void PlayMusic(int channel, int numLoops);
             void PlayMusic(int channel, int numLoops, int fadeInTime);

@@ -4,6 +4,7 @@ namespace Core::Application {
 
     void ComponentFactory::RegisterComponents(Core::Managers::ECSManager& ecs_manager) {
         ecs_manager.RegisterComponentType<Components::AudioSource>();
+        ecs_manager.RegisterComponentType<Components::Camera>();
         ecs_manager.RegisterComponentType<Components::Collider2D>();
         ecs_manager.RegisterComponentType<Components::Controller>();
         ecs_manager.RegisterComponentType<Components::RigidBody>();
@@ -26,29 +27,32 @@ namespace Core::Application {
     void ComponentFactory::CreateComponent(Core::Managers::ECSManager& ecs_manager, const std::string& component_name,
                                             YAML::Node node, Entity entity) {
         if (ecs_manager.IsComponentRegistered(component_name)) {
-            if (component_name == "Transform2D") {
-                AddComponent<Components::Transform2D>(ecs_manager, entity, node);
+            if (component_name == "AudioSource") {
+                AddComponent<Components::AudioSource>(ecs_manager, entity, node);
             }
-            else if (component_name == "Texture") {
-                AddComponent<Components::Texture>(ecs_manager, entity, node);
+            else if (component_name == "Camera") {
+                AddComponent<Components::Camera>(ecs_manager, entity, node);
             }
             else if (component_name == "Collider2D") {
                 AddComponent<Components::Collider2D>(ecs_manager, entity, node);
             }
+            else if (component_name == "Controller") {
+                AddComponent<Components::Controller>(ecs_manager, entity, node);
+            }
             else if (component_name == "RigidBody") {
                 AddComponent<Components::RigidBody>(ecs_manager, entity, node);
-            }
-            else if (component_name == "AudioSource") {
-                AddComponent<Components::AudioSource>(ecs_manager, entity, node);
             }
             else if (component_name == "Text") {
                 AddComponent<Components::Text>(ecs_manager, entity, node);
             }
+            else if (component_name == "Texture") {
+                AddComponent<Components::Texture>(ecs_manager, entity, node);
+            }
             else if (component_name == "Tile") {
                 AddComponent<Components::Tile>(ecs_manager, entity, node);
             }
-            else if (component_name == "Controller") {
-                AddComponent<Components::Controller>(ecs_manager, entity, node);
+            else if (component_name == "Transform2D") {
+                AddComponent<Components::Transform2D>(ecs_manager, entity, node);
             }
             else if (component_name == "UIElement") {
                 AddComponent<Components::UIElement>(ecs_manager, entity, node);

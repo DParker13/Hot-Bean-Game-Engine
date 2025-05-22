@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SDL.h>
 #include <unordered_set>
 
 #include "../core/core.hpp"
@@ -13,7 +12,9 @@ namespace Systems {
         public:
             std::unordered_set<SDL_Keycode> _keysPressed;
             
-            InputSystem();
+            InputSystem() = default;
+
+            void SetSignature() override;
             void OnEvent(SDL_Event& event) override;
     };
 }

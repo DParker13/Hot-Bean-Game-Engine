@@ -1,8 +1,8 @@
 #include "physics_system.hpp"
 
 namespace Systems {
-    PhysicsSystem::PhysicsSystem() : System() {
-        App::GetInstance().SetupSystem<PhysicsSystem, Transform2D, RigidBody>(this);
+    void PhysicsSystem::SetSignature() {
+        SETUP_SYSTEM(PhysicsSystem, Transform2D, RigidBody);
     }
 
     /**
@@ -16,7 +16,7 @@ namespace Systems {
             auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
             auto& rigidbody = app.GetECSManager()->GetComponent<RigidBody>(entity);
 
-            transform._position.y -= rigidbody.velocity.y * app.GetDeltaTime();
+            transform.m_world_position.y -= rigidbody.velocity.y * app.GetDeltaTime();
 		    rigidbody.velocity.y += rigidbody.gravity * app.GetDeltaTime();
         }
     }

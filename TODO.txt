@@ -1,5 +1,7 @@
+- Add second buffer (next frame) to Rendering System
 - Use text files to handle loading components
     + Can modify components in realtime without recompiling
+- Add parent-child hierarchy
 - Create smarter text system
 - Create test cases
 - Add image to EXE
@@ -8,7 +10,3 @@
 - Create basic ui library
 - Create textured sprite class
 - Create settings menu
-- Create config file
-    + Control Logger level
-    + Control whether or not logger logs to config
-    + Control application settings

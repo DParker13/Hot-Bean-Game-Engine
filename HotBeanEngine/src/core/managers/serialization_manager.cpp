@@ -29,7 +29,7 @@ namespace Core::Managers {
 
             _logging_manager->Log(LoggingType::INFO, "Scene loaded.");
         } catch (const YAML::Exception& e) {
-            std::cerr << "Error parsing YAML file: " << e.what() << std::endl;
+            _logging_manager->Log(LoggingType::ERROR, "Error parsing YAML file: " + (std::string)e.what());
         }
 
         _current_scene->SetupScene();

@@ -17,9 +17,6 @@
 
 #pragma once
 
-#include <memory>
-#include <unordered_map>
-
 #include "logging_manager.hpp"
 #include "entity_manager.hpp"
 #include "component_manager.hpp"
@@ -31,10 +28,10 @@ namespace Core::Managers {
     // ECSManager combines EntityManager and ComponentManager to manage entities and components together in one system
     class ECSManager {
         private:
-            std::shared_ptr<LoggingManager> _logging_manager;
-            std::unique_ptr<EntityManager> _entityManager;
-            std::unique_ptr<ComponentManager> _componentManager;
-            std::unique_ptr<SystemManager> _systemManager;
+            std::shared_ptr<LoggingManager> m_logging_manager;
+            std::unique_ptr<EntityManager> m_entity_manager;
+            std::unique_ptr<ComponentManager> m_component_manager;
+            std::unique_ptr<SystemManager> m_system_manager;
         
         public:
             ECSManager(std::shared_ptr<LoggingManager> logging_manager);
@@ -57,7 +54,7 @@ namespace Core::Managers {
              */
             template<typename T>
             ComponentType RegisterComponentType() {
-                return _componentManager->RegisterComponentType<T>();
+                return m_component_manager->RegisterComponentType<T>();
             }
     
             /**
@@ -70,9 +67,9 @@ namespace Core::Managers {
              */
             template<typename T>
             void AddComponent(Entity entity, T component) {
-                ComponentType componentType = _componentManager->AddComponent<T>(entity, component);
-                Signature signature = _entityManager->SetSignature(entity, componentType);
-                _systemManager->EntitySignatureChanged(entity, signature);
+                ComponentType component_type = m_component_manager->AddComponent<T>(entity, component);
+                Signature signature = m_entity_manager->SetSignature(entity, component_type);
+                m_system_manager->EntitySignatureChanged(entity, signature);
             }
     
             /**
@@ -84,9 +81,9 @@ namespace Core::Managers {
              */
             template<typename T>
             void RemoveComponent(Entity entity) {
-                ComponentType componentType = _componentManager->RemoveComponent<T>(entity);
-                Signature signature = _entityManager->SetSignature(entity, componentType);
-                _systemManager->EntitySignatureChanged(entity, signature);
+                ComponentType component_type = m_component_manager->RemoveComponent<T>(entity);
+                Signature signature = m_entity_manager->SetSignature(entity, component_type);
+                m_system_manager->EntitySignatureChanged(entity, signature);
             }
     
             /**
@@ -100,7 +97,7 @@ namespace Core::Managers {
              */
             template<typename T>
             T& GetComponent(Entity entity) {
-                return _componentManager->GetComponentData<T>(entity);
+                return m_component_manager->GetComponentData<T>(entity);
             }
     
             /**
@@ -114,8 +111,31 @@ namespace Core::Managers {
              */
             template<typename T>
             ComponentType GetComponentType() {
-                return _componentManager->GetComponentType<T>();
+                return m_component_manager->GetComponentType<T>();
             }
+
+            /**
+             * @brief Checks if an entity has a component of a specific type
+             * 
+             * @tparam T Component type
+             * @param entity Entity to check
+             * @return true 
+             * @return false 
+             */
+            template<typename T>
+            bool HasComponentType(Entity entity) const {
+                return m_entity_manager->HasComponentType(entity, m_component_manager->GetComponentType<T>());
+            }
+
+            /**
+             * @brief Checks if an entity has a component of a specific type
+             * 
+             * @param entity Entity to check
+             * @param compoenent_name The name of the component
+             * @return true 
+             * @return false 
+             */
+            bool HasComponentType(Entity entity, std::string component_name) const;
 
             /**
              * Retrieves the Component Name associated with the given component type.
@@ -127,11 +147,10 @@ namespace Core::Managers {
             std::string GetComponentName(ComponentType component_type) const;
 
             /**
-             * @brief Get the registered Component Type using the Component Name
+             * @brief Get the Component Type object
              * 
-             * @param component_name Component Name to search
-             * @return ComponentType
-             * @return -1 if not found
+             * @param component_name The name of the component
+             * @return ComponentType 
              */
             ComponentType GetComponentType(std::string component_name) const;
 
@@ -152,81 +171,68 @@ namespace Core::Managers {
              * @return false 
              */
             bool IsComponentRegistered(ComponentType component_type) const;
-    
+
+            template<typename T, typename... Args>
+            T& RegisterSystem(Args&&... params) {
+                T& system = m_system_manager->RegisterSystem<T, Args...>(std::forward<Args>(params)...);
+                system.SetSignature();
+
+                return system;
+            }
+
+            template<typename T>
+            T& RegisterSystem() {
+                T& system = m_system_manager->RegisterSystem<T>();
+                system.SetSignature();
+
+                return system;
+            }
+
             /**
-             * Registers a system of type S with the ECSManager.
-             *
-             * @tparam T The type of system to be registered.
-             *
-             * @return A shared pointer to the registered system.
-             *
-             * @throws assertion failure if the system type has already been registered.
+             * @brief Unregisters a system of type T
+             * 
+             * @tparam T The type of system to unregister
              */
             template<typename T>
-            T& RegisterSystem(T* system) {
-                return _systemManager->RegisterSystem<T>(system);
+            void UnregisterSystem() {
+                m_system_manager->UnregisterSystem<T>();
             }
     
             /**
-             * Sets the signature for a system that has already been registered with the ECSManager.
-             *
-             * @tparam T The type of system for which to set the signature.
-             * @param signature The new signature to be set for the system.
-             *
-             * This function delegates to the SystemManager to update the signature for the specified system type.
+             * @brief Get the System object
+             * 
+             * @tparam T The type of system
+             * @return T* Pointer to the system
              */
             template<typename T>
-            void SetSignature(Signature signature) {
-                _systemManager->SetSignature<T>(signature);
+            T* GetSystem() {
+                return m_system_manager->GetSystem<T>();
             }
-    
+
             template<typename S, typename... Cs>
             void SetSignature() {
-                Signature& signature = _systemManager->GetSignature<S>();
+                Signature& signature = m_system_manager->GetSignature<S>();
     
                 ((signature.set(GetComponentType<Cs>() == -1 ?
                     RegisterComponentType<Cs>() :
                     GetComponentType<Cs>())), ...);
     
-                _systemManager->SetSignature<S>(signature);
+                m_system_manager->SetSignature<S>(signature);
             }
     
             /**
-             * Retrieves a previously registered system by its type.
-             *
-             * @tparam T The type of system to be retrieved.
-             *
-             * @return A shared pointer to the system.
-             *
-             * @throws assertion failure if the system type has not been registered.
+             * @brief Iterates over each system and calls specific game loop methods
+             * 
+             * @param state The game loop state
              */
-            template<typename T>
-            T* GetSystem() {
-                return _systemManager->GetSystem<T>();
-            }
+            void IterateSystems(GameLoopState state);
     
             /**
-             * Iterates over each system and calls its OnRender method.
-             *
-             * @param renderer The SDL_Renderer to render with.
-             * @param window The SDL_Window that the renderer is attached to.
-             * @param surface The SDL_Surface to render to.
-             *
-             * This function iterates over each system and calls its OnRender method, passing through the given renderer, window, and surface.
+             * @brief Iterates over each system and calls specific game loop event methods
+             * 
+             * @param event SDL event
+             * @param state The game loop state
              */
-            void IterateSystems(GameLoopState state) {
-                _systemManager->IterateSystems(state);
-            }
-    
-            /**
-             * Iterates over each system and calls its OnEvent method.
-             *
-             * @param event The SDL_Event that contains the event data.
-             *
-             * This function iterates over each system and calls its OnEvent method, passing through the given event.
-             */
-            void IterateSystems(SDL_Event& event) {
-                _systemManager->IterateSystems(event);
-            }
+            void IterateSystems(SDL_Event& event, GameLoopState state);
     };
 }

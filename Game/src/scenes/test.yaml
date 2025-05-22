@@ -1,7 +1,7 @@
 Entities:
     - Entity:
         Transform2D:
-            position: [250, 250]
+            world_position: [250, 250]
             scale: [1, 1]
             rotation: [0, 0, 0, 1]
             layer: 0
@@ -14,10 +14,9 @@ Entities:
             type: 1
             dirty: true
         Texture:
-        Controller:
     - Entity:
         Transform2D:
-            position: [500, 200]
+            world_position: [500, 200]
             scale: [1, 1]
             rotation: [0, 0, 0, 1]
             layer: 2
@@ -30,3 +29,13 @@ Entities:
             type: 1
             dirty: true
         Texture:
+    - Entity:
+        Transform2D:
+            world_position: [0, 0]
+            scale: [1, 1]
+            rotation: [0, 0, 0, 1]
+            layer: 1
+        Camera:
+            id: 0
+            active: true
+        Controller:

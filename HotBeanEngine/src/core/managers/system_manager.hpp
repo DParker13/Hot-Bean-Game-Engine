@@ -12,9 +12,8 @@
 
 #pragma once
 
+#include <map>
 #include <unordered_map>
-#include <cassert>
-#include <sstream>
 
 #include "../ecs/all_ecs.hpp"
 #include "../managers/logging_manager.hpp"
@@ -28,7 +27,33 @@ namespace Core::Managers {
 			~SystemManager();
 
 			/**
-			 * Registers a system with the SystemManager.
+			 * Creates and registers a system with the System Manager.
+			 *
+			 * @tparam T The type of system to be registered.
+			 *
+			 * @return A shared pointer to the system.
+			 *
+			 * @throws assertion failure if the system type has already been registered.
+			 */
+			template<typename T, typename... Args>
+			T& RegisterSystem(Args&&... params)
+			{
+				static_assert(std::is_base_of_v<System, T>, "T must inherit from System!");
+
+				std::string type_name = typeid(T).name();
+				assert(m_systems.find(type_name) == m_systems.end() && "Registering system more than once.");
+
+				m_logging_manager->Log(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
+				T* system = new T(std::forward<Args>(params)...);
+
+				// Create a pointer to the system and return it so it can be used externally
+				m_systems.insert({type_name, system});
+
+				return *system;
+			}
+
+			/**
+			 * Creates and registers a system with the System Manager.
 			 *
 			 * @tparam T The type of system to be registered.
 			 *
@@ -37,17 +62,30 @@ namespace Core::Managers {
 			 * @throws assertion failure if the system type has already been registered.
 			 */
 			template<typename T>
-			T& RegisterSystem(T* system)
+			T& RegisterSystem()
 			{
 				std::string type_name = typeid(T).name();
 				assert(m_systems.find(type_name) == m_systems.end() && "Registering system more than once.");
 
-				m_logging_manager->Log(LoggingType::DEBUG, "Registering System \"" + type_name + "\"");
+				m_logging_manager->Log(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
+				T* system = new T();
 
 				// Create a pointer to the system and return it so it can be used externally
 				m_systems.insert({type_name, system});
 
 				return *system;
+			}
+
+			template<typename T>
+			void UnregisterSystem() {
+				RemoveSignature<T>();
+
+				std::string type_name = typeid(T).name();
+				assert(m_systems.find(type_name) != m_systems.end() && "System isn't registered.");
+
+				m_logging_manager->Log(LoggingType::DEBUG, "Unregistering System \"" + type_name + "\"");
+
+				m_systems.erase(type_name);
 			}
 
 			/**
@@ -62,7 +100,7 @@ namespace Core::Managers {
 			template<typename T>
 			void SetSignature(Signature signature) {
 				std::string type_name = typeid(T).name();
-				assert(m_systems.find(type_name) != m_systems.end() && "System used before registered.");
+				assert(m_systems.find(type_name) != m_systems.end() && "System is not registered.");
 
 				m_logging_manager->Log(LoggingType::DEBUG, "System \"" + type_name + "\" Signature set to"
 					" \"" + signature.to_string() + "\"");
@@ -131,7 +169,14 @@ namespace Core::Managers {
 			 * @param state Current game loop state
 			 */
 			void IterateSystems(GameLoopState state);
-			void IterateSystems(SDL_Event& event);
+
+			/**
+			 * @brief Iterates all systems and calls specific game loop event methods
+			 * 
+			 * @param event SDL event
+			 * @param state Current game loop state
+			 */
+			void IterateSystems(SDL_Event& event, GameLoopState state);
 
 		private:
 			std::shared_ptr<LoggingManager> m_logging_manager;
@@ -140,6 +185,16 @@ namespace Core::Managers {
 			std::unordered_map<std::string, Signature> m_signatures;
 
 			// Map from system type name to a system pointer
-			std::unordered_map<std::string, System*> m_systems;
+			std::map<std::string, System*> m_systems;
+
+			template<typename T>
+			void RemoveSignature() {
+				std::string type_name = typeid(T).name();
+				assert(m_systems.find(type_name) != m_systems.end() && "System is not registered.");
+
+				m_logging_manager->Log(LoggingType::DEBUG, "System \"" + type_name + "\" Signature removed");
+
+				m_signatures.erase(type_name);
+			}
 	};
 }

@@ -115,6 +115,10 @@ namespace Core::Managers {
         return m_signatures[entity];
     }
 
+    bool EntityManager::HasComponentType(Entity entity, ComponentType component_type) {
+        return GetSignature(entity).test(component_type);
+    }
+
     Entity EntityManager::EntityCount() const {
         return m_living_entity_count;
     }

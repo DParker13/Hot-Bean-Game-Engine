@@ -10,12 +10,7 @@
  */
 #pragma once
 
-#include <SDL_stdinc.h>
-#include <array>
 #include <queue>
-#include <cassert>
-#include <iostream>
-#include <sstream>
 
 #include "../ecs/all_ecs.hpp"
 #include "../managers/logging_manager.hpp"
@@ -33,6 +28,7 @@ namespace Core::Managers {
             void DestroyEntity(Entity entity);
             Signature SetSignature(Entity entity, ComponentType component_type);
             Signature GetSignature(Entity entity);
+            bool HasComponentType(Entity entity, ComponentType component_type);
             Entity EntityCount() const;
 
         private:

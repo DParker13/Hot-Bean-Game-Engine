@@ -1,26 +1,26 @@
 #include "ui_system.hpp"
 
 namespace Systems {
-    UISystem::UISystem(std::string font_path) : System(), _font_path(font_path), _font(nullptr) {
-        App::GetInstance().SetupSystem<UISystem, Transform2D, Text, Texture>(this);
-    }
+    UISystem::UISystem(std::string font_path) : System(), _font_path(font_path), _font(nullptr) {}
 
     UISystem::~UISystem() {
         TTF_CloseFont(_font); // This causes a segmentation fault on exit for some reason
         _font = nullptr;
     }
 
+    void UISystem::SetSignature() {
+        SETUP_SYSTEM(UISystem, Transform2D, Text, Texture);
+    }
+
     void UISystem::OnStart() {
         SetupFont();
     }
 
-    void UISystem::OnEvent(SDL_Event& event) {
-        if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
-            for (auto& entity : m_entities) {
-                auto& text = App::GetInstance().GetECSManager()->GetComponent<Text>(entity);
+    void UISystem::OnWindowResize(SDL_Event& event) {
+        for (auto& entity : m_entities) {
+            auto& text = App::GetInstance().GetECSManager()->GetComponent<Text>(entity);
 
-                text._dirty = true;
-            }
+            text._dirty = true;
         }
     }
 
@@ -35,8 +35,6 @@ namespace Systems {
                 case UIElement::UIType::Text:
                     OnUpdateText(entity);
             }
-
-            OnUpdateTexture(entity);
         }
     }
 
@@ -63,27 +61,6 @@ namespace Systems {
                 texture._size = { surface->w, surface->h };
                 SDL_SetTextureBlendMode(texture._texture, SDL_BLENDMODE_BLEND);
                 text._dirty = false;
-            }
-        }
-    }
-
-    void UISystem::OnUpdateTexture(Entity entity) {
-        App& app = App::GetInstance();
-        auto* renderer = app.GetRenderer();
-
-        auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
-        auto& texture = app.GetECSManager()->GetComponent<Texture>(entity);
-
-        if (texture._texture) {
-            const SDL_Rect* rect = new SDL_Rect({ (int)transform._position.x, (int)transform._position.y, texture._size.x, texture._size.y });
-            
-            if (SDL_RenderCopy(renderer, texture._texture, NULL, rect) < 0) {
-                std::cerr << "Error: " << SDL_GetError() << std::endl;
-                return;
-            }
-
-            if (rect) {
-                delete rect;
             }
         }
     }

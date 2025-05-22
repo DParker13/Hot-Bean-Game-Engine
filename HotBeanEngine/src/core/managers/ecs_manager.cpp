@@ -19,10 +19,10 @@
 
 namespace Core::Managers {
     ECSManager::ECSManager(std::shared_ptr<LoggingManager> logging_manager)
-        : _logging_manager(logging_manager) {
-        _entityManager = std::make_unique<EntityManager>(logging_manager);
-        _componentManager = std::make_unique<ComponentManager>(logging_manager);
-        _systemManager = std::make_unique<SystemManager>(logging_manager);
+        : m_logging_manager(logging_manager) {
+        m_entity_manager = std::make_unique<EntityManager>(logging_manager);
+        m_component_manager = std::make_unique<ComponentManager>(logging_manager);
+        m_system_manager = std::make_unique<SystemManager>(logging_manager);
     }
 
     /**
@@ -33,7 +33,7 @@ namespace Core::Managers {
      * @throws assertion failure if the maximum number of entities has been reached.
      */
     Entity ECSManager::CreateEntity() {
-        return _entityManager->CreateEntity();
+        return m_entity_manager->CreateEntity();
     }
 
     /**
@@ -44,7 +44,7 @@ namespace Core::Managers {
      * @throws assertion failure if the entity ID is out of range or invalid.
      */
     void ECSManager::DestroyEntity(Entity entity) {
-        _entityManager->DestroyEntity(entity);
+        m_entity_manager->DestroyEntity(entity);
         RemoveAllComponents(entity);
     }
 
@@ -59,24 +59,24 @@ namespace Core::Managers {
      * the component manager.
      */
     void ECSManager::RemoveAllComponents(Entity entity) {
-        Signature signature = _entityManager->GetSignature(entity);
+        Signature signature = m_entity_manager->GetSignature(entity);
 
         for (int i = 0; i < signature.count(); i++) {
             if(signature[i]) {
-                _componentManager->RemoveComponent(entity, i);
+                m_component_manager->RemoveComponent(entity, i);
             }
         }
     }
 
     std::vector<Component*> ECSManager::GetAllComponents(Entity entity) {
-        Signature signature = _entityManager->GetSignature(entity);
+        Signature signature = m_entity_manager->GetSignature(entity);
 
         std::vector<Component*> components = std::vector<Component*>();
 
         size_t index = signature._Find_first();
         while (index < signature.size()) {
             if(signature[index]) {
-                components.push_back(&_componentManager->GetComponent(entity, index));
+                components.push_back(&m_component_manager->GetComponent(entity, index));
             }
 
             // Find the next 1
@@ -87,7 +87,11 @@ namespace Core::Managers {
     }
 
     Entity ECSManager::EntityCount() const {
-        return _entityManager->EntityCount();
+        return m_entity_manager->EntityCount();
+    }
+
+    bool ECSManager::HasComponentType(Entity entity, std::string component_name) const {
+        return m_entity_manager->HasComponentType(entity, GetComponentType(component_name));
     }
 
     /**
@@ -98,7 +102,7 @@ namespace Core::Managers {
      * @return The name associated with the given component type, or an empty string if the component is not registered.
      */
     std::string ECSManager::GetComponentName(ComponentType component_type) const {
-        return _componentManager->GetComponentName(component_type);
+        return m_component_manager->GetComponentName(component_type);
     }
 
     /**
@@ -109,7 +113,7 @@ namespace Core::Managers {
      * @return -1 if not found
      */
     ComponentType ECSManager::GetComponentType(std::string component_name) const {
-        return _componentManager->GetComponentType(component_name);
+        return m_component_manager->GetComponentType(component_name);
     }
 
     /**
@@ -120,7 +124,7 @@ namespace Core::Managers {
      * @return false 
      */
     bool ECSManager::IsComponentRegistered(std::string component_name) const {
-        return _componentManager->IsComponentRegistered(component_name);
+        return m_component_manager->IsComponentRegistered(component_name);
     }
 
     /**
@@ -131,6 +135,20 @@ namespace Core::Managers {
      * @return false 
      */
     bool ECSManager::IsComponentRegistered(ComponentType component_type) const {
-        return _componentManager->IsComponentRegistered(component_type);
+        return m_component_manager->IsComponentRegistered(component_type);
+    }
+
+    void ECSManager::IterateSystems(GameLoopState state) {
+        m_system_manager->IterateSystems(state);
+    }
+
+    /**
+     * @brief Loop through all systems
+     * 
+     * @param event SDL event
+     * @param state Game loop state
+     */
+    void ECSManager::IterateSystems(SDL_Event& event, GameLoopState state) {
+        m_system_manager->IterateSystems(event, state);
     }
 }

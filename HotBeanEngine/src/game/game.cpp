@@ -13,12 +13,25 @@
 
 namespace Core {
     namespace Application {
-        Game::Game(std::string title, int width, int height)
-            : Game(title, width, height, ComponentFactory()) {}
+        Game::Game(const std::string& config_path)
+            : Game(config_path, ComponentFactory()) {}
 
-        Game::Game(std::string title, int width, int height, ComponentFactory component_factory)
-            : App(title, width, height) {
-            component_factory.RegisterComponents(*_ecs_manager);
+        Game::Game(const std::string& config_path, ComponentFactory component_factory)
+            : App(config_path) {
+            component_factory.RegisterComponents(*m_ecs_manager);
+        }
+
+        void Game::SetupSystems() {
+            std::filesystem::path font_path = std::filesystem::current_path().parent_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
+
+            CameraSystem& camera_system = RegisterSystem<CameraSystem>();
+            RegisterSystem<TransformSystem, CameraSystem&>(camera_system);
+            RegisterSystem<PhysicsSystem>();
+            RegisterSystem<RenderSystem>();
+            RegisterSystem<InputSystem>();
+            RegisterSystem<PlayerControllerSystem>();
+            RegisterSystem<UISystem, std::string>(font_path.string());
+            RegisterSystem<AudioSystem>();
         }
     }
 }

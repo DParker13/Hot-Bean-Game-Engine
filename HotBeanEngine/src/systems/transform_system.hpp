@@ -2,16 +2,19 @@
 
 #include "../core/core.hpp"
 
-using namespace Components;
+#include "camera_system.hpp"
+
 using namespace Core::Application;
 using namespace Core::ECS;
 
 namespace Systems {
-    class PhysicsSystem : public System {
+    class TransformSystem : public System {
         public:
-            PhysicsSystem() = default;
+            TransformSystem(CameraSystem& camera_system);
 
             void SetSignature() override;
             void OnUpdate() override;
+        private:
+            CameraSystem& m_camera_system;
     };
 }

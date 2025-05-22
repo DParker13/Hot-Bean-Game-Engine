@@ -18,16 +18,16 @@ using namespace Core::Application;
 
 namespace Systems {
     class CollisionSystem : public System {
+        public:
+            CollisionSystem(int resolution);
+
+            void SetSignature() override;
+            void OnUpdate() override;
+
         private:
             std::vector<int> _grid;
 
             bool CheckCollision(Entity entity_one, Entity entity_two);
             void ResolveCollision(Entity entity_one, Entity entity_two);
-
-        public:
-            CollisionSystem(int resolution);
-
-            //System interface
-            void OnUpdate() override;
     };
 }

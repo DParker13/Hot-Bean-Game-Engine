@@ -1,8 +1,8 @@
 #include "input_system.hpp"
 
 namespace Systems {
-    InputSystem::InputSystem() : System() {
-        App::GetInstance().SetupSystem<InputSystem>(this);
+    void InputSystem::SetSignature() {
+        SETUP_SYSTEM(InputSystem);
     }
 
     /**

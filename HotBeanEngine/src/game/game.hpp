@@ -14,6 +14,8 @@
 #include "../systems/default_systems.hpp"
 #include "../gameobjects/default_gameobjects.hpp"
 
+using namespace Systems;
+
 namespace Core {
     /**
      * @class Game
@@ -31,11 +33,13 @@ namespace Core {
                  * @param width The width of the application window.
                  * @param height The height of the application window.
                  */
-                Game(std::string title, int width, int height);
-                Game(std::string title, int width, int height, ComponentFactory component_factory);
+                Game(const std::string& config_path);
+                Game(const std::string& config_path, ComponentFactory component_factory);
                 ~Game() = default;
                 Game(const Game&) = delete;
                 Game& operator=(const Game&) = delete;
+
+                void SetupSystems() override;
 
             protected:
                 ComponentFactory _component_factory;

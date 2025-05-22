@@ -4,6 +4,7 @@ add_library(application STATIC
     app.cpp
     app.hpp
     gameobject.hpp
+    macros.hpp
 )
 
 # Link dependencies for the application library
