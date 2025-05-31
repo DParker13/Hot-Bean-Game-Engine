@@ -21,7 +21,7 @@ namespace Core {
             Game::SetupSystems();
 
             RegisterSystem<CustomAudioSystem>();
-            RegisterSystem<TileMapSystem>();
+            //RegisterSystem<TileMapSystem>();
         }
 
         void TestGame::OnStart() {
@@ -32,15 +32,7 @@ namespace Core {
 
             m_serialization_manager->RegisterScene(test_scene);
             m_serialization_manager->LoadScene(test_scene);
-
-            Entity text = CreateEntity();
-            AddComponent<Transform2D>(text, Transform2D());
-            AddComponent<Texture>(text, Texture());
-            AddComponent<Text>(text, Text());
-
-            Text& textComponent = GetComponent<Text>(text);
-            textComponent.SetText("Loaded from code!");
-            textComponent._type = UIElement::UIType::Text;
+            m_serialization_manager->UnloadScene();
         }
     }
 }

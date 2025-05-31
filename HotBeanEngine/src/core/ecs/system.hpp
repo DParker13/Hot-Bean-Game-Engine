@@ -16,6 +16,10 @@ namespace Core {
         
                 System() = default;
                 virtual ~System() = default;
+
+                // System interface
+                virtual void OnEntityRemoved(Entity entity) {};
+                virtual void OnEntityAdded(Entity entity) {};
         
                 // GameLoop interface
                 virtual void SetSignature() = 0;

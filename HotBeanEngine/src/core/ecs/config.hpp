@@ -14,11 +14,17 @@
 #include <string>
 #include <yaml-cpp/yaml.h>
 
-#include "Logging_type.hpp"
+#include "entity.hpp"
+#include "component.hpp"
+#include "logging_type.hpp"
 
 using namespace Core::ECS;
 
 namespace Config {
+    // ECS (These need to be set at compile time)
+    inline const Entity MAX_ENTITIES = 50000; //< Maximum number of entities that can be created
+    inline const ComponentType MAX_COMPONENTS = 64; //< Maximum number of components that can be registered
+
     // Window
     inline std::string WINDOW_TITLE = "Hot Bean Engine";
     inline int SCREEN_WIDTH = 1280;
@@ -27,6 +33,9 @@ namespace Config {
     // Logging
     inline LoggingType LOGGING_LEVEL = LoggingType::DEBUG;
     inline std::string LOG_PATH = "./logs/log.txt";
+
+    // Misc
+    inline std::string ASSET_PATH = "./assets/";
 
     static int LoadConfig(const std::string& config_path) {
         try {

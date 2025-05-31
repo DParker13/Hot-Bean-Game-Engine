@@ -25,7 +25,7 @@ namespace Core::Application {
      * @param entity Entity
      */
     void ComponentFactory::CreateComponent(Core::Managers::ECSManager& ecs_manager, const std::string& component_name,
-                                            YAML::Node node, Entity entity) {
+                                            YAML::Node node, Entity parent_entity, Entity entity) {
         if (ecs_manager.IsComponentRegistered(component_name)) {
             if (component_name == "AudioSource") {
                 AddComponent<Components::AudioSource>(ecs_manager, entity, node);
@@ -53,6 +53,7 @@ namespace Core::Application {
             }
             else if (component_name == "Transform2D") {
                 AddComponent<Components::Transform2D>(ecs_manager, entity, node);
+                ecs_manager.GetComponent<Components::Transform2D>(entity).m_parent = parent_entity;
             }
             else if (component_name == "UIElement") {
                 AddComponent<Components::UIElement>(ecs_manager, entity, node);

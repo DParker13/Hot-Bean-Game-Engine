@@ -2,11 +2,9 @@
 
 #include <bitset>
 
-#include "component.hpp"
+#include "config.hpp"
 
-namespace Core {
-    namespace ECS {
-        // Bitset indicates which components an entity has
-        using Signature = std::bitset<MAX_COMPONENTS>;
-    }
+namespace Core::ECS {
+    // Bitset indicates which components an entity has
+    using Signature = std::bitset<Config::MAX_COMPONENTS>;
 }

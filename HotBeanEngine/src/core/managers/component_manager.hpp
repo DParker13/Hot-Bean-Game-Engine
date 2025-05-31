@@ -18,6 +18,7 @@
 #include "../managers/logging_manager.hpp"
 
 using namespace Core::ECS;
+using namespace Config;
 
 namespace Core::Managers {
     // ComponentManager manages the creation and destruction of components for entities

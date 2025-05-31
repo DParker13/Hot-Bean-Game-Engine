@@ -10,9 +10,6 @@ namespace Core {
         // This is used to identify a component
         using ComponentType = Uint32;
     
-        // Maximum number of components that can be registered
-        const ComponentType MAX_COMPONENTS = 64;
-    
         struct Component {
             Component() = default;
             virtual ~Component() = default;

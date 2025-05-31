@@ -11,15 +11,13 @@
 
 #pragma once
 
-namespace Core {
-    namespace ECS {
-        /// @brief Used for setting the logging level.
-        enum class LoggingType {
-            DEBUG,
-            INFO,
-            WARNING,
-            ERROR,
-            FATAL
-        };
-    }
+namespace Core::ECS {
+    /// @brief Used for setting the logging level.
+    enum class LoggingType {
+        DEBUG,
+        INFO,
+        WARNING,
+        ERROR,
+        FATAL
+    };
 }

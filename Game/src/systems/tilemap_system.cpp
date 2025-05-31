@@ -12,24 +12,10 @@ namespace Systems {
      *          CoreManager when the system is first initialized.
      */
     void TileMapSystem::OnStart() {
-        InitMap(10, 15, 50, 50);
+        InitMap(10, 15, 16, 16);
     }
 
-    /**
-     * @brief Renders the tile map by calling CreateRect for each tile in the tile map.
-     */
-    void TileMapSystem::OnRender() {
-        App& app = App::GetInstance();
-
-        for(auto& entity : m_entities) {
-            auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
-            auto& tile = app.GetECSManager()->GetComponent<Tile>(entity);
-
-            CreateRect(&transform, &tile);
-        }
-    }
-
-    void TileMapSystem::CreateRect(Transform2D* transform, Components::Tile* tile) {
+    void TileMapSystem::CreateRect(Transform2D* transform, Components::Tile* tile, Texture* texture) {
         auto* renderer = App::GetInstance().GetRenderer();
 
         tile->m_vertices[0] = { transform->m_screen_position.x, transform->m_screen_position.y, tile->m_color };
@@ -38,6 +24,10 @@ namespace Systems {
         tile->m_vertices[3] = { transform->m_screen_position.x + tile->m_size, transform->m_screen_position.y + tile->m_size, tile->m_color };
         
         // Render the vertex buffer
+        if (!texture) {
+            App::GetInstance().Log(LoggingType::FATAL, "Texture doesn't exist");
+        }
+        
         SDL_RenderGeometry(renderer, NULL, tile->m_vertices,
                             sizeof(tile->m_vertices) / sizeof(tile->m_vertices[0]), tile->m_INDICES,
                             sizeof(tile->m_INDICES) / sizeof(tile->m_INDICES[0]));
@@ -45,18 +35,28 @@ namespace Systems {
 
     void TileMapSystem::InitMap(Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY) {
         App& app = App::GetInstance();
+
+        auto mapEntity = app.CreateEntity();
+        app.AddComponent<Texture>(mapEntity, Texture());
+        app.AddComponent<Transform2D>(mapEntity, Transform2D());
+        auto& texture = app.GetECSManager()->GetComponent<Texture>(mapEntity);
+        app.GetECSManager()->GetComponent<Texture>(mapEntity)._size = { numTilesX * tileSize, numTilesY * tileSize };
         
         for (int x = 0; x < numTilesX; x++) {
             for (int y = 0; y < numTilesY; y++) {
                 auto tile = GameObjects::Tile();
                 tile.GetComponent<Tile>().m_size = tileSize;
-                tile.GetComponent<Tile>().m_color = { static_cast<Uint8>(255 / ((x + 1) + (y + 1))),
-                                        static_cast<Uint8>(255 / ((x + 1) + (y + 1))),
+                tile.GetComponent<Tile>().m_color = { static_cast<Uint8>(255 / (x + 1)),
+                                        static_cast<Uint8>(255 / (y + 1)),
                                         static_cast<Uint8>(255 / ((x + 1) + (y + 1))), 0xFF };
                 tile.GetComponent<Transform2D>().m_world_position.x = x * spacing;
                 tile.GetComponent<Transform2D>().m_world_position.y = y * spacing;
                 tile.GetComponent<Transform2D>().m_layer = 10;
+
+                CreateRect(&tile.GetComponent<Transform2D>(), &tile.GetComponent<Tile>(), &texture);
             }
         }
+
+        
     }
 }

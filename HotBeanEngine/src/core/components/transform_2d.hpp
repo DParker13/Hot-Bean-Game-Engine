@@ -16,6 +16,7 @@
 namespace Components {
     struct Transform2D : public Component {
         Uint8 m_layer = 0;
+        Entity m_parent = -1;
 
         glm::vec2 m_local_position = glm::vec2(0.0f, 0.0f);
         glm::quat m_local_rotation = glm::quat(0.0f, 0.0f, 0.0f, 1.0f);
@@ -37,6 +38,7 @@ namespace Components {
 
         void Serialize(YAML::Emitter& out) const override {
             out << YAML::Key << "layer" << YAML::Value << (int)m_layer;
+            out << YAML::Key << "parent" << YAML::Value << (int)m_parent;
             out << YAML::Key << "local_position" << YAML::Value << m_local_position;
             out << YAML::Key << "local_rotation" << YAML::Value << m_local_rotation;
             out << YAML::Key << "local_scale" << YAML::Value << m_local_scale;
@@ -48,6 +50,10 @@ namespace Components {
         void Deserialize(YAML::Node& node) override {
             if (node["layer"].IsDefined()) {
                 m_layer = node["layer"].as<Uint8>();
+            }
+
+            if (node["parent"].IsDefined()) {
+                m_parent = node["parent"].as<Uint8>();
             }
             
             if (node["local_position"].IsDefined()) {

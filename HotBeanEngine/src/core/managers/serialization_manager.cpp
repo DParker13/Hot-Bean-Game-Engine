@@ -3,97 +3,97 @@
 namespace Core::Managers {
 
     SerializationManager::SerializationManager(std::shared_ptr<ECSManager> ecs_manager, std::shared_ptr<LoggingManager> logging_manager)
-        : _ecs_manager(ecs_manager), _logging_manager(logging_manager) {}
+        : m_ecs_manager(ecs_manager), m_logging_manager(logging_manager) {}
 
     void SerializationManager::LoadScene(std::shared_ptr<Scene> scene) {
         assert(scene && "Scene is null.");
 
         try {
             // Unload current scene if a new one is being loaded
-            if (_current_scene && _current_scene != scene) {
+            if (m_current_scene && m_current_scene != scene) {
                 UnloadScene();
             }
 
-            _current_scene = scene;
+            m_current_scene = scene;
         
-            _logging_manager->Log(LoggingType::INFO, "Loading scene \"" + _current_scene->_name + "\" from file: ");
-            _logging_manager->Log(LoggingType::INFO, "Scene path: " + _current_scene->_scene_path);
+            m_logging_manager->Log(LoggingType::INFO, "Loading scene \"" + m_current_scene->m_name + "\" from file: ");
+            m_logging_manager->Log(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
 
             // Attempt to load scene from file
-            if (!std::filesystem::exists(_current_scene->_scene_path)) {
-                _logging_manager->Log(LoggingType::FATAL, "Scene file does not exist: "+ _current_scene->_scene_path);
-                throw std::runtime_error("Scene file does not exist: "+ _current_scene->_scene_path);
+            if (!std::filesystem::exists(m_current_scene->m_scene_path)) {
+                m_logging_manager->Log(LoggingType::FATAL, "Scene file does not exist: "+ m_current_scene->m_scene_path);
+                throw std::runtime_error("Scene file does not exist: "+ m_current_scene->m_scene_path);
             }
 
-            DeserializeScene(_current_scene->_scene_path);
+            DeserializeScene(m_current_scene->m_scene_path);
 
-            _logging_manager->Log(LoggingType::INFO, "Scene loaded.");
+            m_logging_manager->Log(LoggingType::INFO, "Scene loaded.");
         } catch (const YAML::Exception& e) {
-            _logging_manager->Log(LoggingType::ERROR, "Error parsing YAML file: " + (std::string)e.what());
+            m_logging_manager->Log(LoggingType::ERROR, "Error parsing YAML file: " + (std::string)e.what());
         }
 
-        _current_scene->SetupScene();
+        m_current_scene->SetupScene();
     }
 
     void SerializationManager::UnloadScene() {
-        assert(_current_scene && "Current scene is null.");
+        assert(m_current_scene && "Current scene is null.");
 
         try {
-            _logging_manager->Log(LoggingType::INFO, "Unloading scene \"" + _current_scene->_name + "\" to file");
-            _logging_manager->Log(LoggingType::INFO, "Scene path: " + _current_scene->_scene_path);
+            m_logging_manager->Log(LoggingType::INFO, "Unloading scene \"" + m_current_scene->m_name + "\" to file");
+            m_logging_manager->Log(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
 
             // Attempt to serialize scene to file
             SerializeScene("C:\\Users\\danie\\Documents\\GitHub\\HotBeanEngine\\bin\\scenes\\test-saving.yaml");
 
             // Destroy all entities
-            for (Entity entity = 0; entity < _ecs_manager->EntityCount(); entity++) {
-                _ecs_manager->DestroyEntity(entity);
+            for (Entity entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
+                m_ecs_manager->DestroyEntity(entity);
             }
 
-            _logging_manager->Log(LoggingType::INFO, "Scene \"" + _current_scene->_name + "\" serialized.");
+            m_logging_manager->Log(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
         } catch (const YAML::Exception& e) {
             std::cerr << "Error serializing to YAML file: " << e.what() << std::endl;
         }
 
         // Unload any manually coded entities from the scene
-        _current_scene->UnloadScene();
+        m_current_scene->UnloadScene();
     }
 
     void SerializationManager::RegisterScene(std::shared_ptr<Scene> scene) {
         assert(scene && "Scene is null.");
-        assert(_scenes.find(scene->_name) == _scenes.end() && "Scene with that name already exists.");
+        assert(m_scenes.find(scene->m_name) == m_scenes.end() && "Scene with that name already exists.");
 
-        _scenes.emplace(scene->_name, scene);
+        m_scenes.emplace(scene->m_name, scene);
     }
 
     void SerializationManager::RemoveScene(std::shared_ptr<Scene> scene) {
         assert(scene && "Scene is null.");
 
-        RemoveScene(scene->_name);
+        RemoveScene(scene->m_name);
     }
 
     void SerializationManager::RemoveScene(std::string name) {
-        assert(_scenes.find(name) != _scenes.end() && "Scene isn't registered.");
+        assert(m_scenes.find(name) != m_scenes.end() && "Scene isn't registered.");
 
-        if (_current_scene->_name == name) {
+        if (m_current_scene->m_name == name) {
             UnloadScene();
         }
 
-        _scenes.erase(name);
+        m_scenes.erase(name);
     }
 
     void SerializationManager::SwitchScene(std::shared_ptr<Scene> scene) {
         assert(scene && "Scene is null.");
 
-        SwitchScene(scene->_name);
+        SwitchScene(scene->m_name);
     }
 
     void SerializationManager::SwitchScene(std::string name) {
-        assert(_scenes.find(name) != _scenes.end() && "Scene with that name does not exist.");
-        _logging_manager->Log(LoggingType::INFO, "Switching to scene: " + name);
+        assert(m_scenes.find(name) != m_scenes.end() && "Scene with that name does not exist.");
+        m_logging_manager->Log(LoggingType::INFO, "Switching to scene: " + name);
 
         // Loads the new scene
-        LoadScene(_scenes[name]);
+        LoadScene(m_scenes[name]);
     }
 
     void SerializationManager::SerializeScene(const std::string& filepath) {
@@ -101,31 +101,64 @@ namespace Core::Managers {
 
         YAML::Emitter out = YAML::Emitter();
 
+        MapParentEntities();
+
         out << YAML::BeginMap;
-        out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
-
-        // Iterate over the entities
-        for (Entity entity = 0; entity < _ecs_manager->EntityCount(); entity++) {
-            SerializeEntity(out, entity);
-        }
-
-        out << YAML::EndSeq;
+        SerializeEntities(out, -1);
         out << YAML::EndMap;
 
         std::ofstream file(filepath);
         file << out.c_str();
     }
 
+    // TODO: Replace this with a better solution. Maybe use the TransformSystem.m_entities member instead
+    void SerializationManager::MapParentEntities() {
+        for (Entity entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
+            if (m_ecs_manager->HasComponentType<Components::Transform2D>(entity)) {
+                Entity parent_entity = m_ecs_manager->GetComponent<Components::Transform2D>(entity).m_parent;
+
+                if (m_parent_entity_map.find(parent_entity) == m_parent_entity_map.end()) {
+                    m_parent_entity_map[parent_entity] = std::vector<Entity> { entity };
+                }
+                else {
+                    m_parent_entity_map[parent_entity].push_back(entity);
+                }
+            }
+            else {
+                // default to -1 when there is no parent
+                if (m_parent_entity_map.find(-1) == m_parent_entity_map.end()) {
+                    m_parent_entity_map[-1] = std::vector<Entity> { entity };
+                }
+                else {
+                    m_parent_entity_map[-1].push_back(entity);
+                }
+            }
+        }
+    }
+
+    void SerializationManager::SerializeEntities(YAML::Emitter& out, Entity parent_entity) {
+        assert(m_parent_entity_map.find(parent_entity) != m_parent_entity_map.end() && "Parent entity not found.");
+
+        out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
+
+        // Iterate over the root entities
+        for (Entity entity : m_parent_entity_map[parent_entity]) {
+            SerializeEntity(out, entity);
+        }
+
+        out << YAML::EndSeq;
+    }
+
     void SerializationManager::SerializeEntity(YAML::Emitter& out, Entity entity) {
-        _logging_manager->Log(LoggingType::INFO, "Serializing Entity \"" + std::to_string(entity) + "\"");
+        m_logging_manager->Log(LoggingType::INFO, "Serializing Entity \"" + std::to_string(entity) + "\"");
 
         out << YAML::BeginMap;
         out << YAML::Key << "Entity" << YAML::Value << YAML::BeginMap;
 
         // Serialize entity's components
-        std::vector<Component*> components = _ecs_manager->GetAllComponents(entity);
+        std::vector<Component*> components = m_ecs_manager->GetAllComponents(entity);
         for (int i = 0; i < components.size(); i++) {
-            _logging_manager->Log(LoggingType::INFO, "Serializing Component \"" + components[i]->GetName() + "\"");
+            m_logging_manager->Log(LoggingType::INFO, "Serializing Component \"" + components[i]->GetName() + "\"");
 
             // Component Name first
             out << YAML::Key << components[i]->GetName() << YAML::Value;
@@ -134,6 +167,10 @@ namespace Core::Managers {
             out << YAML::BeginMap;
             components[i]->Serialize(out);
             out << YAML::EndMap;
+        }
+
+        if (m_parent_entity_map.find(entity) != m_parent_entity_map.end()) {
+            SerializeEntities(out, entity);
         }
 
         out << YAML::EndMap;
@@ -146,17 +183,11 @@ namespace Core::Managers {
         // Parse the YAML data
         YAML::Node scene = YAML::LoadFile(filepath);
         
-        // Iterate over the entities
-        for (const YAML::Node& entities : scene["Entities"]) {
-            // Get the entity name
-            Entity entity = _ecs_manager->CreateEntity();
-
-            DeserializeEntity(entities, entity);
-        }
+        DeserializeEntities(scene, -1);
     }
 
-    void SerializationManager::DeserializeEntity(const YAML::Node& node, Entity entity) {
-        _logging_manager->Log(LoggingType::INFO,
+    void SerializationManager::DeserializeEntity(const YAML::Node& node, Entity parent_entity, Entity entity) {
+        m_logging_manager->Log(LoggingType::INFO,
             "Loading Entity \"" + std::to_string(entity) + "\"");
 
         // Iterate over the components
@@ -164,17 +195,33 @@ namespace Core::Managers {
             // Get the component type name
             std::string component_name = components.first.as<std::string>();
 
+            // Skip the "Entities" nested node, this isn't a component
+            if (component_name == "Entities") {
+                DeserializeEntities(components.second, entity);
+                continue;
+            }
+
             // Get the component data
             YAML::Node component = components.second;
 
-            if (_ecs_manager->IsComponentRegistered(component_name)) {
-                _logging_manager->Log(LoggingType::INFO, "Loading component: " + component_name);
-                Core::Application::ComponentFactory::CreateComponent(*_ecs_manager, component_name, component, entity);
+            if (m_ecs_manager->IsComponentRegistered(component_name)) {
+                m_logging_manager->Log(LoggingType::INFO, "Loading component: " + component_name);
+                Core::Application::ComponentFactory::CreateComponent(*m_ecs_manager, component_name, component, parent_entity, entity);
             }
             else {
-                _logging_manager->Log(LoggingType::FATAL, "Component " + component_name + " is not registered.");
+                m_logging_manager->Log(LoggingType::FATAL, "Component " + component_name + " is not registered.");
                 throw std::runtime_error("Component " + component_name + " is not registered.");
             }
+        }
+    }
+
+    void SerializationManager::DeserializeEntities(const YAML::Node& node, Entity parent_entity) {
+        // Iterate over the entities
+        for (const YAML::Node& entity_node : parent_entity != -1 ? node : node["Entities"]) {
+            // Create a new entity
+            Entity entity = m_ecs_manager->CreateEntity();
+
+            DeserializeEntity(entity_node, parent_entity, entity);
         }
     }
 }

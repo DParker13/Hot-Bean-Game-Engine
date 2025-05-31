@@ -16,7 +16,7 @@ namespace Core::Application {
     struct ComponentFactory {
         virtual void RegisterComponents(Core::Managers::ECSManager& ecs_manager);
         static void CreateComponent(Core::Managers::ECSManager& ecs_manager, const std::string& component_name,
-                                    YAML::Node node, Entity entity);
+                                    YAML::Node node, Entity parent_entity, Entity entity);
 
         template<typename T>
         static void AddComponent(Core::Managers::ECSManager& ecs_manager, Entity entity, YAML::Node node) {

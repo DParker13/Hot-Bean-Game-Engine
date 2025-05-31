@@ -69,11 +69,13 @@ namespace Core::Managers {
             // Entity signature matches system signature - insert into set
             if ((entity_signature & system_signature) == system_signature) {
                 system->m_entities.insert(entity);
+                system->OnEntityAdded(entity);
                 entity_added_to_systems++;
             }
             // Entity signature does not match system signature - erase from set
-            else {
-                entity_removed_from_systems += system->m_entities.erase(entity);
+            else if (system->m_entities.erase(entity) != 0) {
+                system->OnEntityRemoved(entity);
+                entity_removed_from_systems++;
             }
         }
 

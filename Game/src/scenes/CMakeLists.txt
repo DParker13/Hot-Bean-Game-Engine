@@ -1,4 +1,5 @@
 add_library(scenes STATIC
+    test_scene.cpp
     test_scene.hpp
 )
 

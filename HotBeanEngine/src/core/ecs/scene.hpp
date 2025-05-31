@@ -16,18 +16,16 @@
 
 #include "app.hpp"
  
-namespace Core {
-    namespace ECS {
-        struct Scene {
-            std::string _name;
-            std::string _scene_path;
-            
-            Scene(std::string name, std::string scene_path)
-                : _name(name), _scene_path(scene_path) {}
-            ~Scene() = default;
+namespace Core::ECS {
+    struct Scene {
+        std::string m_name;
+        std::string m_scene_path;
+        
+        Scene(std::string name, std::string scene_path)
+            : m_name(name), m_scene_path(scene_path) {}
+        ~Scene() = default;
 
-            virtual void SetupScene() = 0;
-            virtual void UnloadScene() = 0;
-        };
-    }
+        virtual void SetupScene() = 0;
+        virtual void UnloadScene() = 0;
+    };
 }

@@ -16,6 +16,7 @@
 #include "../managers/logging_manager.hpp"
 
 using namespace Core::ECS;
+using namespace Config;
 
 namespace Core::Managers {
     // EntityManager manages the creation and destruction of entities
