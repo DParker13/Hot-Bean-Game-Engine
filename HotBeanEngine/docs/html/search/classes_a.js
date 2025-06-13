@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['testscene_0',['TestScene',['../struct_scenes_1_1_test_scene.html',1,'Scenes']]],
-  ['text_1',['Text',['../class_components_1_1_text.html',1,'Components::Text'],['../struct_game_objects_1_1_u_i_1_1_text.html',1,'GameObjects::UI::Text']]],
-  ['textbox_2',['TextBox',['../struct_game_objects_1_1_u_i_1_1_text_box.html',1,'GameObjects::UI']]],
-  ['texture_3',['Texture',['../struct_components_1_1_texture.html',1,'Components']]],
-  ['tile_4',['Tile',['../struct_components_1_1_tile.html',1,'Components::Tile'],['../struct_game_objects_1_1_tile.html',1,'GameObjects::Tile']]],
-  ['tilemapsystem_5',['TileMapSystem',['../class_systems_1_1_tile_map_system.html',1,'Systems']]],
-  ['transform2d_6',['Transform2D',['../struct_components_1_1_transform2_d.html',1,'Components']]]
+  ['scene_0',['Scene',['../struct_core_1_1_e_c_s_1_1_scene.html',1,'Core::ECS']]],
+  ['serializationmanager_1',['SerializationManager',['../class_core_1_1_managers_1_1_serialization_manager.html',1,'Core::Managers']]],
+  ['shape_2',['Shape',['../struct_core_1_1_components_1_1_shape.html',1,'Core::Components']]],
+  ['sparseset_3',['SparseSet',['../class_core_1_1_e_c_s_1_1_sparse_set.html',1,'Core::ECS']]],
+  ['system_4',['System',['../class_core_1_1_e_c_s_1_1_system.html',1,'Core::ECS']]],
+  ['systemmanager_5',['SystemManager',['../class_core_1_1_managers_1_1_system_manager.html',1,'Core::Managers']]]
 ];

@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.11) # FetchContent is new in version 3.11.
 project("Game")
 
 set(CMAKE_CXX_STANDARD 17)
@@ -13,66 +12,59 @@ message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}'")
 add_executable(${PROJECT_NAME} src/main.cpp)
 
 include_directories(
-    ${SDL2_SOURCE_DIR}/include
     ${HotBeanEngine_SOURCE_DIR}/include
 )
 
-add_subdirectory(src)
+# Add subdirectories for project modules
+add_subdirectory(src/systems)
+add_subdirectory(src/scenes)
+add_subdirectory(src/game)
 
 # Link libraries
-if (WIN32)
-    # If DEBUG is ON, we disable the linker flags
-    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        message(STATUS "Debug mode is enabled, no additional linker flags")
-        target_link_libraries(${PROJECT_NAME} PRIVATE
-            SDL2main
-            test_game
-        )
-    else()
-        message(STATUS "Debug mode is disabled, applying linker flags")
-        target_link_libraries(${PROJECT_NAME} PRIVATE
-            SDL2main
-            test_game
-            ${CMAKE_LINKER_FLAGS} -Wl,-subsystem,windows
-        )
-    endif()
-else ()
-    # I have never tried this. I have only tested building on Windows
-    target_link_libraries(${PROJECT_NAME} PRIVATE
-        SDL2
-        test_game
-    )
-endif()
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    game
+)
 
 # Not sure why this gets set to nothing but other binary dirs don't
 set(yaml_cpp_BINARY_DIR ${CMAKE_BINARY_DIR}/_deps/yaml_cpp-build)
 
-# Copy SDL2 DLLs to build directory
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+# Gather all .yaml files in the scenes directory
+file(GLOB_RECURSE SCENE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/scenes/*.yaml")
+
+# Ensure target folders exist
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/assets")
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/scenes")
+
+# Add a post-build command to copy assets and resources
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+
+    # Copy the entire assets directory
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+            "${CMAKE_CURRENT_BINARY_DIR}/assets"
+
+    # Copy config.yaml
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/config.yaml"
+            "${CMAKE_CURRENT_BINARY_DIR}/config.yaml"
+
+    # Copy the HotBeanEngine DLL
+    COMMAND ${CMAKE_COMMAND} -E copy
+            "${HotBeanEngine_BINARY_DIR}/libHotBeanEngine.dll"
+            "${CMAKE_CURRENT_BINARY_DIR}/libHotBeanEngine.dll"
+
+    COMMENT "Copying assets, config file, DLL, and scenes to binary directory"
+)
+
+# Loop to copy each .yaml file in scenes individually
+foreach(scene_file ${SCENE_FILES})
+    get_filename_component(scene_name "${scene_file}" NAME)
     add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${SDL2_BINARY_DIR}/SDL2.dll
-                ${SDL2_BINARY_DIR}/SDL2d.dll
-                ${SDL2_ttf_BINARY_DIR}/SDL2_ttf.dll
-                ${SDL2_ttf_BINARY_DIR}/SDL2_ttfd.dll
-                ${SDL2_image_BINARY_DIR}/SDL2_image.dll
-                ${SDL2_image_BINARY_DIR}/SDL2_imaged.dll
-                ${SDL2_mixer_BINARY_DIR}/SDL2_mixer.dll
-                ${SDL2_mixer_BINARY_DIR}/SDL2_mixerd.dll
-                ${yaml_cpp_BINARY_DIR}/libyaml-cpp.dll
-                ${yaml_cpp_BINARY_DIR}/libyaml-cppd.dll
-                $<TARGET_FILE_DIR:${PROJECT_NAME}>
+                "${scene_file}"
+                "${CMAKE_CURRENT_BINARY_DIR}/scenes/${scene_name}"
     )
-else()
-    add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${SDL2_BINARY_DIR}/SDL2.dll
-                ${SDL2_ttf_BINARY_DIR}/SDL2_ttf.dll
-                ${SDL2_image_BINARY_DIR}/SDL2_image.dll
-                ${SDL2_mixer_BINARY_DIR}/SDL2_mixer.dll
-                ${yaml_cpp_BINARY_DIR}/libyaml-cpp.dll
-                $<TARGET_FILE_DIR:${PROJECT_NAME}>
-    )
-endif()
+endforeach()

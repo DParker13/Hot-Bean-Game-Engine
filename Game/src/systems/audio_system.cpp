@@ -10,7 +10,7 @@ namespace Systems {
      * It loads a default music sample and starts playing it.
      */
     void CustomAudioSystem::OnStart() {
-        LoadMusic("../assets/music/Summer.wav");
+        LoadMusic((std::filesystem::current_path() / "assets" / "music" / "Summer.wav").string());
         PlayMusic(-1);
     }
 

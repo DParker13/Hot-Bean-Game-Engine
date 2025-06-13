@@ -6,9 +6,7 @@
 #include <SDL_mixer.h>
 #include <SDL_image.h>
 
-namespace Core {
-    namespace Application {
-        // Forward declaration
-        class App;
-    }
+namespace Core::Application {
+    // Forward declaration
+    class App;
 }

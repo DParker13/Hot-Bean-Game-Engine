@@ -3,10 +3,12 @@ add_library(core INTERFACE
 )
 
 target_link_libraries(core INTERFACE
-    application
+    core_components
+    core_systems
 )
 
 add_subdirectory(ecs)
 add_subdirectory(components)
 add_subdirectory(managers)
 add_subdirectory(application)
+add_subdirectory(systems)

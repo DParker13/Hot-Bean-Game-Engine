@@ -11,9 +11,6 @@
 
 #pragma once
 
-#include <sstream>
-#include <filesystem>
-
 #include "app.hpp"
  
 namespace Core::ECS {
@@ -26,6 +23,14 @@ namespace Core::ECS {
         ~Scene() = default;
 
         virtual void SetupScene() = 0;
-        virtual void UnloadScene() = 0;
+        /**
+         * @brief Initializes the systems needed for this scene in the system manager.
+         */
+        virtual void SetupPreSystems() = 0;
+
+        /**
+         * @brief Initializes the systems needed for this scene in the system manager.
+         */
+        virtual void SetupPostSystems() = 0;
     };
 }

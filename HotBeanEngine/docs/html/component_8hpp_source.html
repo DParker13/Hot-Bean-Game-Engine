@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HotBeanEngine: C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/ecs/component.hpp Source File</title>
+<title>HotBeanEngine: C:/Users/danie/Documents/GitHub/HotBeanEngine/HotBeanEngine/src/core/ecs/component.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -104,34 +104,34 @@ $(function(){initNavTree('component_8hpp_source.html',''); initResizable(true); 
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;SDL_stdinc.h&gt;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;SDL.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="object_8hpp.html">object.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_core.html">Core</a> {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_core_1_1_e_c_s.html">ECS</a> {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="comment">// ComponentType is an unsigned 32-bit integer</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="comment">// This is used to identify a component</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="namespace_core_1_1_e_c_s.html#ad5754c4234199ebef6bd4e97043ee62d">   12</a></span>        <span class="keyword">using </span><a class="code hl_typedef" href="namespace_core_1_1_e_c_s.html#ad5754c4234199ebef6bd4e97043ee62d">ComponentType</a> = Uint32;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="comment">// Maximum number of components that can be registered</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="namespace_core_1_1_e_c_s.html#a31d74c97656af4a160dd73171f582644">   15</a></span>        <span class="keyword">const</span> <a class="code hl_typedef" href="namespace_core_1_1_e_c_s.html#ad5754c4234199ebef6bd4e97043ee62d">ComponentType</a> <a class="code hl_variable" href="namespace_core_1_1_e_c_s.html#a31d74c97656af4a160dd73171f582644">MAX_COMPONENTS</a> = 32;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    </div>
-<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html">   17</a></span>        <span class="keyword">struct </span><a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#a6f4347a6a865175a8a0b32c11e9beb37">Component</a> : <span class="keyword">public</span> <a class="code hl_struct" href="struct_core_1_1_e_c_s_1_1_object.html">Object</a> {</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html#a6f4347a6a865175a8a0b32c11e9beb37">   18</a></span>            <a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#a6f4347a6a865175a8a0b32c11e9beb37">Component</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html#afb9ed45b20cc7dc9d5473a2b7e0492e8">   19</a></span>            <span class="keyword">virtual</span> <a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#afb9ed45b20cc7dc9d5473a2b7e0492e8">~Component</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;yaml-cpp/yaml.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_core.html">Core</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_core_1_1_e_c_s.html">ECS</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <span class="comment">// ComponentType is an unsigned 32-bit integer</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="comment">// This is used to identify a component</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="namespace_core_1_1_e_c_s.html#ad5754c4234199ebef6bd4e97043ee62d">   11</a></span>        <span class="keyword">using </span><a class="code hl_typedef" href="namespace_core_1_1_e_c_s.html#ad5754c4234199ebef6bd4e97043ee62d">ComponentType</a> = Uint32;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html">   13</a></span>        <span class="keyword">struct </span><a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#a6f4347a6a865175a8a0b32c11e9beb37">Component</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html#a6f4347a6a865175a8a0b32c11e9beb37">   14</a></span>            <a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#a6f4347a6a865175a8a0b32c11e9beb37">Component</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html#afb9ed45b20cc7dc9d5473a2b7e0492e8">   15</a></span>            <span class="keyword">virtual</span> <a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#afb9ed45b20cc7dc9d5473a2b7e0492e8">~Component</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html#a806cb3f482530435e0513dd46fcaeaab">   17</a></span>            <span class="keyword">virtual</span> std::string <a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#a806cb3f482530435e0513dd46fcaeaab">GetName</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html#acb18b3f4ad7881cf081c40293057915c">   18</a></span>            <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#acb18b3f4ad7881cf081c40293057915c">Serialize</a>(YAML::Emitter&amp; out)<span class="keyword"> const </span>{};</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="struct_core_1_1_e_c_s_1_1_component.html#afc2b36b3a70a36238b073bcf3ef8fcdc">   19</a></span>            <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="struct_core_1_1_e_c_s_1_1_component.html#afc2b36b3a70a36238b073bcf3ef8fcdc">Deserialize</a>(YAML::Node&amp; node) {};</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        };</div>
 </div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    }</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
-<div class="ttc" id="anamespace_core_1_1_e_c_s_html"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html">Core::ECS</a></div><div class="ttdef"><b>Definition</b> gameobject.hpp:8</div></div>
-<div class="ttc" id="anamespace_core_1_1_e_c_s_html_a31d74c97656af4a160dd73171f582644"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html#a31d74c97656af4a160dd73171f582644">Core::ECS::MAX_COMPONENTS</a></div><div class="ttdeci">const ComponentType MAX_COMPONENTS</div><div class="ttdef"><b>Definition</b> component.hpp:15</div></div>
-<div class="ttc" id="anamespace_core_1_1_e_c_s_html_ad5754c4234199ebef6bd4e97043ee62d"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html#ad5754c4234199ebef6bd4e97043ee62d">Core::ECS::ComponentType</a></div><div class="ttdeci">Uint32 ComponentType</div><div class="ttdef"><b>Definition</b> component.hpp:12</div></div>
+<div class="ttc" id="anamespace_core_1_1_e_c_s_html"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html">Core::ECS</a></div><div class="ttdef"><b>Definition</b> archetype.hpp:8</div></div>
+<div class="ttc" id="anamespace_core_1_1_e_c_s_html_ad5754c4234199ebef6bd4e97043ee62d"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html#ad5754c4234199ebef6bd4e97043ee62d">Core::ECS::ComponentType</a></div><div class="ttdeci">Uint32 ComponentType</div><div class="ttdef"><b>Definition</b> component.hpp:11</div></div>
 <div class="ttc" id="anamespace_core_html"><div class="ttname"><a href="namespace_core.html">Core</a></div><div class="ttdef"><b>Definition</b> app.cpp:15</div></div>
-<div class="ttc" id="aobject_8hpp_html"><div class="ttname"><a href="object_8hpp.html">object.hpp</a></div></div>
 <div class="ttc" id="astruct_core_1_1_e_c_s_1_1_component_html_a6f4347a6a865175a8a0b32c11e9beb37"><div class="ttname"><a href="struct_core_1_1_e_c_s_1_1_component.html#a6f4347a6a865175a8a0b32c11e9beb37">Core::ECS::Component::Component</a></div><div class="ttdeci">Component()=default</div></div>
+<div class="ttc" id="astruct_core_1_1_e_c_s_1_1_component_html_a806cb3f482530435e0513dd46fcaeaab"><div class="ttname"><a href="struct_core_1_1_e_c_s_1_1_component.html#a806cb3f482530435e0513dd46fcaeaab">Core::ECS::Component::GetName</a></div><div class="ttdeci">virtual std::string GetName() const =0</div></div>
+<div class="ttc" id="astruct_core_1_1_e_c_s_1_1_component_html_acb18b3f4ad7881cf081c40293057915c"><div class="ttname"><a href="struct_core_1_1_e_c_s_1_1_component.html#acb18b3f4ad7881cf081c40293057915c">Core::ECS::Component::Serialize</a></div><div class="ttdeci">virtual void Serialize(YAML::Emitter &amp;out) const</div><div class="ttdef"><b>Definition</b> component.hpp:18</div></div>
 <div class="ttc" id="astruct_core_1_1_e_c_s_1_1_component_html_afb9ed45b20cc7dc9d5473a2b7e0492e8"><div class="ttname"><a href="struct_core_1_1_e_c_s_1_1_component.html#afb9ed45b20cc7dc9d5473a2b7e0492e8">Core::ECS::Component::~Component</a></div><div class="ttdeci">virtual ~Component()=default</div></div>
-<div class="ttc" id="astruct_core_1_1_e_c_s_1_1_object_html"><div class="ttname"><a href="struct_core_1_1_e_c_s_1_1_object.html">Core::ECS::Object</a></div><div class="ttdef"><b>Definition</b> object.hpp:7</div></div>
+<div class="ttc" id="astruct_core_1_1_e_c_s_1_1_component_html_afc2b36b3a70a36238b073bcf3ef8fcdc"><div class="ttname"><a href="struct_core_1_1_e_c_s_1_1_component.html#afc2b36b3a70a36238b073bcf3ef8fcdc">Core::ECS::Component::Deserialize</a></div><div class="ttdeci">virtual void Deserialize(YAML::Node &amp;node)</div><div class="ttdef"><b>Definition</b> component.hpp:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -19,6 +19,7 @@ add_library(managers STATIC
 # If managers depend on core, link it here.
 target_link_libraries(managers PUBLIC
     ecs
-    yaml-cpp
     glm
 )
+
+add_subdirectory(unit_tests)

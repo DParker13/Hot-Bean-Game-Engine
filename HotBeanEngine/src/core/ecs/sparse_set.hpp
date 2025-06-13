@@ -35,7 +35,7 @@ namespace Core {
 		class SparseSet : public ISparseSet {
 			// Creates two arrays, one with a _dense array and one with a _sparse array.
 			public:
-				SparseSet() : _size(0) {};
+				SparseSet() : m_size(0) {};
 
 				/**
 				 * @brief Copy constructor
@@ -43,7 +43,7 @@ namespace Core {
 				 * @param other Other sparse set reference
 				 */
 				SparseSet(const SparseSet& other) {
-					for (size_t i = 0; i < other._size; i++) {
+					for (size_t i = 0; i < other.m_size; i++) {
 						T obj = other.GetElement(i);
 						this->Insert(i, obj);
 					}
@@ -55,14 +55,14 @@ namespace Core {
 				 * @param other Other sparse set rvalue
 				 */
 				SparseSet(SparseSet&& other) noexcept {
-					for (size_t i = 0; i < other._size; i++) {
+					for (size_t i = 0; i < other.m_size; i++) {
 						T obj(std::move(other.GetElement(i)));
 						this->Insert(i, obj);
 					}
 				}
 
 				~SparseSet() {
-					for (size_t i = 0; i < _size; i++) {
+					for (size_t i = 0; i < m_size; i++) {
 						T obj(std::move(this->GetElement(i)));
 					}
 				}
@@ -79,13 +79,13 @@ namespace Core {
 					assert(0 <= index && index <= MAX_ITEMS && "Adding element outside of valid range.");
 	
 					// Maps data to end of _dense array
-					_dense[_size] = data;
+					_dense[m_size] = data;
 	
-					// Maps this data's _dense array index (_size) to the _sparse array index (data)
-					_sparse[index] = _size;
+					// Maps this data's _dense array index (m_size) to the _sparse array index (data)
+					_sparse[index] = m_size;
 	
 					// Update _dense array size
-					_size++;
+					m_size++;
 				}
 	
 				T& GetElement(size_t index) {
@@ -116,13 +116,13 @@ namespace Core {
 					assert(_sparse[index] == -1 && "Removing non-existent element.");
 	
 					// Replaces the element in the _dense array with the last element in the _dense array
-					_dense[_sparse[index]] = _dense[_size];
+					_dense[_sparse[index]] = _dense[m_size];
 	
 					_sparse[index] = -1;
 	
-					_dense[_size] = T{};
+					_dense[m_size] = T{};
 	
-					_size--;
+					m_size--;
 				}
 	
 				/**
@@ -131,7 +131,7 @@ namespace Core {
 				 * @return The number of elements in the set.
 				 */
 				size_t Size() const override {
-					return _size;
+					return m_size;
 				}
 	
 				// Range based Iterator
@@ -146,11 +146,11 @@ namespace Core {
 				};
 	
 				Iterator begin() { return Iterator(_dense.data()); }
-				Iterator end() { return Iterator(_dense.data() + _size); }
+				Iterator end() { return Iterator(_dense.data() + m_size); }
 	
 			private:
 				// Current size of the _dense array
-				size_t _size;
+				size_t m_size;
 	
 				// The packed array with no gaps
 				std::array<T, MAX_ITEMS> _dense;

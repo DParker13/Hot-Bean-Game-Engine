@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['window_5ftitle_0',['WINDOW_TITLE',['../config_8hpp.html#a7c7b585bb218cdff89e0d45892c94c60',1,'config.hpp']]]
+  ['window_5ftitle_0',['WINDOW_TITLE',['../namespace_config.html#a328f7e9b306acc134c6995bab56e81de',1,'Config']]]
 ];

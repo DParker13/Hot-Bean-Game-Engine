@@ -15,7 +15,7 @@ namespace Core {
         };
         
         enum class GameLoopState {
-            OnInit,
+            OnStart,
             OnPreEvent,
             OnEvent,
             OnWindowResize,

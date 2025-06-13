@@ -112,32 +112,35 @@ Inheritance diagram for Core::ECS::Scene:</div>
  <div class="center">
   <img src="struct_core_1_1_e_c_s_1_1_scene.png" usemap="#Core::ECS::Scene_map" alt=""/>
   <map id="Core::ECS::Scene_map" name="Core::ECS::Scene_map">
-<area href="struct_core_1_1_e_c_s_1_1_object.html" alt="Core::ECS::Object" shape="rect" coords="0,0,119,24"/>
-<area href="struct_scenes_1_1_test_scene.html" alt="Scenes::TestScene" shape="rect" coords="0,112,119,136"/>
+<area href="class_core_1_1_application_1_1_base_scene.html" alt="Core::Application::BaseScene" shape="rect" coords="0,56,179,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae29f2478124ede4f41cb715b4bcb4b00" id="r_ae29f2478124ede4f41cb715b4bcb4b00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae29f2478124ede4f41cb715b4bcb4b00">Scene</a> (std::string name)</td></tr>
-<tr class="separator:ae29f2478124ede4f41cb715b4bcb4b00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab42e1b5ff511be0fef13e9f94dd2f5b7" id="r_ab42e1b5ff511be0fef13e9f94dd2f5b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab42e1b5ff511be0fef13e9f94dd2f5b7">Scene</a> (std::string name, std::string scene_path)</td></tr>
+<tr class="separator:ab42e1b5ff511be0fef13e9f94dd2f5b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0dc163efc0d6adac4d1220b92ab73042" id="r_a0dc163efc0d6adac4d1220b92ab73042"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dc163efc0d6adac4d1220b92ab73042">~Scene</a> ()=default</td></tr>
 <tr class="separator:a0dc163efc0d6adac4d1220b92ab73042"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd930c8d084a3157b25e2cd808594103" id="r_abd930c8d084a3157b25e2cd808594103"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd930c8d084a3157b25e2cd808594103">SetupScene</a> (<a class="el" href="class_core_1_1_application_1_1_app.html">App</a> &amp;app)=0</td></tr>
-<tr class="separator:abd930c8d084a3157b25e2cd808594103"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add40b08c7046993aa2da2d80f42a1128" id="r_add40b08c7046993aa2da2d80f42a1128"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add40b08c7046993aa2da2d80f42a1128">UnloadScene</a> (<a class="el" href="class_core_1_1_application_1_1_app.html">App</a> &amp;app)=0</td></tr>
-<tr class="separator:add40b08c7046993aa2da2d80f42a1128"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9f02d61a70f112a7e26f4548b7a300c" id="r_af9f02d61a70f112a7e26f4548b7a300c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9f02d61a70f112a7e26f4548b7a300c">ToString</a> () const override</td></tr>
-<tr class="separator:af9f02d61a70f112a7e26f4548b7a300c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55e340fe521241d8def04de82c47f610" id="r_a55e340fe521241d8def04de82c47f610"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55e340fe521241d8def04de82c47f610">SetupScene</a> ()=0</td></tr>
+<tr class="separator:a55e340fe521241d8def04de82c47f610"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3046e9b6d6ba1267e9085b23cfffd89" id="r_ac3046e9b6d6ba1267e9085b23cfffd89"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3046e9b6d6ba1267e9085b23cfffd89">SetupPreSystems</a> ()=0</td></tr>
+<tr class="memdesc:ac3046e9b6d6ba1267e9085b23cfffd89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the systems needed for this scene in the system manager.  <br /></td></tr>
+<tr class="separator:ac3046e9b6d6ba1267e9085b23cfffd89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a174c585cfce92d87bdd13f72c230da07" id="r_a174c585cfce92d87bdd13f72c230da07"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a174c585cfce92d87bdd13f72c230da07">SetupPostSystems</a> ()=0</td></tr>
+<tr class="memdesc:a174c585cfce92d87bdd13f72c230da07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the systems needed for this scene in the system manager.  <br /></td></tr>
+<tr class="separator:a174c585cfce92d87bdd13f72c230da07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a71420a9a08aa4b979a950c71cb39240a" id="r_a71420a9a08aa4b979a950c71cb39240a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71420a9a08aa4b979a950c71cb39240a">_name</a></td></tr>
-<tr class="separator:a71420a9a08aa4b979a950c71cb39240a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4fa0b61e698787a409b5561f9d19fc8" id="r_ab4fa0b61e698787a409b5561f9d19fc8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4fa0b61e698787a409b5561f9d19fc8">m_name</a></td></tr>
+<tr class="separator:ab4fa0b61e698787a409b5561f9d19fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade39fce87c960eb8807dc700febf9ebd" id="r_ade39fce87c960eb8807dc700febf9ebd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade39fce87c960eb8807dc700febf9ebd">m_scene_path</a></td></tr>
+<tr class="separator:ade39fce87c960eb8807dc700febf9ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae29f2478124ede4f41cb715b4bcb4b00" name="ae29f2478124ede4f41cb715b4bcb4b00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae29f2478124ede4f41cb715b4bcb4b00">&#9670;&#160;</a></span>Scene()</h2>
+<a id="ab42e1b5ff511be0fef13e9f94dd2f5b7" name="ab42e1b5ff511be0fef13e9f94dd2f5b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab42e1b5ff511be0fef13e9f94dd2f5b7">&#9670;&#160;</a></span>Scene()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -148,8 +151,12 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">Core::ECS::Scene::Scene </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>scene_path</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -187,8 +194,66 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="abd930c8d084a3157b25e2cd808594103" name="abd930c8d084a3157b25e2cd808594103"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd930c8d084a3157b25e2cd808594103">&#9670;&#160;</a></span>SetupScene()</h2>
+<a id="a174c585cfce92d87bdd13f72c230da07" name="a174c585cfce92d87bdd13f72c230da07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a174c585cfce92d87bdd13f72c230da07">&#9670;&#160;</a></span>SetupPostSystems()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Core::ECS::Scene::SetupPostSystems </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initializes the systems needed for this scene in the system manager. </p>
+
+<p>Implemented in <a class="el" href="class_core_1_1_application_1_1_base_scene.html#a128bb4fb2dfbccfe8783f6126610b7a0">Core::Application::BaseScene</a>.</p>
+
+</div>
+</div>
+<a id="ac3046e9b6d6ba1267e9085b23cfffd89" name="ac3046e9b6d6ba1267e9085b23cfffd89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3046e9b6d6ba1267e9085b23cfffd89">&#9670;&#160;</a></span>SetupPreSystems()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Core::ECS::Scene::SetupPreSystems </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initializes the systems needed for this scene in the system manager. </p>
+
+<p>Implemented in <a class="el" href="class_core_1_1_application_1_1_base_scene.html#a83ab0b88978b47b4e63b4cea137ef1bc">Core::Application::BaseScene</a>.</p>
+
+</div>
+</div>
+<a id="a55e340fe521241d8def04de82c47f610" name="a55e340fe521241d8def04de82c47f610"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55e340fe521241d8def04de82c47f610">&#9670;&#160;</a></span>SetupScene()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -199,61 +264,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">virtual void Core::ECS::Scene::SetupScene </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_core_1_1_application_1_1_app.html">App</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="struct_scenes_1_1_test_scene.html#a16b8fe242344696b83884101a0cdb080">Scenes::TestScene</a>.</p>
-
-</div>
-</div>
-<a id="af9f02d61a70f112a7e26f4548b7a300c" name="af9f02d61a70f112a7e26f4548b7a300c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9f02d61a70f112a7e26f4548b7a300c">&#9670;&#160;</a></span>ToString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string Core::ECS::Scene::ToString </td>
-          <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="struct_core_1_1_e_c_s_1_1_object.html#a172a32297ce930ac9786b432c60a871b">Core::ECS::Object</a>.</p>
-
-</div>
-</div>
-<a id="add40b08c7046993aa2da2d80f42a1128" name="add40b08c7046993aa2da2d80f42a1128"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add40b08c7046993aa2da2d80f42a1128">&#9670;&#160;</a></span>UnloadScene()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void Core::ECS::Scene::UnloadScene </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_core_1_1_application_1_1_app.html">App</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -263,20 +274,32 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="struct_scenes_1_1_test_scene.html#ac2bc11aa80b5e37c41d1f3d0dd5aeeb3">Scenes::TestScene</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a71420a9a08aa4b979a950c71cb39240a" name="a71420a9a08aa4b979a950c71cb39240a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71420a9a08aa4b979a950c71cb39240a">&#9670;&#160;</a></span>_name</h2>
+<a id="ab4fa0b61e698787a409b5561f9d19fc8" name="ab4fa0b61e698787a409b5561f9d19fc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4fa0b61e698787a409b5561f9d19fc8">&#9670;&#160;</a></span>m_name</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string Core::ECS::Scene::_name</td>
+          <td class="memname">std::string Core::ECS::Scene::m_name</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ade39fce87c960eb8807dc700febf9ebd" name="ade39fce87c960eb8807dc700febf9ebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade39fce87c960eb8807dc700febf9ebd">&#9670;&#160;</a></span>m_scene_path</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Core::ECS::Scene::m_scene_path</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -284,7 +307,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/ecs/<a class="el" href="scene_8hpp_source.html">scene.hpp</a></li>
+<li>C:/Users/danie/Documents/GitHub/HotBeanEngine/HotBeanEngine/src/core/ecs/<a class="el" href="scene_8hpp_source.html">scene.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

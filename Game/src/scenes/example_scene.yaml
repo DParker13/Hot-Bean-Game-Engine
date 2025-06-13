@@ -1,0 +1,44 @@
+Entities:
+    - Entity:
+        Transform2D:
+            world_position: [0, 0]
+            scale: [1, 1]
+            rotation: [0, 0, 0, 1]
+            layer: 1
+        Camera:
+            id: 0
+            active: true
+        Controller:
+        Entities:
+            - Entity:
+                Transform2D:
+                    local_position: [50, 50]
+                    scale: [1, 1]
+                    rotation: [0, 0, 0, 1]
+                    layer: 2
+                Text:
+                    text: "Child of Camera (shouldn't move)"
+                    foreground_color: [255, 255, 255, 255]
+                    background_color: [10, 10, 10, 100]
+                    size: 10
+                    style: 0
+                    wrapping_width: 0
+                Texture:
+                UIElement:
+                    type: 1
+    - Entity:
+        Transform2D:
+            world_position: [250, 250]
+            scale: [1, 1]
+            rotation: [0, 0, 0, 1]
+            layer: 0
+        Text:
+            text: "The quick brown fox jumps over the lazy dog (Entity 1)"
+            foreground_color: [255, 255, 255, 255]
+            background_color: [10, 10, 10, 100]
+            size: 10
+            style: 0
+            wrapping_width: 0
+        Texture:
+        UIElement:
+            type: 1

@@ -1,20 +1,8 @@
 var searchData=
 [
-  ['_7eapp_0',['~App',['../class_core_1_1_application_1_1_app.html#a7c591db8fdb910b762b8305a2cd21139',1,'Core::Application::App']]],
-  ['_7ecomponent_1',['~Component',['../struct_core_1_1_e_c_s_1_1_component.html#afb9ed45b20cc7dc9d5473a2b7e0492e8',1,'Core::ECS::Component']]],
-  ['_7ecomponentmanager_2',['~ComponentManager',['../class_core_1_1_managers_1_1_component_manager.html#a90d0345fdc2254dd19423b560054a450',1,'Core::Managers::ComponentManager']]],
-  ['_7ecoremanager_3',['~CoreManager',['../class_core_1_1_managers_1_1_core_manager.html#a46428dd295f5424fc3039311f039a4a8',1,'Core::Managers::CoreManager']]],
-  ['_7eentitymanager_4',['~EntityManager',['../class_core_1_1_managers_1_1_entity_manager.html#ac6d45e77398c5f8f9bcfb77ce83e1a55',1,'Core::Managers::EntityManager']]],
-  ['_7egame_5',['~Game',['../class_core_1_1_application_1_1_game.html#ae3d112ca6e0e55150d2fdbc704474530',1,'Core::Application::Game']]],
-  ['_7egameobject_6',['~GameObject',['../class_core_1_1_e_c_s_1_1_game_object.html#a8384c3d88decdaf754584a6ed0d9faa0',1,'Core::ECS::GameObject']]],
-  ['_7eisparseset_7',['~ISparseSet',['../struct_core_1_1_e_c_s_1_1_i_sparse_set.html#adee019cfe09a34e2d191c93796bcf33c',1,'Core::ECS::ISparseSet']]],
-  ['_7erendersystem_8',['~RenderSystem',['../class_systems_1_1_render_system.html#aa8a4d589ab6b8a1ebd515a8c45fc1c6f',1,'Systems::RenderSystem']]],
-  ['_7escene_9',['~Scene',['../struct_core_1_1_e_c_s_1_1_scene.html#a0dc163efc0d6adac4d1220b92ab73042',1,'Core::ECS::Scene']]],
-  ['_7escenemanager_10',['~SceneManager',['../class_core_1_1_managers_1_1_scene_manager.html#a07a10ca92138c051e454ff8318edb47e',1,'Core::Managers::SceneManager']]],
-  ['_7esystem_11',['~System',['../class_core_1_1_e_c_s_1_1_system.html#abc3d53d3497feb4bbaf826db2b30f127',1,'Core::ECS::System']]],
-  ['_7esystemmanager_12',['~SystemManager',['../class_core_1_1_managers_1_1_system_manager.html#a5df1373b95a083f39536b593c42bb990',1,'Core::Managers::SystemManager']]],
-  ['_7etestscene_13',['~TestScene',['../struct_scenes_1_1_test_scene.html#a40a21e1f083039975413e280d435f60c',1,'Scenes::TestScene']]],
-  ['_7etext_14',['~Text',['../class_components_1_1_text.html#a5b85d21e97a382e0d2dc35fd8d461b24',1,'Components::Text']]],
-  ['_7etexture_15',['~Texture',['../struct_components_1_1_texture.html#a2803abd8f904944fd6f77c4bd0ca1577',1,'Components::Texture']]],
-  ['_7euisystem_16',['~UISystem',['../class_systems_1_1_u_i_system.html#acf08f9a4b42c0abbd0db9ee02c6a5fe5',1,'Systems::UISystem']]]
+  ['uielement_0',['UIElement',['../struct_game_objects_1_1_u_i_1_1_u_i_element.html#ae85aa3f4306cec8809141ad297a900f4',1,'GameObjects::UI::UIElement::UIElement()'],['../struct_core_1_1_components_1_1_u_i_element.html#a73b5af03fa4f3b2a4a534f2771c62d5d',1,'Core::Components::UIElement::UIElement()']]],
+  ['uisystem_1',['UISystem',['../class_core_1_1_systems_1_1_u_i_system.html#ac6082960761828256d532fb5bc12389d',1,'Core::Systems::UISystem']]],
+  ['unloadscene_2',['UnloadScene',['../class_core_1_1_managers_1_1_serialization_manager.html#a364c2f443f786243f81590c447861ed0',1,'Core::Managers::SerializationManager']]],
+  ['unregistersystem_3',['UnregisterSystem',['../class_core_1_1_application_1_1_app.html#a8203574dcaf97ba4c764a03d3fbda457',1,'Core::Application::App::UnregisterSystem()'],['../class_core_1_1_managers_1_1_e_c_s_manager.html#a45ec6767f8c28e920e8abd5e44bb07ab',1,'Core::Managers::ECSManager::UnregisterSystem()'],['../class_core_1_1_managers_1_1_system_manager.html#a3410db889993cd0397ed95ade86082e2',1,'Core::Managers::SystemManager::UnregisterSystem()']]],
+  ['updatedeltatime_4',['UpdateDeltaTime',['../class_core_1_1_application_1_1_app.html#adf20f4057db6cedfb8b4ebbb1ad5e030',1,'Core::Application::App']]]
 ];

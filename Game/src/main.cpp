@@ -1,9 +1,6 @@
 #include <SDL_main.h> // only include this one in the source file with main()!
 
-#include "game/test_game.hpp"
-
-using namespace Core::Application;
-using namespace Config;
+#include "game/example_game.hpp"
 
 /**
  * The main function of the program.
@@ -14,9 +11,9 @@ using namespace Config;
  * @return an integer indicating the exit status of the program
  */
 int main(int argc, char* argv[]) {
-    std::string config_path = "C:\\Users\\danie\\Documents\\GitHub\\HotBeanEngine\\Game\\src\\config.yaml";
+    std::string config_path = (std::filesystem::current_path() / "config.yaml").string();
     
-    TestGame game = TestGame(config_path);
+    ExampleGame game = ExampleGame(config_path);
 
     game.Run();
 

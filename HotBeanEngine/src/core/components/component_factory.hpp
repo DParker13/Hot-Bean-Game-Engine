@@ -1,16 +1,16 @@
 #pragma once
 
 #include "../managers/ecs_manager.hpp"
-#include "audio_source.hpp"
-#include "camera.hpp"
-#include "collider_2d.hpp"
-#include "controller.hpp"
-#include "rigidbody.hpp"
-#include "text.hpp"
-#include "texture.hpp"
-#include "tile.hpp"
-#include "transform_2d.hpp"
-#include "ui_element.hpp"
+#include "audio/audio_source.hpp"
+#include "input/controller.hpp"
+#include "miscellaneous/camera.hpp"
+#include "miscellaneous/transform_2d.hpp"
+#include "physics/collider_2d.hpp"
+#include "physics/rigidbody.hpp"
+#include "rendering/shape.hpp"
+#include "rendering/texture.hpp"
+#include "ui/text.hpp"
+#include "ui/ui_element.hpp"
 
 namespace Core::Application {
     struct ComponentFactory {

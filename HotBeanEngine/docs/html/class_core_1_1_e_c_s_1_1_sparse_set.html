@@ -112,8 +112,7 @@ Inheritance diagram for Core::ECS::SparseSet&lt; T, MAX_ITEMS &gt;:</div>
  <div class="center">
   <img src="class_core_1_1_e_c_s_1_1_sparse_set.png" usemap="#Core::ECS::SparseSet_3C_20T_2C_20MAX_5FITEMS_20_3E_map" alt=""/>
   <map id="Core::ECS::SparseSet_3C_20T_2C_20MAX_5FITEMS_20_3E_map" name="Core::ECS::SparseSet_3C_20T_2C_20MAX_5FITEMS_20_3E_map">
-<area href="struct_core_1_1_e_c_s_1_1_i_sparse_set.html" alt="Core::ECS::ISparseSet" shape="rect" coords="0,56,248,80"/>
-<area href="struct_core_1_1_e_c_s_1_1_object.html" alt="Core::ECS::Object" shape="rect" coords="0,0,248,24"/>
+<area href="struct_core_1_1_e_c_s_1_1_i_sparse_set.html" alt="Core::ECS::ISparseSet" shape="rect" coords="0,0,248,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -126,12 +125,20 @@ Classes</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a81c90e2454c793629fd9396eebafdf12" id="r_a81c90e2454c793629fd9396eebafdf12"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81c90e2454c793629fd9396eebafdf12">SparseSet</a> ()</td></tr>
 <tr class="separator:a81c90e2454c793629fd9396eebafdf12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acff27b31e688d41c3da2b8b0511cccc2" id="r_acff27b31e688d41c3da2b8b0511cccc2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acff27b31e688d41c3da2b8b0511cccc2">ToString</a> () const override</td></tr>
-<tr class="separator:acff27b31e688d41c3da2b8b0511cccc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a132138304b8f5708b74943eb977de3e6" id="r_a132138304b8f5708b74943eb977de3e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a132138304b8f5708b74943eb977de3e6">SparseSet</a> (const <a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">SparseSet</a> &amp;other)</td></tr>
+<tr class="memdesc:a132138304b8f5708b74943eb977de3e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <br /></td></tr>
+<tr class="separator:a132138304b8f5708b74943eb977de3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d8f87cbe0997047f5810f07df1e671c" id="r_a6d8f87cbe0997047f5810f07df1e671c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d8f87cbe0997047f5810f07df1e671c">SparseSet</a> (<a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">SparseSet</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:a6d8f87cbe0997047f5810f07df1e671c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <br /></td></tr>
+<tr class="separator:a6d8f87cbe0997047f5810f07df1e671c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a071900ebaf375d5d3ee99e55158c7f16" id="r_a071900ebaf375d5d3ee99e55158c7f16"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a071900ebaf375d5d3ee99e55158c7f16">~SparseSet</a> ()</td></tr>
+<tr class="separator:a071900ebaf375d5d3ee99e55158c7f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace86c93bf493dd571678baa191812573" id="r_ace86c93bf493dd571678baa191812573"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace86c93bf493dd571678baa191812573">Insert</a> (size_t index, T data)</td></tr>
 <tr class="separator:ace86c93bf493dd571678baa191812573"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98ddf3aad7d5f60cbcadda1f09e76f67" id="r_a98ddf3aad7d5f60cbcadda1f09e76f67"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98ddf3aad7d5f60cbcadda1f09e76f67">GetElement</a> (size_t index)</td></tr>
 <tr class="separator:a98ddf3aad7d5f60cbcadda1f09e76f67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ea5cca66d130f2f02e988df17bdfda7" id="r_a2ea5cca66d130f2f02e988df17bdfda7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_core_1_1_e_c_s_1_1_component.html">Component</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ea5cca66d130f2f02e988df17bdfda7">GetComponent</a> (size_t index) override</td></tr>
+<tr class="separator:a2ea5cca66d130f2f02e988df17bdfda7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae69dc53a33d9e014d59b0feda0ec55cd" id="r_ae69dc53a33d9e014d59b0feda0ec55cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae69dc53a33d9e014d59b0feda0ec55cd">Remove</a> (size_t index) override</td></tr>
 <tr class="separator:ae69dc53a33d9e014d59b0feda0ec55cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac77f79e1d9b978e1aca681bba825f79c" id="r_ac77f79e1d9b978e1aca681bba825f79c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac77f79e1d9b978e1aca681bba825f79c">Size</a> () const override</td></tr>
@@ -146,7 +153,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a81c90e2454c793629fd9396eebafdf12" name="a81c90e2454c793629fd9396eebafdf12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81c90e2454c793629fd9396eebafdf12">&#9670;&#160;</a></span>SparseSet()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a81c90e2454c793629fd9396eebafdf12">&#9670;&#160;</a></span>SparseSet() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -158,6 +165,103 @@ template&lt;typename T, size_t MAX_ITEMS&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">Core::ECS::SparseSet</a>&lt; T, MAX_ITEMS &gt;::SparseSet </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a132138304b8f5708b74943eb977de3e6" name="a132138304b8f5708b74943eb977de3e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a132138304b8f5708b74943eb977de3e6">&#9670;&#160;</a></span>SparseSet() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, size_t MAX_ITEMS&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">Core::ECS::SparseSet</a>&lt; T, MAX_ITEMS &gt;::SparseSet </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">SparseSet</a>&lt; T, MAX_ITEMS &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copy constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>Other sparse set reference </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6d8f87cbe0997047f5810f07df1e671c" name="a6d8f87cbe0997047f5810f07df1e671c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d8f87cbe0997047f5810f07df1e671c">&#9670;&#160;</a></span>SparseSet() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, size_t MAX_ITEMS&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">Core::ECS::SparseSet</a>&lt; T, MAX_ITEMS &gt;::SparseSet </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">SparseSet</a>&lt; T, MAX_ITEMS &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Move constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>Other sparse set rvalue </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a071900ebaf375d5d3ee99e55158c7f16" name="a071900ebaf375d5d3ee99e55158c7f16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a071900ebaf375d5d3ee99e55158c7f16">&#9670;&#160;</a></span>~SparseSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, size_t MAX_ITEMS&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">Core::ECS::SparseSet</a>&lt; T, MAX_ITEMS &gt;::~<a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">SparseSet</a> </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -224,6 +328,35 @@ template&lt;typename T, size_t MAX_ITEMS&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ea5cca66d130f2f02e988df17bdfda7" name="a2ea5cca66d130f2f02e988df17bdfda7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ea5cca66d130f2f02e988df17bdfda7">&#9670;&#160;</a></span>GetComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, size_t MAX_ITEMS&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_core_1_1_e_c_s_1_1_component.html">Component</a> &amp; <a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">Core::ECS::SparseSet</a>&lt; T, MAX_ITEMS &gt;::GetComponent </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="struct_core_1_1_e_c_s_1_1_i_sparse_set.html#af6d4ef0604183515d08ac8aeacae693c">Core::ECS::ISparseSet</a>.</p>
 
 </div>
 </div>
@@ -373,37 +506,8 @@ template&lt;typename T, size_t MAX_ITEMS&gt; </div>
 
 </div>
 </div>
-<a id="acff27b31e688d41c3da2b8b0511cccc2" name="acff27b31e688d41c3da2b8b0511cccc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acff27b31e688d41c3da2b8b0511cccc2">&#9670;&#160;</a></span>ToString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, size_t MAX_ITEMS&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string <a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html">Core::ECS::SparseSet</a>&lt; T, MAX_ITEMS &gt;::ToString </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="struct_core_1_1_e_c_s_1_1_object.html#a172a32297ce930ac9786b432c60a871b">Core::ECS::Object</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/ecs/<a class="el" href="sparse__set_8hpp_source.html">sparse_set.hpp</a></li>
+<li>C:/Users/danie/Documents/GitHub/HotBeanEngine/HotBeanEngine/src/core/ecs/<a class="el" href="sparse__set_8hpp_source.html">sparse_set.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

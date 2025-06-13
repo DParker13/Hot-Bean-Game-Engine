@@ -1,9 +1,9 @@
 add_library(scenes STATIC
-    test_scene.cpp
-    test_scene.hpp
+    example_scene.cpp
+    example_scene.hpp
 )
 
 # Link dependencies for the scenes library
 target_link_libraries(scenes PUBLIC
-    HotBeanEngine
+    systems
 )

@@ -1,3 +1,3 @@
 #pragma once
 
-#include "../src/game/game.hpp"
+#include "../src/game/base_scene.hpp"

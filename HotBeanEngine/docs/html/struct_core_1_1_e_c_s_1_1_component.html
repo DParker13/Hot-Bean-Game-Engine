@@ -100,7 +100,7 @@ $(function(){initNavTree('struct_core_1_1_e_c_s_1_1_component.html',''); initRes
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="struct_core_1_1_e_c_s_1_1_component-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">Core::ECS::Component Struct Reference</div></div>
+  <div class="headertitle"><div class="title">Core::ECS::Component Struct Reference<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -111,14 +111,16 @@ Inheritance diagram for Core::ECS::Component:</div>
  <div class="center">
   <img src="struct_core_1_1_e_c_s_1_1_component.png" usemap="#Core::ECS::Component_map" alt=""/>
   <map id="Core::ECS::Component_map" name="Core::ECS::Component_map">
-<area href="struct_core_1_1_e_c_s_1_1_object.html" alt="Core::ECS::Object" shape="rect" coords="510,0,670,24"/>
-<area href="struct_components_1_1_collider2_d.html" alt="Components::Collider2D" shape="rect" coords="0,112,160,136"/>
-<area href="struct_components_1_1_controller.html" alt="Components::Controller" shape="rect" coords="170,112,330,136"/>
-<area href="struct_components_1_1_rigid_body.html" alt="Components::RigidBody" shape="rect" coords="340,112,500,136"/>
-<area href="class_components_1_1_text.html" alt="Components::Text" shape="rect" coords="510,112,670,136"/>
-<area href="struct_components_1_1_texture.html" alt="Components::Texture" shape="rect" coords="680,112,840,136"/>
-<area href="struct_components_1_1_tile.html" alt="Components::Tile" shape="rect" coords="850,112,1010,136"/>
-<area href="struct_components_1_1_transform2_d.html" alt="Components::Transform2D" shape="rect" coords="1020,112,1180,136"/>
+<area href="struct_core_1_1_components_1_1_audio_source.html" alt="Core::Components::AudioSource" shape="rect" coords="205,56,400,80"/>
+<area href="struct_core_1_1_components_1_1_camera.html" alt="Core::Components::Camera" shape="rect" coords="205,112,400,136"/>
+<area href="struct_core_1_1_components_1_1_collider2_d.html" alt="Core::Components::Collider2D" shape="rect" coords="205,168,400,192"/>
+<area href="struct_core_1_1_components_1_1_controller.html" alt="Core::Components::Controller" shape="rect" coords="205,224,400,248"/>
+<area href="struct_core_1_1_components_1_1_rigid_body.html" alt="Core::Components::RigidBody" shape="rect" coords="205,280,400,304"/>
+<area href="struct_core_1_1_components_1_1_shape.html" alt="Core::Components::Shape" shape="rect" coords="205,336,400,360"/>
+<area href="struct_core_1_1_components_1_1_texture.html" alt="Core::Components::Texture" shape="rect" coords="205,392,400,416"/>
+<area href="struct_core_1_1_components_1_1_transform2_d.html" alt="Core::Components::Transform2D" shape="rect" coords="205,448,400,472"/>
+<area href="struct_core_1_1_components_1_1_u_i_element.html" alt="Core::Components::UIElement" shape="rect" coords="205,504,400,528"/>
+<area href="struct_test_component.html" alt="TestComponent" shape="rect" coords="205,560,400,584"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -128,9 +130,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6f4347a6a865175a8a0b32c11e9beb37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb9ed45b20cc7dc9d5473a2b7e0492e8" id="r_afb9ed45b20cc7dc9d5473a2b7e0492e8"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb9ed45b20cc7dc9d5473a2b7e0492e8">~Component</a> ()=default</td></tr>
 <tr class="separator:afb9ed45b20cc7dc9d5473a2b7e0492e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_struct_core_1_1_e_c_s_1_1_object"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_core_1_1_e_c_s_1_1_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_core_1_1_e_c_s_1_1_object.html">Core::ECS::Object</a></td></tr>
-<tr class="memitem:a172a32297ce930ac9786b432c60a871b inherit pub_methods_struct_core_1_1_e_c_s_1_1_object" id="r_a172a32297ce930ac9786b432c60a871b"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_e_c_s_1_1_object.html#a172a32297ce930ac9786b432c60a871b">ToString</a> () const =0</td></tr>
-<tr class="separator:a172a32297ce930ac9786b432c60a871b inherit pub_methods_struct_core_1_1_e_c_s_1_1_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a806cb3f482530435e0513dd46fcaeaab" id="r_a806cb3f482530435e0513dd46fcaeaab"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a806cb3f482530435e0513dd46fcaeaab">GetName</a> () const =0</td></tr>
+<tr class="separator:a806cb3f482530435e0513dd46fcaeaab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb18b3f4ad7881cf081c40293057915c" id="r_acb18b3f4ad7881cf081c40293057915c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb18b3f4ad7881cf081c40293057915c">Serialize</a> (YAML::Emitter &amp;out) const</td></tr>
+<tr class="separator:acb18b3f4ad7881cf081c40293057915c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc2b36b3a70a36238b073bcf3ef8fcdc" id="r_afc2b36b3a70a36238b073bcf3ef8fcdc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc2b36b3a70a36238b073bcf3ef8fcdc">Deserialize</a> (YAML::Node &amp;node)</td></tr>
+<tr class="separator:afc2b36b3a70a36238b073bcf3ef8fcdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6f4347a6a865175a8a0b32c11e9beb37" name="a6f4347a6a865175a8a0b32c11e9beb37"></a>
@@ -183,8 +188,90 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="afc2b36b3a70a36238b073bcf3ef8fcdc" name="afc2b36b3a70a36238b073bcf3ef8fcdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc2b36b3a70a36238b073bcf3ef8fcdc">&#9670;&#160;</a></span>Deserialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Core::ECS::Component::Deserialize </td>
+          <td>(</td>
+          <td class="paramtype">YAML::Node &amp;</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="struct_core_1_1_components_1_1_audio_source.html#abfde6c88139ef0573713174335d731c8">Core::Components::AudioSource</a>, <a class="el" href="struct_core_1_1_components_1_1_camera.html#ae00049644cc8f1d6d8553a311a9959d9">Core::Components::Camera</a>, <a class="el" href="struct_core_1_1_components_1_1_collider2_d.html#a396f3df10f309f3f3b23ff5de4165eab">Core::Components::Collider2D</a>, <a class="el" href="struct_core_1_1_components_1_1_controller.html#ac13953b736613d593f3fdde8e2821bef">Core::Components::Controller</a>, <a class="el" href="struct_core_1_1_components_1_1_rigid_body.html#a467f57a165db90e2a4f5359fa151808d">Core::Components::RigidBody</a>, <a class="el" href="struct_core_1_1_components_1_1_shape.html#af4a4612e37cd99884863ce05f982e6ff">Core::Components::Shape</a>, <a class="el" href="struct_core_1_1_components_1_1_text.html#ad05091d5a7103a7d1f4ea8af9c887baf">Core::Components::Text</a>, <a class="el" href="struct_core_1_1_components_1_1_transform2_d.html#a5963c9dfff5d73858617ede1e336ddf7">Core::Components::Transform2D</a>, and <a class="el" href="struct_core_1_1_components_1_1_u_i_element.html#a120de5abe11b293adb32fad62bab6136">Core::Components::UIElement</a>.</p>
+
+</div>
+</div>
+<a id="a806cb3f482530435e0513dd46fcaeaab" name="a806cb3f482530435e0513dd46fcaeaab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a806cb3f482530435e0513dd46fcaeaab">&#9670;&#160;</a></span>GetName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string Core::ECS::Component::GetName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="struct_core_1_1_components_1_1_audio_source.html#afcb14391987ed8ca8e7ad9a74bdeac3c">Core::Components::AudioSource</a>, <a class="el" href="struct_core_1_1_components_1_1_camera.html#a314cecd509acb0bbeefe61a71bf33290">Core::Components::Camera</a>, <a class="el" href="struct_core_1_1_components_1_1_collider2_d.html#ac3d92dfe33777a53874b36510f1b4ebd">Core::Components::Collider2D</a>, <a class="el" href="struct_core_1_1_components_1_1_controller.html#af11ecec8a2b716e4d9180b4386f12e45">Core::Components::Controller</a>, <a class="el" href="struct_core_1_1_components_1_1_rigid_body.html#ab48af19774e793172aea9316fb905c2d">Core::Components::RigidBody</a>, <a class="el" href="struct_core_1_1_components_1_1_shape.html#ab8a38ed66a008640aa3f1b673c21638b">Core::Components::Shape</a>, <a class="el" href="struct_core_1_1_components_1_1_text.html#a4d458841f25d6d183f433ba51a3f3c65">Core::Components::Text</a>, <a class="el" href="struct_core_1_1_components_1_1_texture.html#aeea2285c3dc06f361c80061df4ab3102">Core::Components::Texture</a>, <a class="el" href="struct_core_1_1_components_1_1_transform2_d.html#a99bcdee3d68ac0f5c5ef81d1452728f0">Core::Components::Transform2D</a>, <a class="el" href="struct_core_1_1_components_1_1_u_i_element.html#a20667114a88ef5f22c927c26c343fb0d">Core::Components::UIElement</a>, and <a class="el" href="struct_test_component.html#a4034775e366652a7c7ad0d0d272cb824">TestComponent</a>.</p>
+
+</div>
+</div>
+<a id="acb18b3f4ad7881cf081c40293057915c" name="acb18b3f4ad7881cf081c40293057915c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb18b3f4ad7881cf081c40293057915c">&#9670;&#160;</a></span>Serialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Core::ECS::Component::Serialize </td>
+          <td>(</td>
+          <td class="paramtype">YAML::Emitter &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="struct_core_1_1_components_1_1_audio_source.html#a3719fba88ad58868f6c3272a0f6b417c">Core::Components::AudioSource</a>, <a class="el" href="struct_core_1_1_components_1_1_camera.html#a0f5756d6cea211c0ee59e4648db2766b">Core::Components::Camera</a>, <a class="el" href="struct_core_1_1_components_1_1_collider2_d.html#abeb2d5f883a39f727e72352b1daeedf5">Core::Components::Collider2D</a>, <a class="el" href="struct_core_1_1_components_1_1_controller.html#ae66c936fc12f9a7a7c4c9192d4c0b9f0">Core::Components::Controller</a>, <a class="el" href="struct_core_1_1_components_1_1_rigid_body.html#af876f0cd23a0b223fc49033ed75e56a9">Core::Components::RigidBody</a>, <a class="el" href="struct_core_1_1_components_1_1_shape.html#adc1ad48b83641c3854debd80fc17d294">Core::Components::Shape</a>, <a class="el" href="struct_core_1_1_components_1_1_text.html#ad86c696a7d5a4abe22b7a308a2af7037">Core::Components::Text</a>, <a class="el" href="struct_core_1_1_components_1_1_texture.html#a32d618e8f4d47cf2187505c14b1b84e7">Core::Components::Texture</a>, <a class="el" href="struct_core_1_1_components_1_1_transform2_d.html#a054f37a30e866fa22342a7b7f4e8b2fe">Core::Components::Transform2D</a>, and <a class="el" href="struct_core_1_1_components_1_1_u_i_element.html#a0b772719a20ed70b77ac0d308ef2e58e">Core::Components::UIElement</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/ecs/<a class="el" href="component_8hpp_source.html">component.hpp</a></li>
+<li>C:/Users/danie/Documents/GitHub/HotBeanEngine/HotBeanEngine/src/core/ecs/<a class="el" href="component_8hpp_source.html">component.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,12 +1,10 @@
-add_library(game STATIC
-    game.cpp
-    game.hpp
+add_library(base_game STATIC
+    base_scene.hpp
+    base_game.cpp
+    base_game.hpp
 )
 
-target_link_libraries(game PUBLIC
+target_link_libraries(base_game PUBLIC
     core
-    components
-    gameobjects
-    systems
-    scenes
+    archetypes
 )

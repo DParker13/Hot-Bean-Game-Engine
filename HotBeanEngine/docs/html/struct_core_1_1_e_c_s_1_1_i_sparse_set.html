@@ -111,8 +111,7 @@ Inheritance diagram for Core::ECS::ISparseSet:</div>
  <div class="center">
   <img src="struct_core_1_1_e_c_s_1_1_i_sparse_set.png" usemap="#Core::ECS::ISparseSet_map" alt=""/>
   <map id="Core::ECS::ISparseSet_map" name="Core::ECS::ISparseSet_map">
-<area href="struct_core_1_1_e_c_s_1_1_object.html" alt="Core::ECS::Object" shape="rect" coords="0,0,248,24"/>
-<area href="class_core_1_1_e_c_s_1_1_sparse_set.html" alt="Core::ECS::SparseSet&lt; T, MAX_ITEMS &gt;" shape="rect" coords="0,112,248,136"/>
+<area href="class_core_1_1_e_c_s_1_1_sparse_set.html" alt="Core::ECS::SparseSet&lt; T, MAX_ITEMS &gt;" shape="rect" coords="0,56,248,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -124,9 +123,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8b55fffe622de523286aee3421ff136a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15f3fc2f1f6de3fd9299c58a21467b40" id="r_a15f3fc2f1f6de3fd9299c58a21467b40"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15f3fc2f1f6de3fd9299c58a21467b40">Size</a> () const =0</td></tr>
 <tr class="separator:a15f3fc2f1f6de3fd9299c58a21467b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_struct_core_1_1_e_c_s_1_1_object"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_struct_core_1_1_e_c_s_1_1_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="struct_core_1_1_e_c_s_1_1_object.html">Core::ECS::Object</a></td></tr>
-<tr class="memitem:a172a32297ce930ac9786b432c60a871b inherit pub_methods_struct_core_1_1_e_c_s_1_1_object" id="r_a172a32297ce930ac9786b432c60a871b"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_e_c_s_1_1_object.html#a172a32297ce930ac9786b432c60a871b">ToString</a> () const =0</td></tr>
-<tr class="separator:a172a32297ce930ac9786b432c60a871b inherit pub_methods_struct_core_1_1_e_c_s_1_1_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6d4ef0604183515d08ac8aeacae693c" id="r_af6d4ef0604183515d08ac8aeacae693c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="struct_core_1_1_e_c_s_1_1_component.html">Component</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6d4ef0604183515d08ac8aeacae693c">GetComponent</a> (size_t index)=0</td></tr>
+<tr class="separator:af6d4ef0604183515d08ac8aeacae693c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adee019cfe09a34e2d191c93796bcf33c" name="adee019cfe09a34e2d191c93796bcf33c"></a>
@@ -155,6 +153,33 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="af6d4ef0604183515d08ac8aeacae693c" name="af6d4ef0604183515d08ac8aeacae693c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6d4ef0604183515d08ac8aeacae693c">&#9670;&#160;</a></span>GetComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_core_1_1_e_c_s_1_1_component.html">Component</a> &amp; Core::ECS::ISparseSet::GetComponent </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_core_1_1_e_c_s_1_1_sparse_set.html#a2ea5cca66d130f2f02e988df17bdfda7">Core::ECS::SparseSet&lt; T, MAX_ITEMS &gt;</a>.</p>
+
+</div>
+</div>
 <a id="a8b55fffe622de523286aee3421ff136a" name="a8b55fffe622de523286aee3421ff136a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b55fffe622de523286aee3421ff136a">&#9670;&#160;</a></span>Remove()</h2>
 
@@ -210,7 +235,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/ecs/<a class="el" href="sparse__set_8hpp_source.html">sparse_set.hpp</a></li>
+<li>C:/Users/danie/Documents/GitHub/HotBeanEngine/HotBeanEngine/src/core/ecs/<a class="el" href="sparse__set_8hpp_source.html">sparse_set.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

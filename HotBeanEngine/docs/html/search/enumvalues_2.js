@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['dropdown_0',['Dropdown',['../namespace_components.html#a5f4fbc19433444a199c66d9129f2c7baad139d402bad1e816513a5bc489d70f1f',1,'Components']]]
+  ['debug_0',['DEBUG',['../namespace_core_1_1_e_c_s.html#a00347a8b4864c5b2d16fbf492f45d353adc30ec20708ef7b0f641ef78b7880a15',1,'Core::ECS']]],
+  ['dropdown_1',['Dropdown',['../struct_core_1_1_components_1_1_u_i_element.html#a6951c0a568cf715ae0a1e5fab12a6233a7498c445a737312f3678aa1494e01a38',1,'Core::Components::UIElement']]]
 ];

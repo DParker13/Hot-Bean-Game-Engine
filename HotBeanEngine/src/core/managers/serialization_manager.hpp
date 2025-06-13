@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <memory>
 
 #include "../components/component_factory.hpp"
@@ -17,11 +18,12 @@ namespace Core {
                 ~SerializationManager() = default;
     
                 void LoadScene(std::shared_ptr<Scene> scene);
-                void UnloadScene();
+                void LoadScene(std::shared_ptr<Scene> scene, bool save_to_file);
+                void UnloadScene(bool save_to_file);
 
                 void RegisterScene(std::shared_ptr<Scene> scene);
-                void RemoveScene(std::string name);
-                void RemoveScene(std::shared_ptr<Scene> scene);
+                void RemoveScene(std::string name, bool save_to_file);
+                void RemoveScene(std::shared_ptr<Scene> scene, bool save_to_file);
                 void SwitchScene(std::shared_ptr<Scene> scene);
                 void SwitchScene(std::string name);
 

@@ -100,23 +100,20 @@ $(function(){initNavTree('namespace_core_1_1_e_c_s.html',''); initResizable(true
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">Core::ECS Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_e_c_s_1_1_archetype.html">Archetype</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_e_c_s_1_1_component.html">Component</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_e_c_s_1_1_game_loop.html">GameLoop</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_core_1_1_e_c_s_1_1_game_object.html">GameObject</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_e_c_s_1_1_i_sparse_set.html">ISparseSet</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_e_c_s_1_1_object.html">Object</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_core_1_1_e_c_s_1_1_scene.html">Scene</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,31 +126,36 @@ Classes</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:ad5754c4234199ebef6bd4e97043ee62d" id="r_ad5754c4234199ebef6bd4e97043ee62d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5754c4234199ebef6bd4e97043ee62d">ComponentType</a> = Uint32</td></tr>
 <tr class="separator:ad5754c4234199ebef6bd4e97043ee62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a397a3e175266f81a15d92c0a61441d9d" id="r_a397a3e175266f81a15d92c0a61441d9d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a397a3e175266f81a15d92c0a61441d9d">Entity</a> = Uint32</td></tr>
-<tr class="separator:a397a3e175266f81a15d92c0a61441d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42eadb3cb9483d574508300672cbc1c0" id="r_a42eadb3cb9483d574508300672cbc1c0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42eadb3cb9483d574508300672cbc1c0">Signature</a> = std::bitset&lt;<a class="el" href="#a31d74c97656af4a160dd73171f582644">MAX_COMPONENTS</a>&gt;</td></tr>
-<tr class="separator:a42eadb3cb9483d574508300672cbc1c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2e38f3b86984de056d7c851774ab40" id="r_ace2e38f3b86984de056d7c851774ab40"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace2e38f3b86984de056d7c851774ab40">Entity</a> = Sint32</td></tr>
+<tr class="separator:ace2e38f3b86984de056d7c851774ab40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4831a7451a28d4dd2c0bcae22856b5ac" id="r_a4831a7451a28d4dd2c0bcae22856b5ac"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4831a7451a28d4dd2c0bcae22856b5ac">Signature</a> = std::bitset&lt;<a class="el" href="namespace_config.html#a01afcef86a5c31e442976c2c6ebd4e0b">Config::MAX_COMPONENTS</a>&gt;</td></tr>
+<tr class="separator:a4831a7451a28d4dd2c0bcae22856b5ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a280740e992b331c3bc8489bcb890f125" id="r_a280740e992b331c3bc8489bcb890f125"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a280740e992b331c3bc8489bcb890f125">GameLoopState</a> { <br />
-&#160;&#160;<a class="el" href="#a280740e992b331c3bc8489bcb890f125afb56fb9b26e7037590b59fc139f9ca3d">OnInit</a>
+&#160;&#160;<a class="el" href="#a280740e992b331c3bc8489bcb890f125a70a1eb25fda36e42a01919d06b7f7a4d">OnStart</a>
 , <a class="el" href="#a280740e992b331c3bc8489bcb890f125a3dc69d5cdda4fd3fe9de88e4e4db15ee">OnPreEvent</a>
 , <a class="el" href="#a280740e992b331c3bc8489bcb890f125a2c47bd0a4185c2e5a187d4642ed0a2d4">OnEvent</a>
-, <a class="el" href="#a280740e992b331c3bc8489bcb890f125adad07967ee58700afec07a543d5a5e46">OnUpdate</a>
+, <a class="el" href="#a280740e992b331c3bc8489bcb890f125a7365b1973258c93fde3998272e4b1b0c">OnWindowResize</a>
 , <br />
-&#160;&#160;<a class="el" href="#a280740e992b331c3bc8489bcb890f125a6c03367cce64232b2e7b1c4939dd937b">OnRender</a>
+&#160;&#160;<a class="el" href="#a280740e992b331c3bc8489bcb890f125adad07967ee58700afec07a543d5a5e46">OnUpdate</a>
+, <a class="el" href="#a280740e992b331c3bc8489bcb890f125a6c03367cce64232b2e7b1c4939dd937b">OnRender</a>
 , <a class="el" href="#a280740e992b331c3bc8489bcb890f125a2e59d0f48c520dbcc3d9630761fd5dd7">OnPostRender</a>
 <br />
  }</td></tr>
 <tr class="separator:a280740e992b331c3bc8489bcb890f125"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a31d74c97656af4a160dd73171f582644" id="r_a31d74c97656af4a160dd73171f582644"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="#ad5754c4234199ebef6bd4e97043ee62d">ComponentType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31d74c97656af4a160dd73171f582644">MAX_COMPONENTS</a> = 32</td></tr>
-<tr class="separator:a31d74c97656af4a160dd73171f582644"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc92484cb31da35075350f6cadb14974" id="r_acc92484cb31da35075350f6cadb14974"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="#a397a3e175266f81a15d92c0a61441d9d">Entity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc92484cb31da35075350f6cadb14974">MAX_ENTITIES</a> = 5000</td></tr>
-<tr class="separator:acc92484cb31da35075350f6cadb14974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00347a8b4864c5b2d16fbf492f45d353" id="r_a00347a8b4864c5b2d16fbf492f45d353"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00347a8b4864c5b2d16fbf492f45d353">LoggingType</a> { <br />
+&#160;&#160;<a class="el" href="#a00347a8b4864c5b2d16fbf492f45d353adc30ec20708ef7b0f641ef78b7880a15">DEBUG</a>
+, <a class="el" href="#a00347a8b4864c5b2d16fbf492f45d353a551b723eafd6a31d444fcb2f5920fbd3">INFO</a>
+, <a class="el" href="#a00347a8b4864c5b2d16fbf492f45d353a059e9861e0400dfbe05c98a841f3f96b">WARNING</a>
+, <a class="el" href="#a00347a8b4864c5b2d16fbf492f45d353abb1ca97ec761fc37101737ba0aa2e7c5">ERROR</a>
+, <br />
+&#160;&#160;<a class="el" href="#a00347a8b4864c5b2d16fbf492f45d353a19da7170bea36556dde582519795f3fc">FATAL</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a00347a8b4864c5b2d16fbf492f45d353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for setting the logging level.  <a href="#a00347a8b4864c5b2d16fbf492f45d353">More...</a><br /></td></tr>
+<tr class="separator:a00347a8b4864c5b2d16fbf492f45d353"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="ad5754c4234199ebef6bd4e97043ee62d" name="ad5754c4234199ebef6bd4e97043ee62d"></a>
@@ -170,28 +172,28 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a397a3e175266f81a15d92c0a61441d9d" name="a397a3e175266f81a15d92c0a61441d9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a397a3e175266f81a15d92c0a61441d9d">&#9670;&#160;</a></span>Entity</h2>
+<a id="ace2e38f3b86984de056d7c851774ab40" name="ace2e38f3b86984de056d7c851774ab40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace2e38f3b86984de056d7c851774ab40">&#9670;&#160;</a></span>Entity</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#a397a3e175266f81a15d92c0a61441d9d">Core::ECS::Entity</a> = Uint32</td>
+          <td class="memname">using <a class="el" href="#ace2e38f3b86984de056d7c851774ab40">Core::ECS::Entity</a> = Sint32</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a42eadb3cb9483d574508300672cbc1c0" name="a42eadb3cb9483d574508300672cbc1c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42eadb3cb9483d574508300672cbc1c0">&#9670;&#160;</a></span>Signature</h2>
+<a id="a4831a7451a28d4dd2c0bcae22856b5ac" name="a4831a7451a28d4dd2c0bcae22856b5ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4831a7451a28d4dd2c0bcae22856b5ac">&#9670;&#160;</a></span>Signature</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#a42eadb3cb9483d574508300672cbc1c0">Core::ECS::Signature</a> = std::bitset&lt;<a class="el" href="#a31d74c97656af4a160dd73171f582644">MAX_COMPONENTS</a>&gt;</td>
+          <td class="memname">using <a class="el" href="#a4831a7451a28d4dd2c0bcae22856b5ac">Core::ECS::Signature</a> = std::bitset&lt;<a class="el" href="namespace_config.html#a01afcef86a5c31e442976c2c6ebd4e0b">Config::MAX_COMPONENTS</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -219,9 +221,10 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a280740e992b331c3bc8489bcb890f125afb56fb9b26e7037590b59fc139f9ca3d" name="a280740e992b331c3bc8489bcb890f125afb56fb9b26e7037590b59fc139f9ca3d"></a>OnInit&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a280740e992b331c3bc8489bcb890f125a70a1eb25fda36e42a01919d06b7f7a4d" name="a280740e992b331c3bc8489bcb890f125a70a1eb25fda36e42a01919d06b7f7a4d"></a>OnStart&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a280740e992b331c3bc8489bcb890f125a3dc69d5cdda4fd3fe9de88e4e4db15ee" name="a280740e992b331c3bc8489bcb890f125a3dc69d5cdda4fd3fe9de88e4e4db15ee"></a>OnPreEvent&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a280740e992b331c3bc8489bcb890f125a2c47bd0a4185c2e5a187d4642ed0a2d4" name="a280740e992b331c3bc8489bcb890f125a2c47bd0a4185c2e5a187d4642ed0a2d4"></a>OnEvent&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a280740e992b331c3bc8489bcb890f125a7365b1973258c93fde3998272e4b1b0c" name="a280740e992b331c3bc8489bcb890f125a7365b1973258c93fde3998272e4b1b0c"></a>OnWindowResize&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a280740e992b331c3bc8489bcb890f125adad07967ee58700afec07a543d5a5e46" name="a280740e992b331c3bc8489bcb890f125adad07967ee58700afec07a543d5a5e46"></a>OnUpdate&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a280740e992b331c3bc8489bcb890f125a6c03367cce64232b2e7b1c4939dd937b" name="a280740e992b331c3bc8489bcb890f125a6c03367cce64232b2e7b1c4939dd937b"></a>OnRender&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a280740e992b331c3bc8489bcb890f125a2e59d0f48c520dbcc3d9630761fd5dd7" name="a280740e992b331c3bc8489bcb890f125a2e59d0f48c520dbcc3d9630761fd5dd7"></a>OnPostRender&#160;</td><td class="fielddoc"></td></tr>
@@ -229,32 +232,34 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a31d74c97656af4a160dd73171f582644" name="a31d74c97656af4a160dd73171f582644"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31d74c97656af4a160dd73171f582644">&#9670;&#160;</a></span>MAX_COMPONENTS</h2>
+<a id="a00347a8b4864c5b2d16fbf492f45d353" name="a00347a8b4864c5b2d16fbf492f45d353"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00347a8b4864c5b2d16fbf492f45d353">&#9670;&#160;</a></span>LoggingType</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="#ad5754c4234199ebef6bd4e97043ee62d">ComponentType</a> Core::ECS::MAX_COMPONENTS = 32</td>
+          <td class="memname">enum class <a class="el" href="#a00347a8b4864c5b2d16fbf492f45d353">Core::ECS::LoggingType</a></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="acc92484cb31da35075350f6cadb14974" name="acc92484cb31da35075350f6cadb14974"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc92484cb31da35075350f6cadb14974">&#9670;&#160;</a></span>MAX_ENTITIES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="#a397a3e175266f81a15d92c0a61441d9d">Entity</a> Core::ECS::MAX_ENTITIES = 5000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Used for setting the logging level. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a00347a8b4864c5b2d16fbf492f45d353adc30ec20708ef7b0f641ef78b7880a15" name="a00347a8b4864c5b2d16fbf492f45d353adc30ec20708ef7b0f641ef78b7880a15"></a>DEBUG&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a00347a8b4864c5b2d16fbf492f45d353a551b723eafd6a31d444fcb2f5920fbd3" name="a00347a8b4864c5b2d16fbf492f45d353a551b723eafd6a31d444fcb2f5920fbd3"></a>INFO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a00347a8b4864c5b2d16fbf492f45d353a059e9861e0400dfbe05c98a841f3f96b" name="a00347a8b4864c5b2d16fbf492f45d353a059e9861e0400dfbe05c98a841f3f96b"></a>WARNING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a00347a8b4864c5b2d16fbf492f45d353abb1ca97ec761fc37101737ba0aa2e7c5" name="a00347a8b4864c5b2d16fbf492f45d353abb1ca97ec761fc37101737ba0aa2e7c5"></a>ERROR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a00347a8b4864c5b2d16fbf492f45d353a19da7170bea36556dde582519795f3fc" name="a00347a8b4864c5b2d16fbf492f45d353a19da7170bea36556dde582519795f3fc"></a>FATAL&#160;</td><td class="fielddoc"></td></tr>
+</table>
 
 </div>
 </div>

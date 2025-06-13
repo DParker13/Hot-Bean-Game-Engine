@@ -14,7 +14,8 @@
 namespace Core {
     namespace Managers {
         ComponentManager::ComponentManager(std::shared_ptr<LoggingManager> logging_manager)
-            : m_logging_manager(logging_manager), m_registered_components(0) {}
+            : m_logging_manager(logging_manager), m_registered_components(0), m_testing(false) {}
+        ComponentManager::ComponentManager() : m_registered_components(0), m_testing(false) {}
         ComponentManager::~ComponentManager() = default;
 
         /**

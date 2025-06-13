@@ -1,7 +1,7 @@
 Window:
-  title: "HotBeanEngine"
+  title: "Hot Bean Engine Game Example"
   width: 1440
   height: 720
 Logging:
-  path: "./logs/log.txt"
-  level: 3
+  path: "./logs/log.txt" # Path to the log file
+  level: 3  # DEBUG = 0, INFO, WARNING, ERROR, FATAL = 4

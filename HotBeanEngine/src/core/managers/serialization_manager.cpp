@@ -6,12 +6,16 @@ namespace Core::Managers {
         : m_ecs_manager(ecs_manager), m_logging_manager(logging_manager) {}
 
     void SerializationManager::LoadScene(std::shared_ptr<Scene> scene) {
+        LoadScene(scene, false);
+    }
+
+    void SerializationManager::LoadScene(std::shared_ptr<Scene> scene, bool save_to_file) {
         assert(scene && "Scene is null.");
 
         try {
             // Unload current scene if a new one is being loaded
             if (m_current_scene && m_current_scene != scene) {
-                UnloadScene();
+                UnloadScene(save_to_file);
             }
 
             m_current_scene = scene;
@@ -25,7 +29,12 @@ namespace Core::Managers {
                 throw std::runtime_error("Scene file does not exist: "+ m_current_scene->m_scene_path);
             }
 
+            m_current_scene->SetupPreSystems();
+            m_current_scene->SetupPostSystems();
+
             DeserializeScene(m_current_scene->m_scene_path);
+
+            m_ecs_manager->IterateSystems(GameLoopState::OnStart);
 
             m_logging_manager->Log(LoggingType::INFO, "Scene loaded.");
         } catch (const YAML::Exception& e) {
@@ -35,7 +44,7 @@ namespace Core::Managers {
         m_current_scene->SetupScene();
     }
 
-    void SerializationManager::UnloadScene() {
+    void SerializationManager::UnloadScene(bool save_to_file) {
         assert(m_current_scene && "Current scene is null.");
 
         try {
@@ -43,20 +52,21 @@ namespace Core::Managers {
             m_logging_manager->Log(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
 
             // Attempt to serialize scene to file
-            SerializeScene("C:\\Users\\danie\\Documents\\GitHub\\HotBeanEngine\\bin\\scenes\\test-saving.yaml");
+            if (save_to_file) {
+                SerializeScene(m_current_scene->m_scene_path);
+            }
 
             // Destroy all entities
             for (Entity entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
                 m_ecs_manager->DestroyEntity(entity);
             }
 
+            // TODO: Unload all systems
+
             m_logging_manager->Log(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
         } catch (const YAML::Exception& e) {
             std::cerr << "Error serializing to YAML file: " << e.what() << std::endl;
         }
-
-        // Unload any manually coded entities from the scene
-        m_current_scene->UnloadScene();
     }
 
     void SerializationManager::RegisterScene(std::shared_ptr<Scene> scene) {
@@ -66,17 +76,17 @@ namespace Core::Managers {
         m_scenes.emplace(scene->m_name, scene);
     }
 
-    void SerializationManager::RemoveScene(std::shared_ptr<Scene> scene) {
+    void SerializationManager::RemoveScene(std::shared_ptr<Scene> scene, bool save_to_file) {
         assert(scene && "Scene is null.");
 
-        RemoveScene(scene->m_name);
+        RemoveScene(scene->m_name, save_to_file);
     }
 
-    void SerializationManager::RemoveScene(std::string name) {
+    void SerializationManager::RemoveScene(std::string name, bool save_to_file) {
         assert(m_scenes.find(name) != m_scenes.end() && "Scene isn't registered.");
 
         if (m_current_scene->m_name == name) {
-            UnloadScene();
+            UnloadScene(save_to_file);
         }
 
         m_scenes.erase(name);
@@ -114,7 +124,7 @@ namespace Core::Managers {
     // TODO: Replace this with a better solution. Maybe use the TransformSystem.m_entities member instead
     void SerializationManager::MapParentEntities() {
         for (Entity entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
-            if (m_ecs_manager->HasComponentType<Components::Transform2D>(entity)) {
+            if (m_ecs_manager->HasComponent<Components::Transform2D>(entity)) {
                 Entity parent_entity = m_ecs_manager->GetComponent<Components::Transform2D>(entity).m_parent;
 
                 if (m_parent_entity_map.find(parent_entity) == m_parent_entity_map.end()) {

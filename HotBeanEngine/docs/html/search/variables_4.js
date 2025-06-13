@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['gravity_0',['gravity',['../struct_components_1_1_rigid_body.html#aaf83e152b11a558f2717165031bfca7f',1,'Components::RigidBody']]]
+  ['log_5fpath_0',['LOG_PATH',['../namespace_config.html#ad1f7fec8083ca86dacac0c9e90d3350b',1,'Config']]],
+  ['logging_5flevel_1',['LOGGING_LEVEL',['../namespace_config.html#a36a2f8ae968f0ee96b905028c9d9f1cf',1,'Config']]]
 ];

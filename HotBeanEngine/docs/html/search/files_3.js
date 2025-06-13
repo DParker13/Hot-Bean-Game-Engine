@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fps_2dcounter_2ehpp_0',['fps-counter.hpp',['../fps-counter_8hpp.html',1,'']]]
+  ['default_5farchetypes_2ehpp_0',['default_archetypes.hpp',['../default__archetypes_8hpp.html',1,'']]]
 ];

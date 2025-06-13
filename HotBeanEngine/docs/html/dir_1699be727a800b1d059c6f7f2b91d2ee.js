@@ -1,5 +1,6 @@
 var dir_1699be727a800b1d059c6f7f2b91d2ee =
 [
-    [ "game.cpp", "game_8cpp.html", null ],
-    [ "game.hpp", "game_8hpp.html", "game_8hpp" ]
+    [ "base_game.cpp", "base__game_8cpp.html", null ],
+    [ "base_game.hpp", "base__game_8hpp.html", "base__game_8hpp" ],
+    [ "base_scene.hpp", "base__scene_8hpp.html", "base__scene_8hpp" ]
 ];

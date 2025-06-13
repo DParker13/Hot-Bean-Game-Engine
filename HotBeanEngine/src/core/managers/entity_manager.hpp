@@ -23,13 +23,14 @@ namespace Core::Managers {
     class EntityManager {
         public:
             EntityManager(std::shared_ptr<LoggingManager> logging_manager);
+            EntityManager();
             ~EntityManager();
 
             Entity CreateEntity();
             void DestroyEntity(Entity entity);
             Signature SetSignature(Entity entity, ComponentType component_type);
             Signature GetSignature(Entity entity);
-            bool HasComponentType(Entity entity, ComponentType component_type);
+            bool HasComponent(Entity entity, ComponentType component_type);
             Entity EntityCount() const;
 
         private:
@@ -44,5 +45,9 @@ namespace Core::Managers {
 
             // Total living entities - used to keep limits on how many exist
             Entity m_living_entity_count = 0;
+
+            bool m_testing = false;
+
+            void InitializeEntityQueue();
     };
 }

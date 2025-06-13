@@ -3,7 +3,7 @@ add_library(application STATIC
     all_application.hpp
     app.cpp
     app.hpp
-    gameobject.hpp
+    archetype.hpp
     macros.hpp
 )
 

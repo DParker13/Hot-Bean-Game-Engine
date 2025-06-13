@@ -8,9 +8,9 @@ namespace Core::Application {
         ecs_manager.RegisterComponentType<Components::Collider2D>();
         ecs_manager.RegisterComponentType<Components::Controller>();
         ecs_manager.RegisterComponentType<Components::RigidBody>();
+        ecs_manager.RegisterComponentType<Components::Shape>();
         ecs_manager.RegisterComponentType<Components::Text>();
         ecs_manager.RegisterComponentType<Components::Texture>();
-        ecs_manager.RegisterComponentType<Components::Tile>();
         ecs_manager.RegisterComponentType<Components::Transform2D>();
         ecs_manager.RegisterComponentType<Components::UIElement>();
     }
@@ -22,6 +22,7 @@ namespace Core::Application {
      * @param ecs_manager ECS Manager
      * @param component_name Component Name
      * @param node Component YAML Node
+     * @param parent_entity Parent Entity
      * @param entity Entity
      */
     void ComponentFactory::CreateComponent(Core::Managers::ECSManager& ecs_manager, const std::string& component_name,
@@ -42,14 +43,14 @@ namespace Core::Application {
             else if (component_name == "RigidBody") {
                 AddComponent<Components::RigidBody>(ecs_manager, entity, node);
             }
+            else if (component_name == "Shape") {
+                AddComponent<Components::Shape>(ecs_manager, entity, node);
+            }
             else if (component_name == "Text") {
                 AddComponent<Components::Text>(ecs_manager, entity, node);
             }
             else if (component_name == "Texture") {
                 AddComponent<Components::Texture>(ecs_manager, entity, node);
-            }
-            else if (component_name == "Tile") {
-                AddComponent<Components::Tile>(ecs_manager, entity, node);
             }
             else if (component_name == "Transform2D") {
                 AddComponent<Components::Transform2D>(ecs_manager, entity, node);

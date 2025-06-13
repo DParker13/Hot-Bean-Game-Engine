@@ -90,8 +90,8 @@ namespace Core::Managers {
         return m_entity_manager->EntityCount();
     }
 
-    bool ECSManager::HasComponentType(Entity entity, std::string component_name) const {
-        return m_entity_manager->HasComponentType(entity, GetComponentType(component_name));
+    bool ECSManager::HasComponent(Entity entity, std::string component_name) const {
+        return m_entity_manager->HasComponent(entity, GetComponentType(component_name));
     }
 
     /**

@@ -1,9 +1,8 @@
-add_library(test_game STATIC
-    test_game.cpp
-    test_game.hpp
+add_library(game STATIC
+    example_game.cpp
+    example_game.hpp
 )
 
-target_link_libraries(test_game PUBLIC
-    HotBeanEngine
-    test_systems
+target_link_libraries(game PUBLIC
+    scenes
 )

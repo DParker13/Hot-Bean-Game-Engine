@@ -4,7 +4,7 @@
 #include <SDL.h>
 
 namespace Core::ECS {
-    // Entity is an unsigned 32-bit integer
+    // Entity is a signed 32-bit integer
     // This is used to identify an entity
-    using Entity = Uint32;
+    using Entity = Sint32;
 }

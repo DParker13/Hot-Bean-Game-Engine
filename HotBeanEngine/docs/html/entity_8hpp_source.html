@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HotBeanEngine: C:/Users/danie/Documents/GitHub/HotBeanEngine/src/core/ecs/entity.hpp Source File</title>
+<title>HotBeanEngine: C:/Users/danie/Documents/GitHub/HotBeanEngine/HotBeanEngine/src/core/ecs/entity.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -105,19 +105,13 @@ $(function(){initNavTree('entity_8hpp_source.html',''); initResizable(true); });
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;SDL_stdinc.h&gt;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;SDL.h&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_core.html">Core</a> {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_core_1_1_e_c_s.html">ECS</a> {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="comment">// Entity is an unsigned 32-bit integer</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <span class="comment">// This is used to identify an entity</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="namespace_core_1_1_e_c_s.html#a397a3e175266f81a15d92c0a61441d9d">   10</a></span>        <span class="keyword">using </span><a class="code hl_typedef" href="namespace_core_1_1_e_c_s.html#a397a3e175266f81a15d92c0a61441d9d">Entity</a> = Uint32;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="namespace_core_1_1_e_c_s.html#acc92484cb31da35075350f6cadb14974">   12</a></span>        <span class="keyword">const</span> <a class="code hl_typedef" href="namespace_core_1_1_e_c_s.html#a397a3e175266f81a15d92c0a61441d9d">Entity</a> <a class="code hl_variable" href="namespace_core_1_1_e_c_s.html#acc92484cb31da35075350f6cadb14974">MAX_ENTITIES</a> = 5000;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    }</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>}</div>
-<div class="ttc" id="anamespace_core_1_1_e_c_s_html"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html">Core::ECS</a></div><div class="ttdef"><b>Definition</b> gameobject.hpp:8</div></div>
-<div class="ttc" id="anamespace_core_1_1_e_c_s_html_a397a3e175266f81a15d92c0a61441d9d"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html#a397a3e175266f81a15d92c0a61441d9d">Core::ECS::Entity</a></div><div class="ttdeci">Uint32 Entity</div><div class="ttdef"><b>Definition</b> entity.hpp:10</div></div>
-<div class="ttc" id="anamespace_core_1_1_e_c_s_html_acc92484cb31da35075350f6cadb14974"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html#acc92484cb31da35075350f6cadb14974">Core::ECS::MAX_ENTITIES</a></div><div class="ttdeci">const Entity MAX_ENTITIES</div><div class="ttdef"><b>Definition</b> entity.hpp:12</div></div>
-<div class="ttc" id="anamespace_core_html"><div class="ttname"><a href="namespace_core.html">Core</a></div><div class="ttdef"><b>Definition</b> app.cpp:15</div></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_core_1_1_e_c_s.html">Core::ECS</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="comment">// Entity is a signed 32-bit integer</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="comment">// This is used to identify an entity</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="namespace_core_1_1_e_c_s.html#ace2e38f3b86984de056d7c851774ab40">    9</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="namespace_core_1_1_e_c_s.html#ace2e38f3b86984de056d7c851774ab40">Entity</a> = Sint32;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>}</div>
+<div class="ttc" id="anamespace_core_1_1_e_c_s_html"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html">Core::ECS</a></div><div class="ttdef"><b>Definition</b> archetype.hpp:8</div></div>
+<div class="ttc" id="anamespace_core_1_1_e_c_s_html_ace2e38f3b86984de056d7c851774ab40"><div class="ttname"><a href="namespace_core_1_1_e_c_s.html#ace2e38f3b86984de056d7c851774ab40">Core::ECS::Entity</a></div><div class="ttdeci">Sint32 Entity</div><div class="ttdef"><b>Definition</b> entity.hpp:9</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

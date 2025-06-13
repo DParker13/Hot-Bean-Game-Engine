@@ -23,12 +23,28 @@ namespace Core::Managers {
 
         m_logging_manager->Log(LoggingType::DEBUG, "Initializing EntityManager");
 
-        // Initializing available entities queue based on MAX_ENTITIES
+        InitializeEntityQueue();
+
+        m_logging_manager->Log(LoggingType::DEBUG, "Initialized " + std::to_string(m_available_entities.size()) + " Entities");
+    }
+
+    EntityManager::EntityManager() {
+        InitializeEntityQueue();
+    }
+
+    EntityManager::~EntityManager() = default;
+
+    /**
+     * @brief Initializes the queue of available entity IDs.
+     * 
+     * This function fills the queue with all possible entity IDs, making them 
+     * available for future use. The entity IDs range from 0 to MAX_ENTITIES - 1.
+     * 
+     */
+    void EntityManager::InitializeEntityQueue() {
         for (Entity entity_id = 0; entity_id < MAX_ENTITIES; entity_id++) {
             m_available_entities.push(entity_id);
         }
-
-        m_logging_manager->Log(LoggingType::DEBUG, "Initialized " + std::to_string(m_available_entities.size()) + " Entities");
     }
 
     /**
@@ -51,7 +67,7 @@ namespace Core::Managers {
 
         m_logging_manager->Log(LoggingType::DEBUG, "Entity \"" + std::to_string(id) + "\" created.");
         m_logging_manager->Log(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
-        m_logging_manager->Log(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
+        m_logging_manager->Log(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size() - 1));
 
         return id;
     }
@@ -115,13 +131,11 @@ namespace Core::Managers {
         return m_signatures[entity];
     }
 
-    bool EntityManager::HasComponentType(Entity entity, ComponentType component_type) {
+    bool EntityManager::HasComponent(Entity entity, ComponentType component_type) {
         return GetSignature(entity).test(component_type);
     }
 
     Entity EntityManager::EntityCount() const {
         return m_living_entity_count;
     }
-
-    EntityManager::~EntityManager() = default;
 }

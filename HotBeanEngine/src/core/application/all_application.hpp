@@ -1,5 +1,5 @@
 #pragma once
 
 #include "app.hpp"
-#include "gameobject.hpp"
+#include "archetype.hpp"
 #include "macros.hpp"

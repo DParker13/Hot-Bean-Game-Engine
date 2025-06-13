@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.11)
 project("HotBeanEngine")
 
 set(CMAKE_CXX_STANDARD 17)
@@ -9,6 +8,8 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}'")
+
+set(BUILD_SHARED_LIBS OFF)
 
 include(FetchContent)
 # Turn off FetchContent for offline mode
@@ -57,12 +58,29 @@ FetchContent_Declare(
     GIT_TAG 0.8.0
 )
 
-set(SDL2TTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
-set(SDL2MIXER_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
-set(YAML_BUILD_SHARED_LIBS OFF)
-# set(SDL2TTF_HARFBUZZ OFF CACHE BOOL "Use harfbuzz to improve text shaping" FORCE)
+# Fetch Catch2
+FetchContent_Declare(
+    catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG v3.8.1
+)
 
-FetchContent_MakeAvailable(glm SDL2 SDL2TTF SDL2Mixer SDL2Image yaml_cpp)
+# Set all third-party libraries to static
+set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+set(SDL_STATIC ON CACHE BOOL "" FORCE)
+set(YAML_BUILD_SHARED_LIBS OFF)
+
+set(SDL2TTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+# set(SDL2TTF_HARFBUZZ OFF CACHE BOOL "Use harfbuzz to improve text shaping" FORCE)
+set(SDL2MIXER_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+
+# SDL2Image hasn't been implemented yet
+# set(SDL2IMAGE_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+
+FetchContent_MakeAvailable(glm SDL2 SDL2TTF SDL2Mixer SDL2Image yaml_cpp catch2)
+
+# Find catch2 tests and add them to the build
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 
 # Include directories
 include_directories(
@@ -71,15 +89,27 @@ include_directories(
     ${SDL2_mixer_SOURCE_DIR}/include
     ${SDL2_image_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}/glm
+    ${catch2_SOURCE_DIR}/src
 )
 
-add_library(${PROJECT_NAME} STATIC
-    src
+add_library(${PROJECT_NAME} SHARED
+    src/game
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
-    src
+    base_game
+    SDL2::SDL2main
 )
 
-# Add source directories
-add_subdirectory(src)
+# Only add these if using GCC/MinGW
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(${PROJECT_NAME} PUBLIC
+        -mwindows
+        -static-libstdc++ -static-libgcc
+    )
+endif()
+
+# Add subdirectories for project modules
+add_subdirectory(src/core)
+add_subdirectory(src/archetypes)
+add_subdirectory(src/game)

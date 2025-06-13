@@ -159,11 +159,11 @@ namespace Core {
         }
     
         /**
-         * @brief Runs the main loop of the application.
+         * @brief Runs the main game loop of the application.
          */
         void App::Run() {
             SDL_Event event;
-    
+
             OnStart();
     
             while (!m_quit) {
@@ -240,12 +240,11 @@ namespace Core {
     
         /**
          * @brief Initializes the application systems and iterates through the
-         * systems in the system manager, calling their OnInit methods.
+         * systems in the system manager, calling their OnStart methods.
          */
         void App::OnStart() {
-            SetupSystems();
-    
-            m_ecs_manager->IterateSystems(GameLoopState::OnInit);
+            // This is also called when a scene is loaded. (Should this just be removed?)
+            m_ecs_manager->IterateSystems(GameLoopState::OnStart);
         }
 
         /**

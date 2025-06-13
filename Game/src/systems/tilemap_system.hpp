@@ -2,7 +2,7 @@
 
 #include <HotBeanEngine.hpp>
 
-using namespace Components;
+using namespace Core::Components;
 using namespace Core::Application;
 using namespace Core::ECS;
 
@@ -14,12 +14,14 @@ namespace Systems {
             //System Interface Overrides
             void SetSignature() override;
             void OnStart() override;
-
-            void CreateRect(Transform2D* transform, Components::Tile* tile, Texture* texture);
-            void InitMap(Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY);
+            void OnRender() override;
 
         private:
             std::vector<SDL_FRect> m_rects;
+            Texture* map_texture;
+
+            void CreateRect(Entity entity);
+            void InitMap(Uint8 tileSize, Uint8 spacing, Uint32 numTilesX, Uint32 numTilesY);
             
     };
 }

@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['game_2ecpp_0',['game.cpp',['../game_8cpp.html',1,'']]],
-  ['game_2ehpp_1',['game.hpp',['../game_8hpp.html',1,'']]],
-  ['game_5floop_2ehpp_2',['game_loop.hpp',['../game__loop_8hpp.html',1,'']]],
-  ['gameobject_2ehpp_3',['gameobject.hpp',['../gameobject_8hpp.html',1,'']]],
-  ['grid_2ecpp_4',['Grid.cpp',['../_grid_8cpp.html',1,'']]],
-  ['grid_2eh_5',['Grid.h',['../_grid_8h.html',1,'']]]
+  ['ecs_5fmanager_2ecpp_0',['ecs_manager.cpp',['../ecs__manager_8cpp.html',1,'']]],
+  ['ecs_5fmanager_2ehpp_1',['ecs_manager.hpp',['../ecs__manager_8hpp.html',1,'']]],
+  ['entity_2ehpp_2',['entity.hpp',['../entity_8hpp.html',1,'']]],
+  ['entity_5fmanager_2ecpp_3',['entity_manager.cpp',['../entity__manager_8cpp.html',1,'']]],
+  ['entity_5fmanager_2ehpp_4',['entity_manager.hpp',['../entity__manager_8hpp.html',1,'']]]
 ];

@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['end_0',['end',['../class_core_1_1_e_c_s_1_1_sparse_set.html#a1f2a24e463d0289f55594048946b78a9',1,'Core::ECS::SparseSet']]],
-  ['entitydestroyed_1',['EntityDestroyed',['../class_core_1_1_managers_1_1_system_manager.html#ad3ff81be7af47386b5d01b0284403f97',1,'Core::Managers::SystemManager']]],
-  ['entitymanager_2',['EntityManager',['../class_core_1_1_managers_1_1_entity_manager.html#a09375d95bbcdb11d3d4f4c4fc2b69593',1,'Core::Managers::EntityManager']]],
-  ['entitysignaturechanged_3',['EntitySignatureChanged',['../class_core_1_1_managers_1_1_system_manager.html#a70e4e0d78a3996481523d3d9ac861735',1,'Core::Managers::SystemManager']]]
+  ['ecsmanager_0',['ECSManager',['../class_core_1_1_managers_1_1_e_c_s_manager.html#aa67c950024cef04d2ae8560846095939',1,'Core::Managers::ECSManager']]],
+  ['encode_1',['encode',['../struct_y_a_m_l_1_1convert_3_01glm_1_1vec2_01_4.html#aaf76f2d497cb81be7bab80098823247f',1,'YAML::convert&lt; glm::vec2 &gt;::encode()'],['../struct_y_a_m_l_1_1convert_3_01glm_1_1ivec2_01_4.html#ae81f415aaf400f56964bf7c67a7ff2bd',1,'YAML::convert&lt; glm::ivec2 &gt;::encode()'],['../struct_y_a_m_l_1_1convert_3_01glm_1_1quat_01_4.html#aca14ebe67a12892fb5cf2b18d356a753',1,'YAML::convert&lt; glm::quat &gt;::encode()'],['../struct_y_a_m_l_1_1convert_3_01glm_1_1vec3_01_4.html#ae46f1215f1184d1c72af41527999f6df',1,'YAML::convert&lt; glm::vec3 &gt;::encode()'],['../struct_y_a_m_l_1_1convert_3_01_s_d_l___color_01_4.html#abb34a48670e99f40b9c5efddb083bc6a',1,'YAML::convert&lt; SDL_Color &gt;::encode()']]],
+  ['end_2',['end',['../class_core_1_1_e_c_s_1_1_sparse_set.html#a1f2a24e463d0289f55594048946b78a9',1,'Core::ECS::SparseSet']]],
+  ['entitycount_3',['EntityCount',['../class_core_1_1_managers_1_1_e_c_s_manager.html#af7239c9c2881bbdd27b3bc450d3114c2',1,'Core::Managers::ECSManager::EntityCount()'],['../class_core_1_1_managers_1_1_entity_manager.html#adb25a839593b29f8cc98b6760da06527',1,'Core::Managers::EntityManager::EntityCount()']]],
+  ['entitydestroyed_4',['EntityDestroyed',['../class_core_1_1_managers_1_1_system_manager.html#ad3ff81be7af47386b5d01b0284403f97',1,'Core::Managers::SystemManager']]],
+  ['entitymanager_5',['EntityManager',['../class_core_1_1_managers_1_1_entity_manager.html#ac2e89a89bfc9b7405bd2badde76b1f16',1,'Core::Managers::EntityManager::EntityManager(std::shared_ptr&lt; LoggingManager &gt; logging_manager)'],['../class_core_1_1_managers_1_1_entity_manager.html#a09375d95bbcdb11d3d4f4c4fc2b69593',1,'Core::Managers::EntityManager::EntityManager()']]],
+  ['entitysignaturechanged_6',['EntitySignatureChanged',['../class_core_1_1_managers_1_1_system_manager.html#af2924510c4a1070986b7a3423b7df2c6',1,'Core::Managers::SystemManager']]]
 ];

@@ -58,7 +58,6 @@ namespace Core::Managers {
 			 * @tparam T The type of system to be registered.
 			 *
 			 * @return A shared pointer to the system.
-			 *
 			 * @throws assertion failure if the system type has already been registered.
 			 */
 			template<typename T>

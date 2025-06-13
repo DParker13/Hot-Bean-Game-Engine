@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HotBeanEngine: C:/Users/danie/Documents/GitHub/HotBeanEngine/src/config/config.hpp File Reference</title>
+<title>HotBeanEngine: C:/Users/danie/Documents/GitHub/HotBeanEngine/HotBeanEngine/src/core/ecs/config.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -98,104 +98,50 @@ $(function(){initNavTree('config_8hpp.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">config.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Setups up global constants (This should be moved to a config file in the future)  
-<a href="#details">More...</a></p>
-
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;yaml-cpp/yaml.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="entity_8hpp_source.html">entity.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="component_8hpp_source.html">component.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="logging__type_8hpp_source.html">logging_type.hpp</a>&quot;</code><br />
+</div>
 <p><a href="config_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html">Config</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a7c7b585bb218cdff89e0d45892c94c60" id="r_a7c7b585bb218cdff89e0d45892c94c60"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c7b585bb218cdff89e0d45892c94c60">WINDOW_TITLE</a> = &quot;Hot Bean Engine&quot;</td></tr>
-<tr class="separator:a7c7b585bb218cdff89e0d45892c94c60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3482785bd2a4c8b307f9e0b6f54e2c36" id="r_a3482785bd2a4c8b307f9e0b6f54e2c36"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3482785bd2a4c8b307f9e0b6f54e2c36">SCREEN_WIDTH</a> = 1280</td></tr>
-<tr class="separator:a3482785bd2a4c8b307f9e0b6f54e2c36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab454541ae58bcf6555e8d723b1eb95e7" id="r_ab454541ae58bcf6555e8d723b1eb95e7"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab454541ae58bcf6555e8d723b1eb95e7">SCREEN_HEIGHT</a> = 720</td></tr>
-<tr class="separator:ab454541ae58bcf6555e8d723b1eb95e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8d9bc3fa18b1bff715829abaff28608" id="r_ab8d9bc3fa18b1bff715829abaff28608"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_core_1_1_e_c_s.html#ace2e38f3b86984de056d7c851774ab40">Entity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html#ab8d9bc3fa18b1bff715829abaff28608">Config::MAX_ENTITIES</a> = 50000</td></tr>
+<tr class="separator:ab8d9bc3fa18b1bff715829abaff28608"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01afcef86a5c31e442976c2c6ebd4e0b" id="r_a01afcef86a5c31e442976c2c6ebd4e0b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_core_1_1_e_c_s.html#ad5754c4234199ebef6bd4e97043ee62d">ComponentType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html#a01afcef86a5c31e442976c2c6ebd4e0b">Config::MAX_COMPONENTS</a> = 64</td></tr>
+<tr class="separator:a01afcef86a5c31e442976c2c6ebd4e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a328f7e9b306acc134c6995bab56e81de" id="r_a328f7e9b306acc134c6995bab56e81de"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html#a328f7e9b306acc134c6995bab56e81de">Config::WINDOW_TITLE</a> = &quot;Hot Bean Engine&quot;</td></tr>
+<tr class="separator:a328f7e9b306acc134c6995bab56e81de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ee93c90673de8a8d393db6b10068aa4" id="r_a9ee93c90673de8a8d393db6b10068aa4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html#a9ee93c90673de8a8d393db6b10068aa4">Config::SCREEN_WIDTH</a> = 1280</td></tr>
+<tr class="separator:a9ee93c90673de8a8d393db6b10068aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7906f35dbab2f983fb84bf1c7d37fd7f" id="r_a7906f35dbab2f983fb84bf1c7d37fd7f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html#a7906f35dbab2f983fb84bf1c7d37fd7f">Config::SCREEN_HEIGHT</a> = 720</td></tr>
+<tr class="separator:a7906f35dbab2f983fb84bf1c7d37fd7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36a2f8ae968f0ee96b905028c9d9f1cf" id="r_a36a2f8ae968f0ee96b905028c9d9f1cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_core_1_1_e_c_s.html#a00347a8b4864c5b2d16fbf492f45d353">LoggingType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html#a36a2f8ae968f0ee96b905028c9d9f1cf">Config::LOGGING_LEVEL</a> = LoggingType::DEBUG</td></tr>
+<tr class="separator:a36a2f8ae968f0ee96b905028c9d9f1cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1f7fec8083ca86dacac0c9e90d3350b" id="r_ad1f7fec8083ca86dacac0c9e90d3350b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html#ad1f7fec8083ca86dacac0c9e90d3350b">Config::LOG_PATH</a> = &quot;./logs/log.txt&quot;</td></tr>
+<tr class="separator:ad1f7fec8083ca86dacac0c9e90d3350b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18cb5bd631467329b3e9c753d32b84c3" id="r_a18cb5bd631467329b3e9c753d32b84c3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_config.html#a18cb5bd631467329b3e9c753d32b84c3">Config::ASSET_PATH</a> = &quot;./assets/&quot;</td></tr>
+<tr class="separator:a18cb5bd631467329b3e9c753d32b84c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Setups up global constants (This should be moved to a config file in the future) </p>
-<dl class="section author"><dt>Author</dt><dd>Daniel Parker (DParker13) </dd></dl>
-<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2025-03-02</dd></dl>
-<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2025 </dd></dl>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="ab454541ae58bcf6555e8d723b1eb95e7" name="ab454541ae58bcf6555e8d723b1eb95e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab454541ae58bcf6555e8d723b1eb95e7">&#9670;&#160;</a></span>SCREEN_HEIGHT</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const int SCREEN_HEIGHT = 720</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3482785bd2a4c8b307f9e0b6f54e2c36" name="a3482785bd2a4c8b307f9e0b6f54e2c36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3482785bd2a4c8b307f9e0b6f54e2c36">&#9670;&#160;</a></span>SCREEN_WIDTH</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const int SCREEN_WIDTH = 1280</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7c7b585bb218cdff89e0d45892c94c60" name="a7c7b585bb218cdff89e0d45892c94c60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c7b585bb218cdff89e0d45892c94c60">&#9670;&#160;</a></span>WINDOW_TITLE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* WINDOW_TITLE = &quot;Hot Bean Engine&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7e83d1792d529f4aa7126ac7e0b3b699.html">config</a></li><li class="navelem"><a class="el" href="config_8hpp.html">config.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li><li class="navelem"><a class="el" href="dir_e78882e66d927567aea45da26daad3d2.html">ecs</a></li><li class="navelem"><a class="el" href="config_8hpp.html">config.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -123,8 +123,8 @@ namespace Core::Managers {
              * @return false 
              */
             template<typename T>
-            bool HasComponentType(Entity entity) const {
-                return m_entity_manager->HasComponentType(entity, m_component_manager->GetComponentType<T>());
+            bool HasComponent(Entity entity) const {
+                return m_entity_manager->HasComponent(entity, m_component_manager->GetComponentType<T>());
             }
 
             /**
@@ -135,7 +135,7 @@ namespace Core::Managers {
              * @return true 
              * @return false 
              */
-            bool HasComponentType(Entity entity, std::string component_name) const;
+            bool HasComponent(Entity entity, std::string component_name) const;
 
             /**
              * Retrieves the Component Name associated with the given component type.

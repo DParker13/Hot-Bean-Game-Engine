@@ -59,9 +59,6 @@ namespace Core::Managers {
         int entity_added_to_systems = 0;
         int entity_removed_from_systems = 0;
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\" Signature changed to"
-            " \"" + entity_signature.to_string() + "\" updating Systems");
-
         // Notify each system that an entity's signature changed
         for (auto& [type_name, system] : m_systems) {
             auto const& system_signature = m_signatures[type_name];
@@ -96,7 +93,7 @@ namespace Core::Managers {
     void SystemManager::IterateSystems(GameLoopState state) {
         for (auto& [type_name, system] : m_systems) {
             switch(state) {
-                case GameLoopState::OnInit:
+                case GameLoopState::OnStart:
                     system->OnStart();
                     break;
                 case GameLoopState::OnPreEvent:
