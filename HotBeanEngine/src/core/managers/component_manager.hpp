@@ -25,7 +25,6 @@ namespace Core::Managers {
     class ComponentManager {
         public:
             ComponentManager(std::shared_ptr<LoggingManager> logging_manager);
-            ComponentManager();
             ~ComponentManager();
     
             void RemoveComponent(Entity entity, ComponentType component_type);
@@ -43,17 +42,13 @@ namespace Core::Managers {
                 static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component!");
                 assert(m_registered_components < MAX_COMPONENTS && "Reached maximum number of component!");
 
-                T component;
-                std::string component_name = component.GetName();
-                assert(!component_name.empty() && "Component name not set!");
+                std::string component_name = GetComponentName<T>();
 
-                if (!m_testing)
-                    m_logging_manager->Log(LoggingType::DEBUG, "Registering Component \"" + component_name + "\"");
+                m_logging_manager->Log(LoggingType::DEBUG, "Registering Component \"" + component_name + "\"");
     
                 ComponentType component_type = m_registered_components;
 
-                if (!m_testing)
-                    m_logging_manager->Log(LoggingType::DEBUG, "\tComponentType \"" + std::to_string(component_type) + "\"");
+                m_logging_manager->Log(LoggingType::DEBUG, "\tComponentType \"" + std::to_string(component_type) + "\"");
     
                 // Maps ComponentType id to Component Object Type name
                 m_component_type_to_name[component_type] = component_name;
@@ -66,8 +61,7 @@ namespace Core::Managers {
     
                 m_registered_components++;
 
-                if (!m_testing)
-                    m_logging_manager->Log(LoggingType::DEBUG, "\t" + std::to_string(m_registered_components) + " Registered Components");
+                m_logging_manager->Log(LoggingType::DEBUG, "\t" + std::to_string(m_registered_components) + " Registered Components");
     
                 return component_type;
             }
@@ -85,15 +79,12 @@ namespace Core::Managers {
                 static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component!");
                 assert(!componentData.GetName().empty() && "Component name not set!");
 
-                if (!m_testing) {
-                    m_logging_manager->Log(LoggingType::DEBUG, "Adding Component \"" + componentData.GetName() + "\" to"
+                m_logging_manager->Log(LoggingType::DEBUG, "Adding Component \"" + componentData.GetName() + "\" to"
                         " Entity \"" + std::to_string(entity) + "\"");
-                }
     
                 // Register component type if it's not already registered
                 if (m_component_name_to_type.find(componentData.GetName()) == m_component_name_to_type.end()) {
-                    if (!m_testing)
-                        m_logging_manager->Log(LoggingType::DEBUG, "\tComponent \"" + componentData.GetName() + "\" not registered... Attempting to Register");
+                    m_logging_manager->Log(LoggingType::DEBUG, "\tComponent \"" + componentData.GetName() + "\" not registered... Attempting to Register");
 
                     RegisterComponentType<T>();
                 }
@@ -114,15 +105,10 @@ namespace Core::Managers {
             ComponentType RemoveComponent(Entity entity) {
                 static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component!");
 
-                T component;
-                std::string component_name = component.GetName();
-                assert(!component_name.empty() && "Component name not set!");
-                assert(m_component_name_to_type.find(component_name) != m_component_name_to_type.end() && "Component not registered!");
+                std::string component_name = GetComponentName<T>();
 
-                if (!m_testing) {
-                    m_logging_manager->Log(LoggingType::DEBUG, "Removing Component \"" + component_name + "\" from"
+                m_logging_manager->Log(LoggingType::DEBUG, "Removing Component \"" + component_name + "\" from"
                         " Entity \"" + std::to_string(entity) + "\"");
-                }
     
                 std::shared_ptr<SparseSet<T, MAX_ENTITIES>> sparseSet = GetComponentSet<T>();
     
@@ -131,8 +117,7 @@ namespace Core::Managers {
     
                 // If the last component is removed, the component array must be destroyed and unregistered
                 if (sparseSet->Size() == 0) {
-                    if (!m_testing)
-                        m_logging_manager->Log(LoggingType::DEBUG, "\tAll \"" + component_name + "\" Components removed... Destroying Component Array");
+                    m_logging_manager->Log(LoggingType::DEBUG, "\tAll \"" + component_name + "\" Components removed... Destroying Component Array");
 
                     m_component_name_to_type.erase(component_name);
                     m_component_name_to_data.erase(component_name);
@@ -165,9 +150,7 @@ namespace Core::Managers {
             ComponentType GetComponentType() {
                 static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component!");
 
-                T component;
-                std::string component_name = component.GetName();
-                assert(!component_name.empty() && "Component name not set!");
+                std::string component_name = GetComponentName<T>();
     
                 if (m_component_name_to_type.find(component_name) == m_component_name_to_type.end()) {
                     return -1;
@@ -216,6 +199,12 @@ namespace Core::Managers {
              * @return false 
              */
             bool IsComponentRegistered(ComponentType component_type) const;
+
+            template<typename T>
+            bool IsComponentRegistered() const {
+                T component;
+                return m_component_name_to_type.find(component.GetName()) != m_component_name_to_type.end();
+            }
             
         private:
             std::shared_ptr<LoggingManager> m_logging_manager;
@@ -232,9 +221,6 @@ namespace Core::Managers {
             //Maps Component Object Type name to sparse set of component data
             //ComponentType names are the keys, sparse set of component data is the value
             std::unordered_map<std::string, std::shared_ptr<ISparseSet>> m_component_name_to_data;
-
-            // Used for unit testing to avoid logging messages
-            bool m_testing = false;
     
             /**
              * @brief Retrieves the sparse set of component data associated with the given component type.
@@ -253,6 +239,15 @@ namespace Core::Managers {
                 assert(m_component_name_to_data.find(component_name) != m_component_name_to_data.end() && "Component not registered!");
     
                 return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(m_component_name_to_data.at(component_name));
+            }
+
+            template<typename T>
+            std::string GetComponentName() const {
+                T component;
+                std::string component_name = component.GetName();
+                assert(!component_name.empty() && "Component name not set!");
+
+                return component_name;
             }
     };
 }

@@ -23,6 +23,7 @@ FetchContent_Declare(
 	GIT_REPOSITORY https://github.com/g-truc/glm.git
 	GIT_TAG 1.0.1
 )
+
 # Fetch SDL2
 FetchContent_Declare(
     SDL2
@@ -65,10 +66,9 @@ FetchContent_Declare(
     GIT_TAG v3.8.1
 )
 
-# Set all third-party libraries to static
-set(SDL_SHARED OFF CACHE BOOL "" FORCE)
-set(SDL_STATIC ON CACHE BOOL "" FORCE)
-set(YAML_BUILD_SHARED_LIBS OFF)
+set(SDL_SHARED OFF CACHE BOOL "Build SDL as a shared library" FORCE)
+set(SDL_STATIC ON CACHE BOOL "Build a static version of the library" FORCE)
+set(YAML_BUILD_SHARED_LIBS OFF CACHE BOOL "Build yaml-cpp shared library" FORCE)
 
 set(SDL2TTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
 # set(SDL2TTF_HARFBUZZ OFF CACHE BOOL "Use harfbuzz to improve text shaping" FORCE)
@@ -79,9 +79,6 @@ set(SDL2MIXER_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
 
 FetchContent_MakeAvailable(glm SDL2 SDL2TTF SDL2Mixer SDL2Image yaml_cpp catch2)
 
-# Find catch2 tests and add them to the build
-list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
-
 # Include directories
 include_directories(
     ${SDL2_SOURCE_DIR}/include
@@ -91,6 +88,10 @@ include_directories(
     ${glm_SOURCE_DIR}/glm
     ${catch2_SOURCE_DIR}/src
 )
+
+if (WIN32)
+    set(HAVE_STRINGS_H 0 CACHE INTERNAL "Windows doesn't have strings.h" FORCE)
+endif()
 
 add_library(${PROJECT_NAME} SHARED
     src/game
@@ -113,3 +114,13 @@ endif()
 add_subdirectory(src/core)
 add_subdirectory(src/archetypes)
 add_subdirectory(src/game)
+
+option(GAME_BUILD_TESTING "${PROJECT_NAME}: Build tests" ON)
+
+if(GAME_BUILD_TESTING)
+    message(STATUS "${PROJECT_NAME}: Building tests")
+    # list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+    enable_testing()
+
+    add_subdirectory(src/unit_tests)
+endif()

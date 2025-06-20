@@ -23,7 +23,6 @@ namespace Core::Managers {
     class EntityManager {
         public:
             EntityManager(std::shared_ptr<LoggingManager> logging_manager);
-            EntityManager();
             ~EntityManager();
 
             Entity CreateEntity();
@@ -45,8 +44,6 @@ namespace Core::Managers {
 
             // Total living entities - used to keep limits on how many exist
             Entity m_living_entity_count = 0;
-
-            bool m_testing = false;
 
             void InitializeEntityQueue();
     };

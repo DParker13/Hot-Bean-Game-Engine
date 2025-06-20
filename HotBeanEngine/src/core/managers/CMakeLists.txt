@@ -21,5 +21,3 @@ target_link_libraries(managers PUBLIC
     ecs
     glm
 )
-
-add_subdirectory(unit_tests)

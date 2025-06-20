@@ -13,10 +13,8 @@ add_library(ecs INTERFACE
 )
 
 target_link_libraries(ecs INTERFACE
-    SDL2::SDL2
+    SDL2::SDL2-static
     yaml-cpp
 )
-
-include_directories(${SDL2_INCLUDE_DIRS})
 
 set_target_properties(ecs PROPERTIES LINKER_LANGUAGE CXX)

@@ -25,11 +25,7 @@ namespace Core::Managers {
 
         InitializeEntityQueue();
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Initialized " + std::to_string(m_available_entities.size()) + " Entities");
-    }
-
-    EntityManager::EntityManager() {
-        InitializeEntityQueue();
+        m_logging_manager->Log(LoggingType::DEBUG, "Initialized " + std::to_string(m_available_entities.size()) + " Entities (starting at 0)");
     }
 
     EntityManager::~EntityManager() = default;

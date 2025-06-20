@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../ecs/component.hpp"
+#include "../../include/HotBeanEngine.hpp"
 
 struct TestComponent : public Core::ECS::Component {
     int m_value = 0;

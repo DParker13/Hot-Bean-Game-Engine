@@ -113,7 +113,7 @@ namespace Core {
 				 */
 				void Remove(size_t index) override {
 					assert(0 <= index && index <= MAX_ITEMS && "Removing item out of range.");
-					assert(_sparse[index] == -1 && "Removing non-existent element.");
+					assert(_sparse[index] != -1 && "Removing non-existent element.");
 	
 					// Replaces the element in the _dense array with the last element in the _dense array
 					_dense[_sparse[index]] = _dense[m_size];

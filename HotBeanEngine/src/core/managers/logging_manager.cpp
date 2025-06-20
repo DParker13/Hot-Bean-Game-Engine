@@ -10,6 +10,10 @@ namespace Core::Managers {
         std::filesystem::create_directories(std::filesystem::path(m_log_path).parent_path());
     }
 
+    LoggingManager::LoggingManager() {
+        SetupDefaultLoggingPath();
+    }
+
     LoggingManager::~LoggingManager() {
         if (m_log_file.is_open()) {
             m_log_file.close();
@@ -17,7 +21,7 @@ namespace Core::Managers {
     }
 
     void LoggingManager::Log(LoggingType type, std::string message) {
-        if (message.empty() || type < m_log_level) {
+        if (m_testing ||message.empty() || type < m_log_level) {
             return;
         }
 
