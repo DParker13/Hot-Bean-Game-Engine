@@ -13,7 +13,7 @@ add_library(ecs INTERFACE
 )
 
 target_link_libraries(ecs INTERFACE
-    SDL2::SDL2-static
+    SDL2::SDL2
     yaml-cpp
 )
 

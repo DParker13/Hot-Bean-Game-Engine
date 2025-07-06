@@ -27,13 +27,9 @@ using namespace Core::ECS;
 namespace Core::Managers {
     // ECSManager combines EntityManager and ComponentManager to manage entities and components together in one system
     class ECSManager {
-        private:
-            std::shared_ptr<LoggingManager> m_logging_manager;
-            std::unique_ptr<EntityManager> m_entity_manager;
-            std::unique_ptr<ComponentManager> m_component_manager;
-            std::unique_ptr<SystemManager> m_system_manager;
-        
         public:
+            std::shared_ptr<LoggingManager> m_logging_manager;
+            
             ECSManager(std::shared_ptr<LoggingManager> logging_manager);
             ~ECSManager() = default;
     
@@ -58,12 +54,24 @@ namespace Core::Managers {
             }
     
             /**
-             * Adds a component to an entity.
-             *
-             * @param entity The ID of the entity to add the component to.
-             * @param component The component to add.
-             *
-             * @throws assertion failure if the entity ID is out of range.
+             * @brief Adds a component of type T to an entity. Registers the component type if it's not already registered.
+             * 
+             * @tparam T Component type
+             * @param entity Entity to add component to
+             */
+            template<typename T>
+            void AddComponent(Entity entity) {
+                ComponentType component_type = m_component_manager->AddComponent<T>(entity);
+                Signature signature = m_entity_manager->SetSignature(entity, component_type);
+                m_system_manager->EntitySignatureChanged(entity, signature);
+            }
+
+            /**
+             * @brief Adds a component of type T to an entity. Registers the component type if it's not already registered.
+             * 
+             * @tparam T Component type
+             * @param entity Entity to add component to
+             * @param component Component to add
              */
             template<typename T>
             void AddComponent(Entity entity, T component) {
@@ -81,19 +89,20 @@ namespace Core::Managers {
              */
             template<typename T>
             void RemoveComponent(Entity entity) {
-                ComponentType component_type = m_component_manager->RemoveComponent<T>(entity);
-                Signature signature = m_entity_manager->SetSignature(entity, component_type);
-                m_system_manager->EntitySignatureChanged(entity, signature);
+                m_component_manager->RemoveComponent<T>(entity);
+
+                if (m_component_manager->IsComponentRegistered<T>()) {
+                    Signature signature = m_entity_manager->SetSignature(entity, GetComponentType<T>());
+                    m_system_manager->EntitySignatureChanged(entity, signature);
+                }
             }
     
             /**
-             * Retrieves a component of type T associated with a given entity.
-             *
-             * @param entity The ID of the entity to retrieve the component for.
-             *
-             * @return A shared pointer to the component of type T.
-             *
-             * @throws assertion failure if the component type is not registered.
+             * @brief Get the Component object
+             * 
+             * @tparam T The type of component
+             * @param entity Entity to get component from
+             * @return T& Reference to the component
              */
             template<typename T>
             T& GetComponent(Entity entity) {
@@ -101,13 +110,10 @@ namespace Core::Managers {
             }
     
             /**
-             * Retrieves the ComponentType id associated with a given component type.
-             *
-             * @tparam T The type of component to retrieve the ComponentType id for.
-             *
-             * @return The ComponentType id associated with the given component type.
-             *
-             * @throws assertion failure if the component type is not registered.
+             * @brief Get the Component Type id
+             * 
+             * @tparam T The type of component
+             * @return ComponentType The ComponentType id
              */
             template<typename T>
             ComponentType GetComponentType() {
@@ -124,7 +130,7 @@ namespace Core::Managers {
              */
             template<typename T>
             bool HasComponent(Entity entity) const {
-                return m_entity_manager->HasComponent(entity, m_component_manager->GetComponentType<T>());
+                return m_component_manager->HasComponent<T>(entity);
             }
 
             /**
@@ -141,7 +147,6 @@ namespace Core::Managers {
              * Retrieves the Component Name associated with the given component type.
              *
              * @param component_type The component type to retrieve the name for.
-             *
              * @return The name associated with the given component type, or an empty string if the component is not registered.
              */
             std::string GetComponentName(ComponentType component_type) const;
@@ -150,9 +155,21 @@ namespace Core::Managers {
              * @brief Get the Component Type object
              * 
              * @param component_name The name of the component
-             * @return ComponentType 
+             * @return ComponentType The ComponentType id
              */
             ComponentType GetComponentType(std::string component_name) const;
+
+            /**
+             * @brief Checks if a component is registered
+             * 
+             * @param component_type The type of the component
+             * @return true 
+             * @return false 
+             */
+            template<typename T>
+            bool IsComponentRegistered() const {
+                return m_component_manager->IsComponentRegistered<T>();
+            };
 
             /**
              * @brief Checks if a component is registered
@@ -172,6 +189,14 @@ namespace Core::Managers {
              */
             bool IsComponentRegistered(ComponentType component_type) const;
 
+            /**
+             * @brief Registers a system to the ECS manager
+             * 
+             * @tparam T System type
+             * @tparam Args Types of parameters
+             * @param params System parameters
+             * @return T& Reference to the registered system
+             */
             template<typename T, typename... Args>
             T& RegisterSystem(Args&&... params) {
                 T& system = m_system_manager->RegisterSystem<T, Args...>(std::forward<Args>(params)...);
@@ -180,6 +205,12 @@ namespace Core::Managers {
                 return system;
             }
 
+            /**
+             * @brief Registers a system to the ECS manager
+             * 
+             * @tparam T System type
+             * @return T& Reference to the registered system
+             */
             template<typename T>
             T& RegisterSystem() {
                 T& system = m_system_manager->RegisterSystem<T>();
@@ -213,9 +244,9 @@ namespace Core::Managers {
             void SetSignature() {
                 Signature& signature = m_system_manager->GetSignature<S>();
     
-                ((signature.set(GetComponentType<Cs>() == -1 ?
-                    RegisterComponentType<Cs>() :
-                    GetComponentType<Cs>())), ...);
+                ((signature.set(IsComponentRegistered<Cs>() ?
+                    GetComponentType<Cs>() :
+                    RegisterComponentType<Cs>())), ...);
     
                 m_system_manager->SetSignature<S>(signature);
             }
@@ -234,5 +265,10 @@ namespace Core::Managers {
              * @param state The game loop state
              */
             void IterateSystems(SDL_Event& event, GameLoopState state);
+        
+        private:
+            std::unique_ptr<EntityManager> m_entity_manager;
+            std::unique_ptr<ComponentManager> m_component_manager;
+            std::unique_ptr<SystemManager> m_system_manager;
     };
 }

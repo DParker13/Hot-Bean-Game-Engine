@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "../components/component_factory.hpp"
+#include "../components/default_components.hpp"
 
 using namespace Core::ECS;
 
@@ -14,7 +15,9 @@ namespace Core {
                 /// @brief Map of names to scenes
                 std::unordered_map<std::string, std::shared_ptr<Scene>> m_scenes;
     
-                SerializationManager(std::shared_ptr<ECSManager> ecs_manager, std::shared_ptr<LoggingManager> logging_manager);
+                SerializationManager(std::shared_ptr<ECSManager> ecs_manager,
+                                     std::shared_ptr<LoggingManager> logging_manager,
+                                     std::shared_ptr<IComponentFactory> component_factory);
                 ~SerializationManager() = default;
     
                 void LoadScene(std::shared_ptr<Scene> scene);
@@ -28,9 +31,9 @@ namespace Core {
                 void SwitchScene(std::string name);
 
             private:
-                /// @brief  Reference to the ecs manager
                 std::shared_ptr<ECSManager> m_ecs_manager;
                 std::shared_ptr<LoggingManager> m_logging_manager;
+                std::shared_ptr<IComponentFactory> m_component_factory;
 
                 /// @brief Current scene
                 std::shared_ptr<Scene> m_current_scene;

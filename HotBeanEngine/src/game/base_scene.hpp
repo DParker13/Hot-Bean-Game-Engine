@@ -1,7 +1,6 @@
 #pragma once
 
-#include "base_game.hpp"
-#include "../archetypes/default_archetypes.hpp"
+#include "../core/core.hpp"
 
 using namespace Core::Systems;
 
@@ -13,26 +12,23 @@ namespace Core::Application {
             /**
              * @brief Initializes the default systems needed for basic game functionality.
              */
-            void SetupPreSystems() override {
-                std::filesystem::path font_path = std::filesystem::current_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
-
-                RegisterSystem<InputSystem>();
-                RegisterSystem<PlayerControllerSystem>();
-                RegisterSystem<PhysicsSystem>();
-                RegisterSystem<UISystem, std::string>(font_path.string());
-                RegisterSystem<AudioSystem>();
-            };
+            void SetupPreSystems() override;
 
             /**
              * @brief Initializes the default systems needed for basic game functionality.
              */
-            void SetupPostSystems() override {
-                CameraSystem& camera_system = RegisterSystem<CameraSystem>();
-                RegisterSystem<TransformSystem, CameraSystem&>(camera_system);
-                RegisterSystem<RenderSystem>();
-            }
+            void SetupPostSystems() override;
 
         protected:
+
+            /**
+             * @brief Registers a system with the ECSManager
+             * 
+             * @tparam System Class that inherits from System to be registered
+             * @tparam Args Types of arguments to be passed to the system
+             * @param args Arguments to be passed to the system
+             * @return System& Reference to the registered system
+             */
             template <typename System, typename... Args>
             System& RegisterSystem(Args&&... args) {
                 return App::GetInstance().GetECSManager()->RegisterSystem<System, Args&&...>(std::forward<Args>(args)...);

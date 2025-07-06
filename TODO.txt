@@ -1,12 +1,23 @@
-- Add second buffer (next frame) to Rendering System
-- Use text files to handle loading components
-    + Can modify components in realtime without recompiling
-- Add parent-child hierarchy
+High Priority
+- Fix copying of files from source to binary directory
+    + Updated files are not copied
+- Create textured sprite class
+    + Used SDLImage to load and display images from file
 - Create smarter text system
-- Create test cases
+    + Add font size control
+    + Add support for multiple fonts
+    + Clean up logic
+    + Separate Font pointer from Text component?
+- Modify system manager to register with Archetypes?
+
+Medium Priority
+- Can modify components in realtime without recompiling
+- Create basic ui library
+- Add animation system
+
+Low Priority
+- Add second buffer (next frame) to Rendering System
+- Move rendering step to its own thread
 - Add image to EXE
 - Add splashscreen
-- Add animation system
-- Create basic ui library
-- Create textured sprite class
 - Create settings menu

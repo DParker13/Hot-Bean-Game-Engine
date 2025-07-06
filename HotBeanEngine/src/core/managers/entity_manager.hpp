@@ -37,10 +37,12 @@ namespace Core::Managers {
             std::shared_ptr<LoggingManager> m_logging_manager;
 
             // Queue of unused entity IDs
-            std::queue<Entity> m_available_entities{};
+            std::queue<Entity> m_available_entities;
+
+            std::unordered_map<Entity, bool> m_alive_entities;
 
             // Array of signatures where the index corresponds to the entity ID
-            std::array<Signature, MAX_ENTITIES> m_signatures{};
+            std::array<Signature, MAX_ENTITIES> m_signatures;
 
             // Total living entities - used to keep limits on how many exist
             Entity m_living_entity_count = 0;

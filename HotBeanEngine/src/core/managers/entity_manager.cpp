@@ -21,11 +21,11 @@ namespace Core::Managers {
     EntityManager::EntityManager(std::shared_ptr<LoggingManager> logging_manager)
         : m_logging_manager(logging_manager) {
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Initializing EntityManager");
+        LOG_CORE(LoggingType::DEBUG, "Initializing EntityManager");
 
         InitializeEntityQueue();
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Initialized " + std::to_string(m_available_entities.size()) + " Entities (starting at 0)");
+        LOG_CORE(LoggingType::DEBUG, "Initialized " + std::to_string(m_available_entities.size()) + " Entities (starting at 0)");
     }
 
     EntityManager::~EntityManager() = default;
@@ -40,6 +40,7 @@ namespace Core::Managers {
     void EntityManager::InitializeEntityQueue() {
         for (Entity entity_id = 0; entity_id < MAX_ENTITIES; entity_id++) {
             m_available_entities.push(entity_id);
+            m_alive_entities[entity_id] = false;
         }
     }
 
@@ -51,19 +52,22 @@ namespace Core::Managers {
      * @throws assertion failure if the maximum number of entities has been reached.
      */
     Entity EntityManager::CreateEntity() {
-        assert(m_living_entity_count < MAX_ENTITIES && "Too many entities in existence.");
+        if (m_living_entity_count >= MAX_ENTITIES) {
+            throw std::overflow_error("Too many entities in existence.");
+        }
 
         // Take an ID from the front of the queue
         Entity id = m_available_entities.front();
+        m_alive_entities[id] = true;
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Creating Entity \"" + std::to_string(id) + "\"");
+        LOG_CORE(LoggingType::DEBUG, "Creating Entity \"" + std::to_string(id) + "\"");
 
         m_available_entities.pop();
         ++m_living_entity_count;
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Entity \"" + std::to_string(id) + "\" created.");
-        m_logging_manager->Log(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
-        m_logging_manager->Log(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size() - 1));
+        LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(id) + "\" created.");
+        LOG_CORE(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
+        LOG_CORE(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size() - 1));
 
         return id;
     }
@@ -76,20 +80,24 @@ namespace Core::Managers {
      * @throws assertion failure if the entity ID is out of range.
      */
     void EntityManager::DestroyEntity(Entity entity) {
-        assert(entity < MAX_ENTITIES && "Entity out of range.");
+        assert(entity < MAX_ENTITIES && entity >= 0 && "Entity out of range.");
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Destroying Entity \"" + std::to_string(entity) + "\"...");
+        // If the entity is not alive, return
+        if (!m_alive_entities[entity]) return;
+
+        LOG_CORE(LoggingType::DEBUG, "Destroying Entity \"" + std::to_string(entity) + "\"...");
 
         // Invalidate the destroyed entity's signature
         m_signatures[entity].reset();
 
         // Place the destroyed entity ID at the back of the queue
         m_available_entities.push(entity);
+        m_alive_entities[entity] = false;
         --m_living_entity_count;
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\" destroyed.");
-        m_logging_manager->Log(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
-        m_logging_manager->Log(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
+        LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\" destroyed.");
+        LOG_CORE(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
+        LOG_CORE(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
     }
 
     /**
@@ -106,7 +114,7 @@ namespace Core::Managers {
         // Set the signature for the given entity
         m_signatures[entity].set(component_type);
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\""
+        LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\""
             " signature set \"" + m_signatures[entity].to_string() + "\"");
 
         return m_signatures[entity];

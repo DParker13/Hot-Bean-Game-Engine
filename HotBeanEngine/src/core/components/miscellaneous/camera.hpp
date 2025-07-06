@@ -18,7 +18,7 @@ namespace Core::Components {
         Uint8 m_id = 0;
         bool m_active = false;
         std::bitset<16> m_layer_mask = 0;
-        
+
         Camera() = default;
 
         std::string GetName() const override {

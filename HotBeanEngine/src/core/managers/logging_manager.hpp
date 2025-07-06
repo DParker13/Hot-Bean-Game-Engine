@@ -3,11 +3,15 @@
 #include <ctime>
 #include <filesystem>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
 
 #include "../ecs/all_ecs.hpp"
 
 using namespace Core::ECS;
+
+#define LOG_CORE(type, message) \
+    m_logging_manager->Log(type, message, __FILE__, __LINE__, __func__)
 
 namespace Core::Managers {
     class LoggingManager {
@@ -16,7 +20,8 @@ namespace Core::Managers {
             LoggingManager();
             ~LoggingManager();
 
-            void Log(LoggingType type, std::string message);
+            void Log(const LoggingType type, std::string message,
+                    const char* file, int line, const char* function);
             void SetLogPath(std::string log_path);
             void SetLoggingLevel(LoggingType level);
         
@@ -29,5 +34,6 @@ namespace Core::Managers {
             bool m_testing;
 
             void SetupDefaultLoggingPath();
+            void LogToFile(const LoggingType type, std::stringstream& final_message);
     };
 }

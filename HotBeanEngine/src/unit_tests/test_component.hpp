@@ -2,7 +2,7 @@
 
 #include "../../include/HotBeanEngine.hpp"
 
-struct TestComponent : public Core::ECS::Component {
+struct TestComponent : public Component {
     int m_value = 0;
 
     TestComponent() = default;

@@ -15,84 +15,95 @@ namespace Core {
     namespace Managers {
         ComponentManager::ComponentManager(std::shared_ptr<LoggingManager> logging_manager)
             : m_logging_manager(logging_manager), m_registered_components(0) {}
-        ComponentManager::~ComponentManager() = default;
 
         /**
-         * Retrieves the Component Name associated with the given component type.
-         *
-         * @param component_type The component type to retrieve the name for.
-         *
-         * @return The name associated with the given component type, or an empty string if the component is not registered.
+         * @brief Retrieves the name of a component
+         * 
+         * @param component_type The type of the component
+         * @return std::string The name of the component
          */
         std::string ComponentManager::GetComponentName(ComponentType component_type) {
-            if(IsComponentRegistered(component_type)) {
-                return m_component_type_to_name[component_type];
+            if(!IsComponentRegistered(component_type)) {
+                LOG_CORE(LoggingType::ERROR, "Component not registered");
+                throw std::runtime_error("Component not registered");
             }
-            else {
-                return "";
-            }
+
+            return m_component_type_to_name[component_type];
         }
 
         /**
-         * @brief Get the registered Component Type using the Component Name
+         * @brief Retrieves the Component Type associated with the given component name
          * 
-         * @param component_name Component Name to search
-         * @return ComponentType
-         * @return -1 if not found
+         * @param component_name The name of the component
+         * @return ComponentType The ComponentType associated with the given component name
          */
         ComponentType ComponentManager::GetComponentType(std::string component_name) {
-            if(IsComponentRegistered(component_name)) {
-                return m_component_name_to_type[component_name];
+            if(!IsComponentRegistered(component_name)) {
+                LOG_CORE(LoggingType::ERROR, "Component not registered");
+                throw std::runtime_error("Component not registered");
             }
-            else {
-                return -1;
-            }
+
+            return m_component_name_to_type[component_name];
         }
 
+
         /**
-         * Removes a component of type T from a given entity.
-         *
-         * @param entity The ID of the entity from which the component is to be removed.
-         *
-         * @return The type of the component that was removed, used to update the entity's signature.
-         *
-         * @throws assertion failure if the component type is not registered.
+         * @brief Retrieves a component from an entity
+         * 
+         * @param entity Entity to retrieve component from
+         * @param component_type Type of component to retrieve
+         * @return Component& Component data
          */
         Component& ComponentManager::GetComponent(Entity entity, ComponentType component_type) {
-            std::string component_name = m_component_type_to_name[component_type];
+            if (!IsComponentRegistered(component_type)) {
+                LOG_CORE(LoggingType::ERROR, "Component not registered");
+                throw std::runtime_error("Component not registered");
+            }
+            
+            try {
+                std::string component_name = m_component_type_to_name[component_type];
+                auto component_sparse_set = m_component_name_to_data[component_name];
 
-            assert(m_component_name_to_type.find(component_name) != m_component_name_to_type.end() && "Component not registered!");
-            auto component_sparse_set = m_component_name_to_data[component_name];
-
-            return component_sparse_set->GetComponent(entity);
+                Component* ptr = std::any_cast<Component*>(component_sparse_set->GetElementPtrAsAny(entity));
+                return *ptr;
+            }
+            catch (const std::bad_any_cast& e) {
+                LOG_CORE(LoggingType::ERROR, "Failed to cast component.");
+                throw;
+            }
         }
 
         /**
-             * Removes a component of type T from a given entity.
-             *
-             * @param entity The ID of the entity from which the component is to be removed.
-             *
-             * @return The type of the component that was removed, used to update the entity's signature.
-             *
-             * @throws assertion failure if the component type is not registered.
-             */
-            void ComponentManager::RemoveComponent(Entity entity, ComponentType component_type) {
-                std::string component_name = m_component_type_to_name[component_type];
-    
-                assert(m_component_name_to_type.find(component_name) != m_component_name_to_type.end() && "Component not registered!");
-                auto component_sparse_set = m_component_name_to_data[component_name];
-    
-                // Removes entity from component sparse set
-                component_sparse_set->Remove(entity);
-    
-                // If the last component is removed, the component array must be destroyed and unregistered
-                if (component_sparse_set->Size() == 0) {
-                    m_component_type_to_name.erase(component_type);
-                    m_component_name_to_type.erase(component_name);
-                    m_component_name_to_data.erase(component_name);
-                    m_registered_components--;
-                }
+         * @brief Removes a component from an entity
+         * 
+         * @param entity Entity to remove component from
+         * @param component_type Type of component to remove
+         */
+        void ComponentManager::RemoveComponent(Entity entity, ComponentType component_type) {
+            if (!IsComponentRegistered(component_type)) {
+                LOG_CORE(LoggingType::ERROR, "Component not registered");
+                throw std::runtime_error("Component not registered");
             }
+            
+            std::string component_name = m_component_type_to_name[component_type];
+            auto sparse_set = m_component_name_to_data[component_name];
+
+            if (!sparse_set->HasElement(entity)) {
+                LOG_CORE(LoggingType::ERROR, "Component not associated with entity");
+                throw std::runtime_error("Component not associated with entity");
+            }
+
+            // Removes entity from component sparse set
+            sparse_set->Remove(entity);
+
+            // If the last component is removed, the component array must be destroyed and unregistered
+            if (sparse_set->Size() == 0) {
+                m_component_type_to_name.erase(component_type);
+                m_component_name_to_type.erase(component_name);
+                m_component_name_to_data.erase(component_name);
+                m_registered_components--;
+            }
+        }
 
         /**
          * @brief Checks if a component is registered

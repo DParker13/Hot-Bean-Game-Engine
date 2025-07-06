@@ -43,7 +43,7 @@ namespace Core::Managers {
 				std::string type_name = typeid(T).name();
 				assert(m_systems.find(type_name) == m_systems.end() && "Registering system more than once.");
 
-				m_logging_manager->Log(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
+				LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
 				T* system = new T(std::forward<Args>(params)...);
 
 				// Create a pointer to the system and return it so it can be used externally
@@ -66,7 +66,7 @@ namespace Core::Managers {
 				std::string type_name = typeid(T).name();
 				assert(m_systems.find(type_name) == m_systems.end() && "Registering system more than once.");
 
-				m_logging_manager->Log(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
+				LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
 				T* system = new T();
 
 				// Create a pointer to the system and return it so it can be used externally
@@ -82,7 +82,7 @@ namespace Core::Managers {
 				std::string type_name = typeid(T).name();
 				assert(m_systems.find(type_name) != m_systems.end() && "System isn't registered.");
 
-				m_logging_manager->Log(LoggingType::DEBUG, "Unregistering System \"" + type_name + "\"");
+				LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + type_name + "\"");
 
 				m_systems.erase(type_name);
 			}
@@ -101,7 +101,7 @@ namespace Core::Managers {
 				std::string type_name = typeid(T).name();
 				assert(m_systems.find(type_name) != m_systems.end() && "System is not registered.");
 
-				m_logging_manager->Log(LoggingType::DEBUG, "System \"" + type_name + "\" Signature set to"
+				LOG_CORE(LoggingType::DEBUG, "System \"" + type_name + "\" Signature set to"
 					" \"" + signature.to_string() + "\"");
 
 				// Set the signature for this system
@@ -127,21 +127,22 @@ namespace Core::Managers {
 			}
 
 			/**
-			 * Retrieves a previously registered system by its type.
-			 *
-			 * @tparam T The type of system to be retrieved.
-			 *
-			 * @return A shared pointer to the system.
-			 *
-			 * @throws assertion failure if the system type has not been registered.
+			 * @brief Get the System object
+			 * 
+			 * @tparam T 
+			 * @return T* 
 			 */
 			template <typename T>
 			T* GetSystem()
 			{
 				std::string type_name = typeid(T).name();
-				assert(m_systems.find(type_name) != m_systems.end() && "System used before registered.");
-
-				return static_cast<T*>(m_systems[type_name]);
+				
+				if (m_systems.find(type_name) == m_systems.end()) {
+					return nullptr;
+				}
+				else {
+					return static_cast<T*>(m_systems[type_name]);
+				}
 			}
 
 			/**
@@ -191,7 +192,7 @@ namespace Core::Managers {
 				std::string type_name = typeid(T).name();
 				assert(m_systems.find(type_name) != m_systems.end() && "System is not registered.");
 
-				m_logging_manager->Log(LoggingType::DEBUG, "System \"" + type_name + "\" Signature removed");
+				LOG_CORE(LoggingType::DEBUG, "System \"" + type_name + "\" Signature removed");
 
 				m_signatures.erase(type_name);
 			}

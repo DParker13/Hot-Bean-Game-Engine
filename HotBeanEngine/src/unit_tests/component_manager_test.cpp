@@ -1,37 +1,69 @@
+#include "../../include/HotBeanEngine.hpp"
 #include "test_component.hpp"
 #include <catch2/catch_all.hpp>
 
-TEST_CASE("ComponentManager: Component addition and removal") {
-    std::shared_ptr<Core::Managers::LoggingManager> logging_manager = std::make_shared<Core::Managers::LoggingManager>();
-    Core::Managers::ComponentManager component_manager = Core::Managers::ComponentManager(logging_manager);
-    Core::Managers::EntityManager entity_manager = Core::Managers::EntityManager(logging_manager);
-    Entity test_entity = entity_manager.CreateEntity();
+using namespace Core::ECS;
+using namespace Core::Managers;
+
+TEST_CASE("ComponentManager: Entity has component") {
+    std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
+    ComponentManager component_manager = ComponentManager(logging_manager);
+    EntityManager entity_manager = EntityManager(logging_manager);
+    Entity entity_1 = entity_manager.CreateEntity();
+    Entity entity_2 = entity_manager.CreateEntity();
     TestComponent test_component;
 
-    // SECTION("Has component") {
-    //     bool has_component = component_manager.HasComponent<TestComponent>(test_entity);
-    //     component_manager.GetComponentData<TestComponent>(test_entity);
-    //     REQUIRE(component_manager.HasComponent<TestComponent>(test_entity));
-    // }
+    SECTION("Has component: true") {
+        component_manager.AddComponent<TestComponent>(entity_1, test_component);
+        REQUIRE(component_manager.HasComponent<TestComponent>(entity_1));
+    }
+
+    SECTION("Has component: false") {
+        component_manager.AddComponent<TestComponent>(entity_2, test_component);
+        REQUIRE_FALSE(component_manager.HasComponent<TestComponent>(entity_1));
+    }
+}
+
+TEST_CASE("ComponentManager: Component addition and removal") {
+    std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
+    ComponentManager component_manager = ComponentManager(logging_manager);
+    EntityManager entity_manager = EntityManager(logging_manager);
+    Entity entity_1 = entity_manager.CreateEntity();
+    Entity entity_2 = entity_manager.CreateEntity();
+    TestComponent test_component;
 
     SECTION("Add component") {
-        component_manager.AddComponent<TestComponent>(test_entity, test_component);
-        REQUIRE(component_manager.HasComponent<TestComponent>(test_entity));
+        component_manager.AddComponent<TestComponent>(entity_1, test_component);
+        REQUIRE(component_manager.HasComponent<TestComponent>(entity_1));
     }
 
-    SECTION("Remove last component") {
-        component_manager.AddComponent<TestComponent>(test_entity, test_component);
-        component_manager.RemoveComponent<TestComponent>(test_entity);
-        REQUIRE(!component_manager.IsComponentRegistered<TestComponent>());
-        //REQUIRE(component_manager.HasComponent<TestComponent>(test_entity));
+    SECTION("Add same component twice") {
+        component_manager.AddComponent<TestComponent>(entity_1, test_component);
+        REQUIRE_THROWS_AS(component_manager.AddComponent<TestComponent>(entity_1, test_component), std::runtime_error);
     }
 
-    // SECTION("Remove component") {
-    //     Entity second_test_entity = entity_manager.CreateEntity();
-    //     component_manager.AddComponent<TestComponent>(test_entity, test_component);
-    //     component_manager.AddComponent<TestComponent>(second_test_entity, test_component);
-    //     component_manager.RemoveComponent<TestComponent>(test_entity);
-    //     REQUIRE(component_manager.IsComponentRegistered<TestComponent>());
-    //     REQUIRE(!component_manager.HasComponent<TestComponent>(test_entity));
-    // }
+    SECTION("Remove last component associated with an entity") {
+        component_manager.AddComponent<TestComponent>(entity_1, test_component);
+        component_manager.RemoveComponent<TestComponent>(entity_1);
+        REQUIRE_FALSE(component_manager.IsComponentRegistered<TestComponent>());
+    }
+
+    SECTION("Remove non-registered component") {
+        REQUIRE_THROWS_AS(component_manager.RemoveComponent<TestComponent>(entity_1), std::runtime_error);
+    }
+
+    SECTION("Remove component") {
+        component_manager.AddComponent<TestComponent>(entity_1, test_component);
+        component_manager.AddComponent<TestComponent>(entity_2, test_component);
+        component_manager.RemoveComponent<TestComponent>(entity_1);
+        REQUIRE(component_manager.IsComponentRegistered<TestComponent>());
+        REQUIRE_FALSE(component_manager.HasComponent<TestComponent>(entity_1));
+    }
+
+    SECTION("Remove component from same entity twice") {
+        component_manager.AddComponent<TestComponent>(entity_1, test_component);
+        component_manager.AddComponent<TestComponent>(entity_2, test_component);
+        component_manager.RemoveComponent<TestComponent>(entity_1);
+        REQUIRE_THROWS_AS(component_manager.RemoveComponent<TestComponent>(entity_1), std::runtime_error);
+    }
 }

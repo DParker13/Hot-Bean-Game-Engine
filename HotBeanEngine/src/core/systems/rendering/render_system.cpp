@@ -33,7 +33,7 @@ namespace Core::Systems {
      */
     void RenderSystem::OnWindowResize(SDL_Event& event) {
         App& app = App::GetInstance();
-        app.Log(LoggingType::INFO, "Window being resized - Resetting renderer...");
+        LOG(LoggingType::INFO, "Window being resized - Resetting renderer...");
 
         SDL_Renderer* renderer = app.GetRenderer();
         SDL_Window* window = SDL_GetWindowFromID(event.window.windowID);
@@ -45,7 +45,7 @@ namespace Core::Systems {
         // Create a new renderer
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
         if (renderer == nullptr) {
-            app.Log(LoggingType::ERROR, std::string("Failed to create renderer: ") + SDL_GetError());
+            LOG(LoggingType::ERROR, std::string("Failed to create renderer: ") + SDL_GetError());
         }
 
         // Set the new renderer and window
@@ -57,7 +57,7 @@ namespace Core::Systems {
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-        app.Log(LoggingType::INFO, "Window finished resizing");
+        LOG(LoggingType::INFO, "Window finished resizing");
     }
     
     void RenderSystem::OnRender() {

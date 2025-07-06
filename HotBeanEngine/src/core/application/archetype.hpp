@@ -14,10 +14,30 @@ namespace Core::ECS {
 
         static Entity Create(Components&&... comps) {
             App& app = App::GetInstance();
-            Entity entity = app.CreateEntity();
-            app.AddComponent<Components...>(entity);
 
-            return entity;
+            try {
+                Entity entity = app.CreateEntity();
+                (app.AddComponent<Components>(entity, std::forward<Components>(comps)), ...);
+
+                return entity;
+            }
+            catch(const std::exception& e) {
+                throw;
+            }
+        }
+
+        static Entity Create() {
+            App& app = App::GetInstance();
+
+            try {
+                Entity entity = app.CreateEntity();
+                (app.AddComponent<Components>(entity), ...);
+
+                return entity;
+            } catch(const std::exception& e) {
+                LOG(LoggingType::ERROR, e.what());
+                throw;
+            }
         }
     };
 }

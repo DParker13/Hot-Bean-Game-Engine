@@ -58,7 +58,7 @@ namespace Systems {
             
             // Render the vertex buffer
             if (!map_texture) {
-                App::GetInstance().Log(LoggingType::FATAL, "Texture doesn't exist");
+                LOG(LoggingType::FATAL, "Texture doesn't exist");
             }
             SDL_SetRenderTarget(renderer, map_texture->m_texture);
             SDL_RenderGeometry(renderer, NULL, tile.m_vertices,

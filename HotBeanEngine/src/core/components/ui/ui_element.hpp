@@ -31,8 +31,6 @@ namespace Core::Components {
         UIType m_type = UIType::Empty;
         bool m_dirty = true;
 
-        UIElement() = default;
-
         virtual std::string GetName() const override {
             return "UIElement";
         }

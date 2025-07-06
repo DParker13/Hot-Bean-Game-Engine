@@ -34,7 +34,7 @@ namespace Core::Managers {
     {
         int erased_entities = 0;
 
-        m_logging_manager->Log(LoggingType::DEBUG, "Destroying Entity \"" + std::to_string(entity) + "\"");
+        LOG_CORE(LoggingType::DEBUG, "Destroying Entity \"" + std::to_string(entity) + "\"");
 
         // Erase a destroyed entity from all system lists
         // m_entities is a set so no check needed
@@ -42,7 +42,7 @@ namespace Core::Managers {
             erased_entities += system->m_entities.erase(entity);
         }
 
-        m_logging_manager->Log(LoggingType::DEBUG, "\tErased Entity \"" + std::to_string(entity) + "\" from " + std::to_string(erased_entities) + " Systems");
+        LOG_CORE(LoggingType::DEBUG, "\tErased Entity \"" + std::to_string(entity) + "\" from " + std::to_string(erased_entities) + " Systems");
     }
 
     /**
@@ -77,11 +77,11 @@ namespace Core::Managers {
         }
 
         if (entity_added_to_systems > 0) {
-            m_logging_manager->Log(LoggingType::DEBUG, "\tAdded Entity \"" + std::to_string(entity) + "\" to " + std::to_string(entity_added_to_systems) + " Systems");
+            LOG_CORE(LoggingType::DEBUG, "\tAdded Entity \"" + std::to_string(entity) + "\" to " + std::to_string(entity_added_to_systems) + " Systems");
         }
 
         if (entity_removed_from_systems > 0) {
-            m_logging_manager->Log(LoggingType::DEBUG, "\tRemoved Entity \"" + std::to_string(entity) + "\" from " + std::to_string(entity_removed_from_systems) + " Systems");
+            LOG_CORE(LoggingType::DEBUG, "\tRemoved Entity \"" + std::to_string(entity) + "\" from " + std::to_string(entity_removed_from_systems) + " Systems");
         }
     }
 

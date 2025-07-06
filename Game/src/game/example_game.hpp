@@ -18,7 +18,7 @@
 using namespace Core::Components;
 using namespace Core::Systems;
 
-class ExampleGame : public BaseGame {
+class ExampleGame : public App {
     public:
         ExampleGame(const std::string& config_path);
         ~ExampleGame() = default;

@@ -24,8 +24,11 @@ namespace Core {
          * @param height The height of the application window.
          */
         App::App(const std::string& config_path)
-            : m_window(nullptr), m_renderer(nullptr), m_quit(false),
-            m_delta_time(0.0f), m_previous_frame_time(0.0f) {
+            : App(config_path, std::make_shared<DefaultComponentFactory>()) {}
+
+        App::App(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory)
+            : m_component_factory(component_factory), m_window(nullptr), m_renderer(nullptr),
+            m_quit(false), m_delta_time(0.0f), m_previous_frame_time(0.0f) {
 
             _instance = this;
 
@@ -35,20 +38,22 @@ namespace Core {
             m_logging_manager = std::make_shared<LoggingManager>(Config::LOG_PATH, Config::LOGGING_LEVEL);
 
             if (config_loaded) {
-                Log(LoggingType::INFO, "Config file loaded.");
+                LOG_CORE(LoggingType::INFO, "Config file loaded.");
             }
             else {
-                Log(LoggingType::ERROR, "Failed to load config file at \"" + config_path + "\"");
-                Log(LoggingType::INFO, "\tLoading Default config");
+                LOG_CORE(LoggingType::ERROR, "Failed to load config file at \"" + config_path + "\"");
+                LOG_CORE(LoggingType::INFO, "\tLoading Default config");
             }
 
             // Initialize other core managers
             m_ecs_manager = std::make_shared<ECSManager>(m_logging_manager);
-            m_serialization_manager = std::make_unique<SerializationManager>(m_ecs_manager, m_logging_manager);
+            m_component_factory->SetECSManager(m_ecs_manager);
+            m_component_factory->RegisterComponents();
+            m_serialization_manager = std::make_unique<SerializationManager>(m_ecs_manager, m_logging_manager, m_component_factory);
 
             // Initialize SDL
             if (SDL_Init(SDL_INIT_VIDEO || SDL_INIT_AUDIO) < 0) {
-                Log(LoggingType::FATAL, std::string("SDL could not initialize! SDL_Error: ") + SDL_GetError());
+                LOG_CORE(LoggingType::FATAL, std::string("SDL could not initialize! SDL_Error: ") + SDL_GetError());
                 exit(-1);
             }
     
@@ -56,14 +61,14 @@ namespace Core {
             m_window = SDL_CreateWindow(Config::WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                     Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
             if (m_window == nullptr) {
-                Log(LoggingType::FATAL, std::string("Window could not be created! SDL_Error: ") + SDL_GetError());
+                LOG_CORE(LoggingType::FATAL, std::string("Window could not be created! SDL_Error: ") + SDL_GetError());
                 exit(-1);
             }
     
             // Create renderer for window
             m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
             if (m_renderer == nullptr) {
-                Log(LoggingType::FATAL, std::string("Renderer could not be created! SDL_Error: ") + SDL_GetError());
+                LOG_CORE(LoggingType::FATAL, std::string("Renderer could not be created! SDL_Error: ") + SDL_GetError());
                 exit(-1);
             }
     
@@ -73,29 +78,29 @@ namespace Core {
             // Create surface
             m_surface = SDL_GetWindowSurface(m_window);
             if (m_surface == nullptr) {
-                Log(LoggingType::FATAL, std::string("Surface could not be created! SDL_Error: ") + SDL_GetError());
+                LOG_CORE(LoggingType::FATAL, std::string("Surface could not be created! SDL_Error: ") + SDL_GetError());
                 exit(-1);
             }
     
             // Initialize TTF
             if (TTF_Init() < 0) {
-                Log(LoggingType::FATAL, std::string("TTF could not be initialized! TTF_Error: ") + TTF_GetError());
+                LOG_CORE(LoggingType::FATAL, std::string("TTF could not be initialized! TTF_Error: ") + TTF_GetError());
                 exit(-1);
             }
     
             // Initialize Audio Mixer
             if (Mix_Init(MIX_INIT_WAVPACK) < 0) {
-                Log(LoggingType::FATAL, std::string("Audio mixer could not be initialized! Mix_Error: ") + Mix_GetError());
+                LOG_CORE(LoggingType::FATAL, std::string("Audio mixer could not be initialized! Mix_Error: ") + Mix_GetError());
                 exit(-1);
             }
             else if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) {
-                Log(LoggingType::FATAL, std::string("Audio device could not be opened! Mix_Error: ") + Mix_GetError());
+                LOG_CORE(LoggingType::FATAL, std::string("Audio device could not be opened! Mix_Error: ") + Mix_GetError());
                 exit(2);
             }
     
             // Initialize Image
             if (IMG_Init(IMG_INIT_PNG) < 0) {
-                Log(LoggingType::FATAL, std::string("Image could not be initialized! IMG_Error: ") + IMG_GetError());
+                LOG_CORE(LoggingType::FATAL, std::string("Image could not be initialized! IMG_Error: ") + IMG_GetError());
                 exit(-1);
             }
         }
@@ -146,8 +151,9 @@ namespace Core {
          * 
          * @param message Message to log to the log file
          */
-        void App::Log(LoggingType type, std::string message) {
-            m_logging_manager->Log(type, message);
+        void App::Log(LoggingType type, std::string message,
+                      const char* file, int line, const char* function) {
+            m_logging_manager->Log(type, message, file, line, function);
         }
 
         void App::SetLoggingLevel(LoggingType level) {

@@ -47,7 +47,7 @@ namespace Core::Systems {
             if (camera.m_active) {
                 
                 if (first_camera_found) {
-                    App::GetInstance().Log(LoggingType::WARNING, "More than one camera is active!");
+                    LOG(LoggingType::WARNING, "More than one camera is active!");
                 }
 
                 first_camera_found = true;
@@ -57,7 +57,7 @@ namespace Core::Systems {
         }
 
         if (!first_camera_found) {
-            App::GetInstance().Log(LoggingType::WARNING, "No cameras are active!");
+            LOG(LoggingType::WARNING, "No cameras are active!");
         }
 
         first_camera_found = false;

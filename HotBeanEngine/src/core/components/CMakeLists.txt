@@ -1,6 +1,7 @@
 add_library(core_components STATIC
-    component_factory.cpp
     component_factory.hpp
+    default_component_factory.cpp
+    default_component_factory.hpp
     audio/audio_source.hpp
     input/controller.hpp
     miscellaneous/camera.hpp

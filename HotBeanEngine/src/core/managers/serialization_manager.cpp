@@ -2,8 +2,10 @@
 
 namespace Core::Managers {
 
-    SerializationManager::SerializationManager(std::shared_ptr<ECSManager> ecs_manager, std::shared_ptr<LoggingManager> logging_manager)
-        : m_ecs_manager(ecs_manager), m_logging_manager(logging_manager) {}
+    SerializationManager::SerializationManager(std::shared_ptr<ECSManager> ecs_manager,
+                                               std::shared_ptr<LoggingManager> logging_manager,
+                                               std::shared_ptr<IComponentFactory> component_factory)
+        : m_ecs_manager(ecs_manager), m_logging_manager(logging_manager), m_component_factory(component_factory) {}
 
     void SerializationManager::LoadScene(std::shared_ptr<Scene> scene) {
         LoadScene(scene, false);
@@ -20,12 +22,12 @@ namespace Core::Managers {
 
             m_current_scene = scene;
         
-            m_logging_manager->Log(LoggingType::INFO, "Loading scene \"" + m_current_scene->m_name + "\" from file: ");
-            m_logging_manager->Log(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
+            LOG_CORE(LoggingType::INFO, "Loading scene \"" + m_current_scene->m_name + "\" from file: ");
+            LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
 
             // Attempt to load scene from file
             if (!std::filesystem::exists(m_current_scene->m_scene_path)) {
-                m_logging_manager->Log(LoggingType::FATAL, "Scene file does not exist: "+ m_current_scene->m_scene_path);
+                LOG_CORE(LoggingType::FATAL, "Scene file does not exist: "+ m_current_scene->m_scene_path);
                 throw std::runtime_error("Scene file does not exist: "+ m_current_scene->m_scene_path);
             }
 
@@ -36,9 +38,9 @@ namespace Core::Managers {
 
             m_ecs_manager->IterateSystems(GameLoopState::OnStart);
 
-            m_logging_manager->Log(LoggingType::INFO, "Scene loaded.");
+            LOG_CORE(LoggingType::INFO, "Scene loaded.");
         } catch (const YAML::Exception& e) {
-            m_logging_manager->Log(LoggingType::ERROR, "Error parsing YAML file: " + (std::string)e.what());
+            LOG_CORE(LoggingType::ERROR, "Error parsing YAML file: " + (std::string)e.what());
         }
 
         m_current_scene->SetupScene();
@@ -48,8 +50,8 @@ namespace Core::Managers {
         assert(m_current_scene && "Current scene is null.");
 
         try {
-            m_logging_manager->Log(LoggingType::INFO, "Unloading scene \"" + m_current_scene->m_name + "\" to file");
-            m_logging_manager->Log(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
+            LOG_CORE(LoggingType::INFO, "Unloading scene \"" + m_current_scene->m_name + "\" to file");
+            LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
 
             // Attempt to serialize scene to file
             if (save_to_file) {
@@ -63,7 +65,7 @@ namespace Core::Managers {
 
             // TODO: Unload all systems
 
-            m_logging_manager->Log(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
+            LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
         } catch (const YAML::Exception& e) {
             std::cerr << "Error serializing to YAML file: " << e.what() << std::endl;
         }
@@ -100,7 +102,7 @@ namespace Core::Managers {
 
     void SerializationManager::SwitchScene(std::string name) {
         assert(m_scenes.find(name) != m_scenes.end() && "Scene with that name does not exist.");
-        m_logging_manager->Log(LoggingType::INFO, "Switching to scene: " + name);
+        LOG_CORE(LoggingType::INFO, "Switching to scene: " + name);
 
         // Loads the new scene
         LoadScene(m_scenes[name]);
@@ -160,7 +162,7 @@ namespace Core::Managers {
     }
 
     void SerializationManager::SerializeEntity(YAML::Emitter& out, Entity entity) {
-        m_logging_manager->Log(LoggingType::INFO, "Serializing Entity \"" + std::to_string(entity) + "\"");
+        LOG_CORE(LoggingType::INFO, "Serializing Entity \"" + std::to_string(entity) + "\"");
 
         out << YAML::BeginMap;
         out << YAML::Key << "Entity" << YAML::Value << YAML::BeginMap;
@@ -168,7 +170,7 @@ namespace Core::Managers {
         // Serialize entity's components
         std::vector<Component*> components = m_ecs_manager->GetAllComponents(entity);
         for (int i = 0; i < components.size(); i++) {
-            m_logging_manager->Log(LoggingType::INFO, "Serializing Component \"" + components[i]->GetName() + "\"");
+            LOG_CORE(LoggingType::INFO, "Serializing Component \"" + components[i]->GetName() + "\"");
 
             // Component Name first
             out << YAML::Key << components[i]->GetName() << YAML::Value;
@@ -197,7 +199,7 @@ namespace Core::Managers {
     }
 
     void SerializationManager::DeserializeEntity(const YAML::Node& node, Entity parent_entity, Entity entity) {
-        m_logging_manager->Log(LoggingType::INFO,
+        LOG_CORE(LoggingType::INFO,
             "Loading Entity \"" + std::to_string(entity) + "\"");
 
         // Iterate over the components
@@ -215,11 +217,11 @@ namespace Core::Managers {
             YAML::Node component = components.second;
 
             if (m_ecs_manager->IsComponentRegistered(component_name)) {
-                m_logging_manager->Log(LoggingType::INFO, "Loading component: " + component_name);
-                Core::Application::ComponentFactory::CreateComponent(*m_ecs_manager, component_name, component, parent_entity, entity);
+                LOG_CORE(LoggingType::INFO, "Loading component: " + component_name);
+                m_component_factory->CreateComponent(component_name, component, parent_entity, entity);
             }
             else {
-                m_logging_manager->Log(LoggingType::FATAL, "Component " + component_name + " is not registered.");
+                LOG_CORE(LoggingType::FATAL, "Component " + component_name + " is not registered.");
                 throw std::runtime_error("Component " + component_name + " is not registered.");
             }
         }

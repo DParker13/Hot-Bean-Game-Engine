@@ -1,29 +1,27 @@
 #pragma once
 
 #include "../managers/ecs_manager.hpp"
-#include "audio/audio_source.hpp"
-#include "input/controller.hpp"
-#include "miscellaneous/camera.hpp"
-#include "miscellaneous/transform_2d.hpp"
-#include "physics/collider_2d.hpp"
-#include "physics/rigidbody.hpp"
-#include "rendering/shape.hpp"
-#include "rendering/texture.hpp"
-#include "ui/text.hpp"
-#include "ui/ui_element.hpp"
 
 namespace Core::Application {
-    struct ComponentFactory {
-        virtual void RegisterComponents(Core::Managers::ECSManager& ecs_manager);
-        static void CreateComponent(Core::Managers::ECSManager& ecs_manager, const std::string& component_name,
-                                    YAML::Node node, Entity parent_entity, Entity entity);
+    class IComponentFactory {
+        public:
+            virtual void RegisterComponents() = 0;
+            virtual void CreateComponent(const std::string& component_name,
+                                        YAML::Node node, Entity parent_entity, Entity entity) = 0;
 
-        template<typename T>
-        static void AddComponent(Core::Managers::ECSManager& ecs_manager, Entity entity, YAML::Node node) {
-            static_assert(std::is_base_of_v<Component, T> && "T must inherit from Component!");
+            void SetECSManager(std::shared_ptr<Core::Managers::ECSManager> ecs_manager) {
+                m_ecs_manager = ecs_manager;
+            }
 
-            ecs_manager.AddComponent<T>(entity, T());
-            ecs_manager.GetComponent<T>(entity).Deserialize(node);
-        }
+            template<typename T>
+            void AddComponent(Entity entity, YAML::Node node) {
+                static_assert(std::is_base_of_v<Component, T> && "T must inherit from Component");
+
+                m_ecs_manager->AddComponent<T>(entity, T());
+                m_ecs_manager->GetComponent<T>(entity).Deserialize(node);
+            }
+
+        protected:
+            std::shared_ptr<Core::Managers::ECSManager> m_ecs_manager;
     };
 }

@@ -20,17 +20,14 @@ namespace Core::Components {
 
         Texture() = default;
 
-        std::string GetName() const override {
-            return "Texture";
-        }
-
-        /**
-         * @brief Destroy the Texture component
-         */
         ~Texture() {
             if (m_texture) {
                 SDL_DestroyTexture(m_texture);
             }
+        }
+
+        std::string GetName() const override {
+            return "Texture";
         }
 
         void Serialize(YAML::Emitter& out) const override {

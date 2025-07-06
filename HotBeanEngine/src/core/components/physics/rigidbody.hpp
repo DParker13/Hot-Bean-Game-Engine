@@ -21,9 +21,6 @@ namespace Core::Components {
 
         RigidBody() = default;
 
-        RigidBody(const glm::vec3 velocity, const glm::vec3 acceleration, float gravity)
-        : velocity(velocity), acceleration(acceleration), gravity(gravity) {}
-
         std::string GetName() const override {
             return "RigidBody";
         }

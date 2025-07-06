@@ -6,6 +6,7 @@
 
 using namespace Core::ECS;
 using namespace Core::Application;
+using namespace Core::Archetypes;
 using namespace Systems;
 
 namespace Scenes {

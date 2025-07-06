@@ -13,11 +13,15 @@
 #include <vector>
 
 #include "../managers/all_managers.hpp"
+#include "../components/default_component_factory.hpp"
 
 using namespace Core::Managers;
 using namespace Core::ECS;
 
 namespace Core::Application {
+
+    #define LOG(type, message) \
+        App::GetInstance().Log(type, message, __FILE__, __LINE__, __func__)
 
     /**
      * @brief Interface for all Application layers ordered in calling order
@@ -26,6 +30,8 @@ namespace Core::Application {
         public:
             bool m_quit; ///< Flag to quit the application
 
+            App(const std::string& config_path);
+            App(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory);
             ~App();
             App(const App&) = delete;
             App& operator=(const App&) = delete;
@@ -43,7 +49,8 @@ namespace Core::Application {
             float GetDeltaTime() const;
             std::shared_ptr<ECSManager> GetECSManager() const;
 
-            void Log(LoggingType type, std::string message);
+            void Log(LoggingType type, std::string message,
+                    const char* file, int line, const char* function);
             void SetLoggingLevel(LoggingType level);
             void SetLogPath(std::string log_path);
 
@@ -69,8 +76,7 @@ namespace Core::Application {
 
             template<typename T>
             void AddComponent(Entity entity) {
-                T component = T();
-                m_ecs_manager->AddComponent<T>(entity, component);
+                m_ecs_manager->AddComponent<T>(entity);
             }
 
             template<typename T>
@@ -86,14 +92,13 @@ namespace Core::Application {
         protected:
             std::shared_ptr<ECSManager> m_ecs_manager;
             std::shared_ptr<LoggingManager> m_logging_manager;
+            std::shared_ptr<IComponentFactory> m_component_factory;
             std::unique_ptr<SerializationManager> m_serialization_manager;
             SDL_Renderer* m_renderer;
             SDL_Window* m_window;
             SDL_Surface* m_surface;
             float m_delta_time; ///< Time elapsed between frames
             float m_previous_frame_time; ///< Previous frame time
-            
-            App(const std::string& config_path);
 
             /**
              * @brief Cleans up the SDL window and renderer.

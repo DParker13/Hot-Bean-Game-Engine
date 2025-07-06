@@ -4,4 +4,4 @@ Window:
   height: 720
 Logging:
   path: "./logs/log.txt" # Path to the log file
-  level: 3  # DEBUG = 0, INFO, WARNING, ERROR, FATAL = 4
+  level: 0  # DEBUG = 0, INFO, WARNING, ERROR, FATAL = 4

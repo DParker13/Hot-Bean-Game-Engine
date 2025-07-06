@@ -50,11 +50,6 @@ namespace Core::Components {
                 m_background_color.a = 255;
             };
 
-            /**
-             * @brief Destroy the Text component
-             */
-            ~Text() = default;
-
             std::string GetName() const override {
                 return "Text";
             }

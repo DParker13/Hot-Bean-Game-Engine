@@ -13,7 +13,7 @@
 #include "example_game.hpp"
 
 ExampleGame::ExampleGame(const std::string& config_path)
-    : BaseGame(config_path) {}
+    : App(config_path) {}
 
 void ExampleGame::OnStart() {
     std::filesystem::path test_scene_path = std::filesystem::current_path() / "scenes" / "example_scene.yaml";

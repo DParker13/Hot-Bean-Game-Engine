@@ -19,7 +19,7 @@ namespace Core::Components {
          * The path to the audio file.
          */
         std::string path;
-        
+
         AudioSource() = default;
 
         std::string GetName() const override {
