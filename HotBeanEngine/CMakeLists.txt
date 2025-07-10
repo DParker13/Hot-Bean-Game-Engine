@@ -115,7 +115,6 @@ endif()
 
 # Add subdirectories
 add_subdirectory(src/core)
-add_subdirectory(src/game)
 
 if(GAME_BUILD_TESTING)
     message(STATUS "${PROJECT_NAME}: Building tests")

@@ -10,7 +10,7 @@ using namespace Core::ECS;
 namespace Core::Systems {
     class InputSystem : public System {
         public:
-            std::unordered_set<SDL_Keycode> _keysPressed;
+            std::unordered_set<SDL_Keycode> m_keys_pressed;
             
             InputSystem() = default;
 

@@ -19,7 +19,7 @@ namespace Core::Systems {
     };
 
     void CameraSystem::SetSignature() {
-        SETUP_SYSTEM(CameraSystem, Camera, Transform2D);
+        SETUP_SYSTEM(CameraSystem, Transform2D, Camera);
     }
 
     void CameraSystem::OnStart() {

@@ -10,8 +10,8 @@ namespace Scenes {
         app.GetComponent<Text>(text_entity).m_wrapping_width = 50;
     }
 
-    void ExampleScene::SetupPreSystems() {
-        BaseScene::SetupPreSystems();
+    void ExampleScene::SetupSystems() {
+        BaseScene::SetupSystems();
 
         RegisterSystem<CustomAudioSystem>();
     }

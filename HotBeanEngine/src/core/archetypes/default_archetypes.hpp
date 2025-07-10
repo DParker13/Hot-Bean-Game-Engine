@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../application/archetype.hpp"
+#include "archetype.hpp"
 #include "../components/default_components.hpp"
 
 using namespace Core::Components;
@@ -8,6 +8,9 @@ using namespace Core::Components;
 namespace Core::Archetypes {
     using PlayerArchetype = Archetype<Transform2D, Controller, Texture>;
     using CameraArchetype = Archetype<Transform2D, Camera>;
+    using TextureArchetype = Archetype<Transform2D, Texture>;
+
+    // --- UI ---
     using UIElementArchetype = Archetype<Transform2D, Texture, UIElement>;
     using TextArchetype = Archetype<Transform2D, Text, UIElement>;
 }

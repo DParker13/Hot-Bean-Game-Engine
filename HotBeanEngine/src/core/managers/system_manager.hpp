@@ -27,29 +27,36 @@ namespace Core::Managers {
 			~SystemManager();
 
 			/**
-			 * Creates and registers a system with the System Manager.
-			 *
-			 * @tparam T The type of system to be registered.
-			 *
-			 * @return A shared pointer to the system.
-			 *
-			 * @throws assertion failure if the system type has already been registered.
+			 * @brief Creates and registers a system with the System Manager
+			 * 
+			 * @tparam T Type of system
+			 * @tparam Args Parameter types needed to create system
+			 * @param params Parameters needed to create system
+			 * @return T& Reference to newly created system
 			 */
 			template<typename T, typename... Args>
 			T& RegisterSystem(Args&&... params)
 			{
-				static_assert(std::is_base_of_v<System, T>, "T must inherit from System!");
-
 				std::string type_name = typeid(T).name();
-				assert(m_systems.find(type_name) == m_systems.end() && "Registering system more than once.");
-
 				LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
-				T* system = new T(std::forward<Args>(params)...);
 
-				// Create a pointer to the system and return it so it can be used externally
-				m_systems.insert({type_name, system});
+				if (IsSystemRegistered<T>(type_name)) {
+					LOG_CORE(LoggingType::WARNING, "Registering system more than once! Ignoring...");
+					return *static_cast<T*>(m_systems[type_name]);
+				}
 
-				return *system;
+				if (std::is_base_of_v<System, T>) {
+					T* system = new T(std::forward<Args>(params)...);
+
+					// Create a pointer to the system and return it so it can be used externally
+					m_systems.insert({type_name, system});
+
+					return *system;
+				}
+				else {
+					LOG_CORE(LoggingType::FATAL, "T must inherit from System or Archetype!");
+					throw std::runtime_error("T must inherit from System or Archetype!");
+				}
 			}
 
 			/**
@@ -64,43 +71,69 @@ namespace Core::Managers {
 			T& RegisterSystem()
 			{
 				std::string type_name = typeid(T).name();
-				assert(m_systems.find(type_name) == m_systems.end() && "Registering system more than once.");
-
 				LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
-				T* system = new T();
 
-				// Create a pointer to the system and return it so it can be used externally
-				m_systems.insert({type_name, system});
+				if (IsSystemRegistered<T>(type_name)) {
+					LOG_CORE(LoggingType::WARNING, "Registering system more than once! Ignoring...");
+					return *static_cast<T*>(m_systems[type_name]);
+				}
 
-				return *system;
+				if (std::is_base_of_v<System, T>) {
+					T* system = new T();
+
+					// Create a pointer to the system and return it so it can be used externally
+					m_systems.insert({type_name, system});
+
+					return *system;
+				}
+				else {
+					LOG_CORE(LoggingType::FATAL, "T must inherit from System or Archetype!");
+					throw std::runtime_error("T must inherit from System or Archetype!");
+				}
+			}
+
+			/**
+			 * @brief Unregister the system from the ECS Manager
+			 * 
+			 * @tparam T Type of system
+			 */
+			template<typename T>
+			void UnregisterSystem() {
+				std::string type_name = typeid(T).name();
+				LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + type_name + "\"");
+
+				if (IsSystemRegistered<T>(type_name)) {
+					LOG_CORE(LoggingType::WARNING, "System is not registered");
+					return;
+				}
+
+				RemoveSignature<T>();
+				m_systems.erase(type_name);
 			}
 
 			template<typename T>
-			void UnregisterSystem() {
-				RemoveSignature<T>();
-
+			bool IsSystemRegistered() {
 				std::string type_name = typeid(T).name();
-				assert(m_systems.find(type_name) != m_systems.end() && "System isn't registered.");
 
-				LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + type_name + "\"");
-
-				m_systems.erase(type_name);
+				return IsSystemRegistered<T>(type_name);
 			}
 
 			/**
 			 * Sets the signature for a system that has already been registered.
 			 *
 			 * @tparam T The type of system to be registered.
-			 *
 			 * @param signature The signature for the system.
-			 *
 			 * @throws assertion failure if the system type has not been registered.
 			 */
 			template<typename T>
 			void SetSignature(Signature signature) {
 				std::string type_name = typeid(T).name();
-				assert(m_systems.find(type_name) != m_systems.end() && "System is not registered.");
 
+				if (!IsSystemRegistered<T>(type_name)) {
+					LOG_CORE(LoggingType::WARNING, "System is not registered");
+					return;
+				}
+				
 				LOG_CORE(LoggingType::DEBUG, "System \"" + type_name + "\" Signature set to"
 					" \"" + signature.to_string() + "\"");
 
@@ -109,35 +142,37 @@ namespace Core::Managers {
 			}
 
 			/**
-			 * Retrieves the signature associated with a system of type T.
-			 *
-			 * @tparam T The type of system to retrieve the signature for.
-			 *
-			 * @return A reference to the signature associated with the system of type T.
-			 *
-			 * @throws assertion failure if the system type has not been registered.
+			 * @brief Get the Signature of a System type T
+			 * 
+			 * @tparam T Type of System
+			 * @return Signature& Reference to the System's Signature
 			 */
 			template<typename T>
 			Signature& GetSignature() {
 				std::string type_name = typeid(T).name();
-				assert(m_systems.find(type_name) != m_systems.end() && "System used before registered.");
+
+				if (!IsSystemRegistered<T>(type_name)) {
+					LOG_CORE(LoggingType::ERROR, "System is not registered");
+					throw std::runtime_error("System is not registered");
+				}
 
 				// Set the signature for this system
 				return m_signatures[type_name];
 			}
 
 			/**
-			 * @brief Get the System object
+			 * @brief Get the System
 			 * 
-			 * @tparam T 
-			 * @return T* 
+			 * @tparam T Type of System
+			 * @return T* Pointer to the registered System
 			 */
 			template <typename T>
 			T* GetSystem()
 			{
 				std::string type_name = typeid(T).name();
 				
-				if (m_systems.find(type_name) == m_systems.end()) {
+				if (!IsSystemRegistered<T>(type_name)) {
+					LOG_CORE(LoggingType::WARNING, "System is not registered");
 					return nullptr;
 				}
 				else {
@@ -188,9 +223,18 @@ namespace Core::Managers {
 			std::map<std::string, System*> m_systems;
 
 			template<typename T>
+			bool IsSystemRegistered(std::string& type_name) {
+				return m_systems.find(type_name) != m_systems.end();
+			}
+
+			template<typename T>
 			void RemoveSignature() {
 				std::string type_name = typeid(T).name();
-				assert(m_systems.find(type_name) != m_systems.end() && "System is not registered.");
+
+				if (!IsSystemRegistered<T>(type_name)) {
+					LOG_CORE(LoggingType::WARNING, "System is not registered");
+					return;
+				}
 
 				LOG_CORE(LoggingType::DEBUG, "System \"" + type_name + "\" Signature removed");
 

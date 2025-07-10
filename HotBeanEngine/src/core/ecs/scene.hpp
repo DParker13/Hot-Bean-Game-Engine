@@ -26,11 +26,6 @@ namespace Core::ECS {
         /**
          * @brief Initializes the systems needed for this scene in the system manager.
          */
-        virtual void SetupPreSystems() = 0;
-
-        /**
-         * @brief Initializes the systems needed for this scene in the system manager.
-         */
-        virtual void SetupPostSystems() = 0;
+        virtual void SetupSystems() = 0;
     };
 }

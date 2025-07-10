@@ -9,11 +9,14 @@ using namespace Core::ECS;
 namespace Core::Systems {
     class PlayerControllerSystem : public System {
         public:
-            PlayerControllerSystem() = default;
+            PlayerControllerSystem(InputSystem& input_system) : m_input_system(input_system) {}
 
             void SetSignature() override;
             void OnUpdate() override;
 
-            void Move(Entity entity, std::unordered_set<SDL_Keycode> keysPressed, float speed);
+            void Move(Entity entity, float speed);
+
+        private:
+            InputSystem& m_input_system;
     };
 }

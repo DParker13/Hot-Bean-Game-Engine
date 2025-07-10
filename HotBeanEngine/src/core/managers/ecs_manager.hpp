@@ -228,6 +228,11 @@ namespace Core::Managers {
             void UnregisterSystem() {
                 m_system_manager->UnregisterSystem<T>();
             }
+
+            template<typename T>
+            bool IsSystemRegistered() {
+                return m_system_manager->IsSystemRegistered<T>();
+            }
     
             /**
              * @brief Get the System object
@@ -240,15 +245,65 @@ namespace Core::Managers {
                 return m_system_manager->GetSystem<T>();
             }
 
+            /**
+             * @brief Set the Signature of a System using Archetypes
+             * 
+             * @tparam S System type
+             * @param archetype Archetype to set signature with
+             */
+            template<typename S>
+            void SetSignature(IArchetype* archetype) {
+                try {
+                    if (!IsSystemRegistered<S>()) {
+                        LOG_CORE(LoggingType::WARNING, "System is not registered");
+                        return;
+                    }
+
+                    Signature& signature = m_system_manager->GetSignature<S>();
+                    std::vector<std::string> component_names = archetype->GetComponentNames();
+
+                    for (std::string component_name : component_names) {
+                        if (IsComponentRegistered(component_name)) {
+                            signature.set(GetComponentType(component_name));
+                        }
+                        else {
+                            LOG_CORE(LoggingType::ERROR, "Component not registered: " + component_name + 
+                                "\n\tWhen setting signature for system, component must be registered first");
+                            throw std::runtime_error("Component not registered. Component must be registered before setting system signature using an Archetype.");
+                        }
+                    }
+        
+                    m_system_manager->SetSignature<S>(signature);
+                }
+                catch(std::runtime_error& e) {
+                    LOG_CORE(LoggingType::ERROR, "Runtime error: Failed to set System signature");
+                }
+            }
+
+            /**
+             * @brief Set the Signature of a System using Components
+             * 
+             * @tparam S System type
+             * @tparam Cs Component types
+             */
             template<typename S, typename... Cs>
             void SetSignature() {
-                Signature& signature = m_system_manager->GetSignature<S>();
-    
-                ((signature.set(IsComponentRegistered<Cs>() ?
-                    GetComponentType<Cs>() :
-                    RegisterComponentType<Cs>())), ...);
-    
-                m_system_manager->SetSignature<S>(signature);
+                try {
+                    if (!IsSystemRegistered<S>()) {
+                        LOG_CORE(LoggingType::WARNING, "System is not registered");
+                        return;
+                    }
+
+                    Signature& signature = m_system_manager->GetSignature<S>();
+                    ((signature.set(IsComponentRegistered<Cs>() ?
+                            GetComponentType<Cs>() :
+                            RegisterComponentType<Cs>())), ...);
+        
+                    m_system_manager->SetSignature<S>(signature);
+                }
+                catch(std::runtime_error& e) {
+                    LOG_CORE(LoggingType::ERROR, "Runtime error: Failed to set System signature");
+                }
             }
     
             /**

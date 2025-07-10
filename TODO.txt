@@ -8,7 +8,8 @@ High Priority
     + Add support for multiple fonts
     + Clean up logic
     + Separate Font pointer from Text component?
-- Modify system manager to register with Archetypes?
+- Create better way to register systems in whatever order the user wants
+- Create a script component (not sure how to do this. Use C# for scripts?)
 
 Medium Priority
 - Can modify components in realtime without recompiling
@@ -21,3 +22,8 @@ Low Priority
 - Add image to EXE
 - Add splashscreen
 - Create settings menu
+- Change system manager to use something other than bitset for signature (allows for more registered components)
+- Modify system manager to register with Archetypes?
+    + Need to create a generic archetype interface
+        ~ GetComponentNames
+    + Iterate through all components associated with Archetype to set signature!

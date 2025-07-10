@@ -4,19 +4,17 @@
 #include <SDL.h>
 #include <yaml-cpp/yaml.h>
 
-namespace Core {
-    namespace ECS {
-        // ComponentType is an unsigned 32-bit integer
-        // This is used to identify a component
-        using ComponentType = Uint32;
-    
-        struct Component {
-            Component() = default;
-            virtual ~Component() = default;
+namespace Core::ECS {
+    // ComponentType is an unsigned 32-bit integer
+    // This is used to identify a component
+    using ComponentType = Uint32;
 
-            virtual std::string GetName() const = 0;
-            virtual void Serialize(YAML::Emitter& out) const {};
-            virtual void Deserialize(YAML::Node& node) {};
-        };
-    }
+    struct Component {
+        Component() = default;
+        virtual ~Component() = default;
+
+        virtual std::string GetName() const = 0;
+        virtual void Serialize(YAML::Emitter& out) const {};
+        virtual void Deserialize(YAML::Node& node) {};
+    };
 }

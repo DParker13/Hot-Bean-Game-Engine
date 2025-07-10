@@ -31,8 +31,7 @@ namespace Core::Managers {
                 throw std::runtime_error("Scene file does not exist: "+ m_current_scene->m_scene_path);
             }
 
-            m_current_scene->SetupPreSystems();
-            m_current_scene->SetupPostSystems();
+            m_current_scene->SetupSystems();
 
             DeserializeScene(m_current_scene->m_scene_path);
 

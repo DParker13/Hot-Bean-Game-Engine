@@ -12,11 +12,11 @@ namespace Core::Systems {
      */
     void InputSystem::OnEvent(SDL_Event& event) {
         if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
-            _keysPressed.insert(event.key.keysym.sym);
+            m_keys_pressed.insert(event.key.keysym.sym);
         }
         
         if (event.type == SDL_KEYUP) {
-            _keysPressed.erase(event.key.keysym.sym);
+            m_keys_pressed.erase(event.key.keysym.sym);
         }
     }
 }

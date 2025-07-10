@@ -16,7 +16,7 @@ namespace Scenes {
 
         ~ExampleScene() = default;
 
-        void SetupPreSystems() override;
+        void SetupSystems() override;
         void SetupScene() override;
     };
 }

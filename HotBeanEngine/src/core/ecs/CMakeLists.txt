@@ -1,5 +1,6 @@
 add_library(ecs INTERFACE
     all_ecs.hpp
+    archetype.hpp
     app.hpp
     component.hpp
     entity.hpp

@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "archetype.hpp"
 #include "component.hpp"
 #include "config.hpp"
 #include "entity.hpp"
