@@ -226,11 +226,15 @@ namespace Core::Application {
     }
 
     Entity App::CreateEntity() {
-        return m_ecs_manager->CreateEntity();
+        return m_ecs_manager->GetEntityManager().CreateEntity();
     }
 
     void App::DestroyEntity(Entity entity) {
         m_ecs_manager->DestroyEntity(entity);
+    }
+
+    bool App::HasComponent(Entity entity, ComponentType component_type) const {
+        return m_ecs_manager->GetEntityManager().HasComponent(entity, component_type);
     }
 
     /**
@@ -249,7 +253,7 @@ namespace Core::Application {
      */
     void App::OnStart() {
         // This is also called when a scene is loaded. (Should this just be removed?)
-        m_ecs_manager->IterateSystems(GameLoopState::OnStart);
+        m_ecs_manager->GetSystemManager().IterateSystems(GameLoopState::OnStart);
     }
 
     /**
@@ -258,7 +262,7 @@ namespace Core::Application {
      * @param event The SDL event to be handled.
      */
     void App::OnPreEvent() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnPreEvent);
+        m_ecs_manager->GetSystemManager().IterateSystems(GameLoopState::OnPreEvent);
     }
 
     /**
@@ -267,7 +271,7 @@ namespace Core::Application {
      * @param event The SDL event to be handled.
      */
     void App::OnEvent(SDL_Event& event) {
-        m_ecs_manager->IterateSystems(event, GameLoopState::OnEvent);
+        m_ecs_manager->GetSystemManager().IterateSystems(event, GameLoopState::OnEvent);
     }
 
     /**
@@ -275,7 +279,7 @@ namespace Core::Application {
      * 
      */
     void App::OnWindowResize(SDL_Event& event) {
-        m_ecs_manager->IterateSystems(event, GameLoopState::OnWindowResize);
+        m_ecs_manager->GetSystemManager().IterateSystems(event, GameLoopState::OnWindowResize);
     }
 
     /**
@@ -285,7 +289,7 @@ namespace Core::Application {
      * @param delta_time The time in seconds since the last frame.
      */
     void App::OnUpdate() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnUpdate);
+        m_ecs_manager->GetSystemManager().IterateSystems(GameLoopState::OnUpdate);
     }
 
     /**
@@ -296,7 +300,7 @@ namespace Core::Application {
      * @param surface The SDL_Surface to render to.
      */
     void App::OnRender() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnRender);
+        m_ecs_manager->GetSystemManager().IterateSystems(GameLoopState::OnRender);
     }
 
     /**
@@ -305,6 +309,6 @@ namespace Core::Application {
      * @param renderer The SDL_Renderer to render with.
      */
     void App::OnPostRender() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnPostRender);
+        m_ecs_manager->GetSystemManager().IterateSystems(GameLoopState::OnPostRender);
     }
 }

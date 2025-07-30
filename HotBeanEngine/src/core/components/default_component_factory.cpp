@@ -51,11 +51,13 @@ namespace Core::Application {
                 AddComponent<Components::Texture>(entity, node);
             }
             else if (component_name == "Transform2D") {
-                AddComponent<Components::Transform2D>(entity, node);
-                m_ecs_manager->GetComponent<Components::Transform2D>(entity).m_parent = parent_entity;
+                AddComponent<Components::Transform2D, Entity>(entity, node, parent_entity);
             }
             else if (component_name == "UIElement") {
                 AddComponent<Components::UIElement>(entity, node);
+            }
+            else if (component_name == "Shape") {
+                AddComponent<Components::Shape>(entity, node);
             }
         }
         else {

@@ -64,6 +64,6 @@ TEST_CASE("ComponentManager: Component addition and removal") {
         component_manager.AddComponent<TestComponent>(entity_1, test_component);
         component_manager.AddComponent<TestComponent>(entity_2, test_component);
         component_manager.RemoveComponent<TestComponent>(entity_1);
-        REQUIRE_THROWS_AS(component_manager.RemoveComponent<TestComponent>(entity_1), std::runtime_error);
+        REQUIRE_NOTHROW(component_manager.RemoveComponent<TestComponent>(entity_1));
     }
 }

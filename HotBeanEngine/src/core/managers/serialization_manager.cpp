@@ -35,7 +35,7 @@ namespace Core::Managers {
 
             DeserializeScene(m_current_scene->m_scene_path);
 
-            m_ecs_manager->IterateSystems(GameLoopState::OnStart);
+            m_ecs_manager->GetSystemManager().IterateSystems(GameLoopState::OnStart);
 
             LOG_CORE(LoggingType::INFO, "Scene loaded.");
         } catch (const YAML::Exception& e) {
@@ -58,7 +58,7 @@ namespace Core::Managers {
             }
 
             // Destroy all entities
-            for (Entity entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
+            for (Entity entity = 0; entity < m_ecs_manager->GetEntityManager().EntityCount(); entity++) {
                 m_ecs_manager->DestroyEntity(entity);
             }
 
@@ -124,9 +124,9 @@ namespace Core::Managers {
 
     // TODO: Replace this with a better solution. Maybe use the TransformSystem.m_entities member instead
     void SerializationManager::MapParentEntities() {
-        for (Entity entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
-            if (m_ecs_manager->HasComponent<Components::Transform2D>(entity)) {
-                Entity parent_entity = m_ecs_manager->GetComponent<Components::Transform2D>(entity).m_parent;
+        for (Entity entity = 0; entity < m_ecs_manager->GetEntityManager().EntityCount(); entity++) {
+            if (m_ecs_manager->GetComponentManager().HasComponent<Components::Transform2D>(entity)) {
+                Entity parent_entity = m_ecs_manager->GetComponentManager().GetComponentData<Components::Transform2D>(entity).m_parent;
 
                 if (m_parent_entity_map.find(parent_entity) == m_parent_entity_map.end()) {
                     m_parent_entity_map[parent_entity] = std::vector<Entity> { entity };
@@ -215,7 +215,7 @@ namespace Core::Managers {
             // Get the component data
             YAML::Node component = components.second;
 
-            if (m_ecs_manager->IsComponentRegistered(component_name)) {
+            if (m_ecs_manager->GetComponentManager().IsComponentRegistered(component_name)) {
                 LOG_CORE(LoggingType::INFO, "Loading component: " + component_name);
                 m_component_factory->CreateComponent(component_name, component, parent_entity, entity);
             }
@@ -230,7 +230,7 @@ namespace Core::Managers {
         // Iterate over the entities
         for (const YAML::Node& entity_node : parent_entity != -1 ? node : node["Entities"]) {
             // Create a new entity
-            Entity entity = m_ecs_manager->CreateEntity();
+            Entity entity = m_ecs_manager->GetEntityManager().CreateEntity();
 
             DeserializeEntity(entity_node, parent_entity, entity);
         }

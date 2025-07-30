@@ -31,11 +31,10 @@ namespace Core::Managers {
     EntityManager::~EntityManager() = default;
 
     /**
-     * @brief Initializes the queue of available entity IDs.
+     * @brief Initializes the queue with available entity IDs.
      * 
-     * This function fills the queue with all possible entity IDs, making them 
+     * Fills the queue with all possible entity IDs, making them 
      * available for future use. The entity IDs range from 0 to MAX_ENTITIES - 1.
-     * 
      */
     void EntityManager::InitializeEntityQueue() {
         for (Entity entity_id = 0; entity_id < MAX_ENTITIES; entity_id++) {
@@ -45,15 +44,16 @@ namespace Core::Managers {
     }
 
     /**
-     * Creates a new entity and returns its unique identifier.
+     * @brief Creates a new entity and returns its unique identifier.
      *
      * @return The unique identifier of the newly created entity.
-     *
-     * @throws assertion failure if the maximum number of entities has been reached.
+     * @throw std::overflow_error if the maximum number of entities has been reached.
      */
     Entity EntityManager::CreateEntity() {
         if (m_living_entity_count >= MAX_ENTITIES) {
-            throw std::overflow_error("Too many entities in existence.");
+            auto ex = std::overflow_error("Too many entities in existence.");
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
         }
 
         // Take an ID from the front of the queue
@@ -73,14 +73,17 @@ namespace Core::Managers {
     }
 
     /**
-     * Destroys an entity and makes its ID available for reuse.
+     * @brief Destroys an entity and makes its ID available for reuse.
      *
      * @param entity The ID of the entity to be destroyed.
-     *
-     * @throws assertion failure if the entity ID is out of range.
+     * @throw std::out_of_range if the entity ID is out of range.
      */
     void EntityManager::DestroyEntity(Entity entity) {
-        assert(entity < MAX_ENTITIES && entity >= 0 && "Entity out of range.");
+        if (entity < 0 || entity >= MAX_ENTITIES) {
+            std::out_of_range ex = std::out_of_range("Entity out of range.");
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
+        }
 
         // If the entity is not alive, return
         if (!m_alive_entities[entity]) return;
@@ -105,11 +108,15 @@ namespace Core::Managers {
      *
      * @param entity The ID of the entity to set the signature for.
      * @param component_type The signature to be set for the entity.
-     *
-     * @throws assertion failure if the entity ID is out of range.
+     * @return The signature of the entity.
+     * @throw std::out_of_range if the entity ID is out of range.
      */
     Signature EntityManager::SetSignature(Entity entity, ComponentType component_type) {
-        assert(entity < MAX_ENTITIES && "Entity out of range.");
+        if (entity < 0 || entity >= MAX_ENTITIES) {
+            std::out_of_range ex = std::out_of_range("Entity out of range.");
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
+        }
 
         // Set the signature for the given entity
         m_signatures[entity].set(component_type);
@@ -121,24 +128,68 @@ namespace Core::Managers {
     }
 
     /**
-     * Retrieves the signature associated with a given entity.
+     * Sets the signature for a given entity.
      *
-     * @param entity The ID of the entity to retrieve the signature for.
-     *
-     * @return The signature associated with the given entity.
-     *
-     * @throws assertion failure if the entity ID is out of range.
+     * @param entity The ID of the entity to set the signature for.
+     * @param component_type The signature to be set for the entity.
+     * @return The signature of the entity.
+     * @throw std::out_of_range if the entity ID is out of range.
      */
-    Signature EntityManager::GetSignature(Entity entity) {
-        assert(entity < MAX_ENTITIES && "Entity out of range.");
+    Signature EntityManager::SetSignature(Entity entity, ComponentType component_type, bool value) {
+        if (entity < 0 || entity >= MAX_ENTITIES) {
+            std::out_of_range ex = std::out_of_range("Entity out of range.");
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
+        }
+
+        // Set the signature for the given entity
+        m_signatures[entity].set(component_type, value);
+
+        LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\""
+            " signature set \"" + m_signatures[entity].to_string() + "\"");
 
         return m_signatures[entity];
     }
 
-    bool EntityManager::HasComponent(Entity entity, ComponentType component_type) {
-        return GetSignature(entity).test(component_type);
+    /**
+     * Retrieves the signature associated with a given entity.
+     *
+     * @param entity The ID of the entity to retrieve the signature for.
+     * @return The signature associated with the given entity.
+     * @throw std::out_of_range if the entity ID is out of range.
+     */
+    Signature EntityManager::GetSignature(Entity entity) {
+        if (entity < 0 || entity >= MAX_ENTITIES) {
+            std::out_of_range ex = std::out_of_range("Entity out of range.");
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
+        }
+
+        return m_signatures[entity];
     }
 
+    /**
+     * @brief Checks if an entity has a specific component
+     * 
+     * @param entity Entity to check
+     * @param component_type Component type ID
+     * @return true 
+     * @return false 
+     */
+    bool EntityManager::HasComponent(Entity entity, ComponentType component_type) {
+        try {
+            return GetSignature(entity).test(component_type);
+        }
+        catch(const std::exception& e) {
+            return false;
+        }
+    }
+
+    /**
+     * @brief Number of living entities
+     * 
+     * @return Entity count
+     */
     Entity EntityManager::EntityCount() const {
         return m_living_entity_count;
     }

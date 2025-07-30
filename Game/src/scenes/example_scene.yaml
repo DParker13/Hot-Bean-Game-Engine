@@ -19,7 +19,7 @@ Entities:
                 Text:
                     text: "Child of Camera (shouldn't move)"
                     foreground_color: [255, 255, 255, 255]
-                    background_color: [10, 10, 10, 100]
+                    background_color: [10, 10, 10, 255]
                     size: 10
                     style: 0
                     wrapping_width: 0
@@ -35,7 +35,7 @@ Entities:
         Text:
             text: "The quick brown fox jumps over the lazy dog (Entity 1)"
             foreground_color: [255, 255, 255, 255]
-            background_color: [10, 10, 10, 100]
+            background_color: [10, 10, 10, 255]
             size: 10
             style: 0
             wrapping_width: 0

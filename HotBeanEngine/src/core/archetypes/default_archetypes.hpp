@@ -9,6 +9,7 @@ namespace Core::Archetypes {
     using PlayerArchetype = Archetype<Transform2D, Controller, Texture>;
     using CameraArchetype = Archetype<Transform2D, Camera>;
     using TextureArchetype = Archetype<Transform2D, Texture>;
+    using ShapeArchetype = Archetype<Transform2D, Texture, Shape>;
 
     // --- UI ---
     using UIElementArchetype = Archetype<Transform2D, Texture, UIElement>;

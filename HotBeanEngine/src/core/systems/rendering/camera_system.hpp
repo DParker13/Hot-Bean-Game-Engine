@@ -10,17 +10,15 @@ namespace Core::Systems {
     class CameraSystem : public System {
         public:
             CameraSystem() = default;
-            ~CameraSystem();
 
             void SetSignature() override;
             void OnStart() override;
             void OnUpdate() override;
 
-            Transform2D* GetActiveCameraTransform();
+            Entity GetActiveCameraEntity();
 
         private:
             Entity m_active_camera_entity;
-            Transform2D* m_active_camera_transform;
 
             void FindActiveCamera();
     };

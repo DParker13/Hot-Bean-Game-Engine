@@ -26,10 +26,14 @@ namespace Core::Systems {
         SETUP_SYSTEM(RenderSystem, Transform2D, Texture);
     }
 
+    void RenderSystem::OnEntityAdded(Entity entity) {
+        CreateTextureLayerForEntity(entity);
+    }
+
     /**
      * @brief Called when the window is resized
      * 
-     * @param event 
+     * @param event The SDL window event
      */
     void RenderSystem::OnWindowResize(SDL_Event& event) {
         App& app = App::GetInstance();
@@ -57,23 +61,25 @@ namespace Core::Systems {
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
+        // Create texture layers with the new renderer size
+        CreateTextureLayers();
+
         LOG(LoggingType::INFO, "Window finished resizing");
     }
     
+    /**
+     * @brief Render each entity to its respective texture layer and then combine them on the screen
+     * 
+     */
     void RenderSystem::OnRender() {
         for (auto& entity : m_entities) {
             auto& transform = App::GetInstance().GetECSManager()->GetComponent<Transform2D>(entity);
-
-            // Create texture layer if it doesn't exist
-            if (m_layers.find(transform.m_layer) == m_layers.end()) {
-                CreateTextureLayer(entity);
-            }
 
             // Render entity to its respective texture layer
             RenderEntityToLayer(entity);
         }
 
-        // Render all layers in order
+        // Render all layers in order (layer 0 first, layer 1 second, etc...)
         RenderAllLayers();
     }
 
@@ -83,6 +89,7 @@ namespace Core::Systems {
     void RenderSystem::OnPostRender() {
         auto* renderer = App::GetInstance().GetRenderer();
 
+        // Clear all layers
         for (auto& layer : m_layers) {
             SDL_SetRenderTarget(renderer, layer.second);
             SDL_RenderClear(renderer);
@@ -90,26 +97,40 @@ namespace Core::Systems {
     }
 
     /**
-     * @brief Creates a texture layer for the given entity if it doesn't already exist
-     * 
-     * @param entity Entity to create texture layer for
+     * @brief Creates all texture layers for each entity
      */
-    void RenderSystem::CreateTextureLayer(Entity entity) {
-        App& app = App::GetInstance();
-        auto* renderer = app.GetRenderer();
-        auto& transform = app.GetECSManager()->GetComponent<Transform2D>(entity);
+    void RenderSystem::CreateTextureLayers() {
+        for (auto entity : m_entities) {
+            CreateTextureLayerForEntity(entity);
+        }
+    }
+
+    void RenderSystem::CreateTextureLayerForEntity(Entity entity) {
+        auto& transform = App::GetInstance().GetECSManager()->GetComponent<Transform2D>(entity);
+
+        // Skips layers that have already been created
+        if (m_layers.find(transform.m_layer) != m_layers.end()) {
+            return;
+        }
+
+        auto* renderer = App::GetInstance().GetRenderer();
         SDL_Texture* current_layer = m_layers[transform.m_layer];
+        auto renderer_size = GetRendererSize();
 
-        // Get renderer size
-        glm::ivec2 renderer_size = { 0, 0 };
-        SDL_GetRendererOutputSize(renderer, &renderer_size.x, &renderer_size.y);
-
-        // Create texture the size of the renderer
+        // Create texture the size of the renderer (screen)
         current_layer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
                                     SDL_TEXTUREACCESS_TARGET, renderer_size.x, renderer_size.y);
 
         // Set blend mode to allow for transparency between layers
         SDL_SetTextureBlendMode(current_layer, SDL_BLENDMODE_BLEND);
+    }
+
+    glm::ivec2 RenderSystem::GetRendererSize() {
+        // Get renderer size
+        glm::ivec2 renderer_size = { 0, 0 };
+        SDL_GetRendererOutputSize(App::GetInstance().GetRenderer(), &renderer_size.x, &renderer_size.y);
+
+        return renderer_size;
     }
 
     /**

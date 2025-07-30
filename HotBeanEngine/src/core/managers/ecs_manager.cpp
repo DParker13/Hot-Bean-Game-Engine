@@ -26,17 +26,6 @@ namespace Core::Managers {
     }
 
     /**
-     * Creates a new entity and returns its unique identifier.
-     *
-     * @return The unique identifier of the newly created entity.
-     *
-     * @throws assertion failure if the maximum number of entities has been reached.
-     */
-    Entity ECSManager::CreateEntity() {
-        return m_entity_manager->CreateEntity();
-    }
-
-    /**
      * Destroys an entity and releases its resources.
      *
      * @param entity The ID of the entity to destroy.
@@ -84,71 +73,5 @@ namespace Core::Managers {
         }
 
         return components;
-    }
-
-    Entity ECSManager::EntityCount() const {
-        return m_entity_manager->EntityCount();
-    }
-
-    bool ECSManager::HasComponent(Entity entity, std::string component_name) const {
-        return m_entity_manager->HasComponent(entity, GetComponentType(component_name));
-    }
-
-    /**
-     * Retrieves the Component Name associated with the given component type.
-     *
-     * @param component_type The component type to retrieve the name for.
-     *
-     * @return The name associated with the given component type, or an empty string if the component is not registered.
-     */
-    std::string ECSManager::GetComponentName(ComponentType component_type) const {
-        return m_component_manager->GetComponentName(component_type);
-    }
-
-    /**
-     * @brief Get the registered Component Type using the Component Name
-     * 
-     * @param component_name Component Name to search
-     * @return ComponentType
-     * @return -1 if not found
-     */
-    ComponentType ECSManager::GetComponentType(std::string component_name) const {
-        return m_component_manager->GetComponentType(component_name);
-    }
-
-    /**
-     * @brief Checks if a component is registered
-     * 
-     * @param component_name The name of the component
-     * @return true 
-     * @return false 
-     */
-    bool ECSManager::IsComponentRegistered(std::string component_name) const {
-        return m_component_manager->IsComponentRegistered(component_name);
-    }
-
-    /**
-     * @brief Checks if a component is registered
-     * 
-     * @param component_type The type of the component
-     * @return true 
-     * @return false 
-     */
-    bool ECSManager::IsComponentRegistered(ComponentType component_type) const {
-        return m_component_manager->IsComponentRegistered(component_type);
-    }
-
-    void ECSManager::IterateSystems(GameLoopState state) {
-        m_system_manager->IterateSystems(state);
-    }
-
-    /**
-     * @brief Loop through all systems
-     * 
-     * @param event SDL event
-     * @param state Game loop state
-     */
-    void ECSManager::IterateSystems(SDL_Event& event, GameLoopState state) {
-        m_system_manager->IterateSystems(event, state);
     }
 }

@@ -66,27 +66,39 @@ namespace Core::Application {
 
             template<typename T>
             void UnregisterSystem() {
-                m_ecs_manager->UnregisterSystem<T>();
+                m_ecs_manager->GetSystemManager().UnregisterSystem<T>();
             }
             
             template<typename T>
             void AddComponent(Entity entity, T component) {
-                m_ecs_manager->AddComponent<T>(entity, component);
+                m_ecs_manager->GetComponentManager().AddComponent<T>(entity, component);
             }
 
             template<typename T>
             void AddComponent(Entity entity) {
-                m_ecs_manager->AddComponent<T>(entity);
+                m_ecs_manager->GetComponentManager().AddComponent<T>(entity);
             }
 
             template<typename T>
             T& GetComponent(Entity entity) {
-                return m_ecs_manager->GetComponent<T>(entity);
+                return m_ecs_manager->GetComponentManager().GetComponent<T>(entity);
             }
 
             template<typename T>
             void RemoveComponent(Entity entity) {
-                m_ecs_manager->RemoveComponent<T>(entity);
+                m_ecs_manager->GetComponentManager().RemoveComponent<T>(entity);
+            }
+
+            bool HasComponent(Entity entity, ComponentType component_type) const;
+
+            template<typename T>
+            bool HasComponent(Entity entity) const {
+                return m_ecs_manager->GetComponentManager().HasComponent<T>(entity);
+            }
+
+            template<typename T>
+            ComponentType GetComponentType() {
+                return m_ecs_manager->GetComponentManager().GetComponentType<T>();
             }
 
         protected:

@@ -14,6 +14,8 @@ add_library(core_systems STATIC
     rendering/camera_system.hpp
     rendering/render_system.cpp
     rendering/render_system.hpp
+    rendering/shape_system.cpp
+    rendering/shape_system.hpp
     rendering/transform_system.cpp
     rendering/transform_system.hpp
     ui/ui_system.cpp

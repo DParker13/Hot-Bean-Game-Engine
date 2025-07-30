@@ -21,6 +21,14 @@ namespace Core::Application {
                 m_ecs_manager->GetComponent<T>(entity).Deserialize(node);
             }
 
+            template<typename T, typename... Args>
+            void AddComponent(Entity entity, YAML::Node node, Args... args) {
+                static_assert(std::is_base_of_v<Component, T> && "T must inherit from Component");
+
+                m_ecs_manager->AddComponent<T>(entity, T(args...));
+                m_ecs_manager->GetComponent<T>(entity).Deserialize(node);
+            }
+
         protected:
             std::shared_ptr<Core::Managers::ECSManager> m_ecs_manager;
     };

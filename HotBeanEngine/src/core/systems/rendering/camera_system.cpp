@@ -14,9 +14,6 @@
 using namespace Core::Components;
 
 namespace Core::Systems {
-    CameraSystem::~CameraSystem() {
-        m_active_camera_transform = nullptr;
-    };
 
     void CameraSystem::SetSignature() {
         SETUP_SYSTEM(CameraSystem, Transform2D, Camera);
@@ -34,8 +31,8 @@ namespace Core::Systems {
         }
     }
 
-    Transform2D* CameraSystem::GetActiveCameraTransform() {
-        return m_active_camera_transform;
+    Entity CameraSystem::GetActiveCameraEntity() {
+        return m_active_camera_entity;
     }
 
     void CameraSystem::FindActiveCamera() {
@@ -51,7 +48,6 @@ namespace Core::Systems {
                 }
 
                 first_camera_found = true;
-                m_active_camera_transform = &App::GetInstance().GetECSManager()->GetComponent<Transform2D>(entity);
                 m_active_camera_entity = entity;
             }
         }

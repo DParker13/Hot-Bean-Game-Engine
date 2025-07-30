@@ -101,6 +101,6 @@ TEST_CASE("ECSManager: Component addition and removal") {
         ecs_manager.AddComponent<TestComponent>(entity_1, test_component);
         ecs_manager.AddComponent<TestComponent>(entity_2, test_component);
         ecs_manager.RemoveComponent<TestComponent>(entity_1);
-        REQUIRE_THROWS_AS(ecs_manager.RemoveComponent<TestComponent>(entity_1), std::runtime_error);
+        REQUIRE_NOTHROW(ecs_manager.RemoveComponent<TestComponent>(entity_1));
     }
 }

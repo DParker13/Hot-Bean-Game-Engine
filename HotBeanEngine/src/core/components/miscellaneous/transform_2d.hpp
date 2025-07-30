@@ -31,6 +31,7 @@ namespace Core::Components {
         glm::vec2 m_screen_scale = glm::vec2(1.0f, 1.0f);
 
         Transform2D() = default;
+        Transform2D(Entity parent) : m_parent(parent) {}
 
         std::string GetName() const override {
             return "Transform2D";

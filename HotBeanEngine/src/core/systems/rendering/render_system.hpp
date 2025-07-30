@@ -15,12 +15,15 @@ namespace Core::Systems {
             ~RenderSystem();
 
             void SetSignature() override;
+            void OnEntityAdded(Entity entity) override;
             void OnWindowResize(SDL_Event& event) override;
             void OnRender() override;
             void OnPostRender() override;
 
         private:
-            void CreateTextureLayer(Entity entity);
+            void CreateTextureLayers();
+            void CreateTextureLayerForEntity(Entity entity);
+            glm::ivec2 GetRendererSize();
             void RenderEntityToLayer(Entity entity);
             void RenderAllLayers();
     };

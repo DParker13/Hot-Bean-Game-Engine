@@ -15,6 +15,7 @@
 #include "component.hpp"
 #include "config.hpp"
 #include "entity.hpp"
+#include "exceptions.hpp"
 #include "game_loop.hpp"
 #include "logging_type.hpp"
 #include "scene.hpp"

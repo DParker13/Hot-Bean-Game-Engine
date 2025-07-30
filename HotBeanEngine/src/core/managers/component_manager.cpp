@@ -20,11 +20,13 @@ namespace Core::Managers {
      * 
      * @param component_type The type of the component
      * @return std::string The name of the component
+     * @throw ComponentNotRegisteredException
      */
     std::string ComponentManager::GetComponentName(ComponentType component_type) {
-        if(!IsComponentRegistered(component_type)) {
-            LOG_CORE(LoggingType::ERROR, "Component not registered");
-            throw std::runtime_error("Component not registered");
+        if (!IsComponentRegistered(component_type)) {
+            auto ex = ComponentNotRegisteredException();
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
         }
 
         return m_component_type_to_name[component_type];
@@ -35,11 +37,13 @@ namespace Core::Managers {
      * 
      * @param component_name The name of the component
      * @return ComponentType The ComponentType associated with the given component name
+     * @throw ComponentNotRegisteredException
      */
     ComponentType ComponentManager::GetComponentType(std::string component_name) {
-        if(!IsComponentRegistered(component_name)) {
-            LOG_CORE(LoggingType::ERROR, "Component not registered");
-            throw std::runtime_error("Component not registered");
+        if (!IsComponentRegistered(component_name)) {
+            auto ex = ComponentNotRegisteredException(component_name);
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
         }
 
         return m_component_name_to_type[component_name];
@@ -52,11 +56,13 @@ namespace Core::Managers {
      * @param entity Entity to retrieve component from
      * @param component_type Type of component to retrieve
      * @return Component& Component data
+     * @throws ComponentNotRegisteredException or std::bad_any_cast
      */
     Component& ComponentManager::GetComponent(Entity entity, ComponentType component_type) {
         if (!IsComponentRegistered(component_type)) {
-            LOG_CORE(LoggingType::ERROR, "Component not registered");
-            throw std::runtime_error("Component not registered");
+            auto ex = ComponentNotRegisteredException();
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
         }
         
         try {
@@ -77,19 +83,21 @@ namespace Core::Managers {
      * 
      * @param entity Entity to remove component from
      * @param component_type Type of component to remove
+     * @throw ComponentNotRegisteredException
      */
     void ComponentManager::RemoveComponent(Entity entity, ComponentType component_type) {
         if (!IsComponentRegistered(component_type)) {
-            LOG_CORE(LoggingType::ERROR, "Component not registered");
-            throw std::runtime_error("Component not registered");
+            auto ex = ComponentNotRegisteredException();
+            LOG_CORE(LoggingType::ERROR, ex.what());
+            throw ex;
         }
         
         std::string component_name = m_component_type_to_name[component_type];
         auto sparse_set = m_component_name_to_data[component_name];
 
         if (!sparse_set->HasElement(entity)) {
-            LOG_CORE(LoggingType::ERROR, "Component not associated with entity");
-            throw std::runtime_error("Component not associated with entity");
+            LOG_CORE(LoggingType::WARNING, "Component not associated with entity");
+            return;
         }
 
         // Removes entity from component sparse set

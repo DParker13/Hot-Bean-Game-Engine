@@ -20,25 +20,26 @@ namespace Core::Systems {
     }
 
     void TransformSystem::OnUpdate() {
-        for (auto& entity : m_entities) {
-            // Don't transform the camera
-            if (App::GetInstance().GetECSManager()->HasComponent<Camera>(entity)) {
-                continue;
-            }
+        Entity camera_entity = m_camera_system.GetActiveCameraEntity();
+        Transform2D camera_transform = App::GetInstance().GetComponent<Transform2D>(camera_entity);
 
-            auto& transform = App::GetInstance().GetECSManager()->GetComponent<Transform2D>(entity);
-            auto* camera_transform = m_camera_system.GetActiveCameraTransform();
+        for (auto& level : m_scene_graph) {
+            for (auto& entity : level.second) {
+                auto& transform = App::GetInstance().GetComponent<Transform2D>(entity);
 
-            if (transform.m_parent != -1) {
-                auto& parent_transform = App::GetInstance().GetECSManager()->GetComponent<Transform2D>(transform.m_parent);
+                // Convert local position to world position based on parent
+                if (transform.m_parent != -1) {
+                    auto& parent_transform = App::GetInstance().GetComponent<Transform2D>(transform.m_parent);
 
-                transform.m_world_position.x = parent_transform.m_world_position.x + transform.m_local_position.x;
-                transform.m_world_position.y = parent_transform.m_world_position.y + transform.m_local_position.y;
-            }
+                    transform.m_world_position.x = parent_transform.m_world_position.x + transform.m_local_position.x;
+                    transform.m_world_position.y = parent_transform.m_world_position.y + transform.m_local_position.y;
+                }
 
-            if (camera_transform) {
-                transform.m_screen_position.x = transform.m_world_position.x - camera_transform->m_world_position.x;
-                transform.m_screen_position.y = transform.m_world_position.y - camera_transform->m_world_position.y;
+                // Convert world position to screen position (ignoring active camera)
+                if (entity != camera_entity) {
+                    transform.m_screen_position.x = transform.m_world_position.x - camera_transform.m_world_position.x;
+                    transform.m_screen_position.y = transform.m_world_position.y - camera_transform.m_world_position.y;
+                }
             }
         }
     }

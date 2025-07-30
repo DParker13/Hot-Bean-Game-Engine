@@ -15,15 +15,9 @@
 
 namespace Core::Components {
     struct Shape : public Component {
-        enum ShapeType {
-            POLYGON,
-            CIRCLE
-        };
-        glm::vec2 m_size = glm::vec2(10.0f, 10.0f);
-        Uint8 m_sides = 4;
-        SDL_Color m_color = SDL_Color();
-        SDL_Vertex m_vertices[4];
-        int m_indices[6] = { 0, 1, 2, 1, 3, 2 };
+        float m_size = 1.0;
+        Uint8 m_sides = 3;
+        SDL_Color m_color = {255, 255, 255, 255};
 
         Shape() = default;
 
@@ -38,7 +32,7 @@ namespace Core::Components {
         }
 
         void Deserialize(YAML::Node& node) override {
-            m_size = node["size"].as<glm::vec2>();
+            m_size = node["size"].as<float>();
             m_sides = node["sides"].as<int>();
             m_color = node["color"].as<SDL_Color>();
         }

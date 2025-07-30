@@ -1,5 +1,5 @@
 /**
- * @file entity_manager.h
+ * @file entity_manager.hpp
  * @author Daniel Parker (DParker13)
  * @brief Manages the creation and destruction of entities.
  * @version 0.1
@@ -28,9 +28,13 @@ namespace Core::Managers {
             Entity CreateEntity();
             void DestroyEntity(Entity entity);
             Signature SetSignature(Entity entity, ComponentType component_type);
+            Signature SetSignature(Entity entity, ComponentType component_type, bool value);
             Signature GetSignature(Entity entity);
             bool HasComponent(Entity entity, ComponentType component_type);
             Entity EntityCount() const;
+            
+        private:
+            void InitializeEntityQueue();
 
         private:
             // Logging manager
@@ -46,7 +50,5 @@ namespace Core::Managers {
 
             // Total living entities - used to keep limits on how many exist
             Entity m_living_entity_count = 0;
-
-            void InitializeEntityQueue();
     };
 }

@@ -65,9 +65,10 @@ namespace Core::Managers {
 
             // Entity signature matches system signature - insert into set
             if ((entity_signature & system_signature) == system_signature) {
-                system->m_entities.insert(entity);
-                system->OnEntityAdded(entity);
-                entity_added_to_systems++;
+                if (system->m_entities.insert(entity).second) {
+                    system->OnEntityAdded(entity);
+                    entity_added_to_systems++;
+                }
             }
             // Entity signature does not match system signature - erase from set
             else if (system->m_entities.erase(entity) != 0) {

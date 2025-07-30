@@ -107,8 +107,13 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 
 # Compiler-specific settings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_link_options(${PROJECT_NAME} PUBLIC
+            -mwindows
+        )
+    endif()
+
     target_link_options(${PROJECT_NAME} PUBLIC
-        -mwindows
         -static-libstdc++ -static-libgcc
     )
 endif()

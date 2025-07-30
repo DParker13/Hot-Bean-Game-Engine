@@ -4,6 +4,7 @@ add_library(ecs INTERFACE
     app.hpp
     component.hpp
     entity.hpp
+    exceptions.hpp
     game_loop.hpp
     logging_type.hpp
     signature.hpp

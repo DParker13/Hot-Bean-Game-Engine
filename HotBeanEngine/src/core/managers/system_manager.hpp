@@ -102,7 +102,7 @@ namespace Core::Managers {
 				std::string type_name = typeid(T).name();
 				LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + type_name + "\"");
 
-				if (IsSystemRegistered<T>(type_name)) {
+				if (!IsSystemRegistered<T>(type_name)) {
 					LOG_CORE(LoggingType::WARNING, "System is not registered");
 					return;
 				}

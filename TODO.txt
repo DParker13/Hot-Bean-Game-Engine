@@ -1,4 +1,7 @@
 High Priority
+- Improve error handling
+    + Create custom errors for easier debugging
+- Add pop-up messages for errors
 - Fix copying of files from source to binary directory
     + Updated files are not copied
 - Create textured sprite class
@@ -10,11 +13,13 @@ High Priority
     + Separate Font pointer from Text component?
 - Create better way to register systems in whatever order the user wants
 - Create a script component (not sure how to do this. Use C# for scripts?)
+- Add easy way to multithread each System function
 
 Medium Priority
 - Can modify components in realtime without recompiling
 - Create basic ui library
 - Add animation system
+- Add ability to register systems to its own thread
 
 Low Priority
 - Add second buffer (next frame) to Rendering System

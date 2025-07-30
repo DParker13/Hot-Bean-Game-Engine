@@ -17,6 +17,8 @@ namespace Core::Application {
         CameraSystem& camera_system = RegisterSystem<CameraSystem>();
         RegisterSystem<TransformSystem, CameraSystem&>(camera_system);
 
+        RegisterSystem<ShapeSystem>();
+
         // Should be last to have the most up to date components
         RegisterSystem<RenderSystem>();
     };
