@@ -1,15 +1,22 @@
 add_library(core INTERFACE
-    core.hpp
+    all_core.hpp
+    archetype.hpp
+    app.hpp
+    component.hpp
+    entity.hpp
+    exceptions.hpp
+    game_loop.hpp
+    logging_type.hpp
+    signature.hpp
+    sparse_set.hpp
+    system.hpp
+    scene.hpp
+    yaml_extensions.hpp
 )
 
 target_link_libraries(core INTERFACE
-    core_components
-    core_systems
+    SDL2::SDL2
+    yaml-cpp
 )
 
-add_subdirectory(ecs)
-add_subdirectory(components)
-add_subdirectory(managers)
-add_subdirectory(application)
-add_subdirectory(systems)
-add_subdirectory(scenes)
+set_target_properties(core PROPERTIES LINKER_LANGUAGE CXX)

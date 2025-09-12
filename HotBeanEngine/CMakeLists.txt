@@ -88,6 +88,7 @@ include_directories(
     ${SDL2_mixer_SOURCE_DIR}/include
     ${SDL2_image_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}/glm
+    ${yaml_cpp_SOURCE_DIR}/include
 )
 
 # Platform-specific settings
@@ -97,24 +98,36 @@ endif()
 
 # Library settings
 add_library(${PROJECT_NAME} SHARED
-    src/game
+    include/HotBeanEngine.hpp
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     base_game
+    default_components
+    default_systems
     SDL2::SDL2main
 )
 
 # Compiler-specific settings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_link_options(${PROJECT_NAME} PUBLIC
+            -mwindows
+        )
+    endif()
+
     target_link_options(${PROJECT_NAME} PUBLIC
-        -mwindows
         -static-libstdc++ -static-libgcc
     )
 endif()
 
 # Add subdirectories
 add_subdirectory(src/core)
+add_subdirectory(src/components)
+add_subdirectory(src/managers)
+add_subdirectory(src/application)
+add_subdirectory(src/systems)
+add_subdirectory(src/scenes)
 
 if(GAME_BUILD_TESTING)
     message(STATUS "${PROJECT_NAME}: Building tests")

@@ -14,8 +14,7 @@ int main(int argc, char* argv[]) {
     std::string config_path = (std::filesystem::current_path() / "config.yaml").string();
     
     ExampleGame game = ExampleGame(config_path);
-
-    game.Run();
+    game.Start();
 
     return 0;
 }

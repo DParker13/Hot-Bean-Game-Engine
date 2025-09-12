@@ -2,9 +2,9 @@
 
 #include <HotBeanEngine.hpp>
 
-using namespace Core::Components;
-using namespace Core::Application;
-using namespace Core::ECS;
+using namespace HBE::Components;
+using namespace HBE::Application;
+using namespace HBE::Core;
 
 namespace Systems {
     class TileMapSystem : public System {

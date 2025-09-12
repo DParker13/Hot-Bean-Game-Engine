@@ -4,9 +4,9 @@
 
 #include "../systems/audio_system.hpp"
 
-using namespace Core::ECS;
-using namespace Core::Application;
-using namespace Core::Archetypes;
+using namespace HBE::Core;
+using namespace HBE::Application;
+using namespace HBE::Archetypes;
 using namespace Systems;
 
 namespace Scenes {

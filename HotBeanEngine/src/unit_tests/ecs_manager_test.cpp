@@ -2,8 +2,8 @@
 #include "test_system.hpp"
 #include <catch2/catch_all.hpp>
 
-using namespace Core::ECS;
-using namespace Core::Managers;
+using namespace HBE::Core;
+using namespace HBE::Managers;
 
 TEST_CASE("ECSManager: Create and Destroy Entity") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
@@ -101,6 +101,6 @@ TEST_CASE("ECSManager: Component addition and removal") {
         ecs_manager.AddComponent<TestComponent>(entity_1, test_component);
         ecs_manager.AddComponent<TestComponent>(entity_2, test_component);
         ecs_manager.RemoveComponent<TestComponent>(entity_1);
-        REQUIRE_THROWS_AS(ecs_manager.RemoveComponent<TestComponent>(entity_1), std::runtime_error);
+        REQUIRE_NOTHROW(ecs_manager.RemoveComponent<TestComponent>(entity_1));
     }
 }

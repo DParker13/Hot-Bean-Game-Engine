@@ -15,13 +15,14 @@
 
 #include "../scenes/example_scene.hpp"
 
-using namespace Core::Components;
-using namespace Core::Systems;
+using namespace HBE::Components;
+using namespace Systems;
 
 class ExampleGame : public App {
     public:
         ExampleGame(const std::string& config_path);
         ~ExampleGame() = default;
         
+    protected:
         void OnStart() override;
 };

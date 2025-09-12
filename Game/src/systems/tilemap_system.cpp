@@ -16,9 +16,9 @@ namespace Systems {
     }
 
     void TileMapSystem::CreateRect(Entity entity) {
-        Transform2D& transform = App::GetInstance().GetComponent<Transform2D>(entity);
-        Tile& tile = App::GetInstance().GetComponent<Core::Components::Tile>(entity);
-        auto* renderer = App::GetInstance().GetRenderer();
+        Transform2D& transform = g_ecs.GetComponent<Transform2D>(entity);
+        Tile& tile = g_ecs.GetComponent<Components::Tile>(entity);
+        auto* renderer = g_app.GetRenderer();
 
         tile.m_vertices[0] = { transform.m_world_position.x, transform.m_world_position.y, tile.m_color };
         tile.m_vertices[1] = { transform.m_world_position.x, transform.m_world_position.y + tile.m_size, tile.m_color };
@@ -27,13 +27,13 @@ namespace Systems {
     }
 
     void TileMapSystem::InitMap(Uint8 tile_size, Uint8 spacing, Uint32 num_tiles_x, Uint32 num_tiles_y) {
-        App& app = App::GetInstance();
+        
 
         // Setup tilemap texture entity
-        Entity map_entity = app.CreateEntity();
-        app.AddComponent<Texture>(map_entity);
-        app.AddComponent<Transform2D>(map_entity);
-        map_texture = &app.GetECSManager()->GetComponent<Texture>(map_entity);
+        Entity map_entity = g_ecs.CreateEntity();
+        g_ecs.AddComponent<Texture>(map_entity);
+        g_ecs.AddComponent<Transform2D>(map_entity);
+        map_texture = &g_ecs.GetComponent<Texture>(map_entity);
         map_texture->m_size = { num_tiles_x * tile_size, num_tiles_y * tile_size };
         
         for (int x = 0; x < num_tiles_x; x++) {
@@ -51,10 +51,10 @@ namespace Systems {
     }
 
     void TileMapSystem::OnRender() {
-        auto* renderer = App::GetInstance().GetRenderer();
+        auto* renderer = g_app.GetRenderer();
 
         for (auto& entity : m_entities) {
-            Tile& tile = App::GetInstance().GetComponent<Core::Components::Tile>(entity);
+            Tile& tile = g_ecs.GetComponent<Components::Tile>(entity);
             
             // Render the vertex buffer
             if (!map_texture) {
