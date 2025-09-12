@@ -1,9 +1,41 @@
 High Priority
+- Finish default systems!!
+    + Create Debug System?
+        ~ Add debugging feature to see texture borders (Get key press from Input System)
+            1. Create entity for each border outline when a button is pressed
+            2. Copy texture size to primitive square shape with a red border
+    + Rendering system
+        ~ Add clipping
+    + Collision System
+        ~ Add... collision
+    + Physics System
+        ~ Handle collision between rotated objects
+        ~ Handle collision between primitive shapes
+            1. Square
+            2. Circle
+            3. Triangle
+        ~ Implement quad trees to improve collision detection
+    + Input System
+        ~ Handle clicking events
+        ~ Think of way to make key functions configurable
+    + UI System
+        ~ Add buttons
+        ~ Add textboxes
+- Create interfaces for system events
+    + Can be used to create Event System events like OnMouseDown, OnMouseUp, OnClick, etc
+    + Can be used to create Collision System events like OnEnter,
+- Create interface for systems that allow for entities to be initialized once they're added to a system
+    + Like Unity Start()
+    + I created OnEntityAdded, but this is called when the entity's signature matches a system, which
+        usually happens before any values are initialized for the components
+- UI Elements need to use relative positions
+    + Absolute positions won't work for resizing or transferring ui data between machines
+    + Example: Button located at {50, 50} to be "centered" in the screen
 - Improve error handling
     + Create custom errors for easier debugging
-- Add pop-up messages for errors
 - Fix copying of files from source to binary directory
-    + Updated files are not copied
+    + Files are only copied once
+    + Any changed files are not copied
 - Create textured sprite class
     + Used SDLImage to load and display images from file
 - Create smarter text system
@@ -12,18 +44,23 @@ High Priority
     + Clean up logic
     + Separate Font pointer from Text component?
 - Create better way to register systems in whatever order the user wants
-- Create a script component (not sure how to do this. Use C# for scripts?)
 - Add easy way to multithread each System function
+- Uplift SDL2 to SDL3?
+    + Use Vulcan?
 
 Medium Priority
 - Can modify components in realtime without recompiling
+    + Add debugging capabilities to select an entity by clicking and a menu will popup with each component
+- Add debugging tool to "highlight" the edges of rendered components (bright green)
 - Create basic ui library
 - Add animation system
 - Add ability to register systems to its own thread
+- Create fancy workflow flowcharts for documentation
 
 Low Priority
 - Add second buffer (next frame) to Rendering System
 - Move rendering step to its own thread
+    + This might not be possible in SDL2
 - Add image to EXE
 - Add splashscreen
 - Create settings menu
@@ -32,3 +69,16 @@ Low Priority
     + Need to create a generic archetype interface
         ~ GetComponentNames
     + Iterate through all components associated with Archetype to set signature!
+- Create a script component (not sure how to do this. Use C# for scripts?)
+
+Next Version?
+- Modify engine to handle 3D objects
+    + Camera system would need to be reworked
+    + New Transform3D component
+- Add multiplayer/server
+
+
+Ideas/Concerns:
+- Should components have functionality tied to them, or should helper classes be used?
+- Add ability to create archetype with any number of default components instead of needing all at once. Any "missing" components will be added with default values
+- When this is created, OnEntityAdded is called for each system and the defaults are used instead. Check if there are issues with this approach with transforms.

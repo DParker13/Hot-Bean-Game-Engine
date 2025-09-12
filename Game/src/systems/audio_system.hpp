@@ -3,7 +3,7 @@
 #include <HotBeanEngine.hpp>
 
 namespace Systems {
-    class CustomAudioSystem : public Core::Systems::AudioSystem {
+    class CustomAudioSystem : public Systems::AudioSystem {
         public:
             CustomAudioSystem() = default;
 

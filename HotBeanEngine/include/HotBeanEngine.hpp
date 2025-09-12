@@ -1,3 +1,4 @@
 #pragma once
 
-#include "../src/core/core.hpp"
+#include "../src/scenes/base_scene.hpp"
+#include "../src/components/default_component_factory.hpp"

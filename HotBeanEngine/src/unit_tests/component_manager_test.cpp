@@ -2,8 +2,8 @@
 #include "test_component.hpp"
 #include <catch2/catch_all.hpp>
 
-using namespace Core::ECS;
-using namespace Core::Managers;
+using namespace HBE::Core;
+using namespace HBE::Managers;
 
 TEST_CASE("ComponentManager: Entity has component") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
