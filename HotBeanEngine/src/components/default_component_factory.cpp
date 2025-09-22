@@ -23,7 +23,7 @@ namespace HBE::Application {
      * @param parent_entity Parent Entity
      * @param entity Entity
      */
-    void DefaultComponentFactory::CreateComponent(const std::string& component_name,
+    void DefaultComponentFactory::CreateComponentFromYAML(const std::string& component_name,
                                             YAML::Node node, Entity parent_entity, Entity entity) {
         if (m_ecs_manager->IsComponentRegistered(component_name)) {
             if (component_name == "AudioSource") {

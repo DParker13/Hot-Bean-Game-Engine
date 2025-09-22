@@ -16,21 +16,36 @@ using namespace HBE::Components;
 
 namespace Systems {
     void ShapeSystem::OnRender() {
-        for (auto entity : m_entities) {
-            auto shape = g_ecs.GetComponent<Shape>(entity);
-            auto transform = g_ecs.GetComponent<Transform2D>(entity);
+        for (auto& entity : m_entities) {
+            auto& texture = g_ecs.GetComponent<Texture>(entity);
 
-            SDL_SetRenderTarget(g_app.GetRenderer(), g_ecs.GetComponent<Texture>(entity).m_texture);
-            SDL_SetRenderDrawColor(g_app.GetRenderer(), shape.m_color.r, shape.m_color.g, shape.m_color.b, shape.m_color.a);
-            
-            switch(shape.m_type) {
-                case Shape::ShapeType::Box: {
-                    SDL_Rect rect = {transform.m_world_position.x, transform.m_world_position.y, shape.m_size.x, shape.m_size.y};
-                    SDL_RenderDrawRect(g_app.GetRenderer(), &rect);
+            if (texture.m_dirty) {
+                auto& shape = g_ecs.GetComponent<Shape>(entity);
+                auto& transform = g_ecs.GetComponent<Transform2D>(entity);
+                auto screen_position = m_camera_system.CalculateScreenPosition(transform.m_world_position);
+
+                SDL_SetRenderTarget(g_app.GetRenderer(), texture.m_texture);
+                SDL_SetRenderDrawColor(g_app.GetRenderer(), shape.m_color.r, shape.m_color.g, shape.m_color.b, shape.m_color.a);
+                
+                switch(shape.m_type) {
+                    case Shape::ShapeType::Box: {
+                        const SDL_FRect* rect = new SDL_FRect({0, 0, shape.m_size.x, shape.m_size.y});
+                        if (shape.m_filled) {
+                            SDL_RenderFillRectF(g_app.GetRenderer(), rect);
+                        }
+                        else {
+                            SDL_RenderDrawRectF(g_app.GetRenderer(), rect);
+                        }
+                        
+                        // Free rect
+                        if(rect) {
+                            delete rect;
+                        }
+                    }
                 }
-            }
 
-            SDL_SetRenderTarget(g_app.GetRenderer(), nullptr);
+                texture.m_dirty = false;
+            }
         }
     }
 
@@ -39,13 +54,14 @@ namespace Systems {
     }
 
     void ShapeSystem::CreateTextureForEntity(Entity entity) {
-        auto texture = g_ecs.GetComponent<Texture>(entity);
-        auto shape = g_ecs.GetComponent<Shape>(entity);
+        auto& texture = g_ecs.GetComponent<Texture>(entity);
+        auto& shape = g_ecs.GetComponent<Shape>(entity);
 
         if (texture.m_texture == nullptr) {
             texture.m_size = { shape.m_size.x, shape.m_size.y };
             texture.m_texture = SDL_CreateTexture(g_app.GetRenderer(), SDL_PIXELFORMAT_RGBA8888,
                                             SDL_TEXTUREACCESS_TARGET, texture.m_size.x, texture.m_size.y);
+            SDL_SetTextureBlendMode(texture.m_texture, SDL_BLENDMODE_BLEND);
         }
     }
 }

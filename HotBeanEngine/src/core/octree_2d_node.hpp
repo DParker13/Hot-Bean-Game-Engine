@@ -1,5 +1,6 @@
 #pragma once
 
+#include <queue>
 #include "glm/glm.hpp"
 
 namespace HBE::Core {
@@ -24,7 +25,7 @@ namespace HBE::Core {
             }
         }
 
-        void Insert(T* item, const glm::vec2 position, const int depth) {
+        void Insert(T* item, const glm::vec2 position, const int depth, std::unordered_map<T, Octree2DNode<T>*> item_to_node) {
             if (depth > 0) {
                 // If there are no child nodes, create them
                 if (m_child_nodes[0] == nullptr) {
@@ -34,13 +35,18 @@ namespace HBE::Core {
                 // Check if the position is within any of the child nodes
                 for (int i = 0; i < 4; i++) {
                     if (m_child_nodes[i]->WithinBounds(position)) {
-                        m_child_nodes[i]->Insert(item, position, depth - 1);
+                        m_child_nodes[i]->Insert(item, position, depth - 1, item_to_node);
                         return;
                     }
                 }
             }
 
             m_items.push_back(item);
+
+            // Add to item map for easier retrieval later
+            if (!item_to_node[*item]) {
+                item_to_node[*item] = this;
+            }
         }
 
         /**
@@ -52,8 +58,13 @@ namespace HBE::Core {
         void Remove(T* item) {
             if (!IsLeaf()) {
                 for (auto& child : m_child_nodes) {
-                    if (child != nullptr) {
+                    if (child != nullptr && !child.IsEmpty()) {
                         child->Remove(item);
+                        
+                        if (child->IsEmpty()) {
+                            delete child;
+                            m_child_nodes = nullptr;
+                        }
                     }
                 }
             }
@@ -67,7 +78,7 @@ namespace HBE::Core {
 
                 m_items.erase(index);
 
-                // If the node is now empty, remove it
+                // If the node is now empty, delete all child nodes
                 if (m_items.size() == 0) {
                     ClearChildren();
                 }
@@ -87,8 +98,13 @@ namespace HBE::Core {
                 // If there are child nodes, recursively remove the item
                 if (!IsLeaf()) {
                     for (auto& child : m_child_nodes) {
-                        if (child != nullptr) {
+                        if (child != nullptr && !child.IsEmpty()) {
                             child->Remove(item, position);
+                            
+                            if (child->IsEmpty()) {
+                                delete child;
+                                m_child_nodes = nullptr;
+                            }
                         }
                     }
                 }
@@ -156,10 +172,10 @@ namespace HBE::Core {
         void CreateChildNodes() {
             int child_size = (int)(m_bounds.z * 0.5f);
 
-            m_child_nodes[0] = new Octree2DNode<T>(glm::ivec3(m_bounds.x, m_bounds.y, child_size));
-            m_child_nodes[1] = new Octree2DNode<T>(glm::ivec3(m_bounds.x + child_size, m_bounds.y, child_size));
-            m_child_nodes[2] = new Octree2DNode<T>(glm::ivec3(m_bounds.x, m_bounds.y + child_size, child_size));
-            m_child_nodes[3] = new Octree2DNode<T>(glm::ivec3(m_bounds.x + child_size, m_bounds.y + child_size, child_size));
+            m_child_nodes[0] = new Octree2DNode(glm::ivec3(m_bounds.x, m_bounds.y, child_size));
+            m_child_nodes[1] = new Octree2DNode(glm::ivec3(m_bounds.x + child_size, m_bounds.y, child_size));
+            m_child_nodes[2] = new Octree2DNode(glm::ivec3(m_bounds.x, m_bounds.y + child_size, child_size));
+            m_child_nodes[3] = new Octree2DNode(glm::ivec3(m_bounds.x + child_size, m_bounds.y + child_size, child_size));
         }
 
         void GetAllBounds(std::vector<glm::ivec3>& bounds) {

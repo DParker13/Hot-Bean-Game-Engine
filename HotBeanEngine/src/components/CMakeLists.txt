@@ -17,4 +17,5 @@ add_library(default_components STATIC
 target_link_libraries(default_components PUBLIC
     glm
     yaml-cpp
+    box2d
 )

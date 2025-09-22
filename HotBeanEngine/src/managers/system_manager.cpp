@@ -92,13 +92,16 @@ namespace HBE::Managers {
      * @param state Current game loop state
      */
     void SystemManager::IterateSystems(GameLoopState state) {
-        for (auto& [type_name, system] : m_systems) {
+        for (auto& system : m_systems_ordered) {
             switch(state) {
                 case GameLoopState::OnStart:
                     system->OnStart();
                     break;
                 case GameLoopState::OnPreEvent:
                     system->OnPreEvent();
+                    break;
+                case GameLoopState::OnFixedUpdate:
+                    system->OnFixedUpdate();
                     break;
                 case GameLoopState::OnUpdate:
                     system->OnUpdate();
@@ -123,7 +126,7 @@ namespace HBE::Managers {
             } 
         }
 
-        for (auto& [type_name, system] : m_systems) {
+        for (auto& system : m_systems_ordered) {
             switch(state) {
                 case GameLoopState::OnEvent:
                     system->OnEvent(event);

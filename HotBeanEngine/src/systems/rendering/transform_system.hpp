@@ -1,6 +1,6 @@
 #pragma once
 
-#include "camera_system.hpp"
+#include "../../application/all_application.hpp"
 
 using namespace HBE::Application;
 using namespace HBE::Core;
@@ -8,13 +8,12 @@ using namespace HBE::Core;
 namespace Systems {
     class TransformSystem : public System {
         private:
-            CameraSystem& m_camera_system;
             std::unordered_map<Entity, Uint32> m_entity_graph_level;
             std::map<Uint32, std::set<Entity>> m_scene_graph;
             
         public:
             DEFINE_SIGNATURE(TransformSystem, Transform2D);
-            TransformSystem(CameraSystem& camera_system);
+            TransformSystem();
 
             void OnEntityAdded(Entity entity) override;
             void OnEntityRemoved(Entity entity) override;

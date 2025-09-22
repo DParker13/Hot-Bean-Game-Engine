@@ -14,26 +14,30 @@
 
 namespace HBE::Components {
     struct Collider2D : public Component {
-        glm::vec2 _bounding_box;
-        bool _is_static;
-        bool _is_trigger;
+        enum class ColliderShape {
+            Square,
+            Circle // TODO: Implement collision detection for this shape
+        };
+
+        ColliderShape m_shape = ColliderShape::Square;
+        glm::vec2 m_size;
+        bool m_is_trigger = false;
 
         Collider2D() = default;
+        Collider2D(ColliderShape shape) : m_shape(shape) {}
 
         std::string GetName() const override {
             return "Collider2D";
         }
 
         void Serialize(YAML::Emitter& out) const override {
-            out << YAML::Key << "bounding_box" << YAML::Value << _bounding_box;
-            out << YAML::Key << "is_static" << YAML::Value << _is_static;
-            out << YAML::Key << "is_trigger" << YAML::Value << _is_trigger;
+            out << YAML::Key << "bounding_box" << YAML::Value << m_size;
+            out << YAML::Key << "is_trigger" << YAML::Value << m_is_trigger;
         }
 
         void Deserialize(YAML::Node& node) override {
-            _bounding_box = node["bounding_box"].as<glm::vec2>();
-            _is_static = node["is_static"].as<bool>();
-            _is_trigger = node["is_trigger"].as<bool>();
+            m_size = node["bounding_box"].as<glm::vec2>();
+            m_is_trigger = node["is_trigger"].as<bool>();
         }
     };
 }

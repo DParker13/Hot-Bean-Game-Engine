@@ -189,8 +189,18 @@ namespace HBE::Application {
         m_window = window;
     }
 
+    /**
+     * @brief Gets the delta time (time elapsed) between frames in seconds.
+     */
     float App::GetDeltaTime() const {
         return m_delta_time;
+    }
+
+    /**
+     * @brief Gets the high resolution delta time (time elapsed) between frames in seconds.
+     */
+    double App::GetDeltaTimeHiRes() const {
+        return m_delta_time_hi_res;
     }
 
     ECSManager& App::GetECSManager() const {
@@ -225,6 +235,7 @@ namespace HBE::Application {
         while (!m_quit) {
             // Calculates delta time
             UpdateDeltaTime();
+            UpdateDeltaTimeHiRes();
 
             // Handle all events
             EventLoop();
@@ -232,6 +243,9 @@ namespace HBE::Application {
             // Clear the renderer and prepare for the next frame
             SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0xFF);
             SDL_RenderClear(m_renderer);
+
+            // Fixed timestep physics loop
+            PhysicsLoop();
 
             // Call system OnUpdate methods
             OnUpdate();
@@ -288,13 +302,64 @@ namespace HBE::Application {
     }
 
     /**
-     * @brief Updates the delta time (time elapsed) between frames.
+     * @brief Gets the high resolution time in seconds since the application started.
+     */
+    double App::GetHiResTime() const {
+        static Uint64 start = SDL_GetPerformanceCounter();
+        Uint64 now = SDL_GetPerformanceCounter();
+        Uint64 freq = SDL_GetPerformanceFrequency();
+        return static_cast<double>(now - start) / static_cast<double>(freq);
+    }
+
+    /**
+     * @brief Updates the delta time (time elapsed) between frames in seconds.
      */
     void App::UpdateDeltaTime() {
-        Uint32 currentTime = SDL_GetTicks();
-        float newDeltaTime = (currentTime - m_previous_frame_time) / 1000.0f;
-        m_delta_time = newDeltaTime;
-        m_previous_frame_time = currentTime;
+        Uint32 current_time = SDL_GetTicks64();
+        m_delta_time = (current_time - m_previous_frame_time) / 1000.0f;
+
+        // Cap delta time
+        if (m_delta_time > 0.25f) {
+            m_delta_time = 0.25f;
+        }
+
+        m_previous_frame_time = current_time;
+    }
+
+    /**
+     * @brief Updates the high resolution delta time (time elapsed) between frames in seconds.
+     */
+    void App::UpdateDeltaTimeHiRes() {
+        double current_time = GetHiResTime();
+        m_delta_time_hi_res = current_time - m_previous_frame_time_hi_res;
+
+        // Cap frame time to avoid spiral of death
+        if (m_delta_time_hi_res > 0.25)
+            m_delta_time_hi_res = 0.25;
+
+        m_previous_frame_time_hi_res = current_time;
+    }
+
+    /**
+     * @brief Updates the fixed delta time for fixed timestep updates.
+     */
+    void App::PhysicsLoop() {
+        m_accumulator += GetDeltaTimeHiRes();
+
+        // Fixed timestep loop
+        while (m_accumulator >= m_fixed_time_step) {
+            //m_previousState = m_currentState;
+            // Advance your simulation here (e.g., physics, ECS fixed update)
+            m_ecs_manager->IterateSystems(GameLoopState::OnFixedUpdate);
+            m_physics_sim_time += m_fixed_time_step; // Advance simulation time tracker
+            m_accumulator -= m_fixed_time_step;
+        }
+
+        // Interpolation factor
+        //double alpha = m_accumulator / m_fixed_time_step;
+
+        // Interpolate state for rendering (customize as needed)
+        //State renderState = m_currentState * alpha + m_previousState * (1.0 - alpha);
     }
 
     /**

@@ -38,7 +38,7 @@ namespace Systems {
         
         for (int x = 0; x < num_tiles_x; x++) {
             for (int y = 0; y < num_tiles_y; y++) {
-                auto tile = GameObjects::Tile();
+                auto& tile = GameObjects::Tile();
                 tile.GetComponent<Tile>().m_size = tile_size;
                 tile.GetComponent<Tile>().m_color = { static_cast<Uint8>(255 / (x + 1)),
                                         static_cast<Uint8>(255 / (y + 1)),

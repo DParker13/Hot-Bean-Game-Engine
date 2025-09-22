@@ -49,6 +49,7 @@ namespace HBE::Managers {
 
 					// Create a pointer to the system and return it so it can be used externally
 					m_systems.insert({type_name, system});
+					m_systems_ordered.push_back(system);
 
 					return *system;
 				}
@@ -82,6 +83,7 @@ namespace HBE::Managers {
 
 					// Create a pointer to the system and return it so it can be used externally
 					m_systems.insert({type_name, system});
+					m_systems_ordered.push_back(system);
 
 					return *system;
 				}
@@ -106,8 +108,16 @@ namespace HBE::Managers {
 					return;
 				}
 
+				T* system = GetSystem<T>();
+
 				RemoveSignature<T>();
+
+				// TODO: Can this be done better?
+				// Remove system from ordered list
+				m_systems_ordered.erase(std::remove(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[type_name]), m_systems_ordered.end());
 				m_systems.erase(type_name);
+
+				delete system;
 			}
 
 			template<typename T>
@@ -220,6 +230,7 @@ namespace HBE::Managers {
 
 			// Map from system type name to a system pointer
 			std::map<std::string, System*> m_systems;
+			std::vector<System*> m_systems_ordered;
 
 			template<typename T>
 			bool IsSystemRegistered(std::string& type_name) {

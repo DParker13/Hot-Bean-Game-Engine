@@ -18,6 +18,7 @@ namespace HBE::Core {
         OnPreEvent,
         OnEvent,
         OnWindowResize,
+        OnFixedUpdate,
         OnUpdate,
         OnRender,
         OnPostRender

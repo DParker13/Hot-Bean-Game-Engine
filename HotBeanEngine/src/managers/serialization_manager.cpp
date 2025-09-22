@@ -66,7 +66,7 @@ namespace HBE::Managers {
 
             LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
         } catch (const YAML::Exception& e) {
-            std::cerr << "Error serializing to YAML file: " << e.what() << std::endl;
+            LOG_CORE(LoggingType::ERROR, "Error serializing to YAML file: " + (std::string)e.what());
         }
     }
 
@@ -217,11 +217,10 @@ namespace HBE::Managers {
 
             if (m_ecs_manager->IsComponentRegistered(component_name)) {
                 LOG_CORE(LoggingType::INFO, "Loading component: " + component_name);
-                m_component_factory->CreateComponent(component_name, component, parent_entity, entity);
+                m_component_factory->CreateComponentFromYAML(component_name, component, parent_entity, entity);
             }
             else {
                 LOG_CORE(LoggingType::FATAL, "Component " + component_name + " is not registered.");
-                throw std::runtime_error("Component " + component_name + " is not registered.");
             }
         }
     }

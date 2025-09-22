@@ -40,11 +40,20 @@ namespace HBE::Application {
             std::unique_ptr<SerializationManager> m_serialization_manager;
             SDL_Renderer* m_renderer = nullptr;
             SDL_Window* m_window = nullptr;
-            float m_delta_time; ///< Time elapsed between frames
-            float m_previous_frame_time; ///< Previous frame time
 
         public:
             bool m_quit; ///< Flag to quit the application
+
+            // Time
+            float m_delta_time = 0.0f; ///< Time elapsed between frames in seconds
+            float m_previous_frame_time = 0.0f; ///< Previous frame time
+
+            // Physics timing
+            double m_physics_sim_time = 0.0; ///< Time for physics updates
+            const double m_fixed_time_step = 0.01; ///< Fixed timestep duration in seconds
+            double m_delta_time_hi_res = 0.0; ///< High resolution delta time between frames in seconds
+            double m_previous_frame_time_hi_res = 0.0; ///< Previous frame time in high resolution
+            double m_accumulator = 0.0; ///< Accumulator for fixed timestep updates
 
             // Constructors
             App(const std::string& config_path);
@@ -61,9 +70,9 @@ namespace HBE::Application {
             void SetRenderer(SDL_Renderer* renderer);
             SDL_Window* GetWindow() const;
             void SetWindow(SDL_Window* window);
-            SDL_Surface* GetSurface() const;
-            void SetSurface(SDL_Surface* surface);
             float GetDeltaTime() const;
+            double GetDeltaTimeHiRes() const;
+            double GetHiResTime() const;
             ECSManager& GetECSManager() const;
 
             // Logging
@@ -79,16 +88,6 @@ namespace HBE::Application {
             void SetupRendererAndWindow();
 
         protected:
-            /**
-             * @brief Cleans up the SDL window and renderer.
-             */
-            void CleanUpSDL();
-
-            /**
-             * @brief Updates the delta time (time elapsed) between frames.
-             */
-            void UpdateDeltaTime();
-
             // GameLoop Interface
             /**
              * @brief Called once at the start of the game.
@@ -128,13 +127,14 @@ namespace HBE::Application {
             virtual void OnPostRender();
 
         private:
-            /**
-             * @brief Initializes SDL, window, and renderer.
-             */
+            void CleanUpSDL();
             void InitSDL();
             void InitSDLTTF();
             void InitSDLMixer();
             void InitSDLImage();
+            void PhysicsLoop();
             void EventLoop();
+            void UpdateDeltaTime();
+            void UpdateDeltaTimeHiRes();
     };
 }

@@ -1,22 +1,15 @@
 High Priority
 - Finish default systems!!
     + Create Debug System?
-        ~ Add debugging feature to see texture borders (Get key press from Input System)
-            1. Create entity for each border outline when a button is pressed
-            2. Copy texture size to primitive square shape with a red border
     + Rendering system
-        ~ Add clipping
+        ~ Add clipping (partially render textures that are on the screen)
+        ~ Add scaling based on camera
     + Collision System
-        ~ Add... collision
+        ~ Separate from Physics System
     + Physics System
-        ~ Handle collision between rotated objects
-        ~ Handle collision between primitive shapes
-            1. Square
-            2. Circle
-            3. Triangle
-        ~ Implement quad trees to improve collision detection
+        ~ Add more shapes
+        ~ Separate into Collision System
     + Input System
-        ~ Handle clicking events
         ~ Think of way to make key functions configurable
     + UI System
         ~ Add buttons
@@ -51,7 +44,6 @@ High Priority
 Medium Priority
 - Can modify components in realtime without recompiling
     + Add debugging capabilities to select an entity by clicking and a menu will popup with each component
-- Add debugging tool to "highlight" the edges of rendered components (bright green)
 - Create basic ui library
 - Add animation system
 - Add ability to register systems to its own thread

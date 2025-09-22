@@ -1,8 +1,7 @@
 #include "transform_system.hpp"
 
 namespace Systems {
-    TransformSystem::TransformSystem(CameraSystem& camera_system)
-        : System(), m_camera_system(camera_system) {}
+    TransformSystem::TransformSystem() : System() {}
 
     void TransformSystem::OnEntityAdded(Entity entity) {
         UpdateSceneGraph(entity);
@@ -16,9 +15,6 @@ namespace Systems {
     }
 
     void TransformSystem::OnUpdate() {
-        Entity camera_entity = m_camera_system.GetActiveCameraEntity();
-        Transform2D camera_transform = g_ecs.GetComponent<Transform2D>(camera_entity);
-
         for (auto& level : m_scene_graph) {
             for (auto& entity : level.second) {
                 auto& transform = g_ecs.GetComponent<Transform2D>(entity);
@@ -27,14 +23,12 @@ namespace Systems {
                 if (transform.m_parent != -1) {
                     auto& parent_transform = g_ecs.GetComponent<Transform2D>(transform.m_parent);
 
-                    transform.m_world_position.x = parent_transform.m_world_position.x + transform.m_local_position.x;
-                    transform.m_world_position.y = parent_transform.m_world_position.y + transform.m_local_position.y;
+                    transform.m_world_position = parent_transform.m_world_position + transform.m_local_position;
+                    transform.m_world_rotation = parent_transform.m_world_rotation + transform.m_local_rotation;
                 }
-
-                // Convert world position to screen position (ignoring active camera)
-                if (entity != camera_entity) {
-                    transform.m_screen_position.x = transform.m_world_position.x - camera_transform.m_world_position.x;
-                    transform.m_screen_position.y = transform.m_world_position.y - camera_transform.m_world_position.y;
+                else {
+                    transform.m_world_position = transform.m_local_position;
+                    transform.m_world_rotation = transform.m_local_rotation;
                 }
             }
         }

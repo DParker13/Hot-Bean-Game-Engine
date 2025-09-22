@@ -19,6 +19,7 @@ namespace Systems {
             void OnUpdate() override;
 
             Entity GetActiveCameraEntity();
+            glm::vec2 CalculateScreenPosition(const glm::vec2& world_position);
 
         private:
             void FindActiveCamera();

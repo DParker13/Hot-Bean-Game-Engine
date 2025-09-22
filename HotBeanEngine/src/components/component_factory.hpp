@@ -6,8 +6,8 @@ namespace HBE::Application {
     class IComponentFactory {
         public:
             virtual void RegisterComponents() = 0;
-            virtual void CreateComponent(const std::string& component_name,
-                                        YAML::Node node, Entity parent_entity, Entity entity) = 0;
+            virtual void CreateComponentFromYAML(const std::string& component_name,
+                                                YAML::Node node, Entity parent_entity, Entity entity) = 0;
 
             void SetECSManager(std::shared_ptr<Managers::ECSManager> ecs_manager) {
                 m_ecs_manager = ecs_manager;

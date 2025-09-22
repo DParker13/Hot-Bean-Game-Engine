@@ -29,19 +29,19 @@ namespace Systems {
                 auto& transform = g_ecs.GetComponent<Transform2D>(entity);
 
                 if (keys_pressed.find(SDLK_LEFT) != keys_pressed.end()) {
-                    transform.m_world_position.x -= distance;
+                    transform.m_local_position.x -= distance;
                 }
                 
                 if (keys_pressed.find(SDLK_RIGHT) != keys_pressed.end()) {
-                    transform.m_world_position.x += distance;
+                    transform.m_local_position.x += distance;
                 }
                 
                 if (keys_pressed.find(SDLK_UP) != keys_pressed.end()) {
-                    transform.m_world_position.y -= distance;
+                    transform.m_local_position.y -= distance;
                 }
                 
                 if (keys_pressed.find(SDLK_DOWN) != keys_pressed.end()) {
-                    transform.m_world_position.y += distance;
+                    transform.m_local_position.y += distance;
                 }
             }
         }

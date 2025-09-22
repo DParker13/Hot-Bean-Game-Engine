@@ -1,7 +1,7 @@
 Entities:
     - Entity:
         Transform2D:
-            world_position: [0, 0]
+            local_position: [0, 0]
             scale: [1, 1]
             rotation: [0, 0, 0, 1]
             layer: 1
@@ -28,7 +28,7 @@ Entities:
                     type: 1
     - Entity:
         Transform2D:
-            world_position: [250, 250]
+            local_position: [250, 250]
             scale: [1, 1]
             rotation: [0, 0, 0, 1]
             layer: 0

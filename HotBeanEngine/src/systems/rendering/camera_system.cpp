@@ -53,4 +53,12 @@ namespace Systems {
 
         first_camera_found = false;
     }
+
+    glm::vec2 CameraSystem::CalculateScreenPosition(const glm::vec2& world_position) {
+        Entity camera_entity = GetActiveCameraEntity();
+        Transform2D camera_transform = g_ecs.GetComponent<Transform2D>(camera_entity);
+        glm::vec2 screen_position = world_position - camera_transform.m_world_position;
+
+        return screen_position;
+    }
 }

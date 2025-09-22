@@ -11,19 +11,19 @@ namespace HBE::Application {
         // Input
         InputSystem& input_system = RegisterSystem<InputSystem>();
         RegisterSystem<PlayerControllerSystem, InputSystem&>(input_system);
-
-        // Transform
-        CameraSystem& camera_system = RegisterSystem<CameraSystem>();
-        RegisterSystem<TransformSystem, CameraSystem&>(camera_system);
-        RegisterSystem<CollisionSystem, int>(5);
+        RegisterSystem<AudioSystem>();
 
         // Physics
         RegisterSystem<PhysicsSystem, InputSystem&>(input_system);
-        RegisterSystem<AudioSystem>();
+        //RegisterSystem<CollisionSystem, int>(5);
+
+        // Transform and Camera
+        RegisterSystem<TransformSystem>();
+        CameraSystem& camera_system = RegisterSystem<CameraSystem>();
 
         // Rendering
-        RegisterSystem<ShapeSystem>();
+        RegisterSystem<ShapeSystem, CameraSystem&>(camera_system);
         RegisterSystem<UISystem, std::string>(font_path.string());
-        RegisterSystem<RenderSystem, InputSystem&>(input_system);
+        RegisterSystem<RenderSystem, InputSystem&, CameraSystem&>(input_system, camera_system);
     };
 }

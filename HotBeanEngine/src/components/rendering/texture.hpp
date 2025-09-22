@@ -16,7 +16,7 @@
 namespace HBE::Components {
     struct Texture : public Component {
         SDL_Texture* m_texture = nullptr; ///< A pointer to the SDL texture object. Can be null if the texture has not been loaded.
-        glm::ivec2 m_size = {0, 0}; ///< Size of the texture in pixels.
+        glm::vec2 m_size = {0, 0}; ///< Size of the texture in pixels.
         bool m_dirty = true;
 
         Texture() = default;
