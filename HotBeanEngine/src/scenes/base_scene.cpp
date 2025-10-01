@@ -15,7 +15,7 @@ namespace HBE::Application {
 
         // Physics
         RegisterSystem<PhysicsSystem, InputSystem&>(input_system);
-        //RegisterSystem<CollisionSystem, int>(5);
+        RegisterSystem<CollisionSystem>();
 
         // Transform and Camera
         RegisterSystem<TransformSystem>();

@@ -14,15 +14,14 @@
  * @brief Macro to define the signature of a system
  * 
  */
-#define DEFINE_SIGNATURE(System, ...) \
-    void SetSignature() override { \
+#define DEFINE_SIGNATURE(System, ...)                \
+    void SetSignature() override {                   \
         g_ecs.SetSignature<System, ##__VA_ARGS__>(); \
     }
 
-#define SETUP_SYSTEM(System, ...) \
-    g_ecs.SetSignature<System, ##__VA_ARGS__>(); \
-
-#define EXTEND_SYSTEM(OriginalSystem, System, ...)                              \
-    g_ecs.UnregisterSystem<OriginalSystem>();     \
-    SETUP_SYSTEM(System, ##__VA_ARGS__)
+#define EXTEND_SYSTEM(OriginalSystem, System, ...)   \
+    void SetSignature() override {                   \
+        g_ecs.UnregisterSystem<OriginalSystem>();    \
+        g_ecs.SetSignature<System, ##__VA_ARGS__>(); \
+    }
     

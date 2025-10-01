@@ -3,7 +3,7 @@
 namespace Systems {
     void PhysicsSystem::OnStart() {
         b2WorldDef world = b2DefaultWorldDef();
-        world.gravity = (b2Vec2){m_gravity.x, m_gravity.y};
+        world.gravity = b2Vec2({m_gravity.x, m_gravity.y});
         m_world_id = b2CreateWorld(&world);
     }
 
@@ -35,18 +35,20 @@ namespace Systems {
         auto& collider = g_ecs.GetComponent<Collider2D>(entity);
 
         b2BodyDef body_def = b2DefaultBodyDef();
-        body_def.position = (b2Vec2){transform.m_local_position.x, transform.m_local_position.y};
+        body_def.position = b2Vec2({transform.m_local_position.x, transform.m_local_position.y});
         body_def.rotation = b2MakeRot(DegreesToRadians(transform.m_local_rotation));
         body_def.type = rigidbody.m_type;
 
         b2BodyId body_id = b2CreateBody(m_world_id, &body_def);
         rigidbody.m_body_id = body_id;
+    }
 
-        b2Polygon box = b2MakeBox(collider.m_size.x / 2.0f, collider.m_size.y / 2.0f);
-
-        b2ShapeDef shape_def = b2DefaultShapeDef();
-        shape_def.density = 1.0f;
-        shape_def.material.friction = 0.3f;
-        b2CreatePolygonShape(body_id, &shape_def, &box);
+    /**
+     * @brief Destroys and removes the rigidbody from the physics simulation.
+     * @param entity The entity to remove.
+     */
+    void PhysicsSystem::OnEntityRemoved(Entity entity) {
+        auto& rigidbody = g_ecs.GetComponent<RigidBody>(entity);
+        b2DestroyBody(rigidbody.m_body_id);
     }
 }

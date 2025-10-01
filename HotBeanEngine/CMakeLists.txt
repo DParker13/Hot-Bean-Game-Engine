@@ -14,12 +14,12 @@ set(BUILD_SHARED_LIBS OFF)
 
 # FetchContent settings
 include(FetchContent)
-set(FETCHCONTENT_FULLY_DISCONNECTED TRUE)
-set(FETCHCONTENT_QUIET FALSE)
+set(FETCHCONTENT_FULLY_DISCONNECTED FALSE)
+set(FETCHCONTENT_QUIET TRUE)
 
 # Fetch dependencies
 FetchContent_Declare(
-    glm
+    GLM
     GIT_REPOSITORY https://github.com/g-truc/glm.git
     GIT_TAG 1.0.1
 )
@@ -31,37 +31,37 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-    SDL2TTF
+    SDL2_TTF
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
     GIT_TAG release-2.22.0
 )
 
 FetchContent_Declare(
-    SDL2Mixer
+    SDL2_MIXER
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
     GIT_TAG release-2.8.x
 )
 
 FetchContent_Declare(
-    SDL2Image
+    SDL2_IMAGE
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
     GIT_TAG release-2.8.x
 )
 
 FetchContent_Declare(
-    yaml_cpp
+    YAML_CPP
     GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
     GIT_TAG 0.8.0
 )
 
 FetchContent_Declare(
-    Box2D
+    BOX2D
     GIT_REPOSITORY https://github.com/erincatto/box2d.git
     GIT_TAG v3.1.1
 )
 
 FetchContent_Declare(
-    ImGUI
+    IMGUI
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
     GIT_TAG v1.92.3
 )
@@ -75,20 +75,22 @@ set(SDL_SHARED OFF CACHE BOOL "Build SDL as a shared library" FORCE)
 set(SDL_STATIC ON CACHE BOOL "Build a static version of the library" FORCE)
 set(YAML_BUILD_SHARED_LIBS OFF CACHE BOOL "Build yaml-cpp shared library" FORCE)
 
+# Vendored settings
 set(SDL2TTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
 set(SDL2MIXER_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
-# SDL2Image hasn't been implemented yet
+
 # set(SDL2IMAGE_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+# set(SDL2IMAGE_AVIF OFF CACHE BOOL "Support loading AVIF images" FORCE) # Disable for now to fix compilation errors
 
 # Fetch dependencies
-FetchContent_MakeAvailable(glm SDL2 SDL2TTF SDL2Mixer SDL2Image yaml_cpp Box2D ImGUI)
+FetchContent_MakeAvailable(GLM SDL2 SDL2_TTF SDL2_MIXER SDL2_IMAGE YAML_CPP BOX2D IMGUI)
 
 # Include directories
 include_directories(
-    ${SDL2_SOURCE_DIR}/include
-    ${SDL2_ttf_SOURCE_DIR}
-    ${SDL2_mixer_SOURCE_DIR}/include
-    ${SDL2_image_SOURCE_DIR}/include
+    ${sdl2_SOURCE_DIR}/include
+    ${sdl2_ttf_SOURCE_DIR}
+    ${sdl2_mixer_SOURCE_DIR}/include
+    ${sdl2_image_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}/glm
     ${yaml_cpp_SOURCE_DIR}/include
     ${box2d_SOURCE_DIR}/include

@@ -19,6 +19,9 @@ namespace Systems {
         else if (event.type == SDL_MOUSEBUTTONUP) {
             OnMouseButtonUp(event);
         }
+        else if (event.type == SDL_MOUSEMOTION) {
+            OnMouseMove(event);
+        }
     }
 
     void InputSystem::OnKeyDown(SDL_Event& event) {

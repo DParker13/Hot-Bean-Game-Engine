@@ -2,8 +2,8 @@
 
 namespace HBE::Managers {
 
-    LoggingManager::LoggingManager(const std::string& log_path, LoggingType level)
-        : m_log_path(log_path), m_log_level(level), m_testing(false) {
+    LoggingManager::LoggingManager(const std::string& log_path, LoggingType level, bool log_to_console)
+        : m_log_path(log_path), m_log_level(level), m_log_to_console(log_to_console), m_testing(false) {
         SetupDefaultLoggingPath();
 
         // Create the missing log directories if they don't exist
@@ -62,7 +62,9 @@ namespace HBE::Managers {
         final_message << " " << message;
 
         // Output to console
-        *out_stream << final_message.str() << std::endl;
+        if (m_log_to_console) {
+            *out_stream << final_message.str() << std::endl;
+        }
         
         LogToFile(type, final_message);
     }

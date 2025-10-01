@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
-#include <glm/gtc/quaternion.hpp>
 #include <yaml-cpp/yaml.h>
 
 namespace YAML {
@@ -50,34 +49,6 @@ namespace YAML {
         
             v2.x = node[0].as<int>();
             v2.y = node[1].as<int>();
-
-            return true;
-        }
-    };
-
-    // Quaternion
-    template<>
-    struct convert<glm::quat> {
-        static Node encode(const glm::quat& quat) {
-            Node node;
-
-            node.push_back(quat.x);
-            node.push_back(quat.y);
-            node.push_back(quat.z);
-            node.push_back(quat.w);
-
-            return node;
-        }
-    
-        static bool decode(const Node& node, glm::quat& quat) {
-            if(!node.IsSequence() || node.size() != 4) {
-                return false;
-            }
-        
-            quat.x = node[0].as<float>();
-            quat.y = node[1].as<float>();
-            quat.z = node[2].as<float>();
-            quat.w = node[3].as<float>();
 
             return true;
         }
@@ -161,13 +132,6 @@ inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::vec2& v) {
 inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::ivec2& v) {
     out << YAML::Flow;
     out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
-    return out;
-}
-
-// Quat
-inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::quat& quat) {
-    out << YAML::Flow;
-    out << YAML::BeginSeq << quat.x << quat.y << quat.z << quat.w << YAML::EndSeq;
     return out;
 }
 

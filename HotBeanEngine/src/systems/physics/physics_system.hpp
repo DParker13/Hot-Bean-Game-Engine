@@ -14,7 +14,7 @@ namespace Systems {
             b2WorldId m_world_id;
 
         public:
-            DEFINE_SIGNATURE(PhysicsSystem, Transform2D, RigidBody, Collider2D);
+            DEFINE_SIGNATURE(PhysicsSystem, Transform2D, RigidBody);
             
             PhysicsSystem(InputSystem& input_system, glm::vec2 gravity)
                 : m_input_system(input_system), m_gravity(gravity) {}
@@ -25,6 +25,7 @@ namespace Systems {
             void OnStart() override;
             void OnFixedUpdate() override;
             void OnEntityAdded(Entity entity) override;
+            void OnEntityRemoved(Entity entity) override;
 
         private:
             float DegreesToRadians(float degrees) {

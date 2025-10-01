@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <SDL_ttf.h>
 #include "ui_element.hpp"
 
 namespace HBE::Components {

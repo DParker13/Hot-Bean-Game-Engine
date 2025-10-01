@@ -10,6 +10,8 @@
  */
 #pragma once
 
+#include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <vector>
 
 #include "../managers/all_managers.hpp"

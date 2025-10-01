@@ -40,6 +40,7 @@ High Priority
 - Add easy way to multithread each System function
 - Uplift SDL2 to SDL3?
     + Use Vulcan?
+- Encapsulate the game loop using a higher-order system that is able to "start" and "stop" the game to allow for easier development
 
 Medium Priority
 - Can modify components in realtime without recompiling

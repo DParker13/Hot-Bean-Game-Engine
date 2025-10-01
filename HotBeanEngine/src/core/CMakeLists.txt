@@ -1,7 +1,6 @@
 add_library(core INTERFACE
     all_core.hpp
     archetype.hpp
-    app.hpp
     component.hpp
     entity.hpp
     exceptions.hpp

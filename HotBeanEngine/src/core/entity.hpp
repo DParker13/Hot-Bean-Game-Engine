@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL_stdinc.h>
+//#include <SDL_stdinc.h>
 #include <SDL.h>
 
 namespace HBE::Core {

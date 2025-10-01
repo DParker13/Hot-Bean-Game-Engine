@@ -10,8 +10,6 @@
  */
 
 #pragma once
-
-#include "app.hpp"
  
 namespace HBE::Core {
     struct Scene {

@@ -33,6 +33,7 @@ namespace Config {
     // Logging
     inline LoggingType LOGGING_LEVEL = LoggingType::DEBUG;
     inline std::string LOG_PATH = "./logs/log.txt";
+    inline bool LOG_TO_CONSOLE = false;
 
     // Misc
     inline std::string ASSET_PATH = "./assets/";
@@ -61,6 +62,9 @@ namespace Config {
                 }
                 if (config["Logging"]["path"]) {
                     LOG_PATH = config["Logging"]["path"].as<std::string>();
+                }
+                if (config["Logging"]["console"]) {
+                    LOG_TO_CONSOLE = config["Logging"]["console"].as<bool>();
                 }
             }
 

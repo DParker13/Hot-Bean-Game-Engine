@@ -15,11 +15,11 @@
 namespace HBE::Components {
     struct Collider2D : public Component {
         enum class ColliderShape {
-            Square,
-            Circle // TODO: Implement collision detection for this shape
+            Box,
+            Circle
         };
 
-        ColliderShape m_shape = ColliderShape::Square;
+        ColliderShape m_shape = ColliderShape::Box;
         glm::vec2 m_size;
         bool m_is_trigger = false;
 

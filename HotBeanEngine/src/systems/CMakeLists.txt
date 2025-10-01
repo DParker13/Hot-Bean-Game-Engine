@@ -6,8 +6,8 @@ add_library(default_systems STATIC
     input/input_system.hpp
     input/player_controller_system.cpp
     input/player_controller_system.hpp
-    #physics/collision_system.cpp
-    #physics/collision_system.hpp
+    physics/collision_system.cpp
+    physics/collision_system.hpp
     physics/physics_system.cpp
     physics/physics_system.hpp
     rendering/camera_system.cpp

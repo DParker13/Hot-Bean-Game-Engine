@@ -2,7 +2,6 @@
 
 #include <set>
 
-#include "app.hpp"
 #include "entity.hpp"
 #include "game_loop.hpp"
 

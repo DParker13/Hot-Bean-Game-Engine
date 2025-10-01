@@ -5,9 +5,9 @@
 namespace Systems {
     class CustomAudioSystem : public Systems::AudioSystem {
         public:
+            EXTEND_SYSTEM(AudioSystem, CustomAudioSystem);
             CustomAudioSystem() = default;
 
-            void SetSignature() override;
             void OnStart() override;
     };
 }

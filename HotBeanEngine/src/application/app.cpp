@@ -40,7 +40,7 @@ namespace HBE::Application {
         SetupRendererAndWindow();
 
         // Setup logging first to capture any application initialization errors
-        m_logging_manager = std::make_shared<LoggingManager>(Config::LOG_PATH, Config::LOGGING_LEVEL);
+        m_logging_manager = std::make_shared<LoggingManager>(Config::LOG_PATH, Config::LOGGING_LEVEL, Config::LOG_TO_CONSOLE);
 
         if (config_loaded) {
             LOG_CORE(LoggingType::INFO, "Config file loaded.");
@@ -72,17 +72,6 @@ namespace HBE::Application {
         CleanUpSDL();
         delete s_instance;
         s_instance = nullptr;
-    }
-
-    /**
-     * @brief Initializes the SDL library and creates the window and renderer.
-     */
-    void App::InitSDL() {
-        // Initialize SDL
-        if (SDL_Init(SDL_INIT_VIDEO || SDL_INIT_AUDIO) < 0) {
-            LOG_CORE(LoggingType::FATAL, std::string("SDL could not initialize! SDL_Error: ") + SDL_GetError());
-            exit(-1);
-        }
     }
 
     /**
@@ -122,6 +111,17 @@ namespace HBE::Application {
         
         // Clear the renderer to prepare for the next frame
         SDL_RenderClear(m_renderer);
+    }
+
+    /**
+     * @brief Initializes the SDL library and creates the window and renderer.
+     */
+    void App::InitSDL() {
+        // Initialize SDL
+        if (SDL_Init(SDL_INIT_VIDEO || SDL_INIT_AUDIO) < 0) {
+            LOG_CORE(LoggingType::FATAL, std::string("SDL could not initialize! SDL_Error: ") + SDL_GetError());
+            exit(-1);
+        }
     }
 
     /**
@@ -298,6 +298,8 @@ namespace HBE::Application {
 
         // Image
         IMG_Quit();
+
+        // SDL
         SDL_Quit();
     }
 
