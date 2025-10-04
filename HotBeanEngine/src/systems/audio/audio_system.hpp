@@ -9,7 +9,7 @@ using namespace HBE::Core;
 namespace Systems {
     class AudioSystem : public System {
         private:
-            Mix_Chunk* m_music; // Channel 1
+            MIX_Track* m_track; // Channel 1
             const Uint8 DEFAULT_MUSIC_CHANNEL = 1;
 
         public:

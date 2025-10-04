@@ -1,7 +1,6 @@
 #pragma once
 
-//#include <SDL_stdinc.h>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 namespace HBE::Core {
     // Entity is a signed 32-bit integer

@@ -65,7 +65,6 @@ namespace HBE::Application {
         InitSDL();
         InitSDLTTF();
         InitSDLMixer();
-        InitSDLImage();
     }
 
     App::~App() {
@@ -87,22 +86,21 @@ namespace HBE::Application {
 
         // Create new window surface
         if (m_window == nullptr) {
-            m_window = SDL_CreateWindow(Config::WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE);
+            SDL_CreateWindowAndRenderer(Config::WINDOW_TITLE.c_str(), Config::SCREEN_WIDTH,
+                                                   Config::SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE,
+                                                   &m_window, &m_renderer);
 
             // Check if window creation was successful
             if (m_window == nullptr) {
                 LOG_CORE(LoggingType::FATAL, std::string("Window could not be created! SDL_Error: ") + SDL_GetError());
                 exit(-1);
             }
-        }
 
-        // Create renderer for window
-        m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
-        if (m_renderer == nullptr) {
-            LOG_CORE(LoggingType::FATAL, std::string("Renderer could not be created! SDL_Error: ") + SDL_GetError());
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to create renderer", m_window);
-            exit(-1);
+            if (m_renderer == nullptr) {
+                LOG_CORE(LoggingType::FATAL, std::string("Renderer could not be created! SDL_Error: ") + SDL_GetError());
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to create renderer", m_window);
+                exit(-1);
+            }
         }
 
         // Initialize renderer settings
@@ -118,7 +116,7 @@ namespace HBE::Application {
      */
     void App::InitSDL() {
         // Initialize SDL
-        if (SDL_Init(SDL_INIT_VIDEO || SDL_INIT_AUDIO) < 0) {
+        if (!SDL_Init(SDL_INIT_VIDEO || SDL_INIT_AUDIO)) {
             LOG_CORE(LoggingType::FATAL, std::string("SDL could not initialize! SDL_Error: ") + SDL_GetError());
             exit(-1);
         }
@@ -129,8 +127,8 @@ namespace HBE::Application {
      */
     void App::InitSDLTTF() {
         // Initialize TTF
-        if (TTF_Init() < 0) {
-            LOG_CORE(LoggingType::FATAL, std::string("TTF could not be initialized! TTF_Error: ") + TTF_GetError());
+        if (!TTF_Init()) {
+            LOG_CORE(LoggingType::FATAL, std::string("TTF could not be initialized! SDL_Error: ") + SDL_GetError());
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL TTF", m_window);
             exit(-1);
         }
@@ -139,29 +137,29 @@ namespace HBE::Application {
     /**
      * @brief Initializes the SDL_Image library.
      */
-    void App::InitSDLImage() {
-        // Initialize Image
-        if (IMG_Init(IMG_INIT_PNG) < 0) {
-            LOG_CORE(LoggingType::FATAL, std::string("Image could not be initialized! IMG_Error: ") + IMG_GetError());
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL Image", m_window);
-            exit(-1);
-        }
-    }
+    // void App::InitSDLImage() {
+    //     // Initialize Image
+    //     if (!IMG_Init()) {
+    //         LOG_CORE(LoggingType::FATAL, std::string("Image could not be initialized! SDL_Error: ") + SDL_GetError());
+    //         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL Image", m_window);
+    //         exit(-1);
+    //     }
+    // }
 
     /**
      * @brief Initializes the SDL_Mixer library.
      */
     void App::InitSDLMixer() {
-        if (Mix_Init(MIX_INIT_WAVPACK) < 0) {
-            LOG_CORE(LoggingType::FATAL, std::string("Audio mixer could not be initialized! Mix_Error: ") + Mix_GetError());
+        if (!MIX_Init()) {
+            LOG_CORE(LoggingType::FATAL, std::string("Audio mixer could not be initialized! SDL_Error: ") + SDL_GetError());
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL Mixer", m_window);
             exit(-1);
         }
-        else if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) {
-            LOG_CORE(LoggingType::FATAL, std::string("Audio device could not be opened! Mix_Error: ") + Mix_GetError());
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Mixer Error", "Failed to open audio device", m_window);
-            exit(-1);
-        }
+        // else if(MIX_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) {
+        //     LOG_CORE(LoggingType::FATAL, std::string("Audio device could not be opened! SDL_Error: ") + SDL_GetError());
+        //     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Mixer Error", "Failed to open audio device", m_window);
+        //     exit(-1);
+        // }
     }
 
     App& App::GetInstance() {
@@ -267,10 +265,10 @@ namespace HBE::Application {
         //Polls for events
         while (SDL_PollEvent(&event)) {
             // Application level events are handled here. Each system can handle their own events through the OnEvent method
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_EVENT_QUIT) {
                 m_quit = true;
             }
-            else if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
+            else if (event.type == SDL_EVENT_WINDOW_RESIZED) {
                 // Call system OnWindowResize methods
                 OnWindowResize(event);
             }
@@ -293,11 +291,11 @@ namespace HBE::Application {
         TTF_Quit();
 
         // Audio
-        Mix_CloseAudio();
-        Mix_Quit();
+        //MIX_CloseAudio();
+        MIX_Quit();
 
         // Image
-        IMG_Quit();
+        //IMG_Quit();
 
         // SDL
         SDL_Quit();
@@ -317,7 +315,7 @@ namespace HBE::Application {
      * @brief Updates the delta time (time elapsed) between frames in seconds.
      */
     void App::UpdateDeltaTime() {
-        Uint32 current_time = SDL_GetTicks64();
+        Uint64 current_time = SDL_GetTicks();
         m_delta_time = (current_time - m_previous_frame_time) / 1000.0f;
 
         // Cap delta time

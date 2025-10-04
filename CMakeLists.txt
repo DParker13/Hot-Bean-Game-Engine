@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.11) # FetchContent is new in version 3.11.
 
+project(FullHotBeanEngine LANGUAGES CXX)
+
 set(CMAKE_BUILD_PARALLEL_LEVEL 4)
 
 add_subdirectory(HotBeanEngine)
