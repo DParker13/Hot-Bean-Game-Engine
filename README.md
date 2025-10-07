@@ -9,33 +9,45 @@ Based on Austin Morlan's simple ECS design from his blog post at https://austinm
 ## Features
 ------------
 
-* 2D rendering using SDL
+* 2D rendering using SDL2 (Soon to be upgraded to SDL3)
 * Entity-Component-System (ECS) architecture
 * Support for input, audio, physics, and rendering textures/sprites
 * Basic game object management
+* Scene management
+* Easily expandable Components and Systems for game needs 
 
-## Getting Started
+## Build and Run
 -------------------
 
 ### Build Requirements
 - C++ >= 17.0
-- CMake >= 3.11
-- GCC
+- CMake >= 3.18
 
 ### Step 1: Clone the repository
 ```bash
 git clone https://github.com/DParker13/Hot-Bean-Game-Engine.git
 ```
 
-### Step 2: Build the project
+### Step 2: Create a build folder within the root project and navigate to it
 ```bash
-cmake .
-make
+mkdir build
+cd build
 ```
 
-### Step 3: Run the example application
+### Step 3: Configure the project
 ```bash
-./HotBeanEngine.exe
+cmake ..
+```
+
+### Step 4: Build the project
+```bash
+cd ..
+cmake --build .
+```
+
+### Step 5: Run the example application
+```bash
+./Game.exe
 ```
 
 ## License
