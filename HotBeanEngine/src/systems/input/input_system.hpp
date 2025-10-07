@@ -11,7 +11,7 @@ namespace Systems {
     class InputSystem : public System {
         public:
             // TODO: Make configurable
-            static const SDL_Keycode DEBUG_KEY = SDLK_F1;
+            //static const SDL_Keycode DEBUG_KEY = SDLK_F1;
 
             std::unordered_set<SDL_Keycode> m_keys_pressed;
             std::unordered_set<Uint8> m_mouse_buttons_pressed;

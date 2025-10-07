@@ -51,7 +51,7 @@ FetchContent_Declare(
 FetchContent_Declare(
     YAML_CPP
     GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-    GIT_TAG 0.8.0
+    GIT_TAG master # A stable release should be used when one is released
 )
 
 FetchContent_Declare(
