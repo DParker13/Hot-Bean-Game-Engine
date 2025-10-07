@@ -32,7 +32,6 @@ namespace Systems {
     void PhysicsSystem::OnEntityAdded(Entity entity) {
         auto& transform = g_ecs.GetComponent<Transform2D>(entity);
         auto& rigidbody = g_ecs.GetComponent<RigidBody>(entity);
-        auto& collider = g_ecs.GetComponent<Collider2D>(entity);
 
         b2BodyDef body_def = b2DefaultBodyDef();
         body_def.position = b2Vec2({transform.m_local_position.x, transform.m_local_position.y});

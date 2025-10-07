@@ -1,4 +1,3 @@
-# Define a static library for the core implementation
 add_library(managers STATIC
     all_managers.hpp
     component_manager.cpp
@@ -15,8 +14,6 @@ add_library(managers STATIC
     serialization_manager.hpp
 )
 
-# Link other dependencies if needed (e.g., core library, SDL2, etc.)
-# If managers depend on core, link it here.
 target_link_libraries(managers PUBLIC
     core
     glm

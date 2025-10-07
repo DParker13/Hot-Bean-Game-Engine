@@ -31,10 +31,10 @@ namespace Systems {
                     case Shape::ShapeType::Box: {
                         const SDL_FRect* rect = new SDL_FRect({0, 0, shape.m_size.x, shape.m_size.y});
                         if (shape.m_filled) {
-                            SDL_RenderFillRectF(g_app.GetRenderer(), rect);
+                            SDL_RenderFillRect(g_app.GetRenderer(), rect);
                         }
                         else {
-                            SDL_RenderDrawRectF(g_app.GetRenderer(), rect);
+                            SDL_RenderRect(g_app.GetRenderer(), rect);
                         }
                         
                         // Free rect

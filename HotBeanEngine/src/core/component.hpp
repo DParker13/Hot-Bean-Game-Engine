@@ -1,7 +1,6 @@
 #pragma once
 
-#include <SDL_stdinc.h>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <yaml-cpp/yaml.h>
 
 namespace HBE::Core {

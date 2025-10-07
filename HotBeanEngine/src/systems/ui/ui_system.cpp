@@ -73,10 +73,10 @@ namespace Systems {
 
             // Render text to surface
             if (text.m_background_color.a == 0) {
-                text_surface = TTF_RenderUTF8_Solid_Wrapped(m_font, text.GetChar(), text.m_foreground_color, text.m_wrapping_width);                
+                text_surface = TTF_RenderText_Solid_Wrapped(m_font, text.GetChar(), sizeof(text.GetChar()), text.m_foreground_color, text.m_wrapping_width);                
             }
             else {
-                text_surface = TTF_RenderUTF8_LCD_Wrapped(m_font, text.GetChar(), text.m_foreground_color, text.m_background_color, text.m_wrapping_width);
+                text_surface = TTF_RenderText_LCD_Wrapped(m_font, text.GetChar(), sizeof(text.GetChar()), text.m_foreground_color, text.m_background_color, text.m_wrapping_width);
             }
 
             if (!text_surface) {
@@ -92,7 +92,7 @@ namespace Systems {
             }
 
             if (text_surface) {
-                SDL_FreeSurface(text_surface);
+                SDL_DestroySurface(text_surface);
             }
         }
     }

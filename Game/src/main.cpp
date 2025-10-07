@@ -1,4 +1,4 @@
-#include <SDL_main.h> // only include this one in the source file with main()!
+#include <SDL3/SDL_main.h> // only include this one in the source file with main()!
 
 #include "game/example_game.hpp"
 

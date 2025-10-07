@@ -9,8 +9,8 @@ add_library(application STATIC
 
 # Link dependencies for the application library
 target_link_libraries(application PUBLIC
-    SDL2_mixer
-    SDL2_image
+    SDL3_mixer::SDL3_mixer
+    SDL3_image::SDL3_image
     managers
     default_components
 )

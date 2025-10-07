@@ -37,7 +37,7 @@ namespace Scenes {
 
             Transform2D box_transform;
             box_transform.m_local_position = {dist_x(gen), dist_y(gen)};
-            box_transform.m_local_rotation = dist_angle(gen);
+            box_transform.m_local_rotation = (float)dist_angle(gen);
             box_transform.m_layer = 10;
             RigidBody box_rigidbody;
             box_rigidbody.m_type = b2_dynamicBody;

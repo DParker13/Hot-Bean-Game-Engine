@@ -7,49 +7,49 @@ namespace Systems {
      * @param[in] event The SDL event to handle.
      */
     void InputSystem::OnEvent(SDL_Event& event) {
-        if (event.type == SDL_KEYDOWN) {
+        if (event.type == SDL_EVENT_KEY_DOWN) {
             OnKeyDown(event);
         }
-        else if (event.type == SDL_KEYUP) {
+        else if (event.type == SDL_EVENT_KEY_UP) {
             OnKeyUp(event);
         }
-        else if(event.type == SDL_MOUSEBUTTONDOWN) {
+        else if(event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
             OnMouseButtonDown(event);
         }
-        else if (event.type == SDL_MOUSEBUTTONUP) {
+        else if (event.type == SDL_EVENT_MOUSE_BUTTON_UP) {
             OnMouseButtonUp(event);
         }
-        else if (event.type == SDL_MOUSEMOTION) {
+        else if (event.type == SDL_EVENT_MOUSE_MOTION) {
             OnMouseMove(event);
         }
     }
 
     void InputSystem::OnKeyDown(SDL_Event& event) {
-        if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
-            m_keys_pressed.insert(event.key.keysym.sym);
+        if (event.type == SDL_EVENT_KEY_DOWN && event.key.repeat == 0) {
+            m_keys_pressed.insert(event.key.key);
         }
     }
 
     void InputSystem::OnKeyUp(SDL_Event& event) {
-        if (event.type == SDL_KEYUP) {
-            m_keys_pressed.erase(event.key.keysym.sym);
+        if (event.type == SDL_EVENT_KEY_UP) {
+            m_keys_pressed.erase(event.key.key);
         }
     }
 
     void InputSystem::OnMouseButtonDown(SDL_Event& event) {
-        if (event.type == SDL_MOUSEBUTTONDOWN) {
+        if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
             m_mouse_buttons_pressed.insert(event.button.button);
         }
     }
 
     void InputSystem::OnMouseButtonUp(SDL_Event& event) {
-        if (event.type == SDL_MOUSEBUTTONUP) {
+        if (event.type == SDL_EVENT_MOUSE_BUTTON_UP) {
             m_mouse_buttons_pressed.erase(event.button.button);
         }
     }
 
     void InputSystem::OnMouseMove(SDL_Event& event) {
-        if (event.type == SDL_MOUSEMOTION) {
+        if (event.type == SDL_EVENT_MOUSE_MOTION) {
             m_mouse_position = {event.motion.x, event.motion.y};
         }
     }

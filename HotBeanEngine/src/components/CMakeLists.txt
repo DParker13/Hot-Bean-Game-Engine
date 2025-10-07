@@ -15,7 +15,7 @@ add_library(default_components STATIC
 )
 
 target_link_libraries(default_components PUBLIC
-    SDL2_ttf
+    SDL3_ttf::SDL3_ttf
     glm
     yaml-cpp
     box2d

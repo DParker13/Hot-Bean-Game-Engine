@@ -25,33 +25,33 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-    SDL2
+    SDL3
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG release-2.30.x
+    GIT_TAG main # A stable release should be used when ver 3.4.0 releases!!!
 )
 
 FetchContent_Declare(
-    SDL2_TTF
+    SDL3_TTF
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
-    GIT_TAG release-2.22.0
+    GIT_TAG release-3.2.x
 )
 
 FetchContent_Declare(
-    SDL2_MIXER
+    SDL3_MIXER
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
-    GIT_TAG release-2.8.x
+    GIT_TAG main
 )
 
 FetchContent_Declare(
-    SDL2_IMAGE
+    SDL3_IMAGE
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
-    GIT_TAG release-2.8.x
+    GIT_TAG release-3.2.x
 )
 
 FetchContent_Declare(
     YAML_CPP
     GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-    GIT_TAG 0.8.0
+    GIT_TAG master # A stable release should be used when one is released
 )
 
 FetchContent_Declare(
@@ -76,21 +76,20 @@ set(SDL_STATIC ON CACHE BOOL "Build a static version of the library" FORCE)
 set(YAML_BUILD_SHARED_LIBS OFF CACHE BOOL "Build yaml-cpp shared library" FORCE)
 
 # Vendored settings
-set(SDL2TTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
-set(SDL2MIXER_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
-
-# set(SDL2IMAGE_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
-# set(SDL2IMAGE_AVIF OFF CACHE BOOL "Support loading AVIF images" FORCE) # Disable for now to fix compilation errors
+set(SDLTTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+set(SDLMIXER_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+set(SDL3IMAGE_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
+set(SDLIMAGE_AVIF OFF CACHE BOOL "Support loading AVIF images" FORCE)
 
 # Fetch dependencies
-FetchContent_MakeAvailable(GLM SDL2 SDL2_TTF SDL2_MIXER SDL2_IMAGE YAML_CPP BOX2D IMGUI)
+FetchContent_MakeAvailable(GLM SDL3 SDL3_TTF SDL3_MIXER SDL3_IMAGE YAML_CPP BOX2D IMGUI)
 
 # Include directories
 include_directories(
-    ${sdl2_SOURCE_DIR}/include
-    ${sdl2_ttf_SOURCE_DIR}
-    ${sdl2_mixer_SOURCE_DIR}/include
-    ${sdl2_image_SOURCE_DIR}/include
+    ${sdl3_SOURCE_DIR}/include
+    ${sdl3_ttf_SOURCE_DIR}/include
+    ${sdl3_mixer_SOURCE_DIR}/include
+    ${sdl3_image_SOURCE_DIR}/include
     ${glm_SOURCE_DIR}/glm
     ${yaml_cpp_SOURCE_DIR}/include
     ${box2d_SOURCE_DIR}/include
@@ -106,7 +105,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     base_game
     default_components
     default_systems
-    SDL2::SDL2main
 )
 
 # Platform-specific settings

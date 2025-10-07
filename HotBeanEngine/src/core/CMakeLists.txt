@@ -13,8 +13,13 @@ add_library(core INTERFACE
     yaml_extensions.hpp
 )
 
+target_include_directories(core INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_link_libraries(core INTERFACE
-    SDL2::SDL2
+    SDL3::SDL3
+    glm
     yaml-cpp
 )
 

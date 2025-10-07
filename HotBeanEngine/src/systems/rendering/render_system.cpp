@@ -110,7 +110,7 @@ namespace Systems {
     }
 
     void RenderSystem::UpdateRendererSize() {
-        SDL_GetRendererOutputSize(g_app.GetRenderer(), &m_renderer_size.x, &m_renderer_size.y);
+        SDL_GetCurrentRenderOutputSize(g_app.GetRenderer(), &m_renderer_size.x, &m_renderer_size.y);
     }
 
     /**
@@ -144,12 +144,12 @@ namespace Systems {
         }
 
         // Render texture to layer
-        SDL_RenderCopyExF(renderer, texture.m_texture, NULL, rect, 
+        SDL_RenderTextureRotated(renderer, texture.m_texture, NULL, rect, 
                           transform.m_world_rotation, NULL, SDL_FLIP_NONE);
 
         // TODO: Optimize debug rendering to not create/destroy texture and rect every frame?
         // If Debug key (F1) is pressed, draw a red outline around the entity
-        if (m_input_system.m_keys_pressed.find(InputSystem::DEBUG_KEY) != m_input_system.m_keys_pressed.end()) {
+        if (m_input_system.m_keys_pressed.find(SDLK_F1) != m_input_system.m_keys_pressed.end()) {
             DrawDebugRect(texture, transform, rect);
         }
 
@@ -168,7 +168,7 @@ namespace Systems {
         // Render each layer
         for (auto& layer : m_layers) {
             SDL_SetRenderTarget(renderer, NULL);
-            SDL_RenderCopy(renderer, layer.second, NULL, NULL);
+            SDL_RenderTexture(renderer, layer.second, NULL, NULL);
         }
     }
 
@@ -220,9 +220,9 @@ namespace Systems {
         SDL_FRect* debug_rect = new SDL_FRect({0, 0, texture.m_size.x, texture.m_size.y});
         SDL_SetRenderTarget(renderer, debug_texture);
         SDL_SetTextureBlendMode(debug_texture, SDL_BLENDMODE_BLEND);
-        SDL_RenderDrawRectF(renderer, debug_rect);
+        SDL_RenderRect(renderer, debug_rect);
         SDL_SetRenderTarget(renderer, m_layers[transform.m_layer]);
-        SDL_RenderCopyExF(renderer, debug_texture, NULL, rect,
+        SDL_RenderTextureRotated(renderer, debug_texture, NULL, rect,
                         transform.m_world_rotation, NULL, SDL_FLIP_NONE);
 
         if (debug_texture) {
