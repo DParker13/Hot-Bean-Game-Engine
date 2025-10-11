@@ -11,16 +11,15 @@
  */
 #pragma once
 
-#include <HotBeanEngine.hpp>
-
 #include "../scenes/example_scene.hpp"
 
-using namespace HBE::Components;
-using namespace Systems;
+using namespace HBE::Application;
+using namespace HBE::Default::Components;
+using namespace HBE::Default::Systems;
 
-class ExampleGame : public App {
+class ExampleGame : public Application {
     public:
-        ExampleGame(const std::string& config_path);
+        ExampleGame(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory);
         ~ExampleGame() = default;
         
     protected:

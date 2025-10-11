@@ -1,19 +1,15 @@
 #pragma once
 
-#include <HotBeanEngine.hpp>
 #include <random>
 
 #include "../systems/audio_system.hpp"
 
-using namespace HBE::Core;
-using namespace HBE::Application;
-using namespace HBE::Archetypes;
-using namespace Systems;
+using namespace HBE::Default::Components;
 
 namespace Scenes {
-    struct ExampleScene : public BaseScene {
-        ExampleScene(std::string path)
-        : BaseScene("ExampleScene", path) {}
+    struct ExampleScene : public HBE::Default::DefaultScene {
+        ExampleScene(std::string path, std::shared_ptr<ISerializer> serializer)
+        : DefaultScene("ExampleScene", path, serializer) {}
 
         ~ExampleScene() = default;
 

@@ -1,8 +1,9 @@
-#include "test_system.hpp"
 #include <catch2/catch_all.hpp>
 
+#include <HotBeanEngine/core/sparse_set.hpp>
+#include "test_system.hpp"
+
 using namespace HBE::Core;
-using namespace HBE::Managers;
 
 TEST_CASE("SparseSet") {
     #define MAX_ITEMS 10

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <HotBeanEngine.hpp>
+#include <HotBeanEngine/HotBeanEngine_Defaults.hpp>
 
 namespace Systems {
-    class CustomAudioSystem : public Systems::AudioSystem {
-        public:
-            EXTEND_SYSTEM(AudioSystem, CustomAudioSystem);
-            CustomAudioSystem() = default;
+    class CustomAudioSystem : public HBE::Default::Systems::AudioSystem {
+    public:
+        EXTEND_SYSTEM(AudioSystem, CustomAudioSystem);
+        CustomAudioSystem() = default;
 
-            void OnStart() override;
+        void OnStart() override;
     };
 }

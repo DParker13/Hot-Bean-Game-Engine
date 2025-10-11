@@ -1,6 +1,6 @@
 #include "tilemap_system.hpp"
 
-namespace Systems {
+namespace HBE::Default::Systems {
     void TileMapSystem::SetSignature() {
         SETUP_SYSTEM(TileMapSystem, Transform2D, Tile);
     }

@@ -1,9 +1,11 @@
-#include "../../include/HotBeanEngine.hpp"
-#include "test_component.hpp"
 #include <catch2/catch_all.hpp>
 
+#include <HotBeanEngine/application/managers/entity_manager.hpp>
+#include <HotBeanEngine/application/managers/component_manager.hpp>
+#include "test_component.hpp"
+
 using namespace HBE::Core;
-using namespace HBE::Managers;
+using namespace HBE::Application::Managers;
 
 TEST_CASE("ComponentManager: Entity has component") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();

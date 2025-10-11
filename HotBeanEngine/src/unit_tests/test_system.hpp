@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../include/HotBeanEngine.hpp"
+#include <HotBeanEngine/core/system.hpp>
 
-struct TestSystem : public System {
+struct TestSystem : public HBE::Core::System {
     TestSystem() = default;
     void SetSignature() override {}
 };

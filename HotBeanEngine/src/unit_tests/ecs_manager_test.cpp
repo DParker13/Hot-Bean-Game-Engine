@@ -1,9 +1,11 @@
-#include "test_component.hpp"
-#include "test_system.hpp"
 #include <catch2/catch_all.hpp>
 
+#include <HotBeanEngine/application/managers/ecs_manager.hpp>
+#include "test_component.hpp"
+#include "test_system.hpp"
+
 using namespace HBE::Core;
-using namespace HBE::Managers;
+using namespace HBE::Application::Managers;
 
 TEST_CASE("ECSManager: Create and Destroy Entity") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();

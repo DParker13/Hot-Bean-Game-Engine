@@ -1,8 +1,10 @@
-#include "test_system.hpp"
 #include <catch2/catch_all.hpp>
 
+#include <HotBeanEngine/application/managers/system_manager.hpp>
+#include "test_system.hpp"
+
 using namespace HBE::Core;
-using namespace HBE::Managers;
+using namespace HBE::Application::Managers;
 
 TEST_CASE("SystemManager: Register and Unregister System") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();

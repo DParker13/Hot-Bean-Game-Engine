@@ -2,11 +2,11 @@
 
 #include <HotBeanEngine.hpp>
 
-using namespace HBE::Components;
+using namespace HBE::Default::Components;
 using namespace HBE::Application;
 using namespace HBE::Core;
 
-namespace Systems {
+namespace HBE::Default::Systems {
     class TileMapSystem : public System {
         public:
             TileMapSystem() = default;

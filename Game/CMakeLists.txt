@@ -11,17 +11,13 @@ message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}'")
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 
-include_directories(
-    ${HotBeanEngine_SOURCE_DIR}/include
-)
-
 # Add subdirectories for project modules
 add_subdirectory(src/systems)
 add_subdirectory(src/scenes)
 add_subdirectory(src/game)
 
 # Link libraries
-target_link_libraries(${PROJECT_NAME} PRIVATE
+target_link_libraries(${PROJECT_NAME} PUBLIC
     game
 )
 
@@ -51,9 +47,9 @@ add_custom_command(
             "${CMAKE_CURRENT_BINARY_DIR}/config.yaml"
 
     # Copy the HotBeanEngine DLL
-    COMMAND ${CMAKE_COMMAND} -E copy
-            "${HotBeanEngine_BINARY_DIR}/libHotBeanEngine.dll"
-            "${CMAKE_CURRENT_BINARY_DIR}/libHotBeanEngine.dll"
+    # COMMAND ${CMAKE_COMMAND} -E copy
+    #         "${HotBeanEngine_BINARY_DIR}/libHotBeanEngine.dll"
+    #         "${CMAKE_CURRENT_BINARY_DIR}/libHotBeanEngine.dll"
 
     COMMENT "Copying assets, config file, DLL, and scenes to binary directory"
 )

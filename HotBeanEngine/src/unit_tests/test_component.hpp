@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../include/HotBeanEngine.hpp"
+#include <HotBeanEngine/core/component.hpp>
 
-struct TestComponent : public Component {
+struct TestComponent : public HBE::Core::Component {
     int m_value = 0;
 
     TestComponent() = default;

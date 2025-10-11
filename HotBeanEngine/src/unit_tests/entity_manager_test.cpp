@@ -1,8 +1,8 @@
-#include "../../include/HotBeanEngine.hpp"
+#include <HotBeanEngine/application/managers/entity_manager.hpp>
 #include <catch2/catch_all.hpp>
 
 using namespace HBE::Core;
-using namespace HBE::Managers;
+using namespace HBE::Application::Managers;
 
 TEST_CASE("EntityManager: Create and Destroy Entity") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();

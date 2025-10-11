@@ -58,8 +58,8 @@ namespace Scenes {
     }
 
     void ExampleScene::SetupSystems() {
-        BaseScene::SetupSystems();
+        DefaultScene::SetupSystems();
 
-        RegisterSystem<CustomAudioSystem>();
+        g_ecs.RegisterSystem<Systems::CustomAudioSystem>();
     }
 }

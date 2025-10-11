@@ -27,7 +27,7 @@ FetchContent_Declare(
 FetchContent_Declare(
     SDL3
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG main # A stable release should be used when ver 3.4.0 releases!!!
+    GIT_TAG release-3.2.x # A stable release should be used when ver 3.4.0 releases!!!
 )
 
 FetchContent_Declare(
@@ -36,11 +36,11 @@ FetchContent_Declare(
     GIT_TAG release-3.2.x
 )
 
-FetchContent_Declare(
-    SDL3_MIXER
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
-    GIT_TAG main
-)
+# FetchContent_Declare(
+#     SDL3_MIXER
+#     GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+#     GIT_TAG main
+# )
 
 FetchContent_Declare(
     SDL3_IMAGE
@@ -74,6 +74,7 @@ option(GAME_BUILD_TESTING "${PROJECT_NAME}: Build tests" ON)
 set(SDL_SHARED OFF CACHE BOOL "Build SDL as a shared library" FORCE)
 set(SDL_STATIC ON CACHE BOOL "Build a static version of the library" FORCE)
 set(YAML_BUILD_SHARED_LIBS OFF CACHE BOOL "Build yaml-cpp shared library" FORCE)
+add_definitions(-DYAML_CPP_STATIC_DEFINE)
 
 # Vendored settings
 set(SDLTTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
@@ -82,51 +83,24 @@ set(SDL3IMAGE_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
 set(SDLIMAGE_AVIF OFF CACHE BOOL "Support loading AVIF images" FORCE)
 
 # Fetch dependencies
-FetchContent_MakeAvailable(GLM SDL3 SDL3_TTF SDL3_MIXER SDL3_IMAGE YAML_CPP BOX2D IMGUI)
-
-# Include directories
-include_directories(
-    ${sdl3_SOURCE_DIR}/include
-    ${sdl3_ttf_SOURCE_DIR}/include
-    ${sdl3_mixer_SOURCE_DIR}/include
-    ${sdl3_image_SOURCE_DIR}/include
-    ${glm_SOURCE_DIR}/glm
-    ${yaml_cpp_SOURCE_DIR}/include
-    ${box2d_SOURCE_DIR}/include
-    ${imgui_SOURCE_DIR}
-)
-
-# Main library
-add_library(${PROJECT_NAME} SHARED
-    include/HotBeanEngine.hpp
-)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC
-    base_game
-    default_components
-    default_systems
-)
+FetchContent_MakeAvailable(GLM SDL3 SDL3_TTF SDL3_IMAGE YAML_CPP BOX2D IMGUI)
 
 # Platform-specific settings
 if(WIN32)
     set(HAVE_STRINGS_H 0 CACHE INTERNAL "Windows doesn't have strings.h" FORCE)
 endif()
 
+# Add subdirectories
+add_subdirectory(src/application)
+add_subdirectory(src/defaults)
+
 # Compiler-specific settings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-        target_link_options(${PROJECT_NAME} PUBLIC -mwindows)
+        target_link_options(HotBeanEngine_Application PUBLIC -mwindows)
     endif()
-    target_link_options(${PROJECT_NAME} PUBLIC -static-libstdc++ -static-libgcc)
+    target_link_options(HotBeanEngine_Application PUBLIC -static-libstdc++ -static-libgcc)
 endif()
-
-# Add subdirectories
-add_subdirectory(src/core)
-add_subdirectory(src/components)
-add_subdirectory(src/managers)
-add_subdirectory(src/application)
-add_subdirectory(src/systems)
-add_subdirectory(src/scenes)
 
 if(GAME_BUILD_TESTING)
     message(STATUS "${PROJECT_NAME}: Building tests")
@@ -136,7 +110,6 @@ if(GAME_BUILD_TESTING)
         GIT_TAG v3.8.1
     )
     FetchContent_MakeAvailable(catch2)
-    include_directories(${catch2_SOURCE_DIR}/src)
-    enable_testing()
+    
     add_subdirectory(src/unit_tests)
 endif()
