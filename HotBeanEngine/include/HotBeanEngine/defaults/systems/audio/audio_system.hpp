@@ -8,8 +8,8 @@ using namespace HBE::Core;
 namespace HBE::Default::Systems {
     class AudioSystem : public System {
         private:
-            //MIX_Mixer* m_mixer; // Channel 1
-            //MIX_Track* m_track_one;
+            MIX_Mixer* m_mixer;
+            MIX_Track* m_track_one;
 
         public:
             DEFINE_SIGNATURE(AudioSystem);

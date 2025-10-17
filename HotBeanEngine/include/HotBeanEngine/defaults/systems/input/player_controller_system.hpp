@@ -14,7 +14,8 @@ namespace HBE::Default::Systems {
 
         public:
             DEFINE_SIGNATURE(PlayerControllerSystem, Transform2D, Controller);
-            PlayerControllerSystem(InputSystem& input_system) : m_input_system(input_system) {}
+            PlayerControllerSystem(InputSystem& input_system) :
+                System("Player Controller System"), m_input_system(input_system) {}
 
             void OnUpdate() override;
 

@@ -21,7 +21,7 @@ namespace HBE::Default::Systems {
     class CollisionSystem : public System {
         public:
             DEFINE_SIGNATURE(CollisionSystem, Transform2D, RigidBody, Collider2D);
-            CollisionSystem() : System() {}
+            CollisionSystem() : System("Collision System") {}
             ~CollisionSystem() = default;
 
             void OnUpdate() override;

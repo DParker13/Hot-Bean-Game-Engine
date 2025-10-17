@@ -144,4 +144,8 @@ namespace HBE::Application::Managers {
             } 
         }
     }
+
+    std::vector<System*> SystemManager::GetAllSystems() {
+        return m_systems_ordered;
+    }
 }

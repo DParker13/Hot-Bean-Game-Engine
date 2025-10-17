@@ -1,6 +1,7 @@
 High Priority
+- Create Debug Manager (Name it Editor system?)
+    + Integrate ImGUI for interactable debug menu!
 - Finish default systems!!
-    + Create Debug System?
     + Rendering system
         ~ Add clipping (partially render textures that are on the screen)
         ~ Add scaling based on camera
@@ -25,6 +26,7 @@ High Priority
     + Absolute positions won't work for resizing or transferring ui data between machines
     + Example: Button located at {50, 50} to be "centered" in the screen
 - Improve error handling
+    + utilize SDL_Error()
     + Create custom errors for easier debugging
 - Fix copying of files from source to binary directory
     + Files are only copied once
@@ -38,8 +40,6 @@ High Priority
     + Separate Font pointer from Text component?
 - Create better way to register systems in whatever order the user wants
 - Add easy way to multithread each System function
-- Uplift SDL2 to SDL3?
-    + Use Vulcan?
 - Encapsulate the game loop using a higher-order system that is able to "start" and "stop" the game to allow for easier development
 
 Medium Priority
@@ -49,6 +49,7 @@ Medium Priority
 - Add animation system
 - Add ability to register systems to its own thread
 - Create fancy workflow flowcharts for documentation
+- Use Vulcan with SDL3?
 
 Low Priority
 - Add second buffer (next frame) to Rendering System

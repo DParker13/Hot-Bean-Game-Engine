@@ -18,7 +18,7 @@ namespace HBE::Default::Systems {
             glm::vec2 m_mouse_position = {0.0f, 0.0f};
             
             DEFINE_SIGNATURE(InputSystem);
-            InputSystem() = default;
+            InputSystem() : System("Input System") {};
 
             void OnEvent(SDL_Event& event) override;
 
