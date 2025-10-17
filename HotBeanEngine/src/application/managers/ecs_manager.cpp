@@ -151,4 +151,8 @@ namespace HBE::Application::Managers {
     void ECSManager::IterateSystems(SDL_Event& event, GameLoopState state) {
         m_system_manager->IterateSystems(event, state);
     }
+
+    std::vector<System*> ECSManager::GetAllSystems() {
+        return m_system_manager->GetAllSystems();
+    }
 }

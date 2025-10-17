@@ -2,13 +2,13 @@
 
 namespace HBE::Default::Systems {
 
-    AudioSystem::AudioSystem() {
-        // m_mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
-        // m_track_one = MIX_CreateTrack(m_mixer);
+    AudioSystem::AudioSystem() : System("Audio System") {
+        m_mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
+        m_track_one = MIX_CreateTrack(m_mixer);
     }
 
     AudioSystem::~AudioSystem() {
-        // MIX_DestroyMixer(m_mixer);
+        MIX_DestroyMixer(m_mixer);
     }
 
     /**
@@ -20,14 +20,14 @@ namespace HBE::Default::Systems {
     void AudioSystem::LoadMusic(std::string music_file_path) {
         // load sample.wav in to sample
         
-        // MIX_Audio* audio = MIX_LoadAudio(m_mixer, music_file_path.data(), false);
-        // if(!audio) {
-        //     LOG(LoggingType::ERROR, std::string(SDL_GetError()));
-        // }
+        MIX_Audio* audio = MIX_LoadAudio(m_mixer, music_file_path.data(), false);
+        if(!audio) {
+            LOG(LoggingType::ERROR, std::string(SDL_GetError()));
+        }
 
-        // if (!MIX_SetTrackAudio(m_track_one, audio)) {
-        //     LOG(LoggingType::ERROR, std::string(SDL_GetError()));
-        // }
+        if (!MIX_SetTrackAudio(m_track_one, audio)) {
+            LOG(LoggingType::ERROR, std::string(SDL_GetError()));
+        }
     }
 
     /**
@@ -39,11 +39,11 @@ namespace HBE::Default::Systems {
      *                 until stopped manually.
      */
     void AudioSystem::PlayMusic(int numLoops) {
-        // if (!MIX_TrackPlaying(m_track_one)) {
-        //     if(!MIX_PlayTrack(m_track_one, numLoops)) {
-        //         LOG(LoggingType::ERROR, std::string(SDL_GetError()));
-        //     }
-        // }
+        if (!MIX_TrackPlaying(m_track_one)) {
+            if(!MIX_PlayTrack(m_track_one, numLoops)) {
+                LOG(LoggingType::ERROR, std::string(SDL_GetError()));
+            }
+        }
     }
 
     /**

@@ -19,7 +19,7 @@ namespace HBE::Default::Systems {
             TTF_Font* m_font = nullptr; // This is not a good idea
             
             DEFINE_SIGNATURE(UISystem, Transform2D, Texture, UIElement);
-            UISystem(std::string font_path);
+            UISystem(std::string font_path) : System("UI System"), _font_path(font_path), m_font(nullptr) {}
             ~UISystem();
 
             //System interface

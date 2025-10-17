@@ -1,8 +1,6 @@
 #include <HotBeanEngine/defaults/systems/rendering/transform_system.hpp>
 
 namespace HBE::Default::Systems {
-    TransformSystem::TransformSystem() : System() {}
-
     void TransformSystem::OnEntityAdded(Entity entity) {
         UpdateSceneGraph(entity);
     }

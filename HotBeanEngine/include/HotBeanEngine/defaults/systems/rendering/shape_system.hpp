@@ -13,7 +13,7 @@ namespace HBE::Default::Systems {
 
         public:
             DEFINE_SIGNATURE(ShapeSystem, Transform2D, Texture, Shape);
-            ShapeSystem(CameraSystem& camera_system) : System(), m_camera_system(camera_system) {}
+            ShapeSystem(CameraSystem& camera_system) : System("Shape System"), m_camera_system(camera_system) {}
 
             void OnRender() override;
             void OnEntityAdded(Entity entity) override;

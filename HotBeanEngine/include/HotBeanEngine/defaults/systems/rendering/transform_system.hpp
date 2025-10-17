@@ -15,7 +15,7 @@ namespace HBE::Default::Systems {
             
         public:
             DEFINE_SIGNATURE(TransformSystem, Transform2D);
-            TransformSystem();
+            TransformSystem() : System("Transform System") {}
 
             void OnEntityAdded(Entity entity) override;
             void OnEntityRemoved(Entity entity) override;

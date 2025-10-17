@@ -20,6 +20,16 @@ using namespace HBE::Core;
 
 namespace HBE::Application::Managers {
 	class SystemManager {
+		private:
+			std::shared_ptr<LoggingManager> m_logging_manager;
+
+			// Map from system type name to a signature
+			std::unordered_map<std::string, Signature> m_signatures;
+
+			// Map from system type name to a system pointer
+			std::map<std::string, System*> m_systems;
+			std::vector<System*> m_systems_ordered;
+
 		public:
 			SystemManager(std::shared_ptr<LoggingManager> logging_manager);
 			~SystemManager();
@@ -221,16 +231,9 @@ namespace HBE::Application::Managers {
 			 */
 			void IterateSystems(SDL_Event& event, GameLoopState state);
 
+			std::vector<System*> GetAllSystems();
+
 		private:
-			std::shared_ptr<LoggingManager> m_logging_manager;
-
-			// Map from system type name to a signature
-			std::unordered_map<std::string, Signature> m_signatures;
-
-			// Map from system type name to a system pointer
-			std::map<std::string, System*> m_systems;
-			std::vector<System*> m_systems_ordered;
-
 			template<typename T>
 			bool IsSystemRegistered(std::string& type_name) {
 				return m_systems.find(type_name) != m_systems.end();

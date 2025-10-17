@@ -11,18 +11,22 @@
 #pragma once
 
 #include <SDL3_image/SDL_image.h>
-//#include <SDL3_mixer/SDL_mixer.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 #include <HotBeanEngine/application/managers/scene_manager.hpp>
 #include <HotBeanEngine/application/component_factory.hpp>
 #include <HotBeanEngine/application/macros.hpp>
+#include <HotBeanEngine/application/editor_gui.hpp>
 
 using namespace HBE::Application::Managers;
 using namespace HBE::Core;
 
 namespace HBE::Application {
+    // Forward declaration
+    class EditorGUI;
+
     // Macros
     #define g_app HBE::Application::Application::GetInstance()
     #define g_ecs g_app.GetECSManager()
@@ -44,6 +48,7 @@ namespace HBE::Application {
             std::unique_ptr<SceneManager> m_scene_manager;
             SDL_Renderer* m_renderer = nullptr;
             SDL_Window* m_window = nullptr;
+            std::shared_ptr<GUI::EditorGUI> m_editor_gui;
 
         public:
             bool m_quit; ///< Flag to quit the application
@@ -133,9 +138,11 @@ namespace HBE::Application {
 
         private:
             void CleanUpSDL();
+            void InitManagers();
             void InitSDL();
             void InitSDLTTF();
             void InitSDLMixer();
+            void InitGUI();
             void PhysicsLoop();
             void EventLoop();
             void UpdateDeltaTime();

@@ -11,6 +11,7 @@
  */
 
 #include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/application/editor_gui.hpp>
 
 namespace HBE::Application {
     Application* Application::s_instance = nullptr;
@@ -48,15 +49,12 @@ namespace HBE::Application {
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Config Error", std::string("Failed to load config file at \"" + config_path + "\"").data(), m_window);
         }
 
-        // Initialize other core managers
-        m_ecs_manager = std::make_shared<ECSManager>(m_logging_manager);
-        m_component_factory->SetECSManager(m_ecs_manager);
-        m_component_factory->RegisterComponents();
-        m_scene_manager = std::make_unique<SceneManager>(m_ecs_manager, m_logging_manager);
-
+        // Initialize application parts
+        InitManagers();
         InitSDL();
         InitSDLTTF();
         InitSDLMixer();
+        InitGUI();
     }
 
     Application::~Application() {
@@ -74,6 +72,10 @@ namespace HBE::Application {
         if (m_renderer != nullptr) {
             SDL_DestroyRenderer(m_renderer);
             m_renderer = nullptr;
+        }
+
+        if (m_window != nullptr) {
+            //SDL_SetWindowSize(m_window, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT);
         }
 
         // Create new window surface
@@ -101,6 +103,13 @@ namespace HBE::Application {
         
         // Clear the renderer to prepare for the next frame
         SDL_RenderClear(m_renderer);
+    }
+
+    void Application::InitManagers() {
+        m_ecs_manager = std::make_shared<ECSManager>(m_logging_manager);
+        m_component_factory->SetECSManager(m_ecs_manager);
+        m_component_factory->RegisterComponents();
+        m_scene_manager = std::make_unique<SceneManager>(m_ecs_manager, m_logging_manager);
     }
 
     /**
@@ -142,16 +151,22 @@ namespace HBE::Application {
      * @brief Initializes the SDL_Mixer library.
      */
     void Application::InitSDLMixer() {
-        // if (!MIX_Init()) {
-        //     LOG_CORE(LoggingType::FATAL, std::string("Audio mixer could not be initialized! SDL_Error: ") + SDL_GetError());
-        //     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL Mixer", m_window);
-        //     exit(-1);
-        // }
+        if (!MIX_Init()) {
+            LOG_CORE(LoggingType::FATAL, std::string("Audio mixer could not be initialized! SDL_Error: ") + SDL_GetError());
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL Mixer", m_window);
+            exit(-1);
+        }
         // else if(MIX_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) {
         //     LOG_CORE(LoggingType::FATAL, std::string("Audio device could not be opened! SDL_Error: ") + SDL_GetError());
         //     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Mixer Error", "Failed to open audio device", m_window);
         //     exit(-1);
         // }
+    }
+
+    void Application::InitGUI() {
+        if (!m_editor_gui) {
+            m_editor_gui = std::make_shared<HBE::Application::GUI::EditorGUI>();
+        }
     }
 
     Application& Application::GetInstance() {
@@ -250,6 +265,7 @@ namespace HBE::Application {
 
             // Call system OnRender methods
             OnRender();
+            m_editor_gui->OnRender();
 
             // Present the next frame
             SDL_RenderPresent(m_renderer);
@@ -271,10 +287,23 @@ namespace HBE::Application {
             else if (event.type == SDL_EVENT_WINDOW_RESIZED) {
                 // Call system OnWindowResize methods
                 OnWindowResize(event);
+                m_editor_gui->OnWindowResize(event);
             }
             else {
                 // Call system OnEvent methods
                 OnEvent(event);
+                m_editor_gui->OnEvent(event);
+            }
+            switch(event.type) {
+                case SDL_EVENT_RENDER_DEVICE_LOST:
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "DEVICE LOST!", "SDL_EVENT_RENDER_DEVICE_LOST", m_window);
+                    break;
+                case SDL_EVENT_RENDER_DEVICE_RESET:
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "DEVICE RESET!", "SDL_EVENT_RENDER_DEVICE_RESET", m_window);
+                    break;
+                case SDL_EVENT_RENDER_TARGETS_RESET:
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "TARGETS RESET!", "SDL_EVENT_RENDER_TARGETS_RESET", m_window);
+                    break;
             }
         }
     }
@@ -291,8 +320,7 @@ namespace HBE::Application {
         TTF_Quit();
 
         // Audio
-        //MIX_CloseAudio();
-        //MIX_Quit();
+        MIX_Quit();
 
         // Image
         //IMG_Quit();

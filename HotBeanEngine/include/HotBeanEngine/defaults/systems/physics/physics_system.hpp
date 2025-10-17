@@ -18,7 +18,7 @@ namespace HBE::Default::Systems {
         DEFINE_SIGNATURE(PhysicsSystem, Transform2D, RigidBody);
             
         PhysicsSystem(InputSystem& input_system, glm::vec2 gravity)
-            : m_input_system(input_system), m_gravity(gravity) {}
+            : System("Physics System"), m_input_system(input_system), m_gravity(gravity) {}
 
         PhysicsSystem(InputSystem& input_system)
             : PhysicsSystem(input_system, glm::vec2(0.0f, 9.8f)) {}

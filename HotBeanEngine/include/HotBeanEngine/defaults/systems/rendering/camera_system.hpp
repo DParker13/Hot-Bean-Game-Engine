@@ -14,7 +14,7 @@ namespace HBE::Default::Systems {
 
         public:
             DEFINE_SIGNATURE(CameraSystem, Transform2D, Camera);
-            CameraSystem() = default;
+            CameraSystem() : System("Camera System") {};
 
             void OnStart() override;
             void OnUpdate() override;

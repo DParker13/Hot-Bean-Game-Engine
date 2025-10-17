@@ -18,7 +18,7 @@ namespace HBE::Default::Systems {
         public:
             DEFINE_SIGNATURE(RenderSystem, Transform2D, Texture);
             RenderSystem(InputSystem& input_system, CameraSystem& camera_system)
-                : m_input_system(input_system), m_camera_system(camera_system) {};
+                : System("Render System"), m_input_system(input_system), m_camera_system(camera_system) {};
             ~RenderSystem();
 
             void OnEntityAdded(Entity entity) override;

@@ -26,6 +26,11 @@ using namespace HBE::Core;
 namespace HBE::Application::Managers {
     // ECSManager combines EntityManager and ComponentManager to manage entities and components together in one system
     class ECSManager {
+        private:
+            std::unique_ptr<EntityManager> m_entity_manager;
+            std::unique_ptr<ComponentManager> m_component_manager;
+            std::unique_ptr<SystemManager> m_system_manager;
+
         public:
             std::shared_ptr<LoggingManager> m_logging_manager;
             
@@ -330,9 +335,10 @@ namespace HBE::Application::Managers {
              */
             void IterateSystems(SDL_Event& event, GameLoopState state);
         
-        private:
-            std::unique_ptr<EntityManager> m_entity_manager;
-            std::unique_ptr<ComponentManager> m_component_manager;
-            std::unique_ptr<SystemManager> m_system_manager;
+            /**
+             * @brief Get all systems
+             * @return std::vector<System*> Vector of all systems
+             */
+            std::vector<System*> GetAllSystems();
     };
 }

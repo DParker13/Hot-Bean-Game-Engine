@@ -27,7 +27,7 @@ FetchContent_Declare(
 FetchContent_Declare(
     SDL3
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG release-3.2.x # A stable release should be used when ver 3.4.0 releases!!!
+    GIT_TAG main # A stable release should be used when ver 3.4.0 releases!!!
 )
 
 FetchContent_Declare(
@@ -36,11 +36,11 @@ FetchContent_Declare(
     GIT_TAG release-3.2.x
 )
 
-# FetchContent_Declare(
-#     SDL3_MIXER
-#     GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
-#     GIT_TAG main
-# )
+FetchContent_Declare(
+    SDL3_MIXER
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+    GIT_TAG main
+)
 
 FetchContent_Declare(
     SDL3_IMAGE
@@ -63,7 +63,7 @@ FetchContent_Declare(
 FetchContent_Declare(
     IMGUI
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
-    GIT_TAG v1.92.3
+    GIT_TAG docking
 )
 
 # Testing settings
@@ -75,6 +75,7 @@ set(SDL_SHARED OFF CACHE BOOL "Build SDL as a shared library" FORCE)
 set(SDL_STATIC ON CACHE BOOL "Build a static version of the library" FORCE)
 set(YAML_BUILD_SHARED_LIBS OFF CACHE BOOL "Build yaml-cpp shared library" FORCE)
 add_definitions(-DYAML_CPP_STATIC_DEFINE)
+set(SIZEOF_OFF_T 4 CACHE INTERNAL "Force off_t to be 32 bits" FORCE)
 
 # Vendored settings
 set(SDLTTF_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
@@ -83,7 +84,31 @@ set(SDL3IMAGE_VENDORED ON CACHE BOOL "Use vendored third-party libraries" FORCE)
 set(SDLIMAGE_AVIF OFF CACHE BOOL "Support loading AVIF images" FORCE)
 
 # Fetch dependencies
-FetchContent_MakeAvailable(GLM SDL3 SDL3_TTF SDL3_IMAGE YAML_CPP BOX2D IMGUI)
+FetchContent_MakeAvailable(GLM SDL3 SDL3_TTF SDL3_IMAGE SDL3_MIXER YAML_CPP BOX2D IMGUI)
+
+# Setup ImGUI
+add_library(imgui STATIC
+	${imgui_SOURCE_DIR}/imconfig.h
+	${imgui_SOURCE_DIR}/imgui.h
+
+	${imgui_SOURCE_DIR}/imgui.cpp
+	${imgui_SOURCE_DIR}/imgui_draw.cpp
+	${imgui_SOURCE_DIR}/imgui_demo.cpp
+	${imgui_SOURCE_DIR}/imgui_tables.cpp
+	${imgui_SOURCE_DIR}/imgui_widgets.cpp
+
+	${imgui_SOURCE_DIR}/backends/imgui_impl_sdl3.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer3.cpp
+)
+
+target_include_directories(imgui PUBLIC
+    ${imgui_SOURCE_DIR}
+    ${sdl3_SOURCE_DIR}/include
+)
+
+target_link_libraries(imgui PUBLIC
+    SDL3::SDL3
+)
 
 # Platform-specific settings
 if(WIN32)

@@ -9,8 +9,10 @@ namespace HBE::Core {
     class System : public GameLoop {
         public:
             std::set<Entity> m_entities;
+            std::string m_name = "Nameless System";
     
-            System() = default;
+            System(std::string name) : m_name(name) {};
+            System() : m_name("Nameless System") {};
             virtual ~System() = default;
 
             // System interface
