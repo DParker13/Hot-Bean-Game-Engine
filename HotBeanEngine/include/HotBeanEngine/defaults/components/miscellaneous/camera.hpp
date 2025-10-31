@@ -6,24 +6,30 @@
  * @date 2025-05-13
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
 
-#include <HotBeanEngine/core.hpp>
+#include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
+
+#include <HotBeanEngine/editor_gui/property_nodes/int.hpp>
+#include <HotBeanEngine/editor_gui/property_nodes/bool.hpp>
 
 namespace HBE::Default::Components {
-    struct Camera : public Component {
+    /**
+     * @brief Camera component for 2D scene rendering
+     * 
+     * Controls viewport and layer visibility.
+     * Supports multiple camera system with priority-based rendering.
+     */
+    struct Camera : public Component, public HBE::Application::GUI::IPropertyRenderable {
         Uint8 m_id = 0;
         bool m_active = false;
         std::bitset<16> m_layer_mask = 0;
 
+        DEFINE_NAME("Camera");
         Camera() = default;
-
-        std::string GetName() const override {
-            return "Camera";
-        }
 
         void Serialize(YAML::Emitter& out) const override {
             out << YAML::Key << "id" << YAML::Value << m_id;
@@ -41,6 +47,16 @@ namespace HBE::Default::Components {
             if (node["layer_mask"]) {
                 m_layer_mask = string_to_bitset(node["layer_mask"].as<std::string>());
             }
+        }
+
+        void RenderProperties(Entity entity, Component* component) override {
+            HBE::Application::GUI::RenderProperties<Camera>(entity, component, [](Entity entity, Camera* camera) {
+                int id = static_cast<int>(camera->m_id);
+                HBE::Application::GUI::PropertyNodes::Int::RenderProperty(entity, "ID", id);
+                camera->m_id = static_cast<Uint8>(id); // update the original value after editing
+
+                HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(entity, "Active", camera->m_active);
+            });
         }
     };
 }

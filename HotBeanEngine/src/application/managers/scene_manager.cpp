@@ -1,3 +1,13 @@
+/**
+ * @file scene_manager.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Scene manager for handling scene loading and unloading.
+ * @version 0.1
+ * @date 2025-02-23
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/application/managers/scene_manager.hpp>
 
 namespace HBE::Application::Managers {
@@ -64,11 +74,18 @@ namespace HBE::Application::Managers {
             }
 
             // TODO: Unload all systems
+            for (auto& system : m_ecs_manager->GetAllSystems()) {
+                m_ecs_manager->UnregisterSystem(system);
+            }
 
             LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
         } catch (const YAML::Exception& e) {
             LOG_CORE(LoggingType::ERROR, "Error serializing to YAML file: " + (std::string)e.what());
         }
+    }
+
+    std::shared_ptr<Scene> SceneManager::GetCurrentScene() const {
+        return m_current_scene;
     }
 
     void SceneManager::RegisterScene(std::shared_ptr<Scene> scene) {

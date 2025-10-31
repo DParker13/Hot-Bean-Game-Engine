@@ -16,15 +16,20 @@ using namespace HBE::Core;
     m_logging_manager->Log(type, message, __FILE__, __LINE__, __func__)
 
 namespace HBE::Application::Managers {
+    /**
+     * @brief Handles application-wide logging functionality.
+     * Manages log levels, file output, and message formatting.
+     * Supports console and file logging with severity levels.
+     */
     class LoggingManager {
         public:
             LoggingManager(const std::string& log_path, LoggingType level, bool log_to_console);
             LoggingManager();
             ~LoggingManager();
 
-            void Log(const LoggingType type, std::string message,
+            void Log(const LoggingType type, std::string_view message,
                     const char* file, int line, const char* function);
-            void SetLogPath(std::string log_path);
+            void SetLogPath(std::string_view log_path);
             LoggingType GetLoggingLevel();
             void SetLoggingLevel(LoggingType level);
         

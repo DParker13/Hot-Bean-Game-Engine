@@ -1,3 +1,13 @@
+/**
+ * @file input_system.cpp
+ * @author Daniel Parker
+ * @brief System for handling keyboard and mouse input events.
+ * @version 0.1
+ * @date 2024-12-20
+ * 
+ * @copyright Copyright (c) 2024
+ */
+
 #include <HotBeanEngine/defaults/systems/input/input_system.hpp>
 
 namespace HBE::Default::Systems {

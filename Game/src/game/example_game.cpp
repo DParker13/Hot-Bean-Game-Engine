@@ -7,7 +7,6 @@
  * @date 2025-02-18
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include "example_game.hpp"

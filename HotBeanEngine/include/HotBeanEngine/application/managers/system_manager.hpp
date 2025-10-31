@@ -7,7 +7,6 @@
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
@@ -19,6 +18,11 @@
 using namespace HBE::Core;
 
 namespace HBE::Application::Managers {
+	/**
+	 * @brief Manages systems that manipulate component data.
+	 * Handles system registration, execution order, and entity-system matching.
+	 * Controls system lifecycle and signature-based entity filtering.
+	 */
 	class SystemManager {
 		private:
 			std::shared_ptr<LoggingManager> m_logging_manager;
@@ -45,19 +49,19 @@ namespace HBE::Application::Managers {
 			template<typename T, typename... Args>
 			T& RegisterSystem(Args&&... params)
 			{
-				std::string type_name = typeid(T).name();
-				LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
+				std::string system_name = std::string(GetSystemName<T>());
+				LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + system_name + "\"");
 
-				if (IsSystemRegistered<T>(type_name)) {
+				if (IsSystemRegistered<T>()) {
 					LOG_CORE(LoggingType::WARNING, "Registering system more than once! Ignoring...");
-					return *static_cast<T*>(m_systems[type_name]);
+					return *static_cast<T*>(m_systems[system_name]);
 				}
 
 				if (std::is_base_of_v<System, T>) {
 					T* system = new T(std::forward<Args>(params)...);
 
 					// Create a pointer to the system and return it so it can be used externally
-					m_systems.insert({type_name, system});
+					m_systems.insert({system_name, system});
 					m_systems_ordered.push_back(system);
 
 					return *system;
@@ -79,19 +83,19 @@ namespace HBE::Application::Managers {
 			template<typename T>
 			T& RegisterSystem()
 			{
-				std::string type_name = typeid(T).name();
-				LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + type_name + "\"");
+				std::string system_name = std::string(GetSystemName<T>());
+				LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + system_name + "\"");
 
-				if (IsSystemRegistered<T>(type_name)) {
+				if (IsSystemRegistered<T>()) {
 					LOG_CORE(LoggingType::WARNING, "Registering system more than once! Ignoring...");
-					return *static_cast<T*>(m_systems[type_name]);
+					return *static_cast<T*>(m_systems[system_name]);
 				}
 
 				if (std::is_base_of_v<System, T>) {
 					T* system = new T();
 
 					// Create a pointer to the system and return it so it can be used externally
-					m_systems.insert({type_name, system});
+					m_systems.insert({system_name, system});
 					m_systems_ordered.push_back(system);
 
 					return *system;
@@ -109,10 +113,10 @@ namespace HBE::Application::Managers {
 			 */
 			template<typename T>
 			void UnregisterSystem() {
-				std::string type_name = typeid(T).name();
-				LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + type_name + "\"");
+				std::string system_name = std::string(GetSystemName<T>());
+				LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + system_name + "\"");
 
-				if (!IsSystemRegistered<T>(type_name)) {
+				if (!IsSystemRegistered<T>()) {
 					LOG_CORE(LoggingType::WARNING, "System is not registered");
 					return;
 				}
@@ -123,17 +127,17 @@ namespace HBE::Application::Managers {
 
 				// TODO: Can this be done better?
 				// Remove system from ordered list
-				m_systems_ordered.erase(std::remove(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[type_name]), m_systems_ordered.end());
-				m_systems.erase(type_name);
+				m_systems_ordered.erase(std::remove(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[system_name]), m_systems_ordered.end());
+				m_systems.erase(system_name);
 
 				delete system;
 			}
 
+			void UnregisterSystem(System* system);
+
 			template<typename T>
 			bool IsSystemRegistered() {
-				std::string type_name = typeid(T).name();
-
-				return IsSystemRegistered<T>(type_name);
+				return m_systems.find(std::string(GetSystemName<T>())) != m_systems.end();
 			}
 
 			/**
@@ -145,18 +149,18 @@ namespace HBE::Application::Managers {
 			 */
 			template<typename T>
 			void SetSignature(Signature signature) {
-				std::string type_name = typeid(T).name();
-
-				if (!IsSystemRegistered<T>(type_name)) {
+				if (!IsSystemRegistered<T>()) {
 					LOG_CORE(LoggingType::WARNING, "System is not registered");
 					return;
 				}
+
+				std::string system_name = std::string(GetSystemName<T>());
 				
-				LOG_CORE(LoggingType::DEBUG, "System \"" + type_name + "\" Signature set to"
+				LOG_CORE(LoggingType::DEBUG, "System \"" + system_name + "\" Signature set to"
 					" \"" + signature.to_string() + "\"");
 
 				// Set the signature for this system
-				m_signatures.insert({type_name, signature});
+				m_signatures.insert({system_name, signature});
 			}
 
 			/**
@@ -167,15 +171,13 @@ namespace HBE::Application::Managers {
 			 */
 			template<typename T>
 			Signature& GetSignature() {
-				std::string type_name = typeid(T).name();
-
-				if (!IsSystemRegistered<T>(type_name)) {
+				if (!IsSystemRegistered<T>()) {
 					LOG_CORE(LoggingType::ERROR, "System is not registered");
 					throw std::runtime_error("System is not registered");
 				}
 
 				// Set the signature for this system
-				return m_signatures[type_name];
+				return m_signatures[std::string(GetSystemName<T>())];
 			}
 
 			/**
@@ -187,14 +189,12 @@ namespace HBE::Application::Managers {
 			template <typename T>
 			T* GetSystem()
 			{
-				std::string type_name = typeid(T).name();
-				
-				if (!IsSystemRegistered<T>(type_name)) {
+				if (!IsSystemRegistered<T>()) {
 					LOG_CORE(LoggingType::WARNING, "System is not registered");
 					return nullptr;
 				}
 				else {
-					return static_cast<T*>(m_systems[type_name]);
+					return static_cast<T*>(m_systems[std::string(GetSystemName<T>())]);
 				}
 			}
 
@@ -234,23 +234,41 @@ namespace HBE::Application::Managers {
 			std::vector<System*> GetAllSystems();
 
 		private:
-			template<typename T>
-			bool IsSystemRegistered(std::string& type_name) {
-				return m_systems.find(type_name) != m_systems.end();
-			}
+			bool IsSystemRegistered(System* system);
 
 			template<typename T>
 			void RemoveSignature() {
-				std::string type_name = typeid(T).name();
-
-				if (!IsSystemRegistered<T>(type_name)) {
+				if (!IsSystemRegistered<T>()) {
 					LOG_CORE(LoggingType::WARNING, "System is not registered");
 					return;
 				}
 
-				LOG_CORE(LoggingType::DEBUG, "System \"" + type_name + "\" Signature removed");
+				std::string system_name = std::string(GetSystemName<T>());
 
-				m_signatures.erase(type_name);
+				LOG_CORE(LoggingType::DEBUG, "System \"" + system_name + "\" Signature removed");
+
+				m_signatures.erase(system_name);
 			}
+
+			void RemoveSignature(System* system);
+
+			/**
+             * @brief Retrieves the name of the component
+             * 
+             * @tparam T The type of component
+             * @return std::string The name of the component
+             * @throw ComponentNameNotDefinedException
+             */
+            template<typename T>
+            std::string_view GetSystemName() const {
+                static_assert(std::is_base_of_v<System, T>, "T must inherit from System");
+				static_assert(has_static_get_name<T>::value, "T must have a StaticGetName() function");
+
+                if (T::StaticGetName().empty()) {
+                    LOG_CORE(LoggingType::WARNING, "System name is empty");
+                }
+
+                return T::StaticGetName();
+            }
 	};
 }

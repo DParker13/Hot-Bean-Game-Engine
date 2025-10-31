@@ -20,7 +20,7 @@ namespace HBE::Application::Managers {
         }
     }
 
-    void LoggingManager::Log(const LoggingType type, std::string message,
+    void LoggingManager::Log(const LoggingType type, std::string_view message,
                          const char* file, int line, const char* function) {
         if (m_testing || message.empty() || type < m_log_level) {
             return;
@@ -89,7 +89,7 @@ namespace HBE::Application::Managers {
         }
     }
 
-    void LoggingManager::SetLogPath(std::string log_path) {
+    void LoggingManager::SetLogPath(std::string_view log_path) {
         m_log_path = log_path;
     }
 

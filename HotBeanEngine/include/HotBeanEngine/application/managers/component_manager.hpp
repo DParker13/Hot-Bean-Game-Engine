@@ -6,7 +6,6 @@
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
@@ -19,8 +18,27 @@ using namespace HBE::Core;
 using namespace Config;
 
 namespace HBE::Application::Managers {
-    // ComponentManager manages the creation and destruction of components for entities
+    /**
+     * @brief Manages component registration, addition, removal, and retrieval.
+     * Uses sparse sets for efficient component storage and lookup.
+     */
     class ComponentManager {
+        private:
+            std::shared_ptr<LoggingManager> m_logging_manager;
+
+            //Keeps track of the number of component types registered
+            ComponentType m_registered_components;
+    
+            //Maps ComponentType id to Component Object Type name
+            std::unordered_map<ComponentType, std::string> m_component_type_to_name;
+    
+            //Maps Component Object Type name to ComponentType id
+            std::unordered_map<std::string, ComponentType> m_component_name_to_type;
+    
+            //Maps Component Object Type name to sparse set of component data
+            //ComponentType names are the keys, sparse set of component data is the value
+            std::unordered_map<std::string, std::shared_ptr<ISparseSet>> m_component_name_to_data;
+            
         public:
             ComponentManager(std::shared_ptr<LoggingManager> logging_manager);
             ~ComponentManager() = default;
@@ -46,7 +64,7 @@ namespace HBE::Application::Managers {
                         throw ex;
                     }
 
-                    std::string component_name = GetComponentName<T>();
+                    std::string component_name = std::string(GetComponentName<T>());
 
                     LOG_CORE(LoggingType::DEBUG, "Registering Component \"" + component_name + "\"");
         
@@ -79,7 +97,7 @@ namespace HBE::Application::Managers {
                 try {
                     static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
 
-                    std::string component_name = GetComponentName<T>();
+                    std::string component_name = std::string(GetComponentName<T>());
 
                     LOG_CORE(LoggingType::DEBUG, "Adding Empty Component \"" + component_name + "\" to"
                             " Entity \"" + std::to_string(entity) + "\"");
@@ -119,7 +137,7 @@ namespace HBE::Application::Managers {
                 try {
                     static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
 
-                    std::string component_name = GetComponentName<T>();
+                    std::string component_name = std::string(GetComponentName<T>());
 
                     LOG_CORE(LoggingType::DEBUG, "Adding Component \"" + component_name + "\" to"
                             " Entity \"" + std::to_string(entity) + "\"");
@@ -158,7 +176,7 @@ namespace HBE::Application::Managers {
                 try{
                     static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
 
-                    std::string component_name = GetComponentName<T>();
+                    std::string component_name = std::string(GetComponentName<T>());
 
                     LOG_CORE(LoggingType::DEBUG, "Removing Component \"" + component_name + "\" from"
                             " Entity \"" + std::to_string(entity) + "\"");
@@ -216,15 +234,13 @@ namespace HBE::Application::Managers {
                 try {
                     static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
 
-                    std::string component_name = GetComponentName<T>();
-        
-                    if (!IsComponentRegistered(component_name)) {
-                        auto ex = ComponentNotRegisteredException(component_name);
+                    if (!IsComponentRegistered<T>()) {
+                        auto ex = ComponentNotRegisteredException(std::string(GetComponentName<T>()));
                         LOG_CORE(LoggingType::ERROR, ex.what());
                         throw ex;
                     }
                     else {
-                        return m_component_name_to_type[component_name];
+                        return m_component_name_to_type[std::string(GetComponentName<T>())];
                     }
                 }
                 catch (const std::exception&) {
@@ -285,12 +301,7 @@ namespace HBE::Application::Managers {
 
             template<typename T>
             bool IsComponentRegistered() const {
-                try {
-                    return m_component_name_to_type.find(GetComponentName<T>()) != m_component_name_to_type.end();
-                }
-                catch (const ComponentNameNotDefinedException&) {
-                    throw;
-                }
+                return m_component_name_to_type.find(std::string(GetComponentName<T>())) != m_component_name_to_type.end();
             }
 
         private:
@@ -299,38 +310,18 @@ namespace HBE::Application::Managers {
              *
              * @tparam T The type of component data to be retrieved.
              * @return A shared pointer to the sparse set of component data.
+             * @throw ComponentNotRegisteredException
              */
             template<typename T>
             std::shared_ptr<SparseSet<T, MAX_ENTITIES>> GetComponentSet() const {
                 try {
-                    static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
-
-                    return GetComponentSet<T>(GetComponentName<T>());
-                }
-                catch (const std::exception&) {
-                    throw;
-                }
-            }
-
-            /**
-             * @brief Retrieves the sparse set of component data associated with the given component type.
-             *
-             * @tparam T The type of component data to be retrieved.
-             * @return A shared pointer to the sparse set of component data.
-             * @throw ComponentNotRegisteredException
-             */
-            template<typename T>
-            std::shared_ptr<SparseSet<T, MAX_ENTITIES>> GetComponentSet(const std::string& component_name) const {
-                try {
-                    static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
-
-                    if (!IsComponentRegistered(component_name)) {
-                        auto ex = ComponentNotRegisteredException(component_name);
+                    if (!IsComponentRegistered<T>()) {
+                        auto ex = ComponentNotRegisteredException(std::string(GetComponentName<T>()));
                         LOG_CORE(LoggingType::ERROR, ex.what());
                         throw ex;
                     }
-        
-                    return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(m_component_name_to_data.at(component_name));
+
+                    return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(m_component_name_to_data.at(std::string(GetComponentName<T>())));
                 }
                 catch (const std::exception&) {
                     throw;
@@ -342,38 +333,17 @@ namespace HBE::Application::Managers {
              * 
              * @tparam T The type of component
              * @return std::string The name of the component
-             * @throw ComponentNameNotDefinedException
              */
             template<typename T>
-            std::string GetComponentName() const {
+            std::string_view GetComponentName() const {
                 static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
+                static_assert(has_static_get_name<T>::value, "T must have a StaticGetName() function");
 
-                T component;
-                std::string component_name = component.GetName();
-
-                if (component_name.empty()) {
-                    auto ex = ComponentNameNotDefinedException();
-                    LOG_CORE(LoggingType::ERROR, ex.what());
-                    throw ex;
+                if (T::StaticGetName().empty()) {
+                    LOG_CORE(LoggingType::WARNING, "Component name is empty");
                 }
 
-                return component_name;
+                return T::StaticGetName();
             }
-            
-        private:
-            std::shared_ptr<LoggingManager> m_logging_manager;
-
-            //Keeps track of the number of component types registered
-            ComponentType m_registered_components;
-    
-            //Maps ComponentType id to Component Object Type name
-            std::unordered_map<ComponentType, std::string> m_component_type_to_name;
-    
-            //Maps Component Object Type name to ComponentType id
-            std::unordered_map<std::string, ComponentType> m_component_name_to_type;
-    
-            //Maps Component Object Type name to sparse set of component data
-            //ComponentType names are the keys, sparse set of component data is the value
-            std::unordered_map<std::string, std::shared_ptr<ISparseSet>> m_component_name_to_data;
     };
 }

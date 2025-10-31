@@ -1,3 +1,13 @@
+/**
+ * @file yaml_extensions.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief YAML conversion extensions for glm vectors and SDL_Color.
+ * @version 0.1
+ * @date 2025-05-02
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 #include <SDL3/SDL.h>
@@ -31,6 +41,7 @@ namespace YAML {
         }
     };
 
+    // IVec2
     template<>
     struct convert<glm::ivec2> {
         static Node encode(const glm::ivec2& v2) {
@@ -123,7 +134,7 @@ inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::vec2& v) {
     return out;
 }
 
-// iVec2
+// IVec2
 inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::ivec2& v) {
     out << YAML::Flow;
     out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;

@@ -6,7 +6,6 @@
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 #pragma once
 
@@ -18,7 +17,11 @@ using namespace HBE::Core;
 using namespace Config;
 
 namespace HBE::Application::Managers {
-    // EntityManager manages the creation and destruction of entities
+    /**
+     * @brief Manages entity creation and destruction lifecycle.
+     * Handles entity ID allocation, recycling, and signature management.
+     * Maintains entity validity and component associations.
+     */
     class EntityManager {
         public:
             EntityManager(std::shared_ptr<LoggingManager> logging_manager);

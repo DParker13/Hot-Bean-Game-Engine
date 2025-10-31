@@ -1,12 +1,11 @@
 /**
  * @file camera_system.cpp
  * @author Daniel Parker (DParker13)
- * @brief Camera system. Only one camera can be active at a time.
+ * @brief System for offsetting all transforms based on the active camera. Only one camera can be active at a time.
  * @version 0.1
  * @date 2025-05-14
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include <HotBeanEngine/defaults/systems/rendering/camera_system.hpp>
@@ -43,7 +42,7 @@ namespace HBE::Default::Systems {
                 }
 
                 first_camera_found = true;
-                m_active_camera_entity = entity;
+                m_active_camera_entity = static_cast<Sint64>(entity);
             }
         }
 

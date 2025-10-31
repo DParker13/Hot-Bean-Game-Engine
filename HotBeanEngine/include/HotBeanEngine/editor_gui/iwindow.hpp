@@ -1,3 +1,13 @@
+/**
+ * @file iwindow.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Interface for GUI windows using ImGui.
+ * @version 0.1
+ * @date 2025-10-26
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 #include <string>
@@ -13,6 +23,6 @@ namespace HBE::Application::GUI {
             IWindow() : m_name("Default Window") {}
             virtual ~IWindow() = default;
 
-            virtual void Render() = 0;
+            virtual void RenderWindow() = 0;
     };
 }

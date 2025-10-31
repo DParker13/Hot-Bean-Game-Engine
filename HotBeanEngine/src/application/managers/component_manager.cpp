@@ -6,7 +6,6 @@
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include <HotBeanEngine/application/managers/component_manager.hpp>
@@ -67,9 +66,9 @@ namespace HBE::Application::Managers {
         
         try {
             std::string component_name = m_component_type_to_name[component_type];
-            auto component_sparse_set = m_component_name_to_data[component_name];
+            std::shared_ptr<ISparseSet> sparse_set = m_component_name_to_data[component_name];
 
-            Component* ptr = std::any_cast<Component*>(component_sparse_set->GetElementPtrAsAny(entity));
+            Component* ptr = std::any_cast<Component*>(sparse_set->GetElementPtrAsAny(entity));
             return *ptr;
         }
         catch (const std::bad_any_cast&) {

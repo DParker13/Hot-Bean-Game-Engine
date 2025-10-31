@@ -17,7 +17,7 @@ target_link_libraries(HotBeanEngine_Managers_Test PRIVATE
     Catch2::Catch2WithMain
 )
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if (WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_link_options(HotBeanEngine_Managers_Test PRIVATE
         -mwindows
         -static-libstdc++ -static-libgcc

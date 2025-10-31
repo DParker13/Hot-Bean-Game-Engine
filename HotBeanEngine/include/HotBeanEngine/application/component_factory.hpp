@@ -3,6 +3,10 @@
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
 namespace HBE::Application {
+    /**
+     * @brief Interface for creating and registering components.
+     * Provides methods for component registration and YAML-based deserialization.
+     */
     class IComponentFactory {
         public:
             virtual void RegisterComponents() = 0;

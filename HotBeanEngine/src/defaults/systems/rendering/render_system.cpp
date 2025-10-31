@@ -1,13 +1,11 @@
 /**
  * @file render_system.cpp
  * @author Daniel Parker
- * @brief Rendering system implementation.
- * Responsible for rendering game entities to the screen using SDL.
+ * @brief System for rendering textures to their respective layers.
  * @version 0.1
  * @date 2025-02-18
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include <HotBeanEngine/defaults/systems/rendering/render_system.hpp>
@@ -38,7 +36,12 @@ namespace HBE::Default::Systems {
         }
         m_layers.clear();
 
-        g_app.SetupRendererAndWindow();
+        int new_w = event.window.data1;
+        int new_h = event.window.data2;
+        SDL_SetRenderLogicalPresentation(g_app.GetRenderer(), new_w, new_h, SDL_LOGICAL_PRESENTATION_DISABLED);
+        SDL_SetRenderViewport(g_app.GetRenderer(), nullptr);
+
+        UpdateRendererSize();
 
         // Create texture layers with the new renderer size
         CreateTextureLayers();

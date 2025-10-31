@@ -12,7 +12,6 @@
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
@@ -73,7 +72,7 @@ namespace HBE::Application::Managers {
         std::vector<Component*> components = std::vector<Component*>();
 
         for (size_t i = 0; i < signature.size(); i++) {
-            if (signature[i]) {
+            if (signature.test(i)) {
                 components.push_back(&m_component_manager->GetComponent(entity, (ComponentType)i));
             }
         }
@@ -131,6 +130,10 @@ namespace HBE::Application::Managers {
      */
     bool ECSManager::IsComponentRegistered(ComponentType component_type) const {
         return m_component_manager->IsComponentRegistered(component_type);
+    }
+
+    void ECSManager::UnregisterSystem(System* system) {
+        m_system_manager->UnregisterSystem(system);
     }
 
     /**

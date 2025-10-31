@@ -1,12 +1,25 @@
+/**
+ * @file serializer.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Interface for serialization and deserialization.
+ * @version 0.1
+ * @date 2025-10-11
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 #include <HotBeanEngine/core/entity.hpp>
 
 namespace HBE::Core {
+    /**
+     * @brief Interface for general serialization.
+     */
     class ISerializer {
         public:
-            virtual void Serialize(const std::string& filepath) = 0;
-            virtual void Deserialize(const std::string& filepath) = 0;
-            virtual bool FileExists(const std::string& filepath) = 0;
+            virtual void Serialize(std::string_view filepath) = 0;
+            virtual void Deserialize(std::string_view filepath) = 0;
+            virtual bool FileExists(std::string_view filepath) = 0;
     };
 }

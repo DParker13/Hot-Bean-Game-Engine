@@ -1,3 +1,13 @@
+/**
+ * @file octree_2d_node.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Octree 2D Node structure for spatial partitioning.
+ * @version 0.1
+ * @date 2025-09-11
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 #include <queue>
@@ -5,6 +15,8 @@
 
 namespace HBE::Core {
 
+    /// @brief Octree 2D Node structure for spatial partitioning.
+    /// @tparam T Type of the items stored in the octree.
     template<typename T>
     struct Octree2DNode {
         glm::ivec3 m_bounds; // Top Left Bounding Box (x, y, size)

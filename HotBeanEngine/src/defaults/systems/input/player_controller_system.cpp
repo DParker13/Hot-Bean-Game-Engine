@@ -1,3 +1,13 @@
+/**
+ * @file player_controller_system.cpp
+ * @author Daniel Parker
+ * @brief System for applying player input to entities.
+ * @version 0.1
+ * @date 2024-12-20
+ * 
+ * @copyright Copyright (c) 2024
+ */
+
 #include <HotBeanEngine/defaults/systems/input/player_controller_system.hpp>
 
 namespace HBE::Default::Systems {

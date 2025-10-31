@@ -1,17 +1,17 @@
 /**
  * @file text.hpp
  * @author Daniel Parker (DParker13)
- * @brief Text component. Used for keeping track of text.
+ * @brief Text component. Used for storing font, text, and styling.
  * @version 0.1
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
 
 #include <SDL3_ttf/SDL_ttf.h>
+
 #include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
 
 namespace HBE::Default::Components {
@@ -30,6 +30,7 @@ namespace HBE::Default::Components {
             std::string m_text = "default text"; ///< The text to be rendered.
         
         public:
+            DEFINE_NAME("Text");
             /**
              * @brief Construct a new Text component
              */
@@ -48,10 +49,6 @@ namespace HBE::Default::Components {
                 m_background_color.b = 0;
                 m_background_color.a = 255;
             };
-
-            std::string GetName() const override {
-                return "Text";
-            }
 
             void Deserialize(YAML::Node& node) override {
                 if (node["text"]) {

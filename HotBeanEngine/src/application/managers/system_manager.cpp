@@ -2,12 +2,10 @@
  * @file system_manager.cpp
  * @author Daniel Parker (DParker13)
  * @brief Manages component-system relationship.
- * 
  * @version 0.1
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include <HotBeanEngine/application/managers/system_manager.hpp>
@@ -143,6 +141,46 @@ namespace HBE::Application::Managers {
                     break;
             } 
         }
+    }
+
+    void SystemManager::UnregisterSystem(System* system) {
+        if (!system) {
+            return;
+        }
+
+        if (!IsSystemRegistered(system)) {
+            LOG_CORE(LoggingType::WARNING, "System is not registered");
+            return;
+        }
+
+        LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + std::string(system->GetName()) + "\"");
+        m_systems_ordered.erase(std::remove(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[std::string(system->GetName())]), m_systems_ordered.end());
+        m_systems.erase(std::string(system->GetName()));
+
+        RemoveSignature(system);
+    }
+
+    bool SystemManager::IsSystemRegistered(System* system) {
+        if (!system) {
+            return false;
+        }
+
+        return m_systems.find(std::string(system->GetName())) != m_systems.end();
+    }
+
+    void SystemManager::RemoveSignature(System* system) {
+        if (!system) {
+            return;
+        }
+
+        if (!IsSystemRegistered(system)) {
+            LOG_CORE(LoggingType::WARNING, "System is not registered");
+            return;
+        }
+
+        LOG_CORE(LoggingType::DEBUG, "System \"" + std::string(system->GetName()) + "\" Signature removed");
+
+        m_signatures.erase(std::string(system->GetName()));
     }
 
     std::vector<System*> SystemManager::GetAllSystems() {

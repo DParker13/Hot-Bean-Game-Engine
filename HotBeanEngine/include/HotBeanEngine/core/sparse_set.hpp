@@ -10,7 +10,6 @@
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
@@ -20,8 +19,14 @@
 #include <stdexcept>
 #include <any>
 
+#include <HotBeanEngine/core/component.hpp>
+
 namespace HBE::Core {
 
+	/**
+	 * @brief Interface for type-erased sparse set operations.
+	 * Provides common operations for all sparse set implementations.
+	 */
 	struct ISparseSet {
 		virtual ~ISparseSet() = default;
 		virtual void Add(std::any value) = 0;
@@ -33,6 +38,12 @@ namespace HBE::Core {
 		virtual bool HasElement(size_t index) const = 0;
 	};
 
+	/**
+	 * @brief Efficient data structure for sparse component storage
+	 * 
+	 * Uses dense and sparse arrays for fast iteration and O(1) lookup.
+	 * Optimized for ECS component storage with minimal memory overhead.
+	 */
 	template <typename T, size_t MAX_ITEMS>
 	class SparseSet : public ISparseSet {
 		// Creates two arrays, one with a m_dense array and one with a m_sparse array.
@@ -169,7 +180,7 @@ namespace HBE::Core {
 
 			/**
 			 * @brief Get the Element object
-			 * 
+			 * @todo Find a way to do this without static_cast to Component
 			 * @param index Index of the element
 			 * @return std::any Element from the set
 			 */
@@ -178,7 +189,7 @@ namespace HBE::Core {
 					throw std::out_of_range("Index out of range.");
 				}
 
-				return &m_dense[m_sparse[index]];
+				return static_cast<Component*>(&m_dense[m_sparse[index]]);
 			}
 
 			/**

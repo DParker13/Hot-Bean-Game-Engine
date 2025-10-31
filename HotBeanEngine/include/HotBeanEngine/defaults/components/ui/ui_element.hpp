@@ -6,12 +6,11 @@
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
 
-#include <HotBeanEngine/core.hpp>
+#include <HotBeanEngine/application/application.hpp>
 
 namespace HBE::Default::Components {
 
@@ -28,11 +27,11 @@ namespace HBE::Default::Components {
             Radio,
         };
 
-        UIType m_type = UIType::Empty;
+        DEFINE_NAME("UIElement");
+        UIElement() = default;
+        ~UIElement() = default;
 
-        virtual std::string GetName() const override {
-            return "UIElement";
-        }
+        UIType m_type = UIType::Empty;
 
         virtual void Serialize(YAML::Emitter& out) const override {
             out << YAML::Key << "type" << YAML::Value << (int)m_type;

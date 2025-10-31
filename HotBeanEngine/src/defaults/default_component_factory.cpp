@@ -1,3 +1,13 @@
+/**
+ * @file default_component_factory.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Default Component Factory Implementation
+ * @version 0.1
+ * @date 2025-07-06
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/defaults/components/default_component_factory.hpp>
 
 namespace HBE::Default::Components {

@@ -1,12 +1,11 @@
 /**
  * @file config.h
  * @author Daniel Parker (DParker13)
- * @brief Setups up global constants (This should be moved to a config file in the future)
+ * @brief Setups up global constants.
  * @version 0.1
  * @date 2025-03-02
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 #pragma once
 

@@ -1,8 +1,18 @@
+/**
+ * @file audio_system.cpp
+ * @author Daniel Parker
+ * @brief System for managing audio playback using SDL_mixer.
+ * @version 0.1
+ * @date 2025-01-03
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/defaults/systems/audio/audio_system.hpp>
 
 namespace HBE::Default::Systems {
 
-    AudioSystem::AudioSystem() : System("Audio System") {
+    AudioSystem::AudioSystem() : System() {
         m_mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
         m_track_one = MIX_CreateTrack(m_mixer);
     }
