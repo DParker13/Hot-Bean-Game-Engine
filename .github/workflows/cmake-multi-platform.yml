@@ -30,19 +30,21 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
+          - os: windows-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: windows-latest
+            c_compiler: clang
+            cpp_compiler: clang++
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
           - os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
-        exclude:
-          - os: windows-latest
-            c_compiler: gcc
-          - os: windows-latest
-            c_compiler: clang
           - os: ubuntu-latest
             c_compiler: cl
+            cpp_compiler: cl
 
     steps:
     - uses: actions/checkout@v4
@@ -62,6 +64,7 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DSDL_UNIX_CONSOLE_BUILD=ON
         -S ${{ github.workspace }}
 
     - name: Build

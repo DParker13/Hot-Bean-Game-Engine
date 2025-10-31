@@ -90,15 +90,6 @@ if(WIN32)
     set(HAVE_STRINGS_H 0 CACHE INTERNAL "Windows doesn't have strings.h" FORCE)
 endif()
 
-if(UNIX AND NOT APPLE)
-    # Build SDL without X11/Wayland on GitHub Actions Linux runners
-    if(DEFINED ENV{GITHUB_ACTIONS} AND "$ENV{GITHUB_ACTIONS}" STREQUAL "true")
-        message(STATUS "Building on GitHub Actions Linux runner: enabling SDL_UNIX_CONSOLE_BUILD")
-        set(SDL_UNIX_CONSOLE_BUILD ON CACHE BOOL "Build SDL without X11/Wayland" FORCE)
-        add_definitions(-DSDL_UNIX_CONSOLE_BUILD=ON)
-    endif()
-endif()
-
 # Add subdirectories
 add_subdirectory(src/application)
 add_subdirectory(src/defaults)
