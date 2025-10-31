@@ -14,7 +14,7 @@ namespace HBE::Default {
     DefaultSceneSerializer::DefaultSceneSerializer(std::shared_ptr<IComponentFactory> component_factory)
         : m_component_factory(component_factory) {}
 
-    void DefaultSceneSerializer::Serialize(const std::string& filepath) {
+    void DefaultSceneSerializer::Serialize(std::string_view filepath) {
         assert(!filepath.empty() && "Current filepath is empty.");
 
         YAML::Emitter out = YAML::Emitter();
@@ -25,7 +25,7 @@ namespace HBE::Default {
         SerializeEntities(out, -1);
         out << YAML::EndMap;
 
-        std::ofstream file(filepath);
+        std::ofstream file{std::string(filepath)};
         file << out.c_str();
     }
 
@@ -95,11 +95,11 @@ namespace HBE::Default {
         out << YAML::EndMap;
     }
 
-    void DefaultSceneSerializer::Deserialize(const std::string& filepath) {
+    void DefaultSceneSerializer::Deserialize(std::string_view filepath) {
         assert(!filepath.empty() && "Current filepath is empty.");
 
         // Parse the YAML data
-        YAML::Node scene = YAML::LoadFile(filepath);
+        YAML::Node scene = YAML::LoadFile(std::string(filepath));
         
         DeserializeEntities(scene, -1);
     }
@@ -141,7 +141,7 @@ namespace HBE::Default {
         }
     }
 
-    bool DefaultSceneSerializer::FileExists(const std::string& filepath) {
-        return std::filesystem::exists(filepath);
+    bool DefaultSceneSerializer::FileExists(std::string_view filepath) {
+        return std::filesystem::exists(std::string(filepath));
     }
 }

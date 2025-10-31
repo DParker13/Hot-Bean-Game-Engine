@@ -10,14 +10,14 @@
 
 #pragma once
 
-#include <fstream>
 #include <filesystem>
 
-#include <HotBeanEngine/defaults/components/default_component_factory.hpp>
-
-using namespace HBE::Default::Components;
+#include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/defaults/components/default_components.hpp>
 
 namespace HBE::Default {
+    using namespace HBE::Application;
+    using namespace HBE::Default::Components;
 
     /**
      * @brief Default scene serializer implementation using YAML
@@ -30,9 +30,9 @@ namespace HBE::Default {
         public:
             DefaultSceneSerializer(std::shared_ptr<IComponentFactory> component_factory);
 
-            void Serialize(const std::string& filepath) override;
-            void Deserialize(const std::string& filepath) override;
-            bool FileExists(const std::string& filepath) override;
+            void Serialize(std::string_view filepath) override;
+            void Deserialize(std::string_view filepath) override;
+            bool FileExists(std::string_view filepath) override;
 
         private:
             void SerializeEntities(YAML::Emitter& out, Entity parent_entity);
