@@ -23,7 +23,7 @@ namespace HBE::Application::GUI::PropertyNodes {
 
             std::string unique_id = std::string(label) + std::to_string(entity);
             ImGui::PushID(unique_id.c_str());
-            ImGui::Text(label.data());
+            ImGui::Text("%s", label.data());
             ImGui::SameLine();
             ImGui::PushItemWidth(50.0f);
 
