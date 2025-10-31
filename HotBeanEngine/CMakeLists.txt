@@ -97,7 +97,7 @@ add_subdirectory(src/editor_gui)
 
 # Compiler-specific settings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(WIN32 AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
         target_link_options(HotBeanEngine_Application PUBLIC -mwindows)
     endif()
     target_link_options(HotBeanEngine_Application PUBLIC -static-libstdc++ -static-libgcc)
