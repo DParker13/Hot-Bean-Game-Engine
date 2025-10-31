@@ -4,6 +4,9 @@
 
 namespace HBE::Application {
 
+    /**
+     * @brief Template-based archetype for creating entities with predefined component sets
+     */
     template<typename... Cs>
     struct Archetype : public HBE::Core::IArchetype {
         // std::vector<std::string> GetComponentNames() {

@@ -8,6 +8,10 @@ using namespace HBE::Application;
 using namespace HBE::Core;
 
 namespace HBE::Application::Managers {
+    /**
+     * @brief Manages game scenes and scene transitions.
+     * Handles scene loading, unloading, and switching.
+     */
     class SceneManager {
         public:
             /// @brief Map of names to scenes
@@ -20,6 +24,7 @@ namespace HBE::Application::Managers {
             void LoadScene(std::shared_ptr<Scene> scene);
             void LoadScene(std::shared_ptr<Scene> scene, bool save_to_file);
             void UnloadScene(bool save_to_file);
+            std::shared_ptr<Scene> GetCurrentScene() const;
 
             void RegisterScene(std::shared_ptr<Scene> scene);
             void RemoveScene(std::string name, bool save_to_file);

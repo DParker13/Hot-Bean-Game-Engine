@@ -1,3 +1,13 @@
+/**
+ * @file exceptions.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Defines custom exceptions.
+ * @version 0.1
+ * @date 2025-07-30
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 namespace HBE::Core {

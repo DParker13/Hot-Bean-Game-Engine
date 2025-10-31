@@ -7,7 +7,6 @@
  * @date 2025-04-17
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 #pragma once
 

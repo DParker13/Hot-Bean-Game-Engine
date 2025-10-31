@@ -1,3 +1,13 @@
+/**
+ * @file default_scene.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Default scene implementation. Sets up default systems for a basic game scene.
+ * @version 0.1
+ * @date 2025-10-17
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 #include <HotBeanEngine/application/application.hpp>
@@ -8,6 +18,12 @@ using namespace HBE::Default::Systems;
 using namespace HBE::Default::Components;
 
 namespace HBE::Default {
+    /**
+     * @brief Default scene implementation with standard setup
+     * 
+     * Provides basic scene configuration and system initialization.
+     * Serves as template for custom scene implementations.
+     */
     class DefaultScene : public Scene {
     public:
         DefaultScene(std::string name, std::string path, std::shared_ptr<ISerializer> serializer)

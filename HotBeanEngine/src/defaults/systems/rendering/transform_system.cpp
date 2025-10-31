@@ -1,3 +1,13 @@
+/**
+ * @file transform_system.cpp
+ * @author Daniel Parker
+ * @brief System for managing the 2D transformations of game entities.
+ * @version 0.1
+ * @date 2025-02-18
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/defaults/systems/rendering/transform_system.hpp>
 
 namespace HBE::Default::Systems {

@@ -6,14 +6,24 @@
  * @date 2025-03-02
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 #pragma once
 
-#include <HotBeanEngine/core.hpp>
+#include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
+
+#include <HotBeanEngine/editor_gui/property_nodes/bool.hpp>
+#include <HotBeanEngine/editor_gui/property_nodes/vec2.hpp>
+#include <HotBeanEngine/editor_gui/property_nodes/enum.hpp>
 
 namespace HBE::Default::Components {
-    struct Collider2D : public Component {
+    /**
+     * @brief 2D collision shape component
+     * 
+     * Defines collision boundaries for physics bodies.
+     * Integrates with Box2D shape system.
+     */
+    struct Collider2D : public Component, public HBE::Application::GUI::IPropertyRenderable {
         enum class ColliderShape {
             Box,
             Circle
@@ -23,12 +33,9 @@ namespace HBE::Default::Components {
         glm::vec2 m_size = {0.0f, 0.0f};
         bool m_is_trigger = false;
 
+        DEFINE_NAME("Collider2D");
         Collider2D() = default;
         Collider2D(ColliderShape shape) : m_shape(shape) {}
-
-        std::string GetName() const override {
-            return "Collider2D";
-        }
 
         void Serialize(YAML::Emitter& out) const override {
             out << YAML::Key << "bounding_box" << YAML::Value << m_size;
@@ -38,6 +45,23 @@ namespace HBE::Default::Components {
         void Deserialize(YAML::Node& node) override {
             m_size = node["bounding_box"].as<glm::vec2>();
             m_is_trigger = node["is_trigger"].as<bool>();
+        }
+
+        void RenderProperties(Entity entity, Component* component) override {
+            auto* collider = dynamic_cast<Collider2D*>(component);
+
+            if (!collider) {
+                return;
+            }
+
+            HBE::Application::GUI::RenderProperties<Collider2D>(entity, collider, [](Entity entity, auto* collider) {
+                HBE::Application::GUI::PropertyNodes::Enum::RenderProperty<ColliderShape>(entity, "Shape", collider->m_shape, {
+                    {ColliderShape::Box, "Box"},
+                    {ColliderShape::Circle, "Circle"}
+                });
+                HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(entity, "Size", collider->m_size);
+                HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(entity, "Is Trigger", collider->m_is_trigger);
+            });
         }
     };
 }

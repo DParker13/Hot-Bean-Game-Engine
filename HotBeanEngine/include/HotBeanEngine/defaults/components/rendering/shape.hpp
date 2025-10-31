@@ -1,20 +1,30 @@
 /**
  * @file shape.hpp
  * @author Daniel Parker (DParker13)
- * @brief Shape component. Used for rendering a box.
+ * @brief Shape component. Used for rendering a shape.
  * @version 0.1
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
 
-#include <HotBeanEngine/core.hpp>
+#include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
+
+#include <HotBeanEngine/editor_gui/property_nodes/bool.hpp>
+#include <HotBeanEngine/editor_gui/property_nodes/vec2.hpp>
+#include <HotBeanEngine/editor_gui/property_nodes/color.hpp>
 
 namespace HBE::Default::Components {
-    struct Shape : public Component {
+    /**
+     * @brief Primitive shape rendering component
+     * 
+     * Renders basic geometric shapes (rectangles, circles, lines).
+     * Supports filled and outlined rendering modes.
+     */
+    struct Shape : public Component, public HBE::Application::GUI::IPropertyRenderable {
         enum class ShapeType {
             Box
         };
@@ -24,11 +34,8 @@ namespace HBE::Default::Components {
         bool m_filled = false;
         SDL_Color m_color = {255, 255, 255, 255};
 
+        DEFINE_NAME("Shape");
         Shape() = default;
-
-        std::string GetName() const override {
-            return "Shape";
-        }
 
         void Serialize(YAML::Emitter& out) const override {
             out << YAML::Key << "size" << YAML::Value << m_size;
@@ -38,6 +45,20 @@ namespace HBE::Default::Components {
         void Deserialize(YAML::Node& node) override {
             m_size = node["size"].as<glm::vec2>();
             m_color = node["color"].as<SDL_Color>();
+        }
+
+        void RenderProperties(Entity entity, Component* component) override {
+            auto* shape = dynamic_cast<Shape*>(component);
+
+            if (!shape) {
+                return;
+            }
+
+            HBE::Application::GUI::RenderProperties<Shape>(entity, shape, [](Entity entity, auto* shp) {
+                HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(entity, "Filled", shp->m_filled);
+                HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(entity, "Size", shp->m_size);
+                HBE::Application::GUI::PropertyNodes::Color::RenderProperty(entity, "Color", shp->m_color);
+            });
         }
     };
 }

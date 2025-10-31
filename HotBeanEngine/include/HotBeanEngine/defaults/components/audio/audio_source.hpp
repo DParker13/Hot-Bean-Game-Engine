@@ -1,30 +1,32 @@
 /**
  * @file audio_source.hpp
  * @author Daniel Parker (DParker13)
- * @brief 
+ * @brief Audio Source component. Used to play audio files.
  * @version 0.1
  * @date 2025-04-16
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
 
-#include <HotBeanEngine/core.hpp>
+#include <HotBeanEngine/application/application.hpp>
 
 namespace HBE::Default::Components {
+    /**
+     * @brief Audio source component for sound playback
+     * 
+     * Manages audio clip playback and volume control.
+     * Integrates with SDL_mixer for audio output.
+     */
     struct AudioSource : public Component {
         /**
          * The path to the audio file.
          */
         std::string path;
 
+        DEFINE_NAME("AudioSource");
         AudioSource() = default;
-
-        std::string GetName() const override {
-            return "AudioSource";
-        }
 
         void Serialize(YAML::Emitter& out) const override {
             out << YAML::Key << "path" << YAML::Value << path;

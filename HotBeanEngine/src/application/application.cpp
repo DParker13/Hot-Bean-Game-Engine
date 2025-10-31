@@ -7,21 +7,12 @@
  * @date 2025-02-18
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/application/editor_gui.hpp>
+#include <HotBeanEngine/editor_gui/editor_gui.hpp>
 
 namespace HBE::Application {
-    Application* Application::s_instance = nullptr;
-
-    /**
-     * @brief Construct Application with custom component factory
-     * 
-     * @param config_path Path to the config file
-     * @param component_factory Custom component factory
-     */
     Application::Application(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory)
         : m_component_factory(component_factory), m_window(nullptr), m_renderer(nullptr),
         m_quit(false), m_delta_time(0.0f), m_previous_frame_time(0) {
@@ -30,23 +21,18 @@ namespace HBE::Application {
 
         bool config_loaded = Config::LoadConfig(config_path) == 0;
 
-        SetupRendererAndWindow();
-
         // Setup logging first to capture any application initialization errors
         m_logging_manager = std::make_shared<LoggingManager>(Config::LOG_PATH, Config::LOGGING_LEVEL, Config::LOG_TO_CONSOLE);
+        
+        SetupRendererAndWindow();
 
         if (config_loaded) {
             LOG_CORE(LoggingType::INFO, "Config file loaded.");
         }
         else {
-            if (config_path == "Instantiating Application through GetInstance()") {
-                LOG_CORE(LoggingType::INFO, "Instantiating Application through GetInstance()");
-            }
-            else {
-                LOG_CORE(LoggingType::ERROR, "Failed to load config file at \"" + config_path + "\"");
-            }
+            LOG_CORE(LoggingType::WARNING, "Failed to load config file at \"" + config_path + "\"");
             LOG_CORE(LoggingType::INFO, "\tLoading Default config");
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Config Error", std::string("Failed to load config file at \"" + config_path + "\"").data(), m_window);
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Config Error", std::string("Failed to load config file at \"" + config_path + "\"").data(), m_window);
         }
 
         // Initialize application parts
@@ -59,25 +45,11 @@ namespace HBE::Application {
 
     Application::~Application() {
         CleanUpSDL();
-        delete s_instance;
         s_instance = nullptr;
     }
 
-    /**
-     * @brief Sets up the renderer and window for the application.
-     * Cleans up any previously created window surface and renderer before creating a new one.
-     */
+    /// @brief Sets up the renderer and window for the application.
     void Application::SetupRendererAndWindow() {
-        // Clean up previously created renderer if it exists
-        if (m_renderer != nullptr) {
-            SDL_DestroyRenderer(m_renderer);
-            m_renderer = nullptr;
-        }
-
-        if (m_window != nullptr) {
-            //SDL_SetWindowSize(m_window, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT);
-        }
-
         // Create new window surface
         if (m_window == nullptr) {
             SDL_CreateWindowAndRenderer(Config::WINDOW_TITLE.c_str(), Config::SCREEN_WIDTH,
@@ -112,9 +84,7 @@ namespace HBE::Application {
         m_scene_manager = std::make_unique<SceneManager>(m_ecs_manager, m_logging_manager);
     }
 
-    /**
-     * @brief Initializes the SDL library and creates the window and renderer.
-     */
+    /// @brief Initializes the SDL library.
     void Application::InitSDL() {
         // Initialize SDL
         if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
@@ -123,9 +93,7 @@ namespace HBE::Application {
         }
     }
 
-    /**
-     * @brief Initializes the SDL_TTF library.
-     */
+    /// @brief Initializes the SDL_TTF library.
     void Application::InitSDLTTF() {
         // Initialize TTF
         if (!TTF_Init()) {
@@ -147,9 +115,7 @@ namespace HBE::Application {
     //     }
     // }
 
-    /**
-     * @brief Initializes the SDL_Mixer library.
-     */
+    /// @brief Initializes the SDL_Mixer library.
     void Application::InitSDLMixer() {
         if (!MIX_Init()) {
             LOG_CORE(LoggingType::FATAL, std::string("Audio mixer could not be initialized! SDL_Error: ") + SDL_GetError());
@@ -178,32 +144,26 @@ namespace HBE::Application {
     }
 
     // -- Getters and Setters -- //
-    SDL_Renderer* Application::GetRenderer() const {
-        return m_renderer;
+    ApplicationState& Application::GetState() {
+        return m_state;
     }
     
-    void Application::SetRenderer(SDL_Renderer* renderer) {
-        m_renderer = renderer;
+    SDL_Renderer* Application::GetRenderer() {
+        return m_renderer;
     }
 
-    SDL_Window* Application::GetWindow() const {
+    SDL_Window* Application::GetWindow() {
         return m_window;
     }
 
-    void Application::SetWindow(SDL_Window* window) {
-        m_window = window;
-    }
-
-    /**
-     * @brief Gets the delta time (time elapsed) between frames in seconds.
-     */
+    /// @brief Gets the delta time (time elapsed) between frames in seconds.
+    /// @return Delta time in seconds (float).
     float Application::GetDeltaTime() const {
         return m_delta_time;
     }
 
-    /**
-     * @brief Gets the high resolution delta time (time elapsed) between frames in seconds.
-     */
+    /// @brief Gets the high resolution delta time (time elapsed) between frames in seconds.
+    /// @return Delta time in seconds (double).
     double Application::GetDeltaTimeHiRes() const {
         return m_delta_time_hi_res;
     }
@@ -220,12 +180,9 @@ namespace HBE::Application {
         return m_component_factory;
     }
 
-    /**
-     * @brief Logs a message to a log file.
-     * 
-     * @param message Message to log to the log file
-     */
-    void Application::Log(LoggingType type, std::string message,
+    /// @brief Logs a message to a log file.
+    /// @param message The message to log to the log file
+    void Application::Log(LoggingType type, std::string_view message,
                     const char* file, int line, const char* function) {
         m_logging_manager->Log(type, message, file, line, function);
     }
@@ -234,21 +191,32 @@ namespace HBE::Application {
         m_logging_manager->SetLoggingLevel(level);
     }
 
-    void Application::SetLogPath(std::string log_path) {
+    void Application::SetLogPath(std::string_view log_path) {
         m_logging_manager->SetLogPath(log_path);
     }
 
-    /**
-     * @brief Starts the main game loop of the application.
-     */
+    /// @brief Starts the main game loop of the application.
     void Application::Start() {
+        bool recall_start = false;
         // Call system OnStart methods
         OnStart();
 
         while (!m_quit) {
-            // Calculates delta time
-            UpdateDeltaTime();
-            UpdateDeltaTimeHiRes();
+            if (m_state == ApplicationState::Stopped) {
+                recall_start = true;
+            }
+            else if (m_state == ApplicationState::Playing && recall_start) {
+                std::shared_ptr<Scene> current_scene = m_scene_manager->GetCurrentScene();
+                m_scene_manager->UnloadScene(false);
+                m_scene_manager->LoadScene(current_scene);
+                recall_start = false;
+            }
+
+            if (m_state == ApplicationState::Playing) {
+                // Calculates delta time
+                UpdateDeltaTime();
+                UpdateDeltaTimeHiRes();
+            }
 
             // Handle all events
             EventLoop();
@@ -257,11 +225,13 @@ namespace HBE::Application {
             SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0xFF);
             SDL_RenderClear(m_renderer);
 
-            // Fixed timestep physics loop
-            PhysicsLoop();
+            if (m_state == ApplicationState::Playing) {
+                // Fixed timestep physics loop
+                PhysicsLoop();
 
-            // Call system OnUpdate methods
-            OnUpdate();
+                // Call system OnUpdate methods
+                OnUpdate();
+            }
 
             // Call system OnRender methods
             OnRender();
@@ -275,8 +245,11 @@ namespace HBE::Application {
         }
     }
 
+    // TODO: Separate editor gui and game loop for production builds
     void Application::EventLoop() {
-        OnPreEvent();
+        if (m_state == ApplicationState::Playing) {
+            OnPreEvent();
+        }
 
         //Polls for events
         while (SDL_PollEvent(&event)) {
@@ -291,7 +264,10 @@ namespace HBE::Application {
             }
             else {
                 // Call system OnEvent methods
-                OnEvent(event);
+                if (m_state == ApplicationState::Playing) {
+                    OnEvent(event);
+                }
+
                 m_editor_gui->OnEvent(event);
             }
             switch(event.type) {

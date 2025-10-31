@@ -1,6 +1,6 @@
 #pragma once
 
-#include <HotBeanEngine/application/editor_gui/window.hpp>
+#include <HotBeanEngine/editor_gui/iwindow.hpp>
 #include <imgui.h>
 
 namespace HBE::Application::GUI {
@@ -9,6 +9,6 @@ namespace HBE::Application::GUI {
             ConsoleWindow();
             ~ConsoleWindow() = default;
 
-            virtual void Render() override;
+            virtual void RenderWindow() override;
     };
 }

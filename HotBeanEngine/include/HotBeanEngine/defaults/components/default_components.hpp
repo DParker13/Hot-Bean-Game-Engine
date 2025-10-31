@@ -1,3 +1,13 @@
+/**
+ * @file default_components.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Includes all default component headers for easy access
+ * @version 0.1
+ * @date 2025-10-11
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 #include <HotBeanEngine/defaults/components/audio/audio_source.hpp>

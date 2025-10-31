@@ -6,7 +6,6 @@
  * @date 2025-02-23
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include <HotBeanEngine/application/managers/entity_manager.hpp>

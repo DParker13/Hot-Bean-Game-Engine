@@ -12,7 +12,6 @@
  * @date 2025-02-18
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #pragma once
@@ -24,7 +23,9 @@
 using namespace HBE::Core;
 
 namespace HBE::Application::Managers {
-    // ECSManager combines EntityManager and ComponentManager to manage entities and components together in one system
+    /**
+     * @brief Cordinates between entity, component, and system managers.
+     */
     class ECSManager {
         private:
             std::unique_ptr<EntityManager> m_entity_manager;
@@ -243,6 +244,8 @@ namespace HBE::Application::Managers {
                 m_system_manager->UnregisterSystem<T>();
             }
 
+            void UnregisterSystem(System* system);
+
             template<typename T>
             bool IsSystemRegistered() {
                 return m_system_manager->IsSystemRegistered<T>();
@@ -303,11 +306,6 @@ namespace HBE::Application::Managers {
             template<typename S, typename... Cs>
             void SetSignature() {
                 try {
-                    if (!IsSystemRegistered<S>()) {
-                        LOG_CORE(LoggingType::WARNING, "System is not registered");
-                        return;
-                    }
-
                     Signature& signature = m_system_manager->GetSignature<S>();
                     ((signature.set(IsComponentRegistered<Cs>() ?
                             GetComponentType<Cs>() :

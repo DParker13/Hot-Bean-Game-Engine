@@ -1,3 +1,13 @@
+/**
+ * @file default_scene_serializer.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Default implementation of the ISerializer interface using YAML.
+ * @version 1.0
+ * @date 2025-10-11
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/defaults/default_scene_serializer.hpp>
 
 namespace HBE::Default {
@@ -66,7 +76,7 @@ namespace HBE::Default {
         // Serialize entity's components
         std::vector<Component*> components = g_ecs.GetAllComponents(entity);
         for (int i = 0; i < components.size(); i++) {
-            LOG(LoggingType::INFO, "Serializing Component \"" + components[i]->GetName() + "\"");
+            LOG(LoggingType::INFO, "Serializing Component \"" + std::string(components[i]->GetName()) + "\"");
 
             // Component Name first
             out << YAML::Key << components[i]->GetName() << YAML::Value;

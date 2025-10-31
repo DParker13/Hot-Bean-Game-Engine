@@ -1,3 +1,13 @@
+/**
+ * @file ui_system.cpp
+ * @author Daniel Parker
+ * @brief System for managing and rendering UI elements.
+ * @version 0.1
+ * @date 2025-05-12
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/defaults/systems/ui/ui_system.hpp>
 
 namespace HBE::Default::Systems {

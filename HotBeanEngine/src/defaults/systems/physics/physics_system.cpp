@@ -1,3 +1,13 @@
+/**
+ * @file physics_system.cpp
+ * @author Daniel Parker
+ * @brief System for simulating 2D physics in the game world using Box2D.
+ * @version 0.1
+ * @date 2025-03-25
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/defaults/systems/physics/physics_system.hpp>
 
 namespace HBE::Default::Systems {
@@ -49,5 +59,13 @@ namespace HBE::Default::Systems {
     void PhysicsSystem::OnEntityRemoved(Entity entity) {
         auto& rigidbody = g_ecs.GetComponent<RigidBody>(entity);
         b2DestroyBody(rigidbody.m_body_id);
+    }
+
+    float PhysicsSystem::DegreesToRadians(float degrees) {
+        return degrees * (B2_PI / 180.0f);
+    }
+
+    float PhysicsSystem::RadiansToDegrees(float radians) {
+        return radians * (180.0f / B2_PI);
     }
 }

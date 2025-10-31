@@ -10,18 +10,31 @@
 //     App::GetInstance().GetECSManager()->UnregisterSystem<OriginalSystem>();     \
 //     SETUP_SYSTEM_ARCHETYPES(System, __VA_ARGS__)
 
+#define DEFINE_NAME(Name)                               \
+    static std::string_view StaticGetName() {           \
+        return Name;                                    \
+    }                                                   \
+                                                        \
+    std::string_view GetName() const {                  \
+        return Name;                                    \
+    }
+
 /**
  * @brief Macro to define the signature of a system
  * 
  */
-#define DEFINE_SIGNATURE(System, ...)                \
-    void SetSignature() override {                   \
-        g_ecs.SetSignature<System, ##__VA_ARGS__>(); \
+#define DEFINE_SIGNATURE(System, Name, ...)             \
+    DEFINE_NAME(Name)                                   \
+                                                        \
+    void SetSignature() override {                      \
+        g_ecs.SetSignature<System, ##__VA_ARGS__>();    \
     }
 
-#define EXTEND_SYSTEM(OriginalSystem, System, ...)   \
-    void SetSignature() override {                   \
-        g_ecs.UnregisterSystem<OriginalSystem>();    \
-        g_ecs.SetSignature<System, ##__VA_ARGS__>(); \
+#define EXTEND_SYSTEM(OriginalSystem, System, Name, ...)    \
+    DEFINE_NAME(Name)                                       \
+                                                            \
+    void SetSignature() override {                          \
+        g_ecs.UnregisterSystem<OriginalSystem>();           \
+        g_ecs.SetSignature<System, ##__VA_ARGS__>();        \
     }
     

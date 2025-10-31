@@ -1,7 +1,7 @@
 #include "menu.hpp"
 
 namespace HBE::Application::GUI {
-    void Menu::Render() {
+    void Menu::RenderWindow() {
         if (ImGui::BeginMainMenuBar()) {
             // if (ImGui::BeginMenu("File")) {
             //     if (ImGui::MenuItem("Exit")) {
@@ -15,9 +15,7 @@ namespace HBE::Application::GUI {
                         continue;
                     }
 
-                    ImGui::Checkbox(window->m_name.c_str(), &window->m_open);
-                    ImGui::SameLine();
-                    if (ImGui::MenuItem(window->m_name.c_str())) {
+                    if (ImGui::Checkbox(window->m_name.c_str(), &window->m_open)) {
                         window->m_open = !window->m_open;
                     }
                 }

@@ -1,3 +1,13 @@
+/**
+ * @file default_scene_serializer.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Default scene serializer. Handles serialization and deserialization of scenes using YAML format.
+ * @version 0.1
+ * @date 2025-10-17
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 #include <fstream>
@@ -9,6 +19,9 @@ using namespace HBE::Default::Components;
 
 namespace HBE::Default {
 
+    /**
+     * @brief Default scene serializer implementation using YAML
+     */
     class DefaultSceneSerializer : public ISerializer {
         private:
             std::unordered_map<Entity, std::vector<Entity>> m_parent_entity_map;

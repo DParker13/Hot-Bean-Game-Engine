@@ -1,10 +1,10 @@
 #pragma once
 
 #include <imgui.h>
+#include <vector>
+#include <memory>
 
-#include "components_window.hpp"
-#include "console_window.hpp"
-#include "viewport_window.hpp"
+#include <HotBeanEngine/editor_gui/iwindow.hpp>
 
 namespace HBE::Application::GUI {
     class Menu : public IWindow {
@@ -15,6 +15,6 @@ namespace HBE::Application::GUI {
             Menu(std::vector<std::shared_ptr<IWindow>>& windows) : IWindow("Menu"), m_windows(windows) {}
             ~Menu() = default;
 
-            virtual void Render() override;
+            virtual void RenderWindow() override;
     };
 }

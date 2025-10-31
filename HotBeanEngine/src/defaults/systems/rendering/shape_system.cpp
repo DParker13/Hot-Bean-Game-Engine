@@ -1,13 +1,11 @@
 /**
- * @file render_system.cpp
+ * @file shape_system.cpp
  * @author Daniel Parker
- * @brief Rendering system implementation.
- * Responsible for rendering game entities to the screen using SDL.
+ * @brief System for rendering 2D shapes to a texture.
  * @version 0.1
- * @date 2025-02-18
+ * @date 2025-09-11
  * 
  * @copyright Copyright (c) 2025
- * 
  */
 
 #include <HotBeanEngine/defaults/systems/rendering/shape_system.hpp>

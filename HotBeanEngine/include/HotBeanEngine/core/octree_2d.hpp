@@ -1,8 +1,22 @@
+/**
+ * @file octree_2d.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief Octree 2D structure for spatial partitioning.
+ * @version 0.1
+ * @date 2025-09-11
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #pragma once
 
 #include <HotBeanEngine/core/octree_2d_node.hpp>
 
 namespace HBE::Core {
+    /**
+     * @brief 2D spatial partitioning octree for efficient spatial queries.
+     * Hierarchical structure for organizing objects in 2D space.
+     */
     template<typename T>
     struct Octree2D {
         // TODO: Create vector? with multiple octrees if items move outside of the root bounds

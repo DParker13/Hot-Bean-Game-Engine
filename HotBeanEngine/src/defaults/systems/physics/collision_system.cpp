@@ -1,3 +1,13 @@
+/**
+ * @file collision_system.cpp
+ * @author Daniel Parker
+ * @brief System for managing 2D collision shapes in the physics world.
+ * @version 0.1
+ * @date 2025-03-25
+ * 
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/defaults/systems/physics/collision_system.hpp>
 
 namespace HBE::Default::Systems {
