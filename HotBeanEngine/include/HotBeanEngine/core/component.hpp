@@ -16,14 +16,14 @@
 #include <HotBeanEngine/core/iname.hpp>
 
 namespace HBE::Core {
-    // ComponentType is an unsigned 32-bit integer
+    // ComponentID is an unsigned 64-bit integer
     // This is used to identify a component
-    using ComponentType = Uint32;
-
+    using ComponentID = Uint64;
+    
     /// @brief Base class for all components.
-    struct Component : public IName {
-        Component() = default;
-        virtual ~Component() = default;
+    struct IComponent : public IName {
+        IComponent() = default;
+        virtual ~IComponent() = default;
         
         virtual std::string_view GetName() const = 0;
         virtual void Serialize(YAML::Emitter& out) const {};

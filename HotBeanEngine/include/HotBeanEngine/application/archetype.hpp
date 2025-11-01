@@ -11,19 +11,19 @@ namespace HBE::Application {
     struct Archetype : public HBE::Core::IArchetype {
         // std::vector<std::string> GetComponentNames() {
         //     std::vector<std::string> component_names;
-        //     ((AddToVector(component_names, static_cast<Component*>(new Cs))), ...);
+        //     ((AddToVector(component_names, static_cast<IComponent*>(new Cs))), ...);
 
         //     return component_names;
         // }
 
-        // void AddToVector(std::vector<std::string>& archetype_vector, Component* archetype) {
+        // void AddToVector(std::vector<std::string>& archetype_vector, IComponent* archetype) {
         //     archetype_vector.push_back(archetype->GetName());
         //     delete archetype;
         // }
 
-        static Entity Create(Cs&&... comps) {
+        static EntityID Create(Cs&&... comps) {
             try {
-                Entity entity = g_ecs.CreateEntity();
+                EntityID entity = g_ecs.CreateEntity();
                 (g_ecs.AddComponent<Cs>(entity, std::forward<Cs>(comps)), ...);
 
                 return entity;
@@ -34,9 +34,9 @@ namespace HBE::Application {
             }
         }
 
-        static Entity Create() {
+        static EntityID Create() {
             try {
-                Entity entity = g_ecs.CreateEntity();
+                EntityID entity = g_ecs.CreateEntity();
                 (g_ecs.AddComponent<Cs>(entity), ...);
 
                 return entity;
@@ -47,7 +47,7 @@ namespace HBE::Application {
         }
 
         template<typename T>
-        static T& Get(Entity entity) {
+        static T& Get(EntityID entity) {
             try {
                 return g_ecs.GetComponent<T>(entity);
             }

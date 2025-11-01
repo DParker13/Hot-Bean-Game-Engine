@@ -63,7 +63,7 @@ namespace HBE::Default::Systems {
         }
     }
 
-    void UISystem::OnUpdateText(Entity entity) {
+    void UISystem::OnUpdateText(EntityID entity) {
         auto* renderer = g_app.GetRenderer();
 
         auto& text = g_ecs.GetComponent<Text>(entity);
@@ -119,14 +119,14 @@ namespace HBE::Default::Systems {
         }
     }
 
-    void UISystem::OnUpdateTextBox(Entity entity) {
+    void UISystem::OnUpdateTextBox(EntityID entity) {
         
     }
 
-    void UISystem::OnUpdateImage(Entity entity) {}
-    void UISystem::OnUpdateButton(Entity entity) {}
-    void UISystem::OnUpdateSlider(Entity entity) {}
-    void UISystem::OnUpdateDropdown(Entity entity) {}
-    void UISystem::OnUpdateCheckbox(Entity entity) {}
-    void UISystem::OnUpdateRadio(Entity entity) {}
+    void UISystem::OnUpdateImage(EntityID entity) {}
+    void UISystem::OnUpdateButton(EntityID entity) {}
+    void UISystem::OnUpdateSlider(EntityID entity) {}
+    void UISystem::OnUpdateDropdown(EntityID entity) {}
+    void UISystem::OnUpdateCheckbox(EntityID entity) {}
+    void UISystem::OnUpdateRadio(EntityID entity) {}
 }

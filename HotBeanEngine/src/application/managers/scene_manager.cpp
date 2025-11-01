@@ -69,7 +69,7 @@ namespace HBE::Application::Managers {
             }
 
             // Destroy all entities
-            for (Entity entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
+            for (EntityID entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
                 m_ecs_manager->DestroyEntity(entity);
             }
 

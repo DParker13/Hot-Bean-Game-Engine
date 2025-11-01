@@ -17,12 +17,10 @@
 #include <HotBeanEngine/core/component.hpp>
 #include <HotBeanEngine/core/logging_type.hpp>
 
-using namespace HBE::Core;
-
-namespace Config {
+namespace HBE::Core {
     // ECS (These need to be set at compile time)
-    inline const Entity MAX_ENTITIES = 50000; //< Maximum number of entities that can be created
-    inline const ComponentType MAX_COMPONENTS = 64; //< Maximum number of components that can be registered
+    inline const EntityID MAX_ENTITIES = 50000; //< Maximum number of entities that can be created
+    inline const ComponentID MAX_COMPONENTS = 64; //< Maximum number of components that can be registered
 
     // Window
     inline std::string WINDOW_TITLE = "Hot Bean Engine";

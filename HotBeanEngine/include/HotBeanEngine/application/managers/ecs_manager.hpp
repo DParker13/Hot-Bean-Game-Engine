@@ -20,9 +20,9 @@
 #include <HotBeanEngine/application/managers/component_manager.hpp>
 #include <HotBeanEngine/application/managers/system_manager.hpp>
 
-using namespace HBE::Core;
-
 namespace HBE::Application::Managers {
+    using namespace HBE::Core;
+    
     /**
      * @brief Cordinates between entity, component, and system managers.
      */
@@ -38,36 +38,36 @@ namespace HBE::Application::Managers {
             ECSManager(std::shared_ptr<LoggingManager> logging_manager);
             ~ECSManager() = default;
     
-            Entity CreateEntity();
-            void DestroyEntity(Entity entity);
-            void RemoveAllComponents(Entity entity);
-            std::vector<Component*> GetAllComponents(Entity entity);
-            Entity EntityCount() const;
+            EntityID CreateEntity();
+            void DestroyEntity(EntityID entity);
+            void RemoveAllComponents(EntityID entity);
+            std::vector<IComponent*> GetAllComponents(EntityID entity);
+            EntityID EntityCount() const;
     
             /**
-             * Registers a component type with the ComponentManager and assigns it a ComponentType id.
+             * Registers a component type with the ComponentManager and assigns it a ComponentID id.
              *
              * @tparam T The type of component to be registered.
              *
-             * @return The ComponentType id associated with the given component type.
+             * @return The ComponentID id associated with the given component type.
              *
              * @throws assertion failure if the maximum number of component types has been reached.
              */
             template<typename T>
-            ComponentType RegisterComponentType() {
-                return m_component_manager->RegisterComponentType<T>();
+            ComponentID RegisterComponentID() {
+                return m_component_manager->RegisterComponentID<T>();
             }
     
             /**
              * @brief Adds a component of type T to an entity. Registers the component type if it's not already registered.
              * 
              * @tparam T Component type
-             * @param entity Entity to add component to
+             * @param entity EntityID to add component to
              */
             template<typename T>
-            void AddComponent(Entity entity) {
-                ComponentType component_type = m_component_manager->AddComponent<T>(entity);
-                Signature signature = m_entity_manager->SetSignature(entity, component_type);
+            void AddComponent(EntityID entity) {
+                ComponentID component_id = m_component_manager->AddComponent<T>(entity);
+                Signature signature = m_entity_manager->SetSignature(entity, component_id);
                 m_system_manager->EntitySignatureChanged(entity, signature);
             }
 
@@ -75,13 +75,13 @@ namespace HBE::Application::Managers {
              * @brief Adds a component of type T to an entity. Registers the component type if it's not already registered.
              * 
              * @tparam T Component type
-             * @param entity Entity to add component to
+             * @param entity EntityID to add component to
              * @param component Component to add
              */
             template<typename T>
-            void AddComponent(Entity entity, T component) {
-                ComponentType component_type = m_component_manager->AddComponent<T>(entity, component);
-                Signature signature = m_entity_manager->SetSignature(entity, component_type);
+            void AddComponent(EntityID entity, T component) {
+                ComponentID component_id = m_component_manager->AddComponent<T>(entity, component);
+                Signature signature = m_entity_manager->SetSignature(entity, component_id);
                 m_system_manager->EntitySignatureChanged(entity, signature);
             }
     
@@ -93,11 +93,11 @@ namespace HBE::Application::Managers {
              * @throws assertion failure if the entity ID is out of range.
              */
             template<typename T>
-            void RemoveComponent(Entity entity) {
+            void RemoveComponent(EntityID entity) {
                 m_component_manager->RemoveComponent<T>(entity);
 
                 if (m_component_manager->IsComponentRegistered<T>()) {
-                    Signature signature = m_entity_manager->SetSignature(entity, GetComponentType<T>());
+                    Signature signature = m_entity_manager->SetSignature(entity, GetComponentID<T>());
                     m_system_manager->EntitySignatureChanged(entity, signature);
                 }
             }
@@ -106,11 +106,11 @@ namespace HBE::Application::Managers {
              * @brief Get the Component object
              * 
              * @tparam T The type of component
-             * @param entity Entity to get component from
+             * @param entity EntityID to get component from
              * @return T& Reference to the component
              */
             template<typename T>
-            T& GetComponent(Entity entity) {
+            T& GetComponent(EntityID entity) {
                 return m_component_manager->GetComponentData<T>(entity);
             }
     
@@ -118,66 +118,66 @@ namespace HBE::Application::Managers {
              * @brief Get the Component Type id
              * 
              * @tparam T The type of component
-             * @return ComponentType The ComponentType id
+             * @return ComponentID The ComponentID id
              */
             template<typename T>
-            ComponentType GetComponentType() {
-                return m_component_manager->GetComponentType<T>();
+            ComponentID GetComponentID() {
+                return m_component_manager->GetComponentID<T>();
             }
 
             /**
              * @brief Checks if an entity has a component of a specific type
              * 
              * @tparam T Component type
-             * @param entity Entity to check
+             * @param entity EntityID to check
              * @return true 
              * @return false 
              */
             template<typename T>
-            bool HasComponent(Entity entity) const {
+            bool HasComponent(EntityID entity) const {
                 return m_component_manager->HasComponent<T>(entity);
             }
 
             /**
              * @brief Checks if an entity has a component of a specific type
              * 
-             * @param entity Entity to check
+             * @param entity EntityID to check
              * @param compoenent_name The name of the component
              * @return true 
              * @return false 
              */
-            bool HasComponent(Entity entity, std::string component_name) const;
+            bool HasComponent(EntityID entity, std::string component_name) const;
 
             /**
              * @brief Checks if an entity has a component of a specific type
              * 
-             * @param entity Entity to check
-             * @param component_type The type of the component
+             * @param entity EntityID to check
+             * @param component_id The type of the component
              * @return true 
              * @return false 
              */
-            bool HasComponent(Entity entity, ComponentType component_type) const;
+            bool HasComponent(EntityID entity, ComponentID component_id) const;
 
             /**
              * Retrieves the Component Name associated with the given component type.
              *
-             * @param component_type The component type to retrieve the name for.
+             * @param component_id The component type to retrieve the name for.
              * @return The name associated with the given component type, or an empty string if the component is not registered.
              */
-            std::string GetComponentName(ComponentType component_type) const;
+            std::string GetComponentName(ComponentID component_id) const;
 
             /**
              * @brief Get the Component Type object
              * 
              * @param component_name The name of the component
-             * @return ComponentType The ComponentType id
+             * @return ComponentID The ComponentID id
              */
-            ComponentType GetComponentType(std::string component_name) const;
+            ComponentID GetComponentID(std::string component_name) const;
 
             /**
              * @brief Checks if a component is registered
              * 
-             * @param component_type The type of the component
+             * @param component_id The type of the component
              * @return true 
              * @return false 
              */
@@ -198,11 +198,11 @@ namespace HBE::Application::Managers {
             /**
              * @brief Checks if a component is registered
              * 
-             * @param component_type The type of the component
+             * @param component_id The type of the component
              * @return true 
              * @return false 
              */
-            bool IsComponentRegistered(ComponentType component_type) const;
+            bool IsComponentRegistered(ComponentID component_id) const;
 
             /**
              * @brief Registers a system to the ECS manager
@@ -244,7 +244,7 @@ namespace HBE::Application::Managers {
                 m_system_manager->UnregisterSystem<T>();
             }
 
-            void UnregisterSystem(System* system);
+            void UnregisterSystem(ISystem* system);
 
             template<typename T>
             bool IsSystemRegistered() {
@@ -281,7 +281,7 @@ namespace HBE::Application::Managers {
 
                     for (std::string component_name : component_names) {
                         if (IsComponentRegistered(component_name)) {
-                            signature.set(GetComponentType(component_name));
+                            signature.set(GetComponentID(component_name));
                         }
                         else {
                             LOG_CORE(LoggingType::ERROR, "Component not registered: " + component_name + 
@@ -308,8 +308,8 @@ namespace HBE::Application::Managers {
                 try {
                     Signature& signature = m_system_manager->GetSignature<S>();
                     ((signature.set(IsComponentRegistered<Cs>() ?
-                            GetComponentType<Cs>() :
-                            RegisterComponentType<Cs>())), ...);
+                            GetComponentID<Cs>() :
+                            RegisterComponentID<Cs>())), ...);
         
                     m_system_manager->SetSignature<S>(signature);
                 }
@@ -335,8 +335,8 @@ namespace HBE::Application::Managers {
         
             /**
              * @brief Get all systems
-             * @return std::vector<System*> Vector of all systems
+             * @return std::vector<ISystem*> Vector of all systems
              */
-            std::vector<System*> GetAllSystems();
+            std::vector<ISystem*> GetAllSystems();
     };
 }

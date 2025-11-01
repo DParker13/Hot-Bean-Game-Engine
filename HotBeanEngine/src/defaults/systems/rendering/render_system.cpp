@@ -10,8 +10,6 @@
 
 #include <HotBeanEngine/defaults/systems/rendering/render_system.hpp>
 
-using namespace HBE::Default::Components;
-
 namespace HBE::Default::Systems {
     RenderSystem::~RenderSystem() {
         // Clean up each texture layer
@@ -20,7 +18,7 @@ namespace HBE::Default::Systems {
         }
     }
 
-    void RenderSystem::OnEntityAdded(Entity entity) {
+    void RenderSystem::OnEntityAdded(EntityID entity) {
         CreateTextureLayerForEntity(entity);
     }
 
@@ -92,9 +90,9 @@ namespace HBE::Default::Systems {
 
     /**
      * @brief Creates a texture layer for the entity's layer if it doesn't already exist
-     * @param entity Entity to create layer for
+     * @param entity EntityID to create layer for
      */
-    void RenderSystem::CreateTextureLayerForEntity(Entity entity) {
+    void RenderSystem::CreateTextureLayerForEntity(EntityID entity) {
         auto& transform = g_ecs.GetComponent<Transform2D>(entity);
 
         // Skips layers that have already been created
@@ -118,9 +116,9 @@ namespace HBE::Default::Systems {
 
     /**
      * @brief Render entity texture to its appropriate layer texture
-     * @param entity Entity to render to layer
+     * @param entity EntityID to render to layer
      */
-    void RenderSystem::RenderTextureToLayer(Entity entity) {
+    void RenderSystem::RenderTextureToLayer(EntityID entity) {
         auto* renderer = g_app.GetRenderer();
         auto& transform = g_ecs.GetComponent<Transform2D>(entity);
         auto& texture = g_ecs.GetComponent<Texture>(entity);
@@ -189,9 +187,9 @@ namespace HBE::Default::Systems {
 
     /**
      * @brief Determines if an entity is outside the screen bounds and should be culled
-     * @param entity Entity to check for culling
+     * @param entity EntityID to check for culling
      */
-    bool RenderSystem::IsCulled(Entity entity) {
+    bool RenderSystem::IsCulled(EntityID entity) {
         auto& transform = g_ecs.GetComponent<Transform2D>(entity);
         auto& texture = g_ecs.GetComponent<Texture>(entity);
 

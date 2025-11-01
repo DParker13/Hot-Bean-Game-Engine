@@ -16,13 +16,15 @@
 #include <HotBeanEngine/core.hpp>
 
 namespace HBE::Application::GUI {
+    using namespace HBE::Core;
+
     struct IPropertyRenderable {
-        virtual void RenderProperties(HBE::Core::Entity entity, HBE::Core::Component* component) = 0;
+        virtual void RenderProperties(EntityID entity, IComponent* component) = 0;
     };
 
     template<typename T>
-    static void RenderProperties(HBE::Core::Entity entity, HBE::Core::Component* component, std::function<void(HBE::Core::Entity, T*)> renderPropertiesFunc) {
-        static_assert(std::is_base_of_v<HBE::Core::Component, T> && "T must inherit from Component");
+    static void RenderProperties(EntityID entity, IComponent* component, std::function<void(EntityID, T*)> renderPropertiesFunc) {
+        static_assert(std::is_base_of_v<IComponent, T> && "T must inherit from IComponent");
         static_assert(has_static_get_name<T>::value && "T must have a StaticGetName() function");
 
         auto* typed = dynamic_cast<T*>(component);

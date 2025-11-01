@@ -11,11 +11,11 @@
 #include <HotBeanEngine/defaults/systems/rendering/transform_system.hpp>
 
 namespace HBE::Default::Systems {
-    void TransformSystem::OnEntityAdded(Entity entity) {
+    void TransformSystem::OnEntityAdded(EntityID entity) {
         UpdateSceneGraph(entity);
     }
 
-    void TransformSystem::OnEntityRemoved(Entity entity) {
+    void TransformSystem::OnEntityRemoved(EntityID entity) {
         // TODO: Reorganize scene graph when child's parent is removed
         // Might just make sense to use a more formal tree/graph structure
         m_scene_graph[m_entity_graph_level[entity]].erase(entity);
@@ -42,8 +42,8 @@ namespace HBE::Default::Systems {
         }
     }
 
-    void TransformSystem::UpdateSceneGraph(Entity entity) {
-        Entity parent_entity = g_ecs.GetComponent<Transform2D>(entity).m_parent;
+    void TransformSystem::UpdateSceneGraph(EntityID entity) {
+        EntityID parent_entity = g_ecs.GetComponent<Transform2D>(entity).m_parent;
 
         // Update parent levels first
         if (parent_entity != -1) {
@@ -60,7 +60,7 @@ namespace HBE::Default::Systems {
         
     }
 
-    void TransformSystem::UpdateEntityInSceneGraph(Entity entity, int level) {
+    void TransformSystem::UpdateEntityInSceneGraph(EntityID entity, int level) {
         // Check if the current entity is already mapped to a level
         if (m_entity_graph_level.find(entity) == m_entity_graph_level.end()) {
             m_entity_graph_level.emplace(entity, level);
@@ -68,7 +68,7 @@ namespace HBE::Default::Systems {
 
         // Check if the current scene graph level exists
         if (m_scene_graph.find(level) == m_scene_graph.end()) {
-            m_scene_graph.emplace(level, std::set<Entity>{ entity });
+            m_scene_graph.emplace(level, std::set<EntityID>{ entity });
         }
         else if (m_scene_graph[level].find(entity) == m_scene_graph[level].end()) {
             m_scene_graph[level].emplace(entity);

@@ -13,18 +13,17 @@
 #include <HotBeanEngine/defaults/systems/input/input_system.hpp>
 #include <HotBeanEngine/defaults/systems/rendering/camera_system.hpp>
 
-using namespace HBE::Default::Components;
-using namespace HBE::Application;
-using namespace HBE::Core;
-
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
+    
     /**
      * @brief Handles texture rendering for entities
      * 
      * Renders sprites and textures with proper transforms.
      * Processes entities with Transform2D and Texture components.
      */
-    class RenderSystem : public System {
+    class RenderSystem : public ISystem {
         private:
             InputSystem& m_input_system;
             CameraSystem& m_camera_system;
@@ -34,10 +33,10 @@ namespace HBE::Default::Systems {
         public:
             DEFINE_SIGNATURE(RenderSystem, "Render System", Transform2D, Texture);
             RenderSystem(InputSystem& input_system, CameraSystem& camera_system)
-                : System(), m_input_system(input_system), m_camera_system(camera_system) {};
+                : m_input_system(input_system), m_camera_system(camera_system) {};
             ~RenderSystem();
 
-            void OnEntityAdded(Entity entity) override;
+            void OnEntityAdded(EntityID entity) override;
             void OnWindowResize(SDL_Event& event) override;
             void OnStart() override;
             void OnRender() override;
@@ -45,12 +44,12 @@ namespace HBE::Default::Systems {
 
         private:
             void CreateTextureLayers();
-            void CreateTextureLayerForEntity(Entity entity);
+            void CreateTextureLayerForEntity(EntityID entity);
             void UpdateRendererSize();
-            void RenderTextureToLayer(Entity entity);
+            void RenderTextureToLayer(EntityID entity);
             void RenderAllLayers();
             bool IsCulled(glm::vec2& screen_position, Texture& texture);
-            bool IsCulled(Entity entity);
+            bool IsCulled(EntityID entity);
             glm::vec2 CalculateFinalPosition(Transform2D& transform, Texture& texture);
             void DrawDebugRect(const Texture& texture, const Transform2D& transform, const SDL_FRect* rect);
     };

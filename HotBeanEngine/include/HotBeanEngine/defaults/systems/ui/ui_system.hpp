@@ -15,17 +15,15 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
-using namespace HBE::Default::Components;
-using namespace HBE::Application;
-using namespace HBE::Core;
-
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
+
     /**
      * @brief Manages UI elements (Buttons, Checkboxes, etc).
-     * 
      * Renders element to their texture and handles user interaction.
      */
-    class UISystem : public System {
+    class UISystem : public ISystem {
         private:
             const std::string _font_path;
 
@@ -44,14 +42,14 @@ namespace HBE::Default::Systems {
         
         private:
             void SetupFont();
-            void OnUpdateText(Entity entity);
-            void OnUpdateTextBox(Entity entity);
-            void OnUpdateImage(Entity entity);
-            void OnUpdateButton(Entity entity);
-            void OnUpdateSlider(Entity entity);
-            void OnUpdateDropdown(Entity entity);
-            void OnUpdateCheckbox(Entity entity);
-            void OnUpdateRadio(Entity entity);
+            void OnUpdateText(EntityID entity);
+            void OnUpdateTextBox(EntityID entity);
+            void OnUpdateImage(EntityID entity);
+            void OnUpdateButton(EntityID entity);
+            void OnUpdateSlider(EntityID entity);
+            void OnUpdateDropdown(EntityID entity);
+            void OnUpdateCheckbox(EntityID entity);
+            void OnUpdateRadio(EntityID entity);
             
     };
 }

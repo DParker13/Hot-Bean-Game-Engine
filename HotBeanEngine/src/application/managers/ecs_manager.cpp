@@ -31,7 +31,7 @@ namespace HBE::Application::Managers {
      *
      * @throws assertion failure if the maximum number of entities has been reached.
      */
-    Entity ECSManager::CreateEntity() {
+    EntityID ECSManager::CreateEntity() {
         return m_entity_manager->CreateEntity();
     }
 
@@ -42,7 +42,7 @@ namespace HBE::Application::Managers {
      *
      * @throws assertion failure if the entity ID is out of range or invalid.
      */
-    void ECSManager::DestroyEntity(Entity entity) {
+    void ECSManager::DestroyEntity(EntityID entity) {
         m_entity_manager->DestroyEntity(entity);
         RemoveAllComponents(entity);
     }
@@ -57,7 +57,7 @@ namespace HBE::Application::Managers {
      * indicated by the signature and removes the corresponding components from
      * the component manager.
      */
-    void ECSManager::RemoveAllComponents(Entity entity) {
+    void ECSManager::RemoveAllComponents(EntityID entity) {
         Signature signature = m_entity_manager->GetSignature(entity);
 
         for (int i = 0; i < signature.count(); i++) {
@@ -67,49 +67,49 @@ namespace HBE::Application::Managers {
         }
     }
 
-    std::vector<Component*> ECSManager::GetAllComponents(Entity entity) {
+    std::vector<IComponent*> ECSManager::GetAllComponents(EntityID entity) {
         Signature signature = m_entity_manager->GetSignature(entity);
-        std::vector<Component*> components = std::vector<Component*>();
+        std::vector<IComponent*> components = std::vector<IComponent*>();
 
         for (size_t i = 0; i < signature.size(); i++) {
             if (signature.test(i)) {
-                components.push_back(&m_component_manager->GetComponent(entity, (ComponentType)i));
+                components.push_back(m_component_manager->GetComponent(entity, (ComponentID)i));
             }
         }
 
         return components;
     }
 
-    Entity ECSManager::EntityCount() const {
+    EntityID ECSManager::EntityCount() const {
         return m_entity_manager->EntityCount();
     }
 
-    bool ECSManager::HasComponent(Entity entity, std::string component_name) const {
-        return m_entity_manager->HasComponent(entity, GetComponentType(component_name));
+    bool ECSManager::HasComponent(EntityID entity, std::string component_name) const {
+        return m_entity_manager->HasComponent(entity, GetComponentID(component_name));
     }
 
-    bool ECSManager::HasComponent(Entity entity, ComponentType component_type) const {
-        return m_entity_manager->HasComponent(entity, component_type);
+    bool ECSManager::HasComponent(EntityID entity, ComponentID component_id) const {
+        return m_entity_manager->HasComponent(entity, component_id);
     }
 
     /**
      * Retrieves the Component Name associated with the given component type.
      *
-     * @param component_type The component type to retrieve the name for.
+     * @param component_id The component type to retrieve the name for.
      * @return The name associated with the given component type, or an empty string if the component is not registered.
      */
-    std::string ECSManager::GetComponentName(ComponentType component_type) const {
-        return m_component_manager->GetComponentName(component_type);
+    std::string ECSManager::GetComponentName(ComponentID component_id) const {
+        return m_component_manager->GetComponentName(component_id);
     }
 
     /**
      * @brief Get the registered Component Type using the Component Name
      * 
      * @param component_name Component Name to search
-     * @return ComponentType
+     * @return ComponentID
      */
-    ComponentType ECSManager::GetComponentType(std::string component_name) const {
-        return m_component_manager->GetComponentType(component_name);
+    ComponentID ECSManager::GetComponentID(std::string component_name) const {
+        return m_component_manager->GetComponentID(component_name);
     }
 
     /**
@@ -125,14 +125,14 @@ namespace HBE::Application::Managers {
     /**
      * @brief Checks if a component is registered
      * 
-     * @param component_type The type of the component
+     * @param component_id The type of the component
      * @return true if the component is registered, false otherwise
      */
-    bool ECSManager::IsComponentRegistered(ComponentType component_type) const {
-        return m_component_manager->IsComponentRegistered(component_type);
+    bool ECSManager::IsComponentRegistered(ComponentID component_id) const {
+        return m_component_manager->IsComponentRegistered(component_id);
     }
 
-    void ECSManager::UnregisterSystem(System* system) {
+    void ECSManager::UnregisterSystem(ISystem* system) {
         m_system_manager->UnregisterSystem(system);
     }
 
@@ -155,7 +155,7 @@ namespace HBE::Application::Managers {
         m_system_manager->IterateSystems(event, state);
     }
 
-    std::vector<System*> ECSManager::GetAllSystems() {
+    std::vector<ISystem*> ECSManager::GetAllSystems() {
         return m_system_manager->GetAllSystems();
     }
 }

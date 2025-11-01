@@ -7,12 +7,12 @@
 using namespace HBE::Core;
 using namespace HBE::Application::Managers;
 
-TEST_CASE("ComponentManager: Entity has component") {
+TEST_CASE("ComponentManager: EntityID has component") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
     ComponentManager component_manager = ComponentManager(logging_manager);
     EntityManager entity_manager = EntityManager(logging_manager);
-    Entity entity_1 = entity_manager.CreateEntity();
-    Entity entity_2 = entity_manager.CreateEntity();
+    EntityID entity_1 = entity_manager.CreateEntity();
+    EntityID entity_2 = entity_manager.CreateEntity();
     TestComponent test_component;
 
     SECTION("Has component: true") {
@@ -30,8 +30,8 @@ TEST_CASE("ComponentManager: Component addition and removal") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
     ComponentManager component_manager = ComponentManager(logging_manager);
     EntityManager entity_manager = EntityManager(logging_manager);
-    Entity entity_1 = entity_manager.CreateEntity();
-    Entity entity_2 = entity_manager.CreateEntity();
+    EntityID entity_1 = entity_manager.CreateEntity();
+    EntityID entity_2 = entity_manager.CreateEntity();
     TestComponent test_component;
 
     SECTION("Add component") {

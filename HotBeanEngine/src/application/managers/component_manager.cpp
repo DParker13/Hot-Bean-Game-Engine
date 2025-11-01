@@ -17,28 +17,28 @@ namespace HBE::Application::Managers {
     /**
      * @brief Retrieves the name of a component
      * 
-     * @param component_type The type of the component
+     * @param component_id The type of the component
      * @return std::string The name of the component
      * @throw ComponentNotRegisteredException
      */
-    std::string ComponentManager::GetComponentName(ComponentType component_type) {
-        if (!IsComponentRegistered(component_type)) {
+    std::string ComponentManager::GetComponentName(ComponentID component_id) {
+        if (!IsComponentRegistered(component_id)) {
             auto ex = ComponentNotRegisteredException();
             LOG_CORE(LoggingType::ERROR, ex.what());
             throw ex;
         }
 
-        return m_component_type_to_name[component_type];
+        return m_component_id_to_name[component_id];
     }
 
     /**
      * @brief Retrieves the Component Type associated with the given component name
      * 
      * @param component_name The name of the component
-     * @return ComponentType The ComponentType associated with the given component name
+     * @return ComponentID The ComponentID associated with the given component name
      * @throw ComponentNotRegisteredException
      */
-    ComponentType ComponentManager::GetComponentType(std::string component_name) {
+    ComponentID ComponentManager::GetComponentID(std::string component_name) {
         if (!IsComponentRegistered(component_name)) {
             auto ex = ComponentNotRegisteredException(component_name);
             LOG_CORE(LoggingType::ERROR, ex.what());
@@ -52,24 +52,23 @@ namespace HBE::Application::Managers {
     /**
      * @brief Retrieves a component from an entity
      * 
-     * @param entity Entity to retrieve component from
-     * @param component_type Type of component to retrieve
+     * @param entity EntityID to retrieve component from
+     * @param component_id Type of component to retrieve
      * @return Component& Component data
      * @throws ComponentNotRegisteredException or std::bad_any_cast
      */
-    Component& ComponentManager::GetComponent(Entity entity, ComponentType component_type) {
-        if (!IsComponentRegistered(component_type)) {
+    IComponent* ComponentManager::GetComponent(EntityID entity, ComponentID component_id) {
+        if (!IsComponentRegistered(component_id)) {
             auto ex = ComponentNotRegisteredException();
             LOG_CORE(LoggingType::ERROR, ex.what());
             throw ex;
         }
         
         try {
-            std::string component_name = m_component_type_to_name[component_type];
+            std::string component_name = m_component_id_to_name[component_id];
             std::shared_ptr<ISparseSet> sparse_set = m_component_name_to_data[component_name];
 
-            Component* ptr = std::any_cast<Component*>(sparse_set->GetElementPtrAsAny(entity));
-            return *ptr;
+            return std::any_cast<IComponent*>(sparse_set->GetElementPtrAsAny(entity));
         }
         catch (const std::bad_any_cast&) {
             LOG_CORE(LoggingType::ERROR, "Failed to cast component.");
@@ -80,18 +79,18 @@ namespace HBE::Application::Managers {
     /**
      * @brief Removes a component from an entity
      * 
-     * @param entity Entity to remove component from
-     * @param component_type Type of component to remove
+     * @param entity EntityID to remove component from
+     * @param component_id Type of component to remove
      * @throw ComponentNotRegisteredException
      */
-    void ComponentManager::RemoveComponent(Entity entity, ComponentType component_type) {
-        if (!IsComponentRegistered(component_type)) {
+    void ComponentManager::RemoveComponent(EntityID entity, ComponentID component_id) {
+        if (!IsComponentRegistered(component_id)) {
             auto ex = ComponentNotRegisteredException();
             LOG_CORE(LoggingType::ERROR, ex.what());
             throw ex;
         }
         
-        std::string component_name = m_component_type_to_name[component_type];
+        std::string component_name = m_component_id_to_name[component_id];
         auto sparse_set = m_component_name_to_data[component_name];
 
         if (!sparse_set->HasElement(entity)) {
@@ -104,7 +103,7 @@ namespace HBE::Application::Managers {
 
         // If the last component is removed, the component array must be destroyed and unregistered
         if (sparse_set->Size() == 0) {
-            m_component_type_to_name.erase(component_type);
+            m_component_id_to_name.erase(component_id);
             m_component_name_to_type.erase(component_name);
             m_component_name_to_data.erase(component_name);
             m_registered_components--;
@@ -125,11 +124,11 @@ namespace HBE::Application::Managers {
     /**
      * @brief Checks if a component is registered
      * 
-     * @param component_type The type of the component
+     * @param component_id The type of the component
      * @return true 
      * @return false 
      */
-    bool ComponentManager::IsComponentRegistered(ComponentType component_type) const {
-        return m_component_type_to_name.find(component_type) != m_component_type_to_name.end();
+    bool ComponentManager::IsComponentRegistered(ComponentID component_id) const {
+        return m_component_id_to_name.find(component_id) != m_component_id_to_name.end();
     }
 }

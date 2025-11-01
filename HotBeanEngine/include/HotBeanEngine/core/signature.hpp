@@ -16,5 +16,5 @@
 
 namespace HBE::Core {
     // Bitset indicates which components an entity has
-    using Signature = std::bitset<Config::MAX_COMPONENTS>;
+    using Signature = std::bitset<MAX_COMPONENTS>;
 }

@@ -8,6 +8,8 @@
 #include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
 
 namespace HBE::Application::GUI {
+    using namespace HBE::Core;
+    
     class PropertyWindow : public IWindow {
         public:
             PropertyWindow() : IWindow("Properties") {}
@@ -19,6 +21,6 @@ namespace HBE::Application::GUI {
             void RenderWindow() override;
 
             // Call this when an entity is selected
-            void EntitySelected(Entity entity);
+            void EntitySelected(EntityID entity);
     };
 }

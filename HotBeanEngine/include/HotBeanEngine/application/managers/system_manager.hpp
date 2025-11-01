@@ -15,9 +15,9 @@
 
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
-using namespace HBE::Core;
-
 namespace HBE::Application::Managers {
+	using namespace HBE::Core;
+
 	/**
 	 * @brief Manages systems that manipulate component data.
 	 * Handles system registration, execution order, and entity-system matching.
@@ -31,8 +31,8 @@ namespace HBE::Application::Managers {
 			std::unordered_map<std::string, Signature> m_signatures;
 
 			// Map from system type name to a system pointer
-			std::map<std::string, System*> m_systems;
-			std::vector<System*> m_systems_ordered;
+			std::map<std::string, ISystem*> m_systems;
+			std::vector<ISystem*> m_systems_ordered;
 
 		public:
 			SystemManager(std::shared_ptr<LoggingManager> logging_manager);
@@ -57,7 +57,7 @@ namespace HBE::Application::Managers {
 					return *static_cast<T*>(m_systems[system_name]);
 				}
 
-				if (std::is_base_of_v<System, T>) {
+				if (std::is_base_of_v<ISystem, T>) {
 					T* system = new T(std::forward<Args>(params)...);
 
 					// Create a pointer to the system and return it so it can be used externally
@@ -91,7 +91,7 @@ namespace HBE::Application::Managers {
 					return *static_cast<T*>(m_systems[system_name]);
 				}
 
-				if (std::is_base_of_v<System, T>) {
+				if (std::is_base_of_v<ISystem, T>) {
 					T* system = new T();
 
 					// Create a pointer to the system and return it so it can be used externally
@@ -133,7 +133,7 @@ namespace HBE::Application::Managers {
 				delete system;
 			}
 
-			void UnregisterSystem(System* system);
+			void UnregisterSystem(ISystem* system);
 
 			template<typename T>
 			bool IsSystemRegistered() {
@@ -203,7 +203,7 @@ namespace HBE::Application::Managers {
 			 *
 			 * @param entity The ID of the entity that was destroyed.
 			 */
-			void EntityDestroyed(Entity entity);
+			void EntityDestroyed(EntityID entity);
 
 			/**
 			 * Notifies each system that an entity's signature has changed.
@@ -214,7 +214,7 @@ namespace HBE::Application::Managers {
 			 * This function iterates over each system and checks if the entity's new signature matches the system's signature.
 			 * If it does, the entity is added to the system's set of entities. If it does not, the entity is removed from the system's set of entities.
 			 */
-			void EntitySignatureChanged(Entity entity, Signature entity_signature);
+			void EntitySignatureChanged(EntityID entity, Signature entity_signature);
 
 			/**
 			 * @brief Iterates all systems and calls specific game loop method
@@ -231,10 +231,10 @@ namespace HBE::Application::Managers {
 			 */
 			void IterateSystems(SDL_Event& event, GameLoopState state);
 
-			std::vector<System*> GetAllSystems();
+			std::vector<ISystem*> GetAllSystems();
 
 		private:
-			bool IsSystemRegistered(System* system);
+			bool IsSystemRegistered(ISystem* system);
 
 			template<typename T>
 			void RemoveSignature() {
@@ -250,7 +250,7 @@ namespace HBE::Application::Managers {
 				m_signatures.erase(system_name);
 			}
 
-			void RemoveSignature(System* system);
+			void RemoveSignature(ISystem* system);
 
 			/**
              * @brief Retrieves the name of the component
@@ -261,7 +261,7 @@ namespace HBE::Application::Managers {
              */
             template<typename T>
             std::string_view GetSystemName() const {
-                static_assert(std::is_base_of_v<System, T>, "T must inherit from System");
+                static_assert(std::is_base_of_v<ISystem, T>, "T must inherit from ISystem");
 				static_assert(has_static_get_name<T>::value, "T must have a StaticGetName() function");
 
                 if (T::StaticGetName().empty()) {

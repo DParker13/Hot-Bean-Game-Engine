@@ -13,9 +13,10 @@
 #include <HotBeanEngine/application/archetype.hpp>
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
-using namespace HBE::Default::Components;
-
 namespace HBE::Default::Archetypes {
+    using namespace HBE::Application;
+    using namespace HBE::Default::Components;
+
     using PlayerArchetype = Archetype<Transform2D, Controller, Texture>;
     using CameraArchetype = Archetype<Transform2D, Camera>;
     using TextureArchetype = Archetype<Transform2D, Texture>;

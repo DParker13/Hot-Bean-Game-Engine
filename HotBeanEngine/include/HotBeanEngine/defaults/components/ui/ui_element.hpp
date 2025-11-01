@@ -13,8 +13,9 @@
 #include <HotBeanEngine/application/application.hpp>
 
 namespace HBE::Default::Components {
+    using namespace HBE::Core;
 
-    struct UIElement : public Component {
+    struct UIElement : public IComponent {
         enum class UIType {
             Empty, // Placeholder if UI element is not setup correctly
             Text,

@@ -4,9 +4,10 @@
 
 #include "../systems/audio_system.hpp"
 
-using namespace HBE::Default::Components;
-
 namespace Scenes {
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
+    
     struct ExampleScene : public HBE::Default::DefaultScene {
         ExampleScene(std::string path, std::shared_ptr<ISerializer> serializer)
         : DefaultScene("ExampleScene", path, serializer) {}

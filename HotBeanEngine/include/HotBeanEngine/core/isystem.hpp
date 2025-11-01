@@ -22,17 +22,14 @@ namespace HBE::Core {
      * Systems operate on entities matching their signature.
      * Handles game logic updates and event processing.
      */
-    struct System : public IGameLoop, public IName {
-        std::set<Entity> m_entities;
-
-        System() = default;
-        ~System() = default;
+    struct ISystem : public IGameLoop, public IName {
+        std::set<EntityID> m_entities;
 
         // System interface
         virtual std::string_view GetName() const = 0;
         virtual void SetSignature() = 0;
-        virtual void OnEntityRemoved(Entity entity) {};
-        virtual void OnEntityAdded(Entity entity) {};
+        virtual void OnEntityRemoved(EntityID entity) {};
+        virtual void OnEntityAdded(EntityID entity) {};
 
         // GameLoop interface
         virtual void OnStart() {};

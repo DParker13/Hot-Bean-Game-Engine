@@ -12,29 +12,28 @@
 
 #include <HotBeanEngine/defaults/systems/rendering/camera_system.hpp>
 
-using namespace HBE::Default::Components;
-using namespace HBE::Application;
-using namespace HBE::Core;
-
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
+    
     /**
      * @brief Renders primitive geometric shapes
      * 
      * Draws rectangles, circles, and lines to screen.
      * Processes entities with Transform2D and Shape components.
      */
-    class ShapeSystem : public System {
+    class ShapeSystem : public ISystem {
         private:
             CameraSystem& m_camera_system;
 
         public:
             DEFINE_SIGNATURE(ShapeSystem, "Shape System", Transform2D, Texture, Shape);
-            ShapeSystem(CameraSystem& camera_system) : System(), m_camera_system(camera_system) {}
+            ShapeSystem(CameraSystem& camera_system) : m_camera_system(camera_system) {}
 
             void OnRender() override;
-            void OnEntityAdded(Entity entity) override;
+            void OnEntityAdded(EntityID entity) override;
 
         private:
-            void CreateTextureForEntity(Entity entity);
+            void CreateTextureForEntity(EntityID entity);
     };
 }

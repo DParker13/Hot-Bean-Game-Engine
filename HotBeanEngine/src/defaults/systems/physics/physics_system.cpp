@@ -39,7 +39,7 @@ namespace HBE::Default::Systems {
         }
     }
 
-    void PhysicsSystem::OnEntityAdded(Entity entity) {
+    void PhysicsSystem::OnEntityAdded(EntityID entity) {
         auto& transform = g_ecs.GetComponent<Transform2D>(entity);
         auto& rigidbody = g_ecs.GetComponent<RigidBody>(entity);
 
@@ -56,7 +56,7 @@ namespace HBE::Default::Systems {
      * @brief Destroys and removes the rigidbody from the physics simulation.
      * @param entity The entity to remove.
      */
-    void PhysicsSystem::OnEntityRemoved(Entity entity) {
+    void PhysicsSystem::OnEntityRemoved(EntityID entity) {
         auto& rigidbody = g_ecs.GetComponent<RigidBody>(entity);
         b2DestroyBody(rigidbody.m_body_id);
     }

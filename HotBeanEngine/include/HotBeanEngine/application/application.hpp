@@ -20,17 +20,12 @@
 
 #include <HotBeanEngine/editor_gui/editor_gui.hpp>
 
-using namespace HBE::Application::Managers;
-using namespace HBE::Core;
-
 namespace HBE::Application {
+    using namespace HBE::Core;
+    using namespace HBE::Application::Managers;
+
     // Forward declaration
     class EditorGUI;
-
-    // Macros
-    #define g_app HBE::Application::Application::GetInstance()
-    #define g_ecs g_app.GetECSManager()
-    #define LOG(type, message) g_app.Log(type, message, __FILE__, __LINE__, __func__)
 
     // Custom Application classes
     /**

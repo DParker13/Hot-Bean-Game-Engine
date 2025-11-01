@@ -13,21 +13,19 @@
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
 namespace HBE::Default::Systems {
-    using HBE::Core::System;
-    using HBE::Default::Components::Transform2D;
-    using HBE::Default::Components::RigidBody;
-    using HBE::Default::Components::Collider2D;
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
 
     /**
      * @brief System for 2D collision detection.
      */
-    class CollisionSystem : public System {
+    class CollisionSystem : public ISystem {
         public:
             DEFINE_SIGNATURE(CollisionSystem, "Collision System", Transform2D, RigidBody, Collider2D);
             CollisionSystem() = default;
             ~CollisionSystem() = default;
 
             void OnUpdate() override;
-            void OnEntityAdded(Entity entity) override;
+            void OnEntityAdded(EntityID entity) override;
     };
 }

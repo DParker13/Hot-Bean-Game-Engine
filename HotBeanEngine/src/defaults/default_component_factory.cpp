@@ -12,16 +12,16 @@
 
 namespace HBE::Default::Components {
     void DefaultComponentFactory::RegisterComponents() {
-        m_ecs_manager->RegisterComponentType<Components::AudioSource>();
-        m_ecs_manager->RegisterComponentType<Components::Camera>();
-        m_ecs_manager->RegisterComponentType<Components::Collider2D>();
-        m_ecs_manager->RegisterComponentType<Components::Controller>();
-        m_ecs_manager->RegisterComponentType<Components::RigidBody>();
-        m_ecs_manager->RegisterComponentType<Components::Shape>();
-        m_ecs_manager->RegisterComponentType<Components::Text>();
-        m_ecs_manager->RegisterComponentType<Components::Texture>();
-        m_ecs_manager->RegisterComponentType<Components::Transform2D>();
-        m_ecs_manager->RegisterComponentType<Components::UIElement>();
+        m_ecs_manager->RegisterComponentID<Components::AudioSource>();
+        m_ecs_manager->RegisterComponentID<Components::Camera>();
+        m_ecs_manager->RegisterComponentID<Components::Collider2D>();
+        m_ecs_manager->RegisterComponentID<Components::Controller>();
+        m_ecs_manager->RegisterComponentID<Components::RigidBody>();
+        m_ecs_manager->RegisterComponentID<Components::Shape>();
+        m_ecs_manager->RegisterComponentID<Components::Text>();
+        m_ecs_manager->RegisterComponentID<Components::Texture>();
+        m_ecs_manager->RegisterComponentID<Components::Transform2D>();
+        m_ecs_manager->RegisterComponentID<Components::UIElement>();
     }
 
     /**
@@ -34,7 +34,7 @@ namespace HBE::Default::Components {
      * @param entity Entity
      */
     void DefaultComponentFactory::CreateComponentFromYAML(const std::string& component_name,
-                                            YAML::Node node, Entity parent_entity, Entity entity) {
+                                            YAML::Node node, EntityID parent_entity, EntityID entity) {
         if (m_ecs_manager->IsComponentRegistered(component_name)) {
             if (component_name == "AudioSource") {
                 AddComponent<Components::AudioSource>(entity, node);
@@ -61,7 +61,7 @@ namespace HBE::Default::Components {
                 AddComponent<Components::Texture>(entity, node);
             }
             else if (component_name == "Transform2D") {
-                AddComponent<Components::Transform2D, Entity>(entity, node, parent_entity);
+                AddComponent<Components::Transform2D, EntityID>(entity, node, parent_entity);
             }
             else if (component_name == "UIElement") {
                 AddComponent<Components::UIElement>(entity, node);

@@ -17,7 +17,7 @@
 
 namespace HBE::Application::GUI::PropertyNodes {
     struct Color : public IPropertyNode {
-        static void RenderProperty(Entity& entity, std::string_view label, SDL_Color& value) {
+        static void RenderProperty(EntityID entity, std::string_view label, SDL_Color& value) {
             ImVec4 color = ImVec4(
                 value.r / 255.0f,
                 value.g / 255.0f,

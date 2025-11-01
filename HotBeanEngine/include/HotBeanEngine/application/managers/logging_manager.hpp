@@ -8,14 +8,14 @@
 
 #include <HotBeanEngine/core.hpp>
 
-using namespace HBE::Core;
-
-// I don't like this approach, but it works for now
-// TODO: Find a better way to do this. This assumes that the logging manager is a pointer and named m_logging_manager
-#define LOG_CORE(type, message) \
-    m_logging_manager->Log(type, message, __FILE__, __LINE__, __func__)
-
 namespace HBE::Application::Managers {
+    using namespace HBE::Core;
+    
+    // I don't like this approach, but it works for now
+    // TODO: Find a better way to do this. This assumes that the logging manager is a pointer and named m_logging_manager
+    #define LOG_CORE(type, message) \
+        m_logging_manager->Log(type, message, __FILE__, __LINE__, __func__)
+        
     /**
      * @brief Handles application-wide logging functionality.
      * Manages log levels, file output, and message formatting.

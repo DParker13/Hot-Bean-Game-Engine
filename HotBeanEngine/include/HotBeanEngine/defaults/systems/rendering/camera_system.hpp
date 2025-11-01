@@ -13,18 +13,17 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
-using namespace HBE::Default::Components;
-using namespace HBE::Application;
-using namespace HBE::Core;
-
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
+
     /**
      * @brief Manages camera positioning and view matrices
      * 
      * Updates active camera transforms for rendering.
      * Handles camera switching and viewport management.
      */
-    class CameraSystem : public System {
+    class CameraSystem : public ISystem {
         private:
             Sint64 m_active_camera_entity = -1;
 
@@ -36,7 +35,7 @@ namespace HBE::Default::Systems {
             void OnStart() override;
             void OnUpdate() override;
 
-            Entity GetActiveCameraEntity();
+            EntityID GetActiveCameraEntity();
             glm::vec2 CalculateScreenPosition(const glm::vec2& world_position);
 
         private:

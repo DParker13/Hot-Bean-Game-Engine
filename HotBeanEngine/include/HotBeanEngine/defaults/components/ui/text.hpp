@@ -19,7 +19,7 @@ namespace HBE::Default::Components {
     /**
      * Represents a text component, which can be attached to an entity.
      */
-    struct Text : public Component {
+    struct Text : public IComponent {
         public:
             TTF_Font* m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
             SDL_Color m_foreground_color = SDL_Color(); ///< The color of the text.

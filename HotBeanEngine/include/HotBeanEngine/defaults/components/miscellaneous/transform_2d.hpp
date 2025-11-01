@@ -18,6 +18,7 @@
 #include <HotBeanEngine/editor_gui/property_nodes/int.hpp>
 
 namespace HBE::Default::Components {
+    using namespace HBE::Core;
 
     /**
      * @brief 2D transform component for position, rotation, and scale
@@ -25,7 +26,7 @@ namespace HBE::Default::Components {
      * Tracks local and world-space transformations.
      * Supports hierarchical parent-child relationships.
      */
-    struct Transform2D : public Component, public HBE::Application::GUI::IPropertyRenderable {
+    struct Transform2D : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
         Uint8 m_layer = 0;
         Sint64 m_parent = -1;
 
@@ -42,7 +43,7 @@ namespace HBE::Default::Components {
         DEFINE_NAME("Transform2D");
         Transform2D() = default;
         Transform2D(glm::vec2 position) : m_world_position(position) {}
-        Transform2D(Entity m_parent_entity) : m_parent(m_parent_entity) {}
+        Transform2D(EntityID m_parent_entity) : m_parent(m_parent_entity) {}
 
         void Serialize(YAML::Emitter& out) const override {
             out << YAML::Key << "layer" << YAML::Value << (int)m_layer;
@@ -81,14 +82,14 @@ namespace HBE::Default::Components {
                 m_world_scale = node["world_scale"].as<glm::vec2>();
         }
 
-        void RenderProperties(Entity entity, Component* component) override {
+        void RenderProperties(EntityID entity, IComponent* component) override {
             auto* transform = dynamic_cast<Transform2D*>(component);
 
             if (!transform) {
                 return;
             }
 
-            HBE::Application::GUI::RenderProperties<Transform2D>(entity, transform, [](Entity entity, auto* transform) {
+            HBE::Application::GUI::RenderProperties<Transform2D>(entity, transform, [](EntityID entity, auto* transform) {
                 int layer = static_cast<int>(transform->m_layer);
                 HBE::Application::GUI::PropertyNodes::Int::RenderProperty(entity, "Layer", layer);
                 transform->m_layer = static_cast<Uint8>(layer); // update the original value after editing

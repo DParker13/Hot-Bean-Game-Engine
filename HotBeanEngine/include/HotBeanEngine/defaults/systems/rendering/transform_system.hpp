@@ -13,33 +13,32 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
-using namespace HBE::Default::Components;
-using namespace HBE::Application;
-using namespace HBE::Core;
-
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
+    
     /**
      * @brief Updates entity transforms and hierarchy
      * 
      * Computes world-space transforms from local transforms.
      * Handles parent-child transformation propagation.
      */
-    class TransformSystem : public System {
+    class TransformSystem : public ISystem {
         private:
-            std::unordered_map<Entity, Uint32> m_entity_graph_level;
-            std::map<Uint32, std::set<Entity>> m_scene_graph;
+            std::unordered_map<EntityID, Uint32> m_entity_graph_level;
+            std::map<Uint32, std::set<EntityID>> m_scene_graph;
             
         public:
             DEFINE_SIGNATURE(TransformSystem, "Transform System", Transform2D);
             TransformSystem() = default;
             ~TransformSystem() = default;
 
-            void OnEntityAdded(Entity entity) override;
-            void OnEntityRemoved(Entity entity) override;
+            void OnEntityAdded(EntityID entity) override;
+            void OnEntityRemoved(EntityID entity) override;
             void OnUpdate() override;
         
         private:
-            void UpdateSceneGraph(Entity entity);
-            void UpdateEntityInSceneGraph(Entity entity, int level);
+            void UpdateSceneGraph(EntityID entity);
+            void UpdateEntityInSceneGraph(EntityID entity, int level);
     };
 }

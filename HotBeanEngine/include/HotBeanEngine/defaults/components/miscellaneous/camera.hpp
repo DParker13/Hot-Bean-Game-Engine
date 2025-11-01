@@ -17,13 +17,15 @@
 #include <HotBeanEngine/editor_gui/property_nodes/bool.hpp>
 
 namespace HBE::Default::Components {
+    using namespace HBE::Core;
+    
     /**
      * @brief Camera component for 2D scene rendering
      * 
      * Controls viewport and layer visibility.
      * Supports multiple camera system with priority-based rendering.
      */
-    struct Camera : public Component, public HBE::Application::GUI::IPropertyRenderable {
+    struct Camera : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
         Uint8 m_id = 0;
         bool m_active = false;
         std::bitset<16> m_layer_mask = 0;
@@ -49,8 +51,8 @@ namespace HBE::Default::Components {
             }
         }
 
-        void RenderProperties(Entity entity, Component* component) override {
-            HBE::Application::GUI::RenderProperties<Camera>(entity, component, [](Entity entity, Camera* camera) {
+        void RenderProperties(EntityID entity, IComponent* component) override {
+            HBE::Application::GUI::RenderProperties<Camera>(entity, component, [](EntityID entity, Camera* camera) {
                 int id = static_cast<int>(camera->m_id);
                 HBE::Application::GUI::PropertyNodes::Int::RenderProperty(entity, "ID", id);
                 camera->m_id = static_cast<Uint8>(id); // update the original value after editing

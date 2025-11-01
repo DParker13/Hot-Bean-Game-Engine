@@ -189,7 +189,7 @@ namespace HBE::Core {
 					throw std::out_of_range("Index out of range.");
 				}
 
-				return static_cast<Component*>(&m_dense[m_sparse[index]]);
+				return static_cast<IComponent*>(&m_dense[m_sparse[index]]);
 			}
 
 			/**

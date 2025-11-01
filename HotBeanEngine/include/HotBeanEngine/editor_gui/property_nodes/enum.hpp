@@ -18,7 +18,7 @@
 namespace HBE::Application::GUI::PropertyNodes {
     struct Enum : public IPropertyNode {
         template<typename EnumType>
-        static void RenderProperty(Entity& entity, std::string_view label, EnumType& value, const std::vector<std::pair<EnumType, std::string>>& options) {
+        static void RenderProperty(EntityID entity, std::string_view label, EnumType& value, const std::vector<std::pair<EnumType, std::string>>& options) {
             static_assert(std::is_enum_v<EnumType>, "EnumType must be an enum");
 
             std::string unique_id = std::string(label) + std::to_string(entity);

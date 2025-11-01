@@ -15,12 +15,12 @@
 #include <HotBeanEngine/application/application.hpp>
 
 namespace HBE::Default::Systems {
-    using HBE::Core::System;
-
+    using namespace HBE::Core;
+    
     /**
      * @brief System for handling user input.
      */
-    class InputSystem : public System {
+    class InputSystem : public ISystem {
         public:
             // TODO: Make configurable
             //static const SDL_Keycode DEBUG_KEY = SDLK_F1;

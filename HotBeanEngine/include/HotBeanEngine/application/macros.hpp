@@ -10,6 +10,12 @@
 //     App::GetInstance().GetECSManager()->UnregisterSystem<OriginalSystem>();     \
 //     SETUP_SYSTEM_ARCHETYPES(System, __VA_ARGS__)
 
+#define g_app HBE::Application::Application::GetInstance()
+
+#define g_ecs g_app.GetECSManager()
+
+#define LOG(type, message) g_app.Log(type, message, __FILE__, __LINE__, __func__)
+
 #define DEFINE_NAME(Name)                               \
     static std::string_view StaticGetName() {           \
         return Name;                                    \

@@ -24,7 +24,7 @@ namespace HBE::Default {
      */
     class DefaultSceneSerializer : public ISerializer {
         private:
-            std::unordered_map<Entity, std::vector<Entity>> m_parent_entity_map;
+            std::unordered_map<EntityID, std::vector<EntityID>> m_parent_entity_map;
             std::shared_ptr<IComponentFactory> m_component_factory;
 
         public:
@@ -35,10 +35,10 @@ namespace HBE::Default {
             bool FileExists(std::string_view filepath) override;
 
         private:
-            void SerializeEntities(YAML::Emitter& out, Entity parent_entity);
-            void SerializeEntity(YAML::Emitter& out, Entity entity);
+            void SerializeEntities(YAML::Emitter& out, EntityID parent_entity);
+            void SerializeEntity(YAML::Emitter& out, EntityID entity);
             void MapParentEntities();
-            void DeserializeEntities(const YAML::Node& node, Entity parent_entity);
-            void DeserializeEntity(const YAML::Node& node, Entity parent_entity, Entity entity);
+            void DeserializeEntities(const YAML::Node& node, EntityID parent_entity);
+            void DeserializeEntity(const YAML::Node& node, EntityID parent_entity, EntityID entity);
     };
 }

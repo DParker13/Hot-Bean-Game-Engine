@@ -14,10 +14,9 @@
 
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
-using namespace HBE::Core;
-using namespace Config;
-
 namespace HBE::Application::Managers {
+    using namespace HBE::Core;
+    
     /**
      * @brief Manages component registration, addition, removal, and retrieval.
      * Uses sparse sets for efficient component storage and lookup.
@@ -27,36 +26,36 @@ namespace HBE::Application::Managers {
             std::shared_ptr<LoggingManager> m_logging_manager;
 
             //Keeps track of the number of component types registered
-            ComponentType m_registered_components;
+            ComponentID m_registered_components;
     
-            //Maps ComponentType id to Component Object Type name
-            std::unordered_map<ComponentType, std::string> m_component_type_to_name;
+            //Maps ComponentID id to Component Object Type name
+            std::unordered_map<ComponentID, std::string> m_component_id_to_name;
     
-            //Maps Component Object Type name to ComponentType id
-            std::unordered_map<std::string, ComponentType> m_component_name_to_type;
+            //Maps Component Object Type name to ComponentID id
+            std::unordered_map<std::string, ComponentID> m_component_name_to_type;
     
             //Maps Component Object Type name to sparse set of component data
-            //ComponentType names are the keys, sparse set of component data is the value
+            //ComponentID names are the keys, sparse set of component data is the value
             std::unordered_map<std::string, std::shared_ptr<ISparseSet>> m_component_name_to_data;
             
         public:
             ComponentManager(std::shared_ptr<LoggingManager> logging_manager);
             ~ComponentManager() = default;
     
-            void RemoveComponent(Entity entity, ComponentType component_type);
-            Component& GetComponent(Entity entity, ComponentType component_type);
+            void RemoveComponent(EntityID entity, ComponentID component_id);
+            IComponent* GetComponent(EntityID entity, ComponentID component_id);
 
             /**
              * @brief Registers a component type to the Component Manager
              * 
              * @tparam T Component type
-             * @return ComponentType The ComponentType id
+             * @return ComponentID The ComponentID id
              * @throw MaxNumberOfComponentsRegisteredException
              */
             template<typename T>
-            ComponentType RegisterComponentType() {
+            ComponentID RegisterComponentID() {
                 try {
-                    static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
+                    static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from Component");
 
                     if (m_registered_components >= MAX_COMPONENTS) {
                         auto ex = MaxNumberOfComponentsRegisteredException();
@@ -68,15 +67,15 @@ namespace HBE::Application::Managers {
 
                     LOG_CORE(LoggingType::DEBUG, "Registering Component \"" + component_name + "\"");
         
-                    ComponentType component_type = m_registered_components;
+                    ComponentID component_id = m_registered_components;
 
-                    LOG_CORE(LoggingType::DEBUG, "\tComponentType \"" + std::to_string(component_type) + "\"");
+                    LOG_CORE(LoggingType::DEBUG, "\tComponentID \"" + std::to_string(component_id) + "\"");
         
-                    // Maps ComponentType id to Component Object Type name
-                    m_component_type_to_name[component_type] = component_name;
+                    // Maps ComponentID id to Component Object Type name
+                    m_component_id_to_name[component_id] = component_name;
         
-                    // Maps ComponentType to an id
-                    m_component_name_to_type[component_name] = component_type;
+                    // Maps ComponentID to an id
+                    m_component_name_to_type[component_name] = component_id;
         
                     // Create new sparse set for component data
                     m_component_name_to_data[component_name] = std::make_shared<SparseSet<T, MAX_ENTITIES>>();
@@ -85,7 +84,7 @@ namespace HBE::Application::Managers {
 
                     LOG_CORE(LoggingType::DEBUG, "\t" + std::to_string(m_registered_components) + " Registered Components");
         
-                    return component_type;
+                    return component_id;
                 }
                 catch (const std::exception&) {
                     throw;
@@ -93,20 +92,20 @@ namespace HBE::Application::Managers {
             }
 
             template<typename T>
-            ComponentType AddComponent(Entity entity) {
+            ComponentID AddComponent(EntityID entity) {
                 try {
-                    static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
+                    static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from Component");
 
                     std::string component_name = std::string(GetComponentName<T>());
 
                     LOG_CORE(LoggingType::DEBUG, "Adding Empty Component \"" + component_name + "\" to"
-                            " Entity \"" + std::to_string(entity) + "\"");
+                            " EntityID \"" + std::to_string(entity) + "\"");
         
                     // Register component type if it's not already registered
                     if (!IsComponentRegistered(component_name)) {
                         LOG_CORE(LoggingType::DEBUG, "\tEmpty Component \"" + component_name + "\" not registered... Attempting to Register");
 
-                        RegisterComponentType<T>();
+                        RegisterComponentID<T>();
                     }
 
                     std::shared_ptr<SparseSet<T, MAX_ENTITIES>> sparse_set = GetComponentSet<T>();
@@ -128,25 +127,25 @@ namespace HBE::Application::Managers {
              * @brief Adds a component of type T to a given entity.
              * 
              * @tparam T Component type
-             * @param entity Entity to add component to
+             * @param entity EntityID to add component to
              * @param component_data Component data
-             * @return ComponentType 
+             * @return ComponentID 
              */
             template<typename T>
-            ComponentType AddComponent(Entity entity, T& component_data) {
+            ComponentID AddComponent(EntityID entity, T& component_data) {
                 try {
-                    static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
+                    static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from Component");
 
                     std::string component_name = std::string(GetComponentName<T>());
 
                     LOG_CORE(LoggingType::DEBUG, "Adding Component \"" + component_name + "\" to"
-                            " Entity \"" + std::to_string(entity) + "\"");
+                            " EntityID \"" + std::to_string(entity) + "\"");
         
                     // Register the component type if it's not already registered
                     if (!IsComponentRegistered(component_name)) {
                         LOG_CORE(LoggingType::DEBUG, "\tComponent \"" + component_name + "\" not registered... Attempting to Register");
 
-                        RegisterComponentType<T>();
+                        RegisterComponentID<T>();
                     }
 
                     std::shared_ptr<SparseSet<T, MAX_ENTITIES>> sparse_set = GetComponentSet<T>();
@@ -172,14 +171,14 @@ namespace HBE::Application::Managers {
              * @return The type of the component that was removed, used to update the entity's signature.
              */
             template<typename T>
-            void RemoveComponent(Entity entity) {
+            void RemoveComponent(EntityID entity) {
                 try{
-                    static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
+                    static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from Component");
 
                     std::string component_name = std::string(GetComponentName<T>());
 
                     LOG_CORE(LoggingType::DEBUG, "Removing Component \"" + component_name + "\" from"
-                            " Entity \"" + std::to_string(entity) + "\"");
+                            " EntityID \"" + std::to_string(entity) + "\"");
 
                     std::shared_ptr<SparseSet<T, MAX_ENTITIES>> sparse_set = GetComponentSet<T>();
 
@@ -210,11 +209,11 @@ namespace HBE::Application::Managers {
              * @brief Get the Component object data
              * 
              * @tparam T The type of component
-             * @param entity Entity to get component data from
+             * @param entity EntityID to get component data from
              * @return T& The component data
              */
             template<typename T>
-            T& GetComponentData(Entity entity) {
+            T& GetComponentData(EntityID entity) {
                 try {
                     return GetComponentSet<T>()->GetElementAsRef(entity);
                 }
@@ -227,12 +226,12 @@ namespace HBE::Application::Managers {
              * @brief Get the Component Type object
              * 
              * @tparam T The type of component
-             * @return ComponentType 
+             * @return ComponentID 
              */
             template<typename T>
-            ComponentType GetComponentType() {
+            ComponentID GetComponentID() {
                 try {
-                    static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
+                    static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from Component");
 
                     if (!IsComponentRegistered<T>()) {
                         auto ex = ComponentNotRegisteredException(std::string(GetComponentName<T>()));
@@ -252,9 +251,9 @@ namespace HBE::Application::Managers {
              * @brief Retrieves the Component Type associated with the given component name
              * 
              * @param component_name The name of the component
-             * @return ComponentType The ComponentType associated with the given component name
+             * @return ComponentID The ComponentID associated with the given component name
              */
-            ComponentType GetComponentType(std::string component_name);
+            ComponentID GetComponentID(std::string component_name);
 
             /**
              * @brief Checks if an entity has a component of type T
@@ -264,7 +263,7 @@ namespace HBE::Application::Managers {
              * @return true if the entity is mapped to a component of type T, false otherwise
              */
             template<typename T>
-            bool HasComponent(Entity entity) const {
+            bool HasComponent(EntityID entity) const {
                 try {
                     return GetComponentSet<T>()->HasElement(entity);
                 }
@@ -276,10 +275,10 @@ namespace HBE::Application::Managers {
             /**
              * @brief Retrieves the Component Name associated with the given component type.
              *
-             * @param component_type The component type to retrieve the name for.
+             * @param component_id The component type to retrieve the name for.
              * @return The name associated with the given component type, or an empty string if the component is not registered.
              */
-            std::string GetComponentName(ComponentType component_type);
+            std::string GetComponentName(ComponentID component_id);
 
             /**
              * @brief Checks if a component is registered
@@ -293,11 +292,11 @@ namespace HBE::Application::Managers {
             /**
              * @brief Checks if a component is registered
              * 
-             * @param component_type The type of the component
+             * @param component_id The type of the component
              * @return true 
              * @return false 
              */
-            bool IsComponentRegistered(ComponentType component_type) const;
+            bool IsComponentRegistered(ComponentID component_id) const;
 
             template<typename T>
             bool IsComponentRegistered() const {
@@ -336,7 +335,7 @@ namespace HBE::Application::Managers {
              */
             template<typename T>
             std::string_view GetComponentName() const {
-                static_assert(std::is_base_of_v<Component, T>, "T must inherit from Component");
+                static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from Component");
                 static_assert(has_static_get_name<T>::value, "T must have a StaticGetName() function");
 
                 if (T::StaticGetName().empty()) {

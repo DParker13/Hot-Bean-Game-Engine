@@ -18,13 +18,15 @@
 #include <HotBeanEngine/editor_gui/property_nodes/color.hpp>
 
 namespace HBE::Default::Components {
+    using namespace HBE::Core;
+    
     /**
      * @brief Primitive shape rendering component
      * 
      * Renders basic geometric shapes (rectangles, circles, lines).
      * Supports filled and outlined rendering modes.
      */
-    struct Shape : public Component, public HBE::Application::GUI::IPropertyRenderable {
+    struct Shape : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
         enum class ShapeType {
             Box
         };
@@ -47,14 +49,14 @@ namespace HBE::Default::Components {
             m_color = node["color"].as<SDL_Color>();
         }
 
-        void RenderProperties(Entity entity, Component* component) override {
+        void RenderProperties(EntityID entity, IComponent* component) override {
             auto* shape = dynamic_cast<Shape*>(component);
 
             if (!shape) {
                 return;
             }
 
-            HBE::Application::GUI::RenderProperties<Shape>(entity, shape, [](Entity entity, auto* shp) {
+            HBE::Application::GUI::RenderProperties<Shape>(entity, shape, [](EntityID entity, auto* shp) {
                 HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(entity, "Filled", shp->m_filled);
                 HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(entity, "Size", shp->m_size);
                 HBE::Application::GUI::PropertyNodes::Color::RenderProperty(entity, "Color", shp->m_color);

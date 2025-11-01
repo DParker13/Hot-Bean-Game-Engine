@@ -12,7 +12,7 @@
 
 namespace HBE::Default::Systems {
 
-    AudioSystem::AudioSystem() : System() {
+    AudioSystem::AudioSystem() {
         m_mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
         m_track_one = MIX_CreateTrack(m_mixer);
     }

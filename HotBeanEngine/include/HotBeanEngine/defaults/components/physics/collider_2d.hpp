@@ -17,13 +17,15 @@
 #include <HotBeanEngine/editor_gui/property_nodes/enum.hpp>
 
 namespace HBE::Default::Components {
+    using namespace HBE::Core;
+    
     /**
      * @brief 2D collision shape component
      * 
      * Defines collision boundaries for physics bodies.
      * Integrates with Box2D shape system.
      */
-    struct Collider2D : public Component, public HBE::Application::GUI::IPropertyRenderable {
+    struct Collider2D : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
         enum class ColliderShape {
             Box,
             Circle
@@ -47,14 +49,14 @@ namespace HBE::Default::Components {
             m_is_trigger = node["is_trigger"].as<bool>();
         }
 
-        void RenderProperties(Entity entity, Component* component) override {
+        void RenderProperties(EntityID entity, IComponent* component) override {
             auto* collider = dynamic_cast<Collider2D*>(component);
 
             if (!collider) {
                 return;
             }
 
-            HBE::Application::GUI::RenderProperties<Collider2D>(entity, collider, [](Entity entity, auto* collider) {
+            HBE::Application::GUI::RenderProperties<Collider2D>(entity, collider, [](EntityID entity, auto* collider) {
                 HBE::Application::GUI::PropertyNodes::Enum::RenderProperty<ColliderShape>(entity, "Shape", collider->m_shape, {
                     {ColliderShape::Box, "Box"},
                     {ColliderShape::Circle, "Circle"}

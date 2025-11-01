@@ -14,19 +14,19 @@
 #include <HotBeanEngine/defaults/systems/default_systems.hpp>
 #include <HotBeanEngine/defaults/default_scene_serializer.hpp>
 
-using namespace HBE::Default::Systems;
-using namespace HBE::Default::Components;
-
 namespace HBE::Default {
+    using namespace HBE::Application;
+    using namespace HBE::Default::Systems;
+
     /**
      * @brief Default scene implementation with standard setup
      * 
      * Provides basic scene configuration and system initialization.
      * Serves as template for custom scene implementations.
      */
-    class DefaultScene : public Scene {
+    class DefaultScene : public HBE::Core::Scene {
     public:
-        DefaultScene(std::string name, std::string path, std::shared_ptr<ISerializer> serializer)
+        DefaultScene(std::string name, std::string path, std::shared_ptr<HBE::Core::ISerializer> serializer)
             : Scene(name, path, serializer) {}
 
         /**

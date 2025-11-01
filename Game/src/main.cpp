@@ -12,9 +12,9 @@
  */
 int main(int argc, char* argv[]) {
     std::string config_path = (std::filesystem::current_path() / "config.yaml").string();
-    std::shared_ptr<IComponentFactory> component_factory = std::make_shared<DefaultComponentFactory>();
+    std::shared_ptr<HBE::Application::IComponentFactory> component_factory = std::make_shared<HBE::Default::DefaultComponentFactory>();
     
-    ExampleGame game = ExampleGame(config_path, component_factory);
+    Game::ExampleGame game = Game::ExampleGame(config_path, component_factory);
     game.Start();
 
     return 0;

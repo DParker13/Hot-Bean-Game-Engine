@@ -2,7 +2,7 @@
 
 #include <HotBeanEngine/application/application.hpp>
 
-struct TestSystem : public HBE::Core::System {
+struct TestSystem : public HBE::Core::ISystem {
     DEFINE_NAME("TestSystem");
     TestSystem() = default;
     void SetSignature() override {}

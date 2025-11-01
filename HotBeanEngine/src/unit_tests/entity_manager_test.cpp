@@ -32,7 +32,7 @@ TEST_CASE("EntityManager: Create and Destroy Entity") {
     }
 
     SECTION("Destroy entity") {
-        Entity entity = entity_manager.CreateEntity();
+        EntityID entity = entity_manager.CreateEntity();
         entity_manager.DestroyEntity(entity);
         REQUIRE(entity_manager.EntityCount() == 0);
     }

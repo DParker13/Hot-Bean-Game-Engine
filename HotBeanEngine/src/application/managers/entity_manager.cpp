@@ -36,7 +36,7 @@ namespace HBE::Application::Managers {
      * available for future use. The entity IDs range from 0 to MAX_ENTITIES - 1.
      */
     void EntityManager::InitializeEntityQueue() {
-        for (Entity entity_id = 0; entity_id < MAX_ENTITIES; entity_id++) {
+        for (EntityID entity_id = 0; entity_id < MAX_ENTITIES; entity_id++) {
             m_available_entities.push(entity_id);
             m_alive_entities[entity_id] = false;
         }
@@ -48,7 +48,7 @@ namespace HBE::Application::Managers {
      * @return The unique identifier of the newly created entity.
      * @throw std::overflow_error if the maximum number of entities has been reached.
      */
-    Entity EntityManager::CreateEntity() {
+    EntityID EntityManager::CreateEntity() {
         if (m_living_entity_count >= MAX_ENTITIES) {
             auto ex = std::overflow_error("Too many entities in existence.");
             LOG_CORE(LoggingType::ERROR, ex.what());
@@ -56,10 +56,10 @@ namespace HBE::Application::Managers {
         }
 
         // Take an ID from the front of the queue
-        Entity id = m_available_entities.front();
+        EntityID id = m_available_entities.front();
         m_alive_entities[id] = true;
 
-        LOG_CORE(LoggingType::DEBUG, "Creating Entity \"" + std::to_string(id) + "\"");
+        LOG_CORE(LoggingType::DEBUG, "Creating EntityID \"" + std::to_string(id) + "\"");
 
         m_available_entities.pop();
         ++m_living_entity_count;
@@ -77,7 +77,7 @@ namespace HBE::Application::Managers {
      * @param entity The ID of the entity to be destroyed.
      * @throw std::out_of_range if the entity ID is out of range.
      */
-    void EntityManager::DestroyEntity(Entity entity) {
+    void EntityManager::DestroyEntity(EntityID entity) {
         if (entity < 0 || entity >= MAX_ENTITIES) {
             std::out_of_range ex = std::out_of_range("Entity out of range.");
             LOG_CORE(LoggingType::ERROR, ex.what());
@@ -87,7 +87,7 @@ namespace HBE::Application::Managers {
         // If the entity is not alive, return
         if (!m_alive_entities[entity]) return;
 
-        LOG_CORE(LoggingType::DEBUG, "Destroying Entity \"" + std::to_string(entity) + "\"...");
+        LOG_CORE(LoggingType::DEBUG, "Destroying EntityID \"" + std::to_string(entity) + "\"...");
 
         // Invalidate the destroyed entity's signature
         m_signatures[entity].reset();
@@ -106,11 +106,11 @@ namespace HBE::Application::Managers {
      * Sets the signature for a given entity.
      *
      * @param entity The ID of the entity to set the signature for.
-     * @param component_type The signature to be set for the entity.
+     * @param component_id The signature to be set for the entity.
      * @return The signature of the entity.
      * @throw std::out_of_range if the entity ID is out of range.
      */
-    Signature EntityManager::SetSignature(Entity entity, ComponentType component_type) {
+    Signature EntityManager::SetSignature(EntityID entity, ComponentID component_id) {
         if (entity < 0 || entity >= MAX_ENTITIES) {
             std::out_of_range ex = std::out_of_range("Entity out of range.");
             LOG_CORE(LoggingType::ERROR, ex.what());
@@ -118,7 +118,7 @@ namespace HBE::Application::Managers {
         }
 
         // Set the signature for the given entity
-        m_signatures[entity].set(component_type);
+        m_signatures[entity].set(component_id);
 
         LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\""
             " signature set \"" + m_signatures[entity].to_string() + "\"");
@@ -130,11 +130,11 @@ namespace HBE::Application::Managers {
      * Sets the signature for a given entity.
      *
      * @param entity The ID of the entity to set the signature for.
-     * @param component_type The signature to be set for the entity.
+     * @param component_id The signature to be set for the entity.
      * @return The signature of the entity.
      * @throw std::out_of_range if the entity ID is out of range.
      */
-    Signature EntityManager::SetSignature(Entity entity, ComponentType component_type, bool value) {
+    Signature EntityManager::SetSignature(EntityID entity, ComponentID component_id, bool value) {
         if (entity < 0 || entity >= MAX_ENTITIES) {
             std::out_of_range ex = std::out_of_range("Entity out of range.");
             LOG_CORE(LoggingType::ERROR, ex.what());
@@ -142,7 +142,7 @@ namespace HBE::Application::Managers {
         }
 
         // Set the signature for the given entity
-        m_signatures[entity].set(component_type, value);
+        m_signatures[entity].set(component_id, value);
 
         LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\""
             " signature set \"" + m_signatures[entity].to_string() + "\"");
@@ -157,7 +157,7 @@ namespace HBE::Application::Managers {
      * @return The signature associated with the given entity.
      * @throw std::out_of_range if the entity ID is out of range.
      */
-    Signature EntityManager::GetSignature(Entity entity) {
+    Signature EntityManager::GetSignature(EntityID entity) {
         if (entity < 0 || entity >= MAX_ENTITIES) {
             std::out_of_range ex = std::out_of_range("Entity out of range.");
             LOG_CORE(LoggingType::ERROR, ex.what());
@@ -170,14 +170,14 @@ namespace HBE::Application::Managers {
     /**
      * @brief Checks if an entity has a specific component
      * 
-     * @param entity Entity to check
-     * @param component_type Component type ID
+     * @param entity EntityID to check
+     * @param component_id Component type ID
      * @return true 
      * @return false 
      */
-    bool EntityManager::HasComponent(Entity entity, ComponentType component_type) {
+    bool EntityManager::HasComponent(EntityID entity, ComponentID component_id) {
         try {
-            return GetSignature(entity).test(component_type);
+            return GetSignature(entity).test(component_id);
         }
         catch(const std::exception&) {
             return false;
@@ -187,9 +187,9 @@ namespace HBE::Application::Managers {
     /**
      * @brief Number of living entities
      * 
-     * @return Entity count
+     * @return EntityID count
      */
-    Entity EntityManager::EntityCount() const {
+    EntityID EntityManager::EntityCount() const {
         return m_living_entity_count;
     }
 }

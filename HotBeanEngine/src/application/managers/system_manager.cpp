@@ -27,11 +27,11 @@ namespace HBE::Application::Managers {
      *
      * @param entity The ID of the entity that was destroyed.
      */
-    void SystemManager::EntityDestroyed(Entity entity)
+    void SystemManager::EntityDestroyed(EntityID entity)
     {
         int erased_entities = 0;
 
-        LOG_CORE(LoggingType::DEBUG, "Destroying Entity \"" + std::to_string(entity) + "\"");
+        LOG_CORE(LoggingType::DEBUG, "Destroying EntityID \"" + std::to_string(entity) + "\"");
 
         // Erase a destroyed entity from all system lists
         // m_entities is a set so no check needed
@@ -39,7 +39,7 @@ namespace HBE::Application::Managers {
             erased_entities += static_cast<int>(system->m_entities.erase(entity));
         }
 
-        LOG_CORE(LoggingType::DEBUG, "\tErased Entity \"" + std::to_string(entity) + "\" from " + std::to_string(erased_entities) + " Systems");
+        LOG_CORE(LoggingType::DEBUG, "\tErased EntityID \"" + std::to_string(entity) + "\" from " + std::to_string(erased_entities) + " Systems");
     }
 
     /**
@@ -51,7 +51,7 @@ namespace HBE::Application::Managers {
      * This function iterates over each system and checks if the entity's new signature matches the system's signature.
      * If it does, the entity is added to the system's set of entities. If it does not, the entity is removed from the system's set of entities.
      */
-    void SystemManager::EntitySignatureChanged(Entity entity, Signature entity_signature)
+    void SystemManager::EntitySignatureChanged(EntityID entity, Signature entity_signature)
     {
         int entity_added_to_systems = 0;
         int entity_removed_from_systems = 0;
@@ -60,14 +60,14 @@ namespace HBE::Application::Managers {
         for (auto& [type_name, system] : m_systems) {
             auto const& system_signature = m_signatures[type_name];
 
-            // Entity signature matches system signature - insert into set
+            // EntityID signature matches system signature - insert into set
             if ((entity_signature & system_signature) == system_signature) {
                 if (system->m_entities.insert(entity).second) {
                     system->OnEntityAdded(entity);
                     entity_added_to_systems++;
                 }
             }
-            // Entity signature does not match system signature - erase from set
+            // EntityID signature does not match system signature - erase from set
             else if (system->m_entities.erase(entity) != 0) {
                 system->OnEntityRemoved(entity);
                 entity_removed_from_systems++;
@@ -75,11 +75,11 @@ namespace HBE::Application::Managers {
         }
 
         if (entity_added_to_systems > 0) {
-            LOG_CORE(LoggingType::DEBUG, "\tAdded Entity \"" + std::to_string(entity) + "\" to " + std::to_string(entity_added_to_systems) + " Systems");
+            LOG_CORE(LoggingType::DEBUG, "\tAdded EntityID \"" + std::to_string(entity) + "\" to " + std::to_string(entity_added_to_systems) + " Systems");
         }
 
         if (entity_removed_from_systems > 0) {
-            LOG_CORE(LoggingType::DEBUG, "\tRemoved Entity \"" + std::to_string(entity) + "\" from " + std::to_string(entity_removed_from_systems) + " Systems");
+            LOG_CORE(LoggingType::DEBUG, "\tRemoved EntityID \"" + std::to_string(entity) + "\" from " + std::to_string(entity_removed_from_systems) + " Systems");
         }
     }
 
@@ -143,7 +143,7 @@ namespace HBE::Application::Managers {
         }
     }
 
-    void SystemManager::UnregisterSystem(System* system) {
+    void SystemManager::UnregisterSystem(ISystem* system) {
         if (!system) {
             return;
         }
@@ -160,7 +160,7 @@ namespace HBE::Application::Managers {
         RemoveSignature(system);
     }
 
-    bool SystemManager::IsSystemRegistered(System* system) {
+    bool SystemManager::IsSystemRegistered(ISystem* system) {
         if (!system) {
             return false;
         }
@@ -168,7 +168,7 @@ namespace HBE::Application::Managers {
         return m_systems.find(std::string(system->GetName())) != m_systems.end();
     }
 
-    void SystemManager::RemoveSignature(System* system) {
+    void SystemManager::RemoveSignature(ISystem* system) {
         if (!system) {
             return;
         }
@@ -183,7 +183,7 @@ namespace HBE::Application::Managers {
         m_signatures.erase(std::string(system->GetName()));
     }
 
-    std::vector<System*> SystemManager::GetAllSystems() {
+    std::vector<ISystem*> SystemManager::GetAllSystems() {
         return m_systems_ordered;
     }
 }

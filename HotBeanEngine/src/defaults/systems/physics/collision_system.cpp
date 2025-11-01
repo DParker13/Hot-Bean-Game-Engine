@@ -15,7 +15,7 @@ namespace HBE::Default::Systems {
 
     }
 
-    void CollisionSystem::OnEntityAdded(Entity entity) {
+    void CollisionSystem::OnEntityAdded(EntityID entity) {
         auto collider = g_ecs.GetComponent<Collider2D>(entity);
         auto rigidbody = g_ecs.GetComponent<RigidBody>(entity);
 

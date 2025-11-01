@@ -4,10 +4,9 @@
 
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
-using namespace HBE::Application;
-using namespace HBE::Core;
-
 namespace HBE::Application::Managers {
+    using namespace HBE::Core;
+    
     /**
      * @brief Manages game scenes and scene transitions.
      * Handles scene loading, unloading, and switching.

@@ -10,8 +10,6 @@
 
 #include <HotBeanEngine/defaults/systems/rendering/shape_system.hpp>
 
-using namespace HBE::Default::Components;
-
 namespace HBE::Default::Systems {
     void ShapeSystem::OnRender() {
         for (auto& entity : m_entities) {
@@ -47,11 +45,11 @@ namespace HBE::Default::Systems {
         }
     }
 
-    void ShapeSystem::OnEntityAdded(Entity entity) {
+    void ShapeSystem::OnEntityAdded(EntityID entity) {
         CreateTextureForEntity(entity);
     }
 
-    void ShapeSystem::CreateTextureForEntity(Entity entity) {
+    void ShapeSystem::CreateTextureForEntity(EntityID entity) {
         auto& texture = g_ecs.GetComponent<Texture>(entity);
         auto& shape = g_ecs.GetComponent<Shape>(entity);
 

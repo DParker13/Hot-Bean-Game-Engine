@@ -3,6 +3,8 @@
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
 namespace HBE::Application {
+    using namespace HBE::Core;
+
     /**
      * @brief Interface for creating and registering components.
      * Provides methods for component registration and YAML-based deserialization.
@@ -11,23 +13,23 @@ namespace HBE::Application {
         public:
             virtual void RegisterComponents() = 0;
             virtual void CreateComponentFromYAML(const std::string& component_name,
-                                                YAML::Node node, Entity parent_entity, Entity entity) = 0;
+                                                YAML::Node node, EntityID parent_entity, EntityID entity) = 0;
 
             void SetECSManager(std::shared_ptr<Managers::ECSManager> ecs_manager) {
                 m_ecs_manager = ecs_manager;
             }
 
             template<typename T>
-            void AddComponent(Entity entity, YAML::Node node) {
-                static_assert(std::is_base_of_v<Component, T> && "T must inherit from Component");
+            void AddComponent(EntityID entity, YAML::Node node) {
+                static_assert(std::is_base_of_v<IComponent, T> && "T must inherit from Component");
 
                 m_ecs_manager->AddComponent<T>(entity, T());
                 m_ecs_manager->GetComponent<T>(entity).Deserialize(node);
             }
 
             template<typename T, typename... Args>
-            void AddComponent(Entity entity, YAML::Node node, Args... args) {
-                static_assert(std::is_base_of_v<Component, T> && "T must inherit from Component");
+            void AddComponent(EntityID entity, YAML::Node node, Args... args) {
+                static_assert(std::is_base_of_v<IComponent, T> && "T must inherit from Component");
 
                 m_ecs_manager->AddComponent<T>(entity, T(args...));
                 m_ecs_manager->GetComponent<T>(entity).Deserialize(node);

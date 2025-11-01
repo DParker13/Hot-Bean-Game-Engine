@@ -21,13 +21,15 @@
 #include <HotBeanEngine/editor_gui/property_nodes/enum.hpp>
 
 namespace HBE::Default::Components {
+    using namespace HBE::Core;
+    
     /**
      * @brief Physics body component for 2D dynamics
      * 
      * Integrates with Box2D physics engine.
      * Handles mass, velocity, and collision response.
      */
-    class RigidBody : public Component, public HBE::Application::GUI::IPropertyRenderable {
+    class RigidBody : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
         public:
             float m_mass = 1.0f;
             b2BodyType m_type = b2BodyType::b2_kinematicBody;
@@ -48,14 +50,14 @@ namespace HBE::Default::Components {
                     m_type = (b2BodyType)node["type"].as<int>();
             }
 
-            void RenderProperties(Entity entity, Component* component) override {
+            void RenderProperties(EntityID entity, IComponent* component) override {
                 auto* rigidbody = dynamic_cast<RigidBody*>(component);
 
                 if (!rigidbody) {
                     return;
                 }
 
-                HBE::Application::GUI::RenderProperties<RigidBody>(entity, rigidbody, [](Entity entity, auto* rb) {
+                HBE::Application::GUI::RenderProperties<RigidBody>(entity, rigidbody, [](EntityID entity, auto* rb) {
                     HBE::Application::GUI::PropertyNodes::Int::RenderProperty(entity, "ID", rb->m_body_id.index1);
                     HBE::Application::GUI::PropertyNodes::Float::RenderProperty(entity, "Mass", rb->m_mass);
                     HBE::Application::GUI::PropertyNodes::Enum::RenderProperty<b2BodyType>(entity, "Type", rb->m_type, {

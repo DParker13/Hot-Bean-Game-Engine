@@ -10,8 +10,6 @@
 
 #pragma once
 
-#include <HotBeanEngine/core/entity.hpp>
-
 namespace HBE::Core {
     /**
      * @brief Interface for general serialization.

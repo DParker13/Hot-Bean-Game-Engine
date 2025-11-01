@@ -12,14 +12,13 @@
 
 #include <HotBeanEngine/application/application.hpp>
 
-using namespace HBE::Application;
-using namespace HBE::Core;
-
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
+    
     /**
      * @brief Manages audio playback for entities
      */
-    class AudioSystem : public System {
+    class AudioSystem : public ISystem {
         private:
             MIX_Mixer* m_mixer;
             MIX_Track* m_track_one;

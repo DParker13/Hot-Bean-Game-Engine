@@ -13,26 +13,25 @@
 #include <HotBeanEngine/defaults/systems/input/input_system.hpp>
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
-using namespace HBE::Default::Components;
-using namespace HBE::Application;
-using namespace HBE::Core;
-
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
+    
     /**
      * @brief System for player input to control entities.
      */
-    class PlayerControllerSystem : public System {
+    class PlayerControllerSystem : public ISystem {
         private:
             InputSystem& m_input_system;
 
         public:
             DEFINE_SIGNATURE(PlayerControllerSystem, "Player Controller System", Transform2D, Controller);
             PlayerControllerSystem(InputSystem& input_system)
-                : System(), m_input_system(input_system) {}
+                : m_input_system(input_system) {}
             ~PlayerControllerSystem() = default;
 
             void OnUpdate() override;
 
-            void Move(Entity entity, float speed);
+            void Move(EntityID entity, float speed);
     };
 }

@@ -35,7 +35,7 @@ TEST_CASE("ECSManager: Create and Destroy Entity") {
     }
 
     SECTION("Destroy entity") {
-        Entity entity = ecs_manager.CreateEntity();
+        EntityID entity = ecs_manager.CreateEntity();
         ecs_manager.DestroyEntity(entity);
         REQUIRE(ecs_manager.EntityCount() == 0);
     }
@@ -46,11 +46,11 @@ TEST_CASE("ECSManager: Create and Destroy Entity") {
     }
 }
 
-TEST_CASE("ECSManager: Entity has component") {
+TEST_CASE("ECSManager: EntityID has component") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
     ECSManager ecs_manager = ECSManager(logging_manager);
-    Entity entity_1 = ecs_manager.CreateEntity();
-    Entity entity_2 = ecs_manager.CreateEntity();
+    EntityID entity_1 = ecs_manager.CreateEntity();
+    EntityID entity_2 = ecs_manager.CreateEntity();
     TestComponent test_component;
 
     SECTION("Has component: true") {
@@ -67,8 +67,8 @@ TEST_CASE("ECSManager: Entity has component") {
 TEST_CASE("ECSManager: Component addition and removal") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
     ECSManager ecs_manager = ECSManager(logging_manager);
-    Entity entity_1 = ecs_manager.CreateEntity();
-    Entity entity_2 = ecs_manager.CreateEntity();
+    EntityID entity_1 = ecs_manager.CreateEntity();
+    EntityID entity_2 = ecs_manager.CreateEntity();
     TestComponent test_component;
 
     SECTION("Add component") {

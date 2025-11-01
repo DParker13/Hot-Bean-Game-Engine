@@ -10,8 +10,6 @@
 
 #include <HotBeanEngine/defaults/systems/rendering/camera_system.hpp>
 
-using namespace HBE::Default::Components;
-
 namespace HBE::Default::Systems {
     void CameraSystem::OnStart() {
         FindActiveCamera();
@@ -25,7 +23,7 @@ namespace HBE::Default::Systems {
         }
     }
 
-    Entity CameraSystem::GetActiveCameraEntity() {
+    EntityID CameraSystem::GetActiveCameraEntity() {
         return m_active_camera_entity;
     }
 
@@ -54,7 +52,7 @@ namespace HBE::Default::Systems {
     }
 
     glm::vec2 CameraSystem::CalculateScreenPosition(const glm::vec2& world_position) {
-        Entity camera_entity = GetActiveCameraEntity();
+        EntityID camera_entity = GetActiveCameraEntity();
         Transform2D camera_transform = g_ecs.GetComponent<Transform2D>(camera_entity);
         glm::vec2 screen_position = world_position - camera_transform.m_world_position;
 

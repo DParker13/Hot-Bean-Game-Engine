@@ -27,7 +27,7 @@ namespace HBE::Default::Systems {
      * @param entity The entity to move.
      * @param speed The speed at which the entity will move, in pixels per second.
      */
-    void PlayerControllerSystem::Move(Entity entity, float speed) {
+    void PlayerControllerSystem::Move(EntityID entity, float speed) {
         auto keys_pressed = m_input_system.m_keys_pressed;
         
         if (keys_pressed.size() > 0) {

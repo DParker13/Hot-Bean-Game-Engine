@@ -19,11 +19,11 @@ namespace HBE::Application {
 
         s_instance = this;
 
-        bool config_loaded = Config::LoadConfig(config_path) == 0;
+        bool config_loaded = LoadConfig(config_path) == 0;
 
         // Setup logging first to capture any application initialization errors
-        m_logging_manager = std::make_shared<LoggingManager>(Config::LOG_PATH, Config::LOGGING_LEVEL, Config::LOG_TO_CONSOLE);
-        
+        m_logging_manager = std::make_shared<LoggingManager>(LOG_PATH, LOGGING_LEVEL, LOG_TO_CONSOLE);
+
         SetupRendererAndWindow();
 
         if (config_loaded) {
@@ -52,9 +52,9 @@ namespace HBE::Application {
     void Application::SetupRendererAndWindow() {
         // Create new window surface
         if (m_window == nullptr) {
-            SDL_CreateWindowAndRenderer(Config::WINDOW_TITLE.c_str(), Config::SCREEN_WIDTH,
-                                                   Config::SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE,
-                                                   &m_window, &m_renderer);
+            SDL_CreateWindowAndRenderer(WINDOW_TITLE.c_str(), SCREEN_WIDTH,
+                                        SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE,
+                                        &m_window, &m_renderer);
 
             // Check if window creation was successful
             if (m_window == nullptr) {

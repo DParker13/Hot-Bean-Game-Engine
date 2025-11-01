@@ -17,7 +17,7 @@
 
 namespace HBE::Application::GUI::PropertyNodes {
     struct Bool : public IPropertyNode {
-        static void RenderProperty(Entity& entity, std::string_view label, bool& value) {
+        static void RenderProperty(EntityID entity, std::string_view label, bool& value) {
             std::string unique_id = std::string(label) + std::to_string(entity);
             ImGui::PushID(unique_id.c_str());
             ImGui::Text("%s", label.data());
