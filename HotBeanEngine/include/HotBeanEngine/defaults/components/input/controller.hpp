@@ -40,16 +40,8 @@ namespace HBE::Default::Components {
             }
         }
 
-        void RenderProperties(EntityID entity, IComponent* component) override {
-            Controller* controller = dynamic_cast<Controller*>(component);
-
-            if (!controller) {
-                return;
-            }
-
-            HBE::Application::GUI::RenderProperties<Controller>(entity, controller, [](EntityID entity, Controller* controller) {
-                HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(entity, "Controllable", controller->controllable);
-            });
+        void RenderProperties(int& id, EntityID entity) override {
+            HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
         }
     };
 }

@@ -12,28 +12,35 @@
 
 #include <imgui.h>
 
-#include <HotBeanEngine/core.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/iproperty_node.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::GUI::PropertyNodes {
-    struct Vec2 : public IPropertyNode {
-        static void RenderProperty(EntityID entity, std::string_view label, glm::vec2& values) {
-            std::string unique_id = std::string(label) + std::to_string(entity);
-            ImGui::PushID(unique_id.c_str());
+    using namespace HBE::Core;
+
+    struct Vec2 {
+        static bool RenderProperty(int& id, std::string_view label, glm::vec2& values,
+            glm::vec2 min = glm::vec2(-FLT_MAX), glm::vec2 max = glm::vec2(FLT_MAX), bool disabled = false) {
+            ImGui::PushID(id++);
             ImGui::Text("%s", label.data());
             ImGui::SameLine();
-            ImGui::PushItemWidth(50.0f);
             ImGui::Text("X");
             ImGui::SameLine();
-            ImGui::DragFloat(("##" + unique_id + "_X").c_str(), &values.x, 0.1f);
+            ImGui::PushItemWidth(50.0f);
+            ImGui::BeginDisabled(disabled);
+            bool changed_x = ImGui::DragFloat(("##" + std::to_string(id) + "_X").c_str(), &values.x, 0.1f, min.x, max.x);
+            ImGui::EndDisabled();
             ImGui::PopItemWidth();
             ImGui::SameLine();
             ImGui::Text("Y");
             ImGui::SameLine();
             ImGui::PushItemWidth(50.0f);
-            ImGui::DragFloat(("##" + unique_id + "_Y").c_str(), &values.y, 0.1f);
+            ImGui::BeginDisabled(disabled);
+            bool changed_y = ImGui::DragFloat(("##" + std::to_string(id) + "_Y").c_str(), &values.y, 0.1f, min.y, max.y);
+            ImGui::EndDisabled();
             ImGui::PopItemWidth();
             ImGui::PopID();
+            
+            return changed_x || changed_y;
         }
     };
 }

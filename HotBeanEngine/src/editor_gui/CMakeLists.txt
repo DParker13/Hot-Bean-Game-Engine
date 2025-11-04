@@ -22,8 +22,6 @@ target_link_libraries(imgui PUBLIC
 )
 
 add_library(HotBeanEngine_EditorGui STATIC
-    components.cpp
-    components.hpp
     console_window.cpp
     console_window.hpp
     control_bar.cpp
@@ -35,8 +33,6 @@ add_library(HotBeanEngine_EditorGui STATIC
     menu.hpp
     property_window.cpp
     property_window.hpp
-    systems.cpp
-    systems.hpp
     viewport_window.cpp
     viewport_window.hpp
 )

@@ -19,17 +19,17 @@ namespace HBE::Default::Systems {
      * @brief Manages audio playback for entities
      */
     class AudioSystem : public ISystem {
-        private:
-            MIX_Mixer* m_mixer;
-            MIX_Track* m_track_one;
+    private:
+        MIX_Mixer* m_mixer;
+        MIX_Track* m_track_one;
 
-        public:
-            DEFINE_SIGNATURE(AudioSystem, "Audio System");
-            AudioSystem();
-            ~AudioSystem();
+    public:
+        DEFINE_SIGNATURE(AudioSystem, "Audio System");
+        AudioSystem();
+        ~AudioSystem();
 
-            void LoadMusic(std::string music_file_path);
-            void PlayMusic(int numLoops);
-            void SetVolume(Uint32 volume);
+        void LoadMusic(std::string music_file_path);
+        void PlayMusic(int numLoops);
+        void SetVolume(Uint32 volume);
     };
 }

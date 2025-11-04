@@ -20,12 +20,12 @@ namespace HBE::Default::Systems {
      * @brief System for 2D collision detection.
      */
     class CollisionSystem : public ISystem {
-        public:
-            DEFINE_SIGNATURE(CollisionSystem, "Collision System", Transform2D, RigidBody, Collider2D);
-            CollisionSystem() = default;
-            ~CollisionSystem() = default;
+    public:
+        DEFINE_SIGNATURE(CollisionSystem, "Collision System", Transform2D, RigidBody, Collider2D);
+        CollisionSystem() = default;
+        ~CollisionSystem() = default;
 
-            void OnUpdate() override;
-            void OnEntityAdded(EntityID entity) override;
+        void OnUpdate() override;
+        void OnEntityAdded(EntityID entity) override;
     };
 }

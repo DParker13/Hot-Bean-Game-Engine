@@ -1,9 +1,9 @@
 /**
- * @file text.hpp
+ * @file checkbox.hpp
  * @author Daniel Parker (DParker13)
- * @brief Text component. Used for storing font, text, and styling.
+ * @brief Checkbox component. Used for storing checkbox state.
  * @version 0.1
- * @date 2025-02-23
+ * @date 2025-11-02
  * 
  * @copyright Copyright (c) 2025
  */
@@ -13,7 +13,6 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
-#include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 #include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
 
 #include <HotBeanEngine/editor_gui/property_nodes/color.hpp>
@@ -22,6 +21,10 @@
 #include <HotBeanEngine/editor_gui/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
+
+    /**
+     * Represents a text component, which can be attached to an entity.
+     */
     struct Text : public UIElement, public HBE::Application::GUI::IPropertyRenderable {
         TTF_Font* m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
         SDL_Color m_foreground_color = SDL_Color(); ///< The color of the text.
@@ -32,6 +35,9 @@ namespace HBE::Default::Components {
         std::string m_text = "default text"; ///< The text to be rendered.
     
         DEFINE_NAME("Text");
+        /**
+         * @brief Construct a new Text component
+         */
         Text() {
             // Set the foreground color to white
             m_foreground_color = SDL_Color();
@@ -72,8 +78,6 @@ namespace HBE::Default::Components {
             if (node["wrapping_width"]) {
                 m_wrapping_width = node["wrapping_width"].as<int>();
             }
-
-            MarkDirty();
         }
 
         void Serialize(YAML::Emitter& out) const override {
@@ -87,26 +91,42 @@ namespace HBE::Default::Components {
             out << YAML::Key << "wrapping_width" << YAML::Value << m_wrapping_width;
         }
 
-        void RenderProperties(int& id, EntityID entity) override {
-            bool changed = false;
-            
-            changed |= HBE::Application::GUI::PropertyNodes::String::RenderProperty(id, "Text", m_text);
-            changed |= HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
-            changed |= HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
-            changed |= HBE::Application::GUI::PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style, {
+        /**
+         * Gets the text of the Text component.
+         *
+         * This function gets the current text being rendered.
+         *
+         * @return The text being rendered.
+         */
+        std::string GetString() const {
+            return m_text;
+        }
+
+        /**
+         * Gets the C string representation of the text.
+         *
+         * This function is a convenience function that returns the C string representation of the text.
+         * This is the same as calling GetString().c_str().
+         *
+         * @return A pointer to the C string representation of the text.
+         */
+        const char*  GetChar() const {
+            return m_text.data();
+        }
+
+        void RenderProperties(int& id) override {
+            HBE::Application::GUI::PropertyNodes::String::RenderProperty(id, "Text", m_text);
+            HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
+            HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
+            HBE::Application::GUI::PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style, {
                 { TTF_STYLE_NORMAL, "Normal" },
                 { TTF_STYLE_BOLD, "Bold" },
                 { TTF_STYLE_ITALIC, "Italic" },
                 { TTF_STYLE_UNDERLINE, "Underline" },
                 { TTF_STYLE_STRIKETHROUGH, "Strikethrough" }
             });
-            changed |= HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int&>(m_size));
-            changed |= HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int&>(m_wrapping_width));
-            
-            // Mark texture as dirty if any property changed
-            if (changed) {
-                MarkDirty();
-            }
+            HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int&>(m_size));
+            HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int&>(m_wrapping_width));
         }
     };
 }

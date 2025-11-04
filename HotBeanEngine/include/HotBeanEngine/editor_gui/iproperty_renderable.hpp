@@ -13,27 +13,12 @@
 #include <imgui.h>
 #include <functional>
 
-#include <HotBeanEngine/core.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::GUI {
     using namespace HBE::Core;
 
     struct IPropertyRenderable {
-        virtual void RenderProperties(EntityID entity, IComponent* component) = 0;
+        virtual void RenderProperties(int& id, EntityID entity) = 0;
     };
-
-    template<typename T>
-    static void RenderProperties(EntityID entity, IComponent* component, std::function<void(EntityID, T*)> renderPropertiesFunc) {
-        static_assert(std::is_base_of_v<IComponent, T> && "T must inherit from IComponent");
-        static_assert(has_static_get_name<T>::value && "T must have a StaticGetName() function");
-
-        auto* typed = dynamic_cast<T*>(component);
-        if (!typed) {
-            return;
-        }
-
-        if (ImGui::CollapsingHeader((std::string(T::StaticGetName()) + " Component").c_str())) {
-            renderPropertiesFunc(entity, typed);
-        }
-    }
 }

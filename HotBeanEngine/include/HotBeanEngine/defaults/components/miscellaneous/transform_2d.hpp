@@ -26,7 +26,7 @@ namespace HBE::Default::Components {
      * Tracks local and world-space transformations.
      * Supports hierarchical parent-child relationships.
      */
-    struct Transform2D : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
+    struct Transform2D : public IComponent, public IMemberChanged, public HBE::Application::GUI::IPropertyRenderable {
         Uint8 m_layer = 0;
         Sint64 m_parent = -1;
 
@@ -80,29 +80,23 @@ namespace HBE::Default::Components {
 
             if (node["world_scale"].IsDefined())
                 m_world_scale = node["world_scale"].as<glm::vec2>();
+
+            MarkDirty();
         }
 
-        void RenderProperties(EntityID entity, IComponent* component) override {
-            auto* transform = dynamic_cast<Transform2D*>(component);
+        void RenderProperties(int& id, EntityID entity) override {
+            bool changed = false;
 
-            if (!transform) {
-                return;
+            changed |= HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Layer", reinterpret_cast<int&>(m_layer));
+            changed |= HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Parent", reinterpret_cast<int&>(m_parent), -1);
+            ImGui::Separator();
+            changed |= HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(id, "Local Position", m_local_position);
+            changed |= HBE::Application::GUI::PropertyNodes::Float::RenderProperty(id, "Local Rotation", m_local_rotation);
+            changed |= HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(id, "Local Scale", m_local_scale);
+
+            if (changed) {
+                MarkDirty();
             }
-
-            HBE::Application::GUI::RenderProperties<Transform2D>(entity, transform, [](EntityID entity, auto* transform) {
-                int layer = static_cast<int>(transform->m_layer);
-                HBE::Application::GUI::PropertyNodes::Int::RenderProperty(entity, "Layer", layer);
-                transform->m_layer = static_cast<Uint8>(layer); // update the original value after editing
-                
-                int parent = static_cast<int>(transform->m_parent);
-                HBE::Application::GUI::PropertyNodes::Int::RenderProperty(entity, "Parent", parent);
-                transform->m_parent = static_cast<Sint64>(parent); // update the original value after editing
-
-                ImGui::Separator();
-                HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(entity, "Local Position", transform->m_local_position);
-                HBE::Application::GUI::PropertyNodes::Float::RenderProperty(entity, "Local Rotation", transform->m_local_rotation);
-                HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(entity, "Local Scale", transform->m_local_scale);
-            });
         }
     };
 }

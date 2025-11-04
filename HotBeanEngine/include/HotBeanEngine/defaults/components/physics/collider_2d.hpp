@@ -49,21 +49,13 @@ namespace HBE::Default::Components {
             m_is_trigger = node["is_trigger"].as<bool>();
         }
 
-        void RenderProperties(EntityID entity, IComponent* component) override {
-            auto* collider = dynamic_cast<Collider2D*>(component);
-
-            if (!collider) {
-                return;
-            }
-
-            HBE::Application::GUI::RenderProperties<Collider2D>(entity, collider, [](EntityID entity, auto* collider) {
-                HBE::Application::GUI::PropertyNodes::Enum::RenderProperty<ColliderShape>(entity, "Shape", collider->m_shape, {
-                    {ColliderShape::Box, "Box"},
-                    {ColliderShape::Circle, "Circle"}
-                });
-                HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(entity, "Size", collider->m_size);
-                HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(entity, "Is Trigger", collider->m_is_trigger);
+        void RenderProperties(int& id, EntityID entity) override {
+            HBE::Application::GUI::PropertyNodes::Enum::RenderProperty<ColliderShape>(id, "Shape", m_shape, {
+                {ColliderShape::Box, "Box"},
+                {ColliderShape::Circle, "Circle"}
             });
+            HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(id, "Size", m_size);
+            HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(id, "Is Trigger", m_is_trigger);
         }
     };
 }

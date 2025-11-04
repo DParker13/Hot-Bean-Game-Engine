@@ -23,22 +23,22 @@ namespace HBE::Default {
      * @brief Default scene serializer implementation using YAML
      */
     class DefaultSceneSerializer : public ISerializer {
-        private:
-            std::unordered_map<EntityID, std::vector<EntityID>> m_parent_entity_map;
-            std::shared_ptr<IComponentFactory> m_component_factory;
+    private:
+        std::unordered_map<EntityID, std::vector<EntityID>> m_parent_entity_map;
+        std::shared_ptr<IComponentFactory> m_component_factory;
 
-        public:
-            DefaultSceneSerializer(std::shared_ptr<IComponentFactory> component_factory);
+    public:
+        DefaultSceneSerializer(std::shared_ptr<IComponentFactory> component_factory);
 
-            void Serialize(std::string_view filepath) override;
-            void Deserialize(std::string_view filepath) override;
-            bool FileExists(std::string_view filepath) override;
+        void Serialize(std::string_view filepath) override;
+        void Deserialize(std::string_view filepath) override;
+        bool FileExists(std::string_view filepath) override;
 
-        private:
-            void SerializeEntities(YAML::Emitter& out, EntityID parent_entity);
-            void SerializeEntity(YAML::Emitter& out, EntityID entity);
-            void MapParentEntities();
-            void DeserializeEntities(const YAML::Node& node, EntityID parent_entity);
-            void DeserializeEntity(const YAML::Node& node, EntityID parent_entity, EntityID entity);
+    private:
+        void SerializeEntities(YAML::Emitter& out, EntityID parent_entity);
+        void SerializeEntity(YAML::Emitter& out, EntityID entity);
+        void MapParentEntities();
+        void DeserializeEntities(const YAML::Node& node, EntityID parent_entity);
+        void DeserializeEntity(const YAML::Node& node, EntityID parent_entity, EntityID entity);
     };
 }

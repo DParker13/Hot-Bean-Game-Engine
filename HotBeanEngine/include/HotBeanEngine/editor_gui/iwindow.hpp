@@ -14,15 +14,15 @@
 
 namespace HBE::Application::GUI {
     class IWindow {
-        public:
-            bool m_open = true;
-            std::string m_name = "Default Window";
+    public:
+        bool m_open = true;
+        std::string m_name = "Default Window";
 
-        public:
-            IWindow(std::string name) : m_name(name) {}
-            IWindow() : m_name("Default Window") {}
-            virtual ~IWindow() = default;
+    public:
+        IWindow(std::string name) : m_name(name) {}
+        IWindow() : m_name("Default Window") {}
+        virtual ~IWindow() = default;
 
-            virtual void RenderWindow() = 0;
+        virtual void RenderWindow() = 0;
     };
 }

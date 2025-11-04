@@ -15,9 +15,9 @@ namespace HBE::Core {
      * @brief Interface for general serialization.
      */
     class ISerializer {
-        public:
-            virtual void Serialize(std::string_view filepath) = 0;
-            virtual void Deserialize(std::string_view filepath) = 0;
-            virtual bool FileExists(std::string_view filepath) = 0;
+    public:
+        virtual void Serialize(std::string_view filepath) = 0;
+        virtual void Deserialize(std::string_view filepath) = 0;
+        virtual bool FileExists(std::string_view filepath) = 0;
     };
 }

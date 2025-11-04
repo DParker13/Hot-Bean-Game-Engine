@@ -12,20 +12,18 @@
 
 #include <imgui.h>
 
-#include <HotBeanEngine/core.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/iproperty_node.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::GUI::PropertyNodes {
-    struct Enum : public IPropertyNode {
+    struct Enum {
         template<typename EnumType>
-        static void RenderProperty(EntityID entity, std::string_view label, EnumType& value, const std::vector<std::pair<EnumType, std::string>>& options) {
-            static_assert(std::is_enum_v<EnumType>, "EnumType must be an enum");
-
-            std::string unique_id = std::string(label) + std::to_string(entity);
-            ImGui::PushID(unique_id.c_str());
+        static bool RenderProperty(int& id, std::string_view label, EnumType& value,
+            const std::vector<std::pair<EnumType, std::string>>& options, bool disabled = false) {
+            ImGui::PushID(id++);
             ImGui::Text("%s", label.data());
             ImGui::SameLine();
-            ImGui::PushItemWidth(50.0f);
+            ImGui::PushItemWidth(100.0f);
+            ImGui::BeginDisabled(disabled);
 
             // Find current index
             int current_index = 0;
@@ -42,11 +40,16 @@ namespace HBE::Application::GUI::PropertyNodes {
                 items.push_back(opt.second.c_str());
             }
 
+            bool changed = false;
             if (ImGui::Combo("", &current_index, items.data(), static_cast<int>(items.size()))) {
                 value = options[current_index].first;
+                changed = true;
             }
 
+            ImGui::EndDisabled();
+            ImGui::PopItemWidth();
             ImGui::PopID();
+            return changed;
         }
     };
 }

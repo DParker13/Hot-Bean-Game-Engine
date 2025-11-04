@@ -50,21 +50,13 @@ namespace HBE::Default::Components {
                     m_type = (b2BodyType)node["type"].as<int>();
             }
 
-            void RenderProperties(EntityID entity, IComponent* component) override {
-                auto* rigidbody = dynamic_cast<RigidBody*>(component);
-
-                if (!rigidbody) {
-                    return;
-                }
-
-                HBE::Application::GUI::RenderProperties<RigidBody>(entity, rigidbody, [](EntityID entity, auto* rb) {
-                    HBE::Application::GUI::PropertyNodes::Int::RenderProperty(entity, "ID", rb->m_body_id.index1);
-                    HBE::Application::GUI::PropertyNodes::Float::RenderProperty(entity, "Mass", rb->m_mass);
-                    HBE::Application::GUI::PropertyNodes::Enum::RenderProperty<b2BodyType>(entity, "Type", rb->m_type, {
-                        {b2BodyType::b2_staticBody, "Static"},
-                        {b2BodyType::b2_kinematicBody, "Kinematic"},
-                        {b2BodyType::b2_dynamicBody, "Dynamic"}
-                    });
+            void RenderProperties(int& id, EntityID entity) override {
+                HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "ID", m_body_id.index1, INT_MIN, INT_MAX, true);
+                HBE::Application::GUI::PropertyNodes::Float::RenderProperty(id, "Mass", m_mass, 0.0f);
+                HBE::Application::GUI::PropertyNodes::Enum::RenderProperty<b2BodyType>(id, "Type", m_type, {
+                    {b2BodyType::b2_staticBody, "Static"},
+                    {b2BodyType::b2_kinematicBody, "Kinematic"},
+                    {b2BodyType::b2_dynamicBody, "Dynamic"}
                 });
             }
     };

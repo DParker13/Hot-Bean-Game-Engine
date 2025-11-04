@@ -24,7 +24,6 @@ namespace HBE::Default::Systems {
 
     /**
      * @brief Called when the window is resized
-     * 
      * @param event The SDL window event
      */
     void RenderSystem::OnWindowResize(SDL_Event& event) {
@@ -48,6 +47,37 @@ namespace HBE::Default::Systems {
     void RenderSystem::OnStart() {
         UpdateRendererSize();
     }
+
+    void RenderSystem::OnUpdate() {
+        // Reset layer empty states
+        m_layer_is_empty.clear();
+        for (auto& layer : m_layers) {
+            m_layer_is_empty[layer.first] = true;
+        }
+
+        // Mark layers with entities as NOT empty
+        for (auto& entity : m_entities) {
+            auto& transform = g_ecs.GetComponent<Transform2D>(entity);
+
+            // Skip if layer is already marked as not empty
+            if (!m_layer_is_empty[transform.m_layer]) {
+                continue;
+            }
+            
+            m_layer_is_empty[transform.m_layer] = false;
+        }
+
+        // Clean up empty layers
+        for (auto& layer : m_layer_is_empty) {
+            if (m_layers[layer.first]) {
+                SDL_DestroyTexture(m_layers[layer.first]);
+                m_layers.erase(layer.first);
+            }
+            else {
+                continue;
+            }
+        }
+    }
     
     /**
      * @brief Render each entity to its respective texture layer and then combine them on the screen
@@ -58,7 +88,7 @@ namespace HBE::Default::Systems {
             RenderTextureToLayer(entity);
         }
 
-        // Render all layers in order (layer 0 first, layer 1 second, etc...)
+        // Render all layers in order, back to front (layer 0 first, layer 1 second, etc...)
         RenderAllLayers();
     }
 
@@ -123,7 +153,9 @@ namespace HBE::Default::Systems {
         auto& transform = g_ecs.GetComponent<Transform2D>(entity);
         auto& texture = g_ecs.GetComponent<Texture>(entity);
 
-        assert(m_layers.find(transform.m_layer) != m_layers.end() && "Layer does not exist");
+        if (m_layers.find(transform.m_layer) == m_layers.end()) {
+            CreateTextureLayerForEntity(entity);
+        }
         
         glm::vec2 screen_position = CalculateFinalPosition(transform, texture);
 
@@ -134,10 +166,14 @@ namespace HBE::Default::Systems {
 
         // Switch rendering target to current entity layer
         SDL_SetRenderTarget(renderer, m_layers[transform.m_layer]);
+
+        // Get camera zoom and apply to texture size
+        float zoom = m_camera_system.GetActiveZoom();
+        glm::vec2 scaled_size = texture.m_size * zoom;
         
         // Create rect the size and position of the texture
         const SDL_FRect* rect = new SDL_FRect({screen_position.x, screen_position.y,
-                                            texture.m_size.x, texture.m_size.y});
+                                            scaled_size.x, scaled_size.y});
 
         if (texture.m_texture == nullptr) {
             LOG(LoggingType::ERROR, "Entity " + std::to_string(entity) + " has no texture to render!");
@@ -166,23 +202,38 @@ namespace HBE::Default::Systems {
     void RenderSystem::RenderAllLayers() {
         auto* renderer = g_app.GetRenderer();
 
-        // Render each layer
+        // Get active camera viewport
+        SDL_FRect viewport = m_camera_system.GetActiveViewport();
+
+        // Render each layer to the camera's viewport
         for (auto& layer : m_layers) {
             SDL_SetRenderTarget(renderer, NULL);
-            SDL_RenderTexture(renderer, layer.second, NULL, NULL);
+            
+            // Render layer texture to the viewport region
+            SDL_RenderTexture(renderer, layer.second, NULL, &viewport);
         }
     }
 
     /**
-     * @brief Determines if a texture at a given screen position is outside the screen bounds and should be culled
+     * @brief Determines if a texture at a given screen position is outside the viewport bounds and should be culled
      * @param screen_position The position on the screen to check for culling
      * @param texture The texture to check for culling
      */
     bool RenderSystem::IsCulled(glm::vec2& screen_position, Texture& texture) {
-        return screen_position.x + texture.m_size.x <= 0 ||
-            screen_position.y + texture.m_size.y <= 0 ||
-            screen_position.x >= m_renderer_size.x ||
-            screen_position.y >= m_renderer_size.y;
+        // Get camera zoom and apply to texture size for culling check
+        float zoom = m_camera_system.GetActiveZoom();
+        glm::vec2 scaled_size = texture.m_size * zoom;
+        
+        // Get viewport bounds (not full screen bounds)
+        SDL_FRect viewport = m_camera_system.GetActiveViewport();
+        float viewport_right = viewport.x + viewport.w;
+        float viewport_bottom = viewport.y + viewport.h;
+        
+        // Cull if outside viewport bounds
+        return screen_position.x + scaled_size.x <= viewport.x ||
+            screen_position.y + scaled_size.y <= viewport.y ||
+            screen_position.x >= viewport_right ||
+            screen_position.y >= viewport_bottom;
     }
 
     /**
@@ -202,9 +253,13 @@ namespace HBE::Default::Systems {
         // Calculate screen position based on camera
         glm::vec2 screen_position = m_camera_system.CalculateScreenPosition(transform.m_world_position);
 
+        // Get zoom to calculate scaled size for centering
+        float zoom = m_camera_system.GetActiveZoom();
+        glm::vec2 scaled_size = texture.m_size * zoom;
+
         // TODO: Add adjustable anchor point support (top-left, center, bottom-right, etc...)
         // Center the texture on the position
-        screen_position -= (texture.m_size * 0.5f);
+        screen_position -= (scaled_size * 0.5f);
         
         return screen_position;
     }

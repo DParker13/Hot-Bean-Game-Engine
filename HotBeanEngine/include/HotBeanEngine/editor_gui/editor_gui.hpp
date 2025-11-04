@@ -15,7 +15,7 @@
 #include <backends/imgui_impl_sdl3.h>
 #include <backends/imgui_impl_sdlrenderer3.h>
 
-#include <HotBeanEngine/core.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor_gui/iwindow.hpp>
 
 namespace HBE::Application::GUI {
@@ -26,23 +26,23 @@ namespace HBE::Application::GUI {
      * Provides development tools and runtime inspection.
      */
     class EditorGUI : public HBE::Core::IGameLoop {
-        private:
-            std::vector<std::shared_ptr<IWindow>> m_windows;
+    private:
+        std::vector<std::shared_ptr<IWindow>> m_windows;
 
-        public:
-            EditorGUI();
-            ~EditorGUI();
-            
-            virtual void OnStart() {};
-            virtual void OnPreEvent() {};
-            virtual void OnEvent(SDL_Event& event);
-            virtual void OnWindowResize(SDL_Event& event);
-            virtual void OnUpdate() {};
-            virtual void OnRender();
-            virtual void OnPostRender() {};
+    public:
+        EditorGUI();
+        ~EditorGUI();
+        
+        virtual void OnStart() {};
+        virtual void OnPreEvent() {};
+        virtual void OnEvent(SDL_Event& event);
+        virtual void OnWindowResize(SDL_Event& event);
+        virtual void OnUpdate() {};
+        virtual void OnRender();
+        virtual void OnPostRender() {};
 
-        protected:
-            virtual void RenderWindows();
-            virtual void SetupDefaultDockingLayout();
+    protected:
+        virtual void RenderWindows();
+        virtual void SetupDefaultDockingLayout();
     };
 }

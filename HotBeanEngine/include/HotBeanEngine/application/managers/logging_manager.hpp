@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include <HotBeanEngine/core.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::Managers {
     using namespace HBE::Core;
@@ -22,27 +22,28 @@ namespace HBE::Application::Managers {
      * Supports console and file logging with severity levels.
      */
     class LoggingManager {
-        public:
-            LoggingManager(const std::string& log_path, LoggingType level, bool log_to_console);
-            LoggingManager();
-            ~LoggingManager();
+    private:
+        std::ofstream m_log_file;
+        std::string m_log_path;
+        LoggingType m_log_level = LoggingType::ERROR;
+        bool m_log_to_console = false;
 
-            void Log(const LoggingType type, std::string_view message,
-                    const char* file, int line, const char* function);
-            void SetLogPath(std::string_view log_path);
-            LoggingType GetLoggingLevel();
-            void SetLoggingLevel(LoggingType level);
-        
-        private:
-            std::ofstream m_log_file;
-            std::string m_log_path;
-            LoggingType m_log_level = LoggingType::ERROR;
-            bool m_log_to_console = false;
+        // Used for unit testing to avoid logging messages
+        bool m_testing;
 
-            // Used for unit testing to avoid logging messages
-            bool m_testing;
+    public:
+        LoggingManager(const std::string& log_path, LoggingType level, bool log_to_console);
+        LoggingManager();
+        ~LoggingManager();
 
-            void SetupDefaultLoggingPath();
-            void LogToFile(const LoggingType type, std::stringstream& final_message);
+        void Log(const LoggingType type, std::string_view message,
+                const char* file, int line, const char* function);
+        void SetLogPath(std::string_view log_path);
+        LoggingType GetLoggingLevel();
+        void SetLoggingLevel(LoggingType level);
+
+    private:
+        void SetupDefaultLoggingPath();
+        void LogToFile(const LoggingType type, std::stringstream& final_message);
     };
 }

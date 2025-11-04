@@ -23,7 +23,7 @@ namespace HBE::Default::Systems {
     void UISystem::OnWindowResize(SDL_Event& event) {
         for (auto& entity : m_entities) {
             auto& texture = g_ecs.GetComponent<Texture>(entity);
-            texture.m_dirty = true;
+            texture.MarkDirty();
         }
     }
 
@@ -67,7 +67,6 @@ namespace HBE::Default::Systems {
         auto* renderer = g_app.GetRenderer();
 
         auto& text = g_ecs.GetComponent<Text>(entity);
-        auto& ui_element = g_ecs.GetComponent<UIElement>(entity);
         auto& texture = g_ecs.GetComponent<Texture>(entity);
 
         // Initialize font
@@ -76,34 +75,49 @@ namespace HBE::Default::Systems {
         }
         
         // Update text texture if dirty
-        if (texture.m_dirty) {
+        if (texture.IsDirty() || text.IsDirty()) {
             SDL_Surface* text_surface = nullptr;
 
             // Render text to surface
             if (text.m_background_color.a == 0) {
-                text_surface = TTF_RenderText_Solid_Wrapped(m_font, text.GetChar(), sizeof(text), text.m_foreground_color, text.m_wrapping_width);                
+                text_surface = TTF_RenderText_Solid_Wrapped(m_font, text.m_text.c_str(), sizeof(text), text.m_foreground_color, text.m_wrapping_width);
             }
             else {
-                text_surface = TTF_RenderText_LCD_Wrapped(m_font, text.GetChar(), sizeof(text), text.m_foreground_color, text.m_background_color, text.m_wrapping_width);
+                text_surface = TTF_RenderText_LCD_Wrapped(m_font, text.m_text.c_str(), sizeof(text), text.m_foreground_color, text.m_background_color, text.m_wrapping_width);
             }
 
             if (!text_surface) {
                 LOG(LoggingType::ERROR, "Couldn't render text: " + std::string(SDL_GetError()));
+                return;
             }
 
             // Update texture with new surface
-            if (text.m_font && text.GetString() != "" && text_surface) {
+            if (text.m_font && text.m_text != "") {
                 texture.m_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
                 texture.m_size = { text_surface->w, text_surface->h };
                 SDL_SetTextureBlendMode(texture.m_texture, SDL_BLENDMODE_BLEND);
-                texture.m_dirty = false;
+                texture.MarkClean();
+                text.MarkClean();
             }
 
-            if (text_surface) {
-                SDL_DestroySurface(text_surface);
-            }
+            SDL_DestroySurface(text_surface);
         }
     }
+
+    void UISystem::OnUpdateTextBox(EntityID entity) {
+        
+    }
+
+    void UISystem::OnUpdateImage(EntityID entity) {}
+
+    void UISystem::OnUpdateButton(EntityID entity) {
+        
+    }
+
+    void UISystem::OnUpdateSlider(EntityID entity) {}
+    void UISystem::OnUpdateDropdown(EntityID entity) {}
+    void UISystem::OnUpdateCheckbox(EntityID entity) {}
+    void UISystem::OnUpdateRadio(EntityID entity) {}
 
     void UISystem::SetupFont() {
         m_font = TTF_OpenFont(_font_path.data(), 10);
@@ -118,15 +132,4 @@ namespace HBE::Default::Systems {
             TTF_SetFontHinting(m_font, TTF_HINTING_MONO);
         }
     }
-
-    void UISystem::OnUpdateTextBox(EntityID entity) {
-        
-    }
-
-    void UISystem::OnUpdateImage(EntityID entity) {}
-    void UISystem::OnUpdateButton(EntityID entity) {}
-    void UISystem::OnUpdateSlider(EntityID entity) {}
-    void UISystem::OnUpdateDropdown(EntityID entity) {}
-    void UISystem::OnUpdateCheckbox(EntityID entity) {}
-    void UISystem::OnUpdateRadio(EntityID entity) {}
 }

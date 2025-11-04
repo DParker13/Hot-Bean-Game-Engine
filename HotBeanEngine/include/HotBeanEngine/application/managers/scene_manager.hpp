@@ -12,30 +12,30 @@ namespace HBE::Application::Managers {
      * Handles scene loading, unloading, and switching.
      */
     class SceneManager {
-        public:
-            /// @brief Map of names to scenes
-            std::unordered_map<std::string, std::shared_ptr<Scene>> m_scenes;
+    private:
+        std::shared_ptr<ECSManager> m_ecs_manager;
+        std::shared_ptr<LoggingManager> m_logging_manager;
 
-            SceneManager(std::shared_ptr<ECSManager> ecs_manager,
-                std::shared_ptr<LoggingManager> logging_manager);
-            ~SceneManager() = default;
+        /// @brief Current scene
+        std::shared_ptr<Scene> m_current_scene;
+        
+    public:
+        /// @brief Map of names to scenes
+        std::unordered_map<std::string, std::shared_ptr<Scene>> m_scenes;
 
-            void LoadScene(std::shared_ptr<Scene> scene);
-            void LoadScene(std::shared_ptr<Scene> scene, bool save_to_file);
-            void UnloadScene(bool save_to_file);
-            std::shared_ptr<Scene> GetCurrentScene() const;
+        SceneManager(std::shared_ptr<ECSManager> ecs_manager,
+            std::shared_ptr<LoggingManager> logging_manager);
+        ~SceneManager() = default;
 
-            void RegisterScene(std::shared_ptr<Scene> scene);
-            void RemoveScene(std::string name, bool save_to_file);
-            void RemoveScene(std::shared_ptr<Scene> scene, bool save_to_file);
-            void SwitchScene(std::shared_ptr<Scene> scene);
-            void SwitchScene(std::string name);
+        void LoadScene(std::shared_ptr<Scene> scene);
+        void LoadScene(std::shared_ptr<Scene> scene, bool save_to_file);
+        void UnloadScene(bool save_to_file);
+        std::shared_ptr<Scene> GetCurrentScene() const;
 
-        private:
-            std::shared_ptr<ECSManager> m_ecs_manager;
-            std::shared_ptr<LoggingManager> m_logging_manager;
-
-            /// @brief Current scene
-            std::shared_ptr<Scene> m_current_scene;
+        void RegisterScene(std::shared_ptr<Scene> scene);
+        void RemoveScene(std::string name, bool save_to_file);
+        void RemoveScene(std::shared_ptr<Scene> scene, bool save_to_file);
+        void SwitchScene(std::shared_ptr<Scene> scene);
+        void SwitchScene(std::string name);
     };
 }

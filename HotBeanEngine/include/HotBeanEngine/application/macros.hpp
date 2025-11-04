@@ -27,7 +27,6 @@
 
 /**
  * @brief Macro to define the signature of a system
- * 
  */
 #define DEFINE_SIGNATURE(System, Name, ...)             \
     DEFINE_NAME(Name)                                   \

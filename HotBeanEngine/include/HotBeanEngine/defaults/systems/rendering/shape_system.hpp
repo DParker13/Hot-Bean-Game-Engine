@@ -23,17 +23,18 @@ namespace HBE::Default::Systems {
      * Processes entities with Transform2D and Shape components.
      */
     class ShapeSystem : public ISystem {
-        private:
-            CameraSystem& m_camera_system;
+    private:
+        CameraSystem& m_camera_system;
 
-        public:
-            DEFINE_SIGNATURE(ShapeSystem, "Shape System", Transform2D, Texture, Shape);
-            ShapeSystem(CameraSystem& camera_system) : m_camera_system(camera_system) {}
+    public:
+        DEFINE_SIGNATURE(ShapeSystem, "Shape System", Transform2D, Texture, Shape);
+        ShapeSystem(CameraSystem& camera_system) : m_camera_system(camera_system) {}
 
-            void OnRender() override;
-            void OnEntityAdded(EntityID entity) override;
+        void OnRender() override;
+        void OnEntityAdded(EntityID entity) override;
 
-        private:
-            void CreateTextureForEntity(EntityID entity);
+    private:
+        void CreateTextureForEntity(EntityID entity);
+        bool CompareTextureAndShape(Texture& texture, Shape& shape);
     };
 }

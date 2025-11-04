@@ -6,6 +6,6 @@ Entities:
             rotation: 0
             layer: 1
         Camera:
-            id: 0
+            zoom: 1
             active: true
         Controller:

@@ -1,7 +1,7 @@
 /**
- * @file bool.hpp
+ * @file string.hpp
  * @author Daniel Parker (DParker13)
- * @brief Boolean property node.
+ * @brief String property node.
  * @version 0.1
  * @date 2025-10-19
  * 
@@ -14,20 +14,18 @@
 #include <string>
 
 namespace HBE::Application::GUI::PropertyNodes {
-    using namespace HBE::Core;
     
-    struct Bool {
-        static bool RenderProperty(int& id, std::string_view label, bool& value, bool disabled = false) {
+    struct String {
+        static bool RenderProperty(int& id, std::string_view label, std::string& value, bool disabled = false) {
             ImGui::PushID(id++);
             ImGui::Text("%s", label.data());
             ImGui::SameLine();
             ImGui::PushItemWidth(50.0f);
             ImGui::BeginDisabled(disabled);
-            bool changed = ImGui::Checkbox("", &value);
+            bool changed = ImGui::InputTextMultiline("", value.data(), value.size());
             ImGui::EndDisabled();
             ImGui::PopItemWidth();
             ImGui::PopID();
-            
             return changed;
         }
     };

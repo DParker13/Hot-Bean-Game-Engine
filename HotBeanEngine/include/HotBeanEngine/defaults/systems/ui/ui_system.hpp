@@ -24,32 +24,31 @@ namespace HBE::Default::Systems {
      * Renders element to their texture and handles user interaction.
      */
     class UISystem : public ISystem {
-        private:
-            const std::string _font_path;
+    private:
+        const std::string _font_path;
 
-        public:
-            std::unordered_set<SDL_Keycode> _keysPressed;
-            TTF_Font* m_font = nullptr; // This is not a good idea
-            
-            DEFINE_SIGNATURE(UISystem, "UI System", Transform2D, Texture, UIElement);
-            UISystem(std::string font_path) : _font_path(font_path), m_font(nullptr) {}
-            ~UISystem();
-
-            //System interface
-            void OnStart() override;
-            void OnWindowResize(SDL_Event& event) override;
-            void OnUpdate() override;
+    public:
+        std::unordered_set<SDL_Keycode> _keysPressed;
+        TTF_Font* m_font = nullptr; // This is not a good idea
         
-        private:
-            void SetupFont();
-            void OnUpdateText(EntityID entity);
-            void OnUpdateTextBox(EntityID entity);
-            void OnUpdateImage(EntityID entity);
-            void OnUpdateButton(EntityID entity);
-            void OnUpdateSlider(EntityID entity);
-            void OnUpdateDropdown(EntityID entity);
-            void OnUpdateCheckbox(EntityID entity);
-            void OnUpdateRadio(EntityID entity);
-            
+        DEFINE_SIGNATURE(UISystem, "UI System", Transform2D, Texture, UIElement);
+        UISystem(std::string font_path) : _font_path(font_path), m_font(nullptr) {}
+        ~UISystem();
+
+        //System interface
+        void OnStart() override;
+        void OnWindowResize(SDL_Event& event) override;
+        void OnUpdate() override;
+    
+    private:
+        void SetupFont();
+        void OnUpdateText(EntityID entity);
+        void OnUpdateTextBox(EntityID entity);
+        void OnUpdateImage(EntityID entity);
+        void OnUpdateButton(EntityID entity);
+        void OnUpdateSlider(EntityID entity);
+        void OnUpdateDropdown(EntityID entity);
+        void OnUpdateCheckbox(EntityID entity);
+        void OnUpdateRadio(EntityID entity);
     };
 }

@@ -24,33 +24,35 @@ namespace HBE::Default::Systems {
      * Processes entities with Transform2D and Texture components.
      */
     class RenderSystem : public ISystem {
-        private:
-            InputSystem& m_input_system;
-            CameraSystem& m_camera_system;
-            std::map<int, SDL_Texture*> m_layers;
-            glm::ivec2 m_renderer_size = {0.0f, 0.0f};
-        
-        public:
-            DEFINE_SIGNATURE(RenderSystem, "Render System", Transform2D, Texture);
-            RenderSystem(InputSystem& input_system, CameraSystem& camera_system)
-                : m_input_system(input_system), m_camera_system(camera_system) {};
-            ~RenderSystem();
+    private:
+        InputSystem& m_input_system;
+        CameraSystem& m_camera_system;
+        std::map<int, SDL_Texture*> m_layers;
+        std::map<int, bool> m_layer_is_empty;
+        glm::ivec2 m_renderer_size = {0.0f, 0.0f};
+    
+    public:
+        DEFINE_SIGNATURE(RenderSystem, "Render System", Transform2D, Texture);
+        RenderSystem(InputSystem& input_system, CameraSystem& camera_system)
+            : m_input_system(input_system), m_camera_system(camera_system) {};
+        ~RenderSystem();
 
-            void OnEntityAdded(EntityID entity) override;
-            void OnWindowResize(SDL_Event& event) override;
-            void OnStart() override;
-            void OnRender() override;
-            void OnPostRender() override;
+        void OnEntityAdded(EntityID entity) override;
+        void OnWindowResize(SDL_Event& event) override;
+        void OnStart() override;
+        void OnUpdate() override;
+        void OnRender() override;
+        void OnPostRender() override;
 
-        private:
-            void CreateTextureLayers();
-            void CreateTextureLayerForEntity(EntityID entity);
-            void UpdateRendererSize();
-            void RenderTextureToLayer(EntityID entity);
-            void RenderAllLayers();
-            bool IsCulled(glm::vec2& screen_position, Texture& texture);
-            bool IsCulled(EntityID entity);
-            glm::vec2 CalculateFinalPosition(Transform2D& transform, Texture& texture);
-            void DrawDebugRect(const Texture& texture, const Transform2D& transform, const SDL_FRect* rect);
+    private:
+        void CreateTextureLayers();
+        void CreateTextureLayerForEntity(EntityID entity);
+        void UpdateRendererSize();
+        void RenderTextureToLayer(EntityID entity);
+        void RenderAllLayers();
+        bool IsCulled(glm::vec2& screen_position, Texture& texture);
+        bool IsCulled(EntityID entity);
+        glm::vec2 CalculateFinalPosition(Transform2D& transform, Texture& texture);
+        void DrawDebugRect(const Texture& texture, const Transform2D& transform, const SDL_FRect* rect);
     };
 }

@@ -22,34 +22,34 @@ namespace HBE::Application::Managers {
      * Maintains entity validity and component associations.
      */
     class EntityManager {
-        public:
-            EntityManager(std::shared_ptr<LoggingManager> logging_manager);
-            ~EntityManager();
+    private:
+        // Logging manager
+        std::shared_ptr<LoggingManager> m_logging_manager;
 
-            EntityID CreateEntity();
-            void DestroyEntity(EntityID entity);
-            Signature SetSignature(EntityID entity, ComponentID component_id);
-            Signature SetSignature(EntityID entity, ComponentID component_id, bool value);
-            Signature GetSignature(EntityID entity);
-            bool HasComponent(EntityID entity, ComponentID component_id);
-            EntityID EntityCount() const;
-            
-        private:
-            void InitializeEntityQueue();
+        // Queue of unused entity IDs
+        std::queue<EntityID> m_available_entities;
 
-        private:
-            // Logging manager
-            std::shared_ptr<LoggingManager> m_logging_manager;
+        std::unordered_map<EntityID, bool> m_alive_entities;
 
-            // Queue of unused entity IDs
-            std::queue<EntityID> m_available_entities;
+        // Array of signatures where the index corresponds to the entity ID
+        std::array<Signature, MAX_ENTITIES> m_signatures;
 
-            std::unordered_map<EntityID, bool> m_alive_entities;
+        // Total living entities - used to keep limits on how many exist
+        EntityID m_living_entity_count = 0;
+        
+    public:
+        EntityManager(std::shared_ptr<LoggingManager> logging_manager);
+        ~EntityManager();
 
-            // Array of signatures where the index corresponds to the entity ID
-            std::array<Signature, MAX_ENTITIES> m_signatures;
-
-            // Total living entities - used to keep limits on how many exist
-            EntityID m_living_entity_count = 0;
+        EntityID CreateEntity();
+        void DestroyEntity(EntityID entity);
+        Signature SetSignature(EntityID entity, ComponentID component_id);
+        Signature SetSignature(EntityID entity, ComponentID component_id, bool value);
+        Signature GetSignature(EntityID entity);
+        bool HasComponent(EntityID entity, ComponentID component_id);
+        EntityID EntityCount() const;
+        
+    private:
+        void InitializeEntityQueue();
     };
 }

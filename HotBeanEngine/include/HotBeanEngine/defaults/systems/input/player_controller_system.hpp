@@ -21,17 +21,16 @@ namespace HBE::Default::Systems {
      * @brief System for player input to control entities.
      */
     class PlayerControllerSystem : public ISystem {
-        private:
-            InputSystem& m_input_system;
+    private:
+        InputSystem& m_input_system;
 
-        public:
-            DEFINE_SIGNATURE(PlayerControllerSystem, "Player Controller System", Transform2D, Controller);
-            PlayerControllerSystem(InputSystem& input_system)
-                : m_input_system(input_system) {}
-            ~PlayerControllerSystem() = default;
+    public:
+        DEFINE_SIGNATURE(PlayerControllerSystem, "Player Controller System", Transform2D, Controller);
+        PlayerControllerSystem(InputSystem& input_system)
+            : m_input_system(input_system) {}
+        ~PlayerControllerSystem() = default;
 
-            void OnUpdate() override;
-
-            void Move(EntityID entity, float speed);
+        void OnUpdate() override;
+        void Move(EntityID entity, float speed);
     };
 }

@@ -15,7 +15,11 @@
 namespace HBE::Default::Components {
     using namespace HBE::Core;
 
-    struct UIElement : public IComponent {
+    /**
+     * @brief Base UI element component
+     * Keeps track of the type of UI element to group similar components together for one system to handle.
+     */
+    struct UIElement : public IComponent, public IMemberChanged {
         enum class UIType {
             Empty, // Placeholder if UI element is not setup correctly
             Text,
@@ -28,20 +32,20 @@ namespace HBE::Default::Components {
             Radio,
         };
 
-        DEFINE_NAME("UIElement");
-        UIElement() = default;
-        ~UIElement() = default;
-
         UIType m_type = UIType::Empty;
 
-        virtual void Serialize(YAML::Emitter& out) const override {
+        DEFINE_NAME("UIElement");
+        UIElement() = default;
+        virtual ~UIElement() = default;
+
+        virtual void Serialize(YAML::Emitter& out) const {
             out << YAML::Key << "type" << YAML::Value << (int)m_type;
         }
-
-        virtual void Deserialize(YAML::Node& node) override {
-            if (node["type"]) {
+        virtual void Deserialize(YAML::Node& node) {
+            if (node["type"])
                 m_type = (UIType)node["type"].as<int>();
-            }
+
+            MarkDirty();
         }
     };
 }

@@ -14,13 +14,22 @@ namespace HBE::Default::Systems {
     void ShapeSystem::OnRender() {
         for (auto& entity : m_entities) {
             auto& texture = g_ecs.GetComponent<Texture>(entity);
+            auto& shape = g_ecs.GetComponent<Shape>(entity);
 
-            if (texture.m_dirty) {
-                auto& shape = g_ecs.GetComponent<Shape>(entity);
+            if (shape.IsDirty()) {
                 auto& transform = g_ecs.GetComponent<Transform2D>(entity);
                 auto screen_position = m_camera_system.CalculateScreenPosition(transform.m_world_position);
 
+                // Make sure the shape and texture sizes stay in sync
+                if (!CompareTextureAndShape(texture, shape)) {
+                    SDL_DestroyTexture(texture.m_texture); // TODO: Update texture instead of destroying and recreating
+                    CreateTextureForEntity(entity);
+                    texture.MarkDirty();
+                }
+
                 SDL_SetRenderTarget(g_app.GetRenderer(), texture.m_texture);
+                SDL_SetRenderDrawColor(g_app.GetRenderer(), 0, 0, 0, 0);
+                SDL_RenderClear(g_app.GetRenderer());
                 SDL_SetRenderDrawColor(g_app.GetRenderer(), shape.m_color.r, shape.m_color.g, shape.m_color.b, shape.m_color.a);
                 
                 switch(shape.m_type) {
@@ -40,7 +49,7 @@ namespace HBE::Default::Systems {
                     }
                 }
 
-                texture.m_dirty = false;
+                shape.MarkClean();
             }
         }
     }
@@ -59,5 +68,10 @@ namespace HBE::Default::Systems {
                                             SDL_TEXTUREACCESS_TARGET, static_cast<int>(texture.m_size.x), static_cast<int>(texture.m_size.y));
             SDL_SetTextureBlendMode(texture.m_texture, SDL_BLENDMODE_BLEND);
         }
+    }
+
+    bool ShapeSystem::CompareTextureAndShape(Texture& texture, Shape& shape) {
+        return (texture.m_size.x == shape.m_size.x &&
+                texture.m_size.y == shape.m_size.y);
     }
 }

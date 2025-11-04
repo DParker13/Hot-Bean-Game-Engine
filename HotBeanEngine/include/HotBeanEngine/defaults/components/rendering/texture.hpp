@@ -25,10 +25,9 @@ namespace HBE::Default::Components {
      * Stores texture data and rendering properties.
      * Supports sprite rendering with source rectangles.
      */
-    struct Texture : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
+    struct Texture : public IComponent, public IMemberChanged, public HBE::Application::GUI::IPropertyRenderable {
         SDL_Texture* m_texture = nullptr; ///< A pointer to the SDL texture object. Can be null if the texture has not been loaded.
         glm::vec2 m_size = {0, 0}; ///< Size of the texture in pixels.
-        bool m_dirty = true;
 
         DEFINE_NAME("Texture");
         Texture() = default;
@@ -43,17 +42,10 @@ namespace HBE::Default::Components {
             out << YAML::Key << "size" << YAML::Value << m_size;
         }
 
-        void RenderProperties(EntityID entity, IComponent* component) override {
-            auto* texture = dynamic_cast<Texture*>(component);
-
-            if (!texture) {
-                return;
+        void RenderProperties(int& id, EntityID entity) override {
+            if (HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f})) {
+                MarkDirty();
             }
-
-            HBE::Application::GUI::RenderProperties<Texture>(entity, texture, [](EntityID entity, auto* tex) {
-                HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(entity, "Dirty", tex->m_dirty);
-                HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(entity, "Size", tex->m_size);
-            });
         }
     };
 }

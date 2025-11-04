@@ -12,12 +12,13 @@
 
 #include <imgui.h>
 
-#include <HotBeanEngine/core.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/iproperty_node.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::GUI::PropertyNodes {
-    struct Color : public IPropertyNode {
-        static void RenderProperty(EntityID entity, std::string_view label, SDL_Color& value) {
+    using namespace HBE::Core;
+    
+    struct Color {
+        static bool RenderProperty(int& id, std::string_view label, SDL_Color& value, bool disabled = false) {
             ImVec4 color = ImVec4(
                 value.r / 255.0f,
                 value.g / 255.0f,
@@ -25,18 +26,24 @@ namespace HBE::Application::GUI::PropertyNodes {
                 value.a / 255.0f
             );
 
-            std::string unique_id = std::string(label) + std::to_string(entity);
-            ImGui::PushID(unique_id.c_str());
+            ImGui::PushID(id++);
             ImGui::Text("%s", label.data());
             ImGui::SameLine();
-            ImGui::PushItemWidth(50.0f);
-            ImGui::ColorButton(label.data(), color, ImGuiColorEditFlags_DefaultOptions_);
+            ImGui::PushItemWidth(150.0f);
+            ImGui::BeginDisabled(disabled);
+            bool changed = ImGui::ColorEdit4(label.data(), &color.x, ImGuiColorEditFlags_DefaultOptions_);
+            ImGui::EndDisabled();
+            ImGui::PopItemWidth();
             ImGui::PopID();
 
-            value.r = static_cast<Uint8>(color.x * 255.0f);
-            value.g = static_cast<Uint8>(color.y * 255.0f);
-            value.b = static_cast<Uint8>(color.z * 255.0f);
-            value.a = static_cast<Uint8>(color.w * 255.0f);
+            if (changed) {
+                value.r = static_cast<Uint8>(color.x * 255.0f);
+                value.g = static_cast<Uint8>(color.y * 255.0f);
+                value.b = static_cast<Uint8>(color.z * 255.0f);
+                value.a = static_cast<Uint8>(color.w * 255.0f);
+            }
+            
+            return changed;
         }
     };
 }

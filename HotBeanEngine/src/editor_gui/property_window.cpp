@@ -5,11 +5,16 @@ namespace HBE::Application::GUI {
         ImGui::Begin(m_name.c_str());
 
         if (m_selected_entity != -1) {
-            for(IComponent* property_renderer : g_ecs.GetAllComponents(static_cast<EntityID>(m_selected_entity))) {
+            int id = 0;
+            EntityID entity = static_cast<EntityID>(m_selected_entity);
+            for(IComponent* property_renderer : g_ecs.GetAllComponents(entity)) {
                 IPropertyRenderable* renderable = dynamic_cast<IPropertyRenderable*>(property_renderer);
+                IName* name = dynamic_cast<IName*>(property_renderer);
 
-                if (renderable) {
-                    renderable->RenderProperties(m_selected_entity, property_renderer);
+                if (renderable && name) {
+                    if (ImGui::CollapsingHeader((std::string(name->GetName()) + " Component").c_str())) {
+                        renderable->RenderProperties(id, entity);
+                    }
                 }
             }
         }

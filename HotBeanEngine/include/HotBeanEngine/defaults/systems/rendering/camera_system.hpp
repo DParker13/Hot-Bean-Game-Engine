@@ -24,21 +24,24 @@ namespace HBE::Default::Systems {
      * Handles camera switching and viewport management.
      */
     class CameraSystem : public ISystem {
-        private:
-            Sint64 m_active_camera_entity = -1;
+    private:
+        Sint64 m_active_camera_entity = -1;
 
-        public:
-            DEFINE_SIGNATURE(CameraSystem, "Camera System", Transform2D, Camera);
-            CameraSystem() = default;
-            ~CameraSystem() = default;
+    public:
+        DEFINE_SIGNATURE(CameraSystem, "Camera System", Transform2D, Camera);
+        CameraSystem() = default;
+        ~CameraSystem() = default;
 
-            void OnStart() override;
-            void OnUpdate() override;
+        void OnStart() override;
+        void OnUpdate() override;
 
-            EntityID GetActiveCameraEntity();
-            glm::vec2 CalculateScreenPosition(const glm::vec2& world_position);
+        EntityID GetActiveCameraEntity();
+        float GetActiveZoom() const;
+        SDL_FRect GetActiveViewport() const;
+        glm::vec2 GetViewportCenter() const;
+        glm::vec2 CalculateScreenPosition(const glm::vec2& world_position);
 
-        private:
-            void FindActiveCamera();
+    private:
+        void FindActiveCamera();
     };
 }

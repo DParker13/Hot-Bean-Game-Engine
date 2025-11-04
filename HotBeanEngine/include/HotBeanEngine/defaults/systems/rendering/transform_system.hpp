@@ -24,21 +24,21 @@ namespace HBE::Default::Systems {
      * Handles parent-child transformation propagation.
      */
     class TransformSystem : public ISystem {
-        private:
-            std::unordered_map<EntityID, Uint32> m_entity_graph_level;
-            std::map<Uint32, std::set<EntityID>> m_scene_graph;
-            
-        public:
-            DEFINE_SIGNATURE(TransformSystem, "Transform System", Transform2D);
-            TransformSystem() = default;
-            ~TransformSystem() = default;
-
-            void OnEntityAdded(EntityID entity) override;
-            void OnEntityRemoved(EntityID entity) override;
-            void OnUpdate() override;
+    private:
+        std::unordered_map<EntityID, Uint32> m_entity_graph_level;
+        std::map<Uint32, std::set<EntityID>> m_scene_graph;
         
-        private:
-            void UpdateSceneGraph(EntityID entity);
-            void UpdateEntityInSceneGraph(EntityID entity, int level);
+    public:
+        DEFINE_SIGNATURE(TransformSystem, "Transform System", Transform2D);
+        TransformSystem() = default;
+        ~TransformSystem() = default;
+
+        void OnEntityAdded(EntityID entity) override;
+        void OnEntityRemoved(EntityID entity) override;
+        void OnUpdate() override;
+    
+    private:
+        void UpdateSceneGraph(EntityID entity);
+        void UpdateEntityInSceneGraph(EntityID entity, int level);
     };
 }

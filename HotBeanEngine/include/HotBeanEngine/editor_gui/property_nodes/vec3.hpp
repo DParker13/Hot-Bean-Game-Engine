@@ -12,32 +12,41 @@
 
 #include <imgui.h>
 
-#include <HotBeanEngine/core.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/iproperty_node.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::GUI::PropertyNodes {
-    struct Vec3 : public IPropertyNode {
-        static void RenderProperty(EntityID entity, std::string_view label, glm::vec3& values) {
-            std::string unique_id = std::string(label) + std::to_string(entity);
-            ImGui::PushID(unique_id.c_str());
+    using namespace HBE::Core;
+
+    struct Vec3 {
+        static bool RenderProperty(int& id, std::string_view label, glm::vec3& values,
+            glm::vec3 min = glm::vec3(-FLT_MAX), glm::vec3 max = glm::vec3(FLT_MAX), bool disabled = false) {
+            ImGui::PushID(id++);
             ImGui::Text("%s", label.data());
             ImGui::SameLine();
             ImGui::Text("X##1");
             ImGui::SameLine();
             ImGui::PushItemWidth(50.0f);
-            ImGui::DragFloat("", &values.x, 0.1f);
+            ImGui::BeginDisabled(disabled);
+            bool changed_x = ImGui::DragFloat("", &values.x, 0.1f, min.x, max.x);
+            ImGui::EndDisabled();
             ImGui::PopItemWidth();
             ImGui::Text("Y##2");
             ImGui::SameLine();
             ImGui::PushItemWidth(50.0f);
-            ImGui::DragFloat("", &values.y, 0.1f);
+            ImGui::BeginDisabled(disabled);
+            bool changed_y = ImGui::DragFloat("", &values.y, 0.1f, min.y, max.y);
+            ImGui::EndDisabled();
             ImGui::PopItemWidth();
             ImGui::Text("Z##3");
             ImGui::SameLine();
             ImGui::PushItemWidth(50.0f);
-            ImGui::DragFloat("", &values.z, 0.1f);
+            ImGui::BeginDisabled(disabled);
+            bool changed_z = ImGui::DragFloat("", &values.z, 0.1f, min.z, max.z);
+            ImGui::EndDisabled();
             ImGui::PopItemWidth();
             ImGui::PopID();
+            
+            return changed_x || changed_y || changed_z;
         }
     };
 }

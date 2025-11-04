@@ -16,6 +16,7 @@
 #include <HotBeanEngine/core/exceptions.hpp>
 #include <HotBeanEngine/core/iarchetype.hpp>
 #include <HotBeanEngine/core/igame_loop.hpp>
+#include <HotBeanEngine/core/imember_changed.hpp>
 #include <HotBeanEngine/core/iname.hpp>
 #include <HotBeanEngine/core/isparse_set.hpp>
 #include <HotBeanEngine/core/isystem.hpp>
