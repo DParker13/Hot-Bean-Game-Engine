@@ -154,10 +154,9 @@ namespace HBE::Application::Managers {
         }
 
         LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + std::string(system->GetName()) + "\"");
+        RemoveSignature(system);
         m_systems_ordered.erase(std::remove(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[std::string(system->GetName())]), m_systems_ordered.end());
         m_systems.erase(std::string(system->GetName()));
-
-        RemoveSignature(system);
     }
 
     bool SystemManager::IsSystemRegistered(ISystem* system) {

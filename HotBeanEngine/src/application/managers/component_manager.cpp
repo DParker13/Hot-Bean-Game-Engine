@@ -64,14 +64,15 @@ namespace HBE::Application::Managers {
             throw ex;
         }
         
-        try {
-            std::string component_name = m_component_id_to_name[component_id];
-            std::shared_ptr<ISparseSet> sparse_set = m_component_name_to_data[component_name];
+        // Resolve component name outside of try so catch can reference it
+        std::string component_name = m_component_id_to_name[component_id];
 
+        try {
+            std::shared_ptr<ISparseSet> sparse_set = m_component_name_to_data[component_name];
             return std::any_cast<IComponent*>(sparse_set->GetElementPtrAsAny(entity));
         }
         catch (const std::bad_any_cast&) {
-            LOG_CORE(LoggingType::ERROR, "Failed to cast component.");
+            LOG_CORE(LoggingType::ERROR, "Failed to cast component for EntityID " + std::to_string(entity) + ", Component \"" + component_name + "\" (id " + std::to_string(component_id) + ").");
             throw;
         }
     }
@@ -130,5 +131,19 @@ namespace HBE::Application::Managers {
      */
     bool ComponentManager::IsComponentRegistered(ComponentID component_id) const {
         return m_component_id_to_name.find(component_id) != m_component_id_to_name.end();
+    }
+
+    /**
+     * @brief Clears all component data by destroying all sparse sets
+     */
+    void ComponentManager::ClearAllComponents() {
+        LOG_CORE(LoggingType::DEBUG, "Clearing all components.");
+
+        m_component_id_to_name.clear();
+        m_component_name_to_type.clear();
+        m_component_name_to_data.clear();
+        m_registered_components = 0;
+
+        LOG_CORE(LoggingType::DEBUG, "All components cleared.");
     }
 }

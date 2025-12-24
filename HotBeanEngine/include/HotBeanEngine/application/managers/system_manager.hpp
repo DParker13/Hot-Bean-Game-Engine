@@ -49,6 +49,8 @@ namespace HBE::Application::Managers {
 		template<typename T, typename... Args>
 		T& RegisterSystem(Args&&... params)
 		{
+			static_assert(std::is_base_of_v<ISystem, T> && "T must inherit from ISystem");
+
 			std::string system_name = std::string(GetSystemName<T>());
 			LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + system_name + "\"");
 
@@ -57,32 +59,26 @@ namespace HBE::Application::Managers {
 				return *static_cast<T*>(m_systems[system_name]);
 			}
 
-			if (std::is_base_of_v<ISystem, T>) {
-				T* system = new T(std::forward<Args>(params)...);
+			T* system = new T(std::forward<Args>(params)...);
 
-				// Create a pointer to the system and return it so it can be used externally
-				m_systems.insert({system_name, system});
-				m_systems_ordered.push_back(system);
+			// Create a pointer to the system and return it so it can be used externally
+			m_systems.insert({system_name, system});
+			m_systems_ordered.push_back(system);
 
-				return *system;
-			}
-			else {
-				LOG_CORE(LoggingType::FATAL, "T must inherit from System or Archetype!");
-				throw std::runtime_error("T must inherit from System or Archetype!");
-			}
+			return *system;
 		}
 
 		/**
 		 * Creates and registers a system with the System Manager.
 		 *
 		 * @tparam T The type of system to be registered.
-		 *
 		 * @return A shared pointer to the system.
-		 * @throws assertion failure if the system type has already been registered.
 		 */
 		template<typename T>
 		T& RegisterSystem()
 		{
+			static_assert(std::is_base_of_v<ISystem, T> && "T must inherit from ISystem");
+
 			std::string system_name = std::string(GetSystemName<T>());
 			LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + system_name + "\"");
 
@@ -91,19 +87,13 @@ namespace HBE::Application::Managers {
 				return *static_cast<T*>(m_systems[system_name]);
 			}
 
-			if (std::is_base_of_v<ISystem, T>) {
-				T* system = new T();
+			T* system = new T();
 
-				// Create a pointer to the system and return it so it can be used externally
-				m_systems.insert({system_name, system});
-				m_systems_ordered.push_back(system);
+			// Create a pointer to the system and return it so it can be used externally
+			m_systems.insert({system_name, system});
+			m_systems_ordered.push_back(system);
 
-				return *system;
-			}
-			else {
-				LOG_CORE(LoggingType::FATAL, "T must inherit from System or Archetype!");
-				throw std::runtime_error("T must inherit from System or Archetype!");
-			}
+			return *system;
 		}
 
 		/**

@@ -15,6 +15,7 @@
 
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 #include <HotBeanEngine/application/managers/scene_manager.hpp>
+#include <HotBeanEngine/application/managers/game_loop_manager.hpp>
 #include <HotBeanEngine/application/component_factory.hpp>
 #include <HotBeanEngine/application/macros.hpp>
 
@@ -26,16 +27,6 @@ namespace HBE::Application {
 
     // Forward declaration
     class EditorGUI;
-
-    // Custom Application classes
-    /**
-     * @brief Enum representing the state of the application.
-     */
-    enum class ApplicationState {
-        Stopped,    ///< The application is stopped.
-        Playing,    ///< The application is playing.
-        Paused      ///< The application is paused.
-    };
 
     /**
      * @brief Main application class that manages the game loop and core engine systems
@@ -55,13 +46,13 @@ namespace HBE::Application {
     private:
         inline static Application* s_instance = nullptr; // singleton instance
         SDL_Event event; // Used for polling events in the event loop
-        ApplicationState m_state = ApplicationState::Stopped;
 
     protected:
         std::shared_ptr<Managers::ECSManager> m_ecs_manager;
         std::shared_ptr<Managers::LoggingManager> m_logging_manager;
-        std::shared_ptr<IComponentFactory> m_component_factory;
         std::unique_ptr<Managers::SceneManager> m_scene_manager;
+        std::unique_ptr<Managers::GameLoopManager> m_loop_manager; ///< Manages game loop state transitions
+        std::shared_ptr<IComponentFactory> m_component_factory;
         SDL_Renderer* m_renderer = nullptr;
         SDL_Window* m_window = nullptr;
         std::shared_ptr<GUI::EditorGUI> m_editor_gui;
@@ -90,7 +81,6 @@ namespace HBE::Application {
         static Application& GetInstance();
 
         // Getters and Setters
-        ApplicationState& GetState();
         SDL_Renderer* GetRenderer();
         SDL_Window* GetWindow();
         float GetDeltaTime() const;
@@ -111,6 +101,24 @@ namespace HBE::Application {
          */
         void Start();
         void SetupRendererAndWindow();
+
+        /**
+         * @brief Start/play the game.
+         * Transitions from Stopped or Paused to Playing state.
+         */
+        void PlayGame();
+
+        /**
+         * @brief Pause the game.
+         * Transitions from Playing to Paused state while keeping the scene rendered.
+         */
+        void PauseGame();
+
+        /**
+         * @brief Stop and reset the game.
+         * Transitions to Stopped state and marks the scene for reload on next play.
+         */
+        void StopGame();
 
     protected:
         // GameLoop Interface

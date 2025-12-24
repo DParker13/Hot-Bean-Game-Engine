@@ -22,39 +22,22 @@ namespace HBE::Application {
         // }
 
         static EntityID Create(Cs&&... comps) {
-            try {
-                EntityID entity = g_ecs.CreateEntity();
-                (g_ecs.AddComponent<Cs>(entity, std::forward<Cs>(comps)), ...);
+            EntityID entity = g_ecs.CreateEntity();
+            (g_ecs.AddComponent<Cs>(entity, std::forward<Cs>(comps)), ...);
 
-                return entity;
-            }
-            catch(const std::exception& e) {
-                LOG(LoggingType::ERROR, e.what());
-                throw;
-            }
+            return entity;
         }
 
         static EntityID Create() {
-            try {
-                EntityID entity = g_ecs.CreateEntity();
-                (g_ecs.AddComponent<Cs>(entity), ...);
+            EntityID entity = g_ecs.CreateEntity();
+            (g_ecs.AddComponent<Cs>(entity), ...);
 
-                return entity;
-            } catch(const std::exception& e) {
-                LOG(LoggingType::ERROR, e.what());
-                throw;
-            }
+            return entity;
         }
 
         template<typename T>
         static T& Get(EntityID entity) {
-            try {
-                return g_ecs.GetComponent<T>(entity);
-            }
-            catch (const std::runtime_error& e) {
-                LOG(LoggingType::ERROR, e.what());
-                throw;
-            }
+            return g_ecs.GetComponent<T>(entity);
         }
     };
 }

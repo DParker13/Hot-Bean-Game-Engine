@@ -68,12 +68,8 @@ namespace HBE::Application::Managers {
                 m_current_scene->m_serializer->Serialize(m_current_scene->m_scene_path);
             }
 
-            // Destroy all entities
-            for (EntityID entity = 0; entity < m_ecs_manager->EntityCount(); entity++) {
-                m_ecs_manager->DestroyEntity(entity);
-            }
+            m_ecs_manager->DestroyAllEntities();
 
-            // TODO: Unload all systems
             for (auto& system : m_ecs_manager->GetAllSystems()) {
                 m_ecs_manager->UnregisterSystem(system);
             }

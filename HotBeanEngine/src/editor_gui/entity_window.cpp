@@ -11,12 +11,7 @@ namespace HBE::Application::GUI {
                     std::string entity_label = "Entity " + std::to_string(entity);
 
                     if (ImGui::MenuItem(entity_label.c_str())) {
-                        if (m_property_window) {
-                            m_property_window->EntitySelected(entity);
-                        }
-                        else {
-                            LOG(LoggingType::ERROR, "Property window was never setup.");
-                        }
+                        EntitySelected(entity);
                     }
                 }
             }
@@ -24,5 +19,23 @@ namespace HBE::Application::GUI {
         }
 
         ImGui::End();
+    }
+
+    void EntityWindow::EntitySelected(EntityID entity) {
+        if (m_property_window) {
+            std::vector<std::pair<std::string, IPropertyRenderable*>> property_nodes;
+            for (IComponent* component : g_ecs.GetAllComponents(entity)) {
+                IPropertyRenderable* renderable = dynamic_cast<IPropertyRenderable*>(component);
+                IName* nameable = dynamic_cast<IName*>(component);
+                
+                if (renderable && nameable) {
+                    property_nodes.push_back({std::string(nameable->GetName()), renderable});
+                }
+            }
+            m_property_window->SetProperties(property_nodes);
+        }
+        else {
+            LOG(LoggingType::ERROR, "Property window was never setup.");
+        }
     }
 }

@@ -1,7 +1,7 @@
 /**
  * @file text.hpp
  * @author Daniel Parker (DParker13)
- * @brief Text component. Used for storing font, text, and styling.
+ * @brief Used for storing font, text, and styling.
  * @version 0.1
  * @date 2025-02-23
  * 
@@ -22,31 +22,20 @@
 #include <HotBeanEngine/editor_gui/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
-    struct Text : public UIElement, public HBE::Application::GUI::IPropertyRenderable {
+    using namespace HBE::Core;
+    using namespace HBE::Application::GUI;
+    
+    struct Text : public UIElement, public IPropertyRenderable {
         TTF_Font* m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
-        SDL_Color m_foreground_color = SDL_Color(); ///< The color of the text.
-        SDL_Color m_background_color = SDL_Color(); ///< The background color of the text.
+        SDL_Color m_foreground_color = {255, 255, 255, 255}; ///< The color of the text.
+        SDL_Color m_background_color = {0, 0, 0, 255}; ///< The background color of the text.
         Uint32 m_size = 10; ///< The size of the font.
         Uint32 m_style = TTF_STYLE_NORMAL; ///< The style of the font.
         Uint32 m_wrapping_width = 0; ///< The wrapping width of the text.
         std::string m_text = "default text"; ///< The text to be rendered.
     
         DEFINE_NAME("Text");
-        Text() {
-            // Set the foreground color to white
-            m_foreground_color = SDL_Color();
-            m_foreground_color.r = 255;
-            m_foreground_color.g = 255;
-            m_foreground_color.b = 255;
-            m_foreground_color.a = 255;
-
-            // Set the background color to transparent
-            m_background_color = SDL_Color();
-            m_background_color.r = 0;
-            m_background_color.g = 0;
-            m_background_color.b = 0;
-            m_background_color.a = 255;
-        };
+        Text() : UIElement() {}
 
         void Deserialize(YAML::Node& node) override {
             if (node["text"]) {
@@ -87,21 +76,21 @@ namespace HBE::Default::Components {
             out << YAML::Key << "wrapping_width" << YAML::Value << m_wrapping_width;
         }
 
-        void RenderProperties(int& id, EntityID entity) override {
+        void RenderProperties(int& id) override {
             bool changed = false;
             
-            changed |= HBE::Application::GUI::PropertyNodes::String::RenderProperty(id, "Text", m_text);
-            changed |= HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
-            changed |= HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
-            changed |= HBE::Application::GUI::PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style, {
+            changed |= PropertyNodes::String::RenderProperty(id, "Text", m_text);
+            changed |= PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
+            changed |= PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
+            changed |= PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style, {
                 { TTF_STYLE_NORMAL, "Normal" },
                 { TTF_STYLE_BOLD, "Bold" },
                 { TTF_STYLE_ITALIC, "Italic" },
                 { TTF_STYLE_UNDERLINE, "Underline" },
                 { TTF_STYLE_STRIKETHROUGH, "Strikethrough" }
             });
-            changed |= HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int&>(m_size));
-            changed |= HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int&>(m_wrapping_width));
+            changed |= PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int&>(m_size));
+            changed |= PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int&>(m_wrapping_width));
             
             // Mark texture as dirty if any property changed
             if (changed) {

@@ -17,6 +17,7 @@
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;
+    using namespace HBE::Application::GUI;
     
     /**
      * @brief Input controller component for player input handling
@@ -24,7 +25,7 @@ namespace HBE::Default::Components {
      * Maps input actions to entity behavior.
      * Supports keyboard, mouse, and gamepad input.
      */
-    struct Controller : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
+    struct Controller : public IComponent, public IPropertyRenderable {
         bool controllable = true;
 
         DEFINE_NAME("Controller");
@@ -40,8 +41,8 @@ namespace HBE::Default::Components {
             }
         }
 
-        void RenderProperties(int& id, EntityID entity) override {
-            HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
+        void RenderProperties(int& id) override {
+            PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
         }
     };
 }

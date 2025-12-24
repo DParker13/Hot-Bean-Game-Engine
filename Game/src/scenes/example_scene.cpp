@@ -2,22 +2,52 @@
 
 namespace Scenes {
     void ExampleScene::SetupScene() {
+        int camera_entity = g_ecs.CreateEntity();
+
+        Transform2D camera_transform;
+        camera_transform.m_local_position = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
+        camera_transform.m_layer = 0;
+        Camera camera;
+        camera.m_viewport_size = {0.5f, 1.0f};
+        Name camera_name;
+        camera_name.m_name = "Left Camera";
+        g_ecs.AddComponent<Transform2D>(camera_entity, camera_transform);
+        g_ecs.AddComponent<Camera>(camera_entity, camera);
+        g_ecs.AddComponent<Name>(camera_entity, camera_name);
+        g_ecs.AddComponent<Controller>(camera_entity);
+
+        int camera_entity_two = g_ecs.CreateEntity();
+
+        Transform2D camera_transform_two;
+        camera_transform_two.m_local_position = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
+        camera_transform_two.m_layer = 0;
+        Camera camera_two;
+        camera_two.m_viewport_size = {0.5f, 1.0f};
+        camera_two.m_viewport_position = {0.5f, 0.0f};
+        Name camera_name_two;
+        camera_name_two.m_name = "Right Camera";
+        g_ecs.AddComponent<Name>(camera_entity_two, camera_name_two);
+        g_ecs.AddComponent<Transform2D>(camera_entity_two, camera_transform_two);
+        g_ecs.AddComponent<Camera>(camera_entity_two, camera_two);
+        g_ecs.AddComponent<Controller>(camera_entity_two);
+
         int floor_entity = g_ecs.CreateEntity();
 
         Transform2D floor_transform;
         floor_transform.m_local_position = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT};
-        floor_transform.m_layer = 10;
+        floor_transform.m_layer = 0;
         RigidBody floor_rigidbody;
         Collider2D floor_collider;
         floor_collider.m_shape = Collider2D::ColliderShape::Box;
         floor_collider.m_size = {SCREEN_WIDTH, 50.0f};
         Shape floor_shape;
-        floor_shape.m_type = Shape::ShapeType::Box;
         floor_shape.m_size = floor_collider.m_size;
-        floor_shape.m_color = {255, 255, 255, 255};
         floor_shape.m_filled = true;
         Texture floor_texture;
         floor_texture.m_size = floor_collider.m_size;
+        Name floor_name;
+        floor_name.m_name = "Floor";
+        g_ecs.AddComponent<Name>(floor_entity, floor_name);
         g_ecs.AddComponent<Transform2D>(floor_entity, floor_transform);
         g_ecs.AddComponent<RigidBody>(floor_entity, floor_rigidbody);
         g_ecs.AddComponent<Collider2D>(floor_entity, floor_collider);
@@ -44,7 +74,6 @@ namespace Scenes {
             Collider2D box_collider;
             box_collider.m_size = {dist_size(gen), dist_size(gen)};
             Shape box_shape;
-            box_shape.m_type = Shape::ShapeType::Box;
             box_shape.m_size = box_collider.m_size;
             box_shape.m_color = {(Uint8)dist_color(gen), (Uint8)dist_color(gen), (Uint8)dist_color(gen), 255};
             Texture box_texture;

@@ -11,14 +11,9 @@
 #pragma once
 
 #include <imgui.h>
-#include <functional>
-
-#include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::GUI {
-    using namespace HBE::Core;
-
     struct IPropertyRenderable {
-        virtual void RenderProperties(int& id, EntityID entity) = 0;
+        virtual void RenderProperties(int& id) = 0;
     };
 }

@@ -2,6 +2,7 @@ add_library(HotBeanEngine_Managers STATIC
     component_manager.cpp
     ecs_manager.cpp
     entity_manager.cpp
+    game_loop_manager.cpp
     system_manager.cpp
     logging_manager.cpp
     scene_manager.cpp

@@ -20,6 +20,7 @@
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;
+    using namespace HBE::Application::GUI;
     
     /**
      * @brief Camera component for 2D scene rendering
@@ -27,10 +28,10 @@ namespace HBE::Default::Components {
      * Controls viewport and layer visibility.
      * Supports multiple camera system with priority-based rendering.
      */
-    struct Camera : public IComponent, public HBE::Application::GUI::IPropertyRenderable {
-        bool m_active = false;
+    struct Camera : public IComponent, public IPropertyRenderable {
+        bool m_active = true;
         float m_zoom = 1.0f; ///< Camera zoom level (1.0 = normal, >1.0 = zoomed in, <1.0 = zoomed out)
-        std::bitset<16> m_layer_mask = 0;
+        std::bitset<16> m_layer_mask = 0; ///< Layer visibility mask (16 layers, bitset for each layer's visibility)
         
         // Viewport (normalized coordinates: 0.0 to 1.0)
         glm::vec2 m_viewport_position = {0.0f, 0.0f}; ///< Top-left position (0,0 = top-left of screen, 1,1 = bottom-right)
@@ -65,14 +66,14 @@ namespace HBE::Default::Components {
             }
         }
 
-        void RenderProperties(int& id, EntityID entity) override {
-            HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(id, "Active", m_active);
-            HBE::Application::GUI::PropertyNodes::Float::RenderProperty(id, "Zoom", m_zoom, 0.0f);
+        void RenderProperties(int& id) override {
+            PropertyNodes::Bool::RenderProperty(id, "Active", m_active);
+            PropertyNodes::Float::RenderProperty(id, "Zoom", m_zoom, 0.0f);
             
             ImGui::Separator();
             ImGui::Text("Viewport");
-            HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(id, "Position", m_viewport_position, {0.0f, 0.0f}, {1.0f, 1.0f});
-            HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(id, "Size", m_viewport_size, {0.0f, 0.0f}, {1.0f, 1.0f});
+            PropertyNodes::Vec2::RenderProperty(id, "Position", m_viewport_position, {0.0f, 0.0f}, {1.0f, 1.0f});
+            PropertyNodes::Vec2::RenderProperty(id, "Size", m_viewport_size, {0.0f, 0.0f}, {1.0f, 1.0f});
         }
     };
 }

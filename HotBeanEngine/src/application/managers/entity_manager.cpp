@@ -22,9 +22,9 @@ namespace HBE::Application::Managers {
 
         LOG_CORE(LoggingType::DEBUG, "Initializing EntityManager");
 
-        InitializeEntityQueue();
+        InitializeEntities();
 
-        LOG_CORE(LoggingType::DEBUG, "Initialized " + std::to_string(m_available_entities.size()) + " Entities (starting at 0)");
+        LOG_CORE(LoggingType::INFO, "Initialized " + std::to_string(m_available_entities.size()) + " Entities (starting at 0)");
     }
 
     EntityManager::~EntityManager() = default;
@@ -35,10 +35,18 @@ namespace HBE::Application::Managers {
      * Fills the queue with all possible entity IDs, making them 
      * available for future use. The entity IDs range from 0 to MAX_ENTITIES - 1.
      */
-    void EntityManager::InitializeEntityQueue() {
+    void EntityManager::InitializeEntities() {
+        m_living_entity_count = 0;
+
+        // Clear existing queue
+        while (!m_available_entities.empty()) {
+            m_available_entities.pop();
+        }
+
         for (EntityID entity_id = 0; entity_id < MAX_ENTITIES; entity_id++) {
             m_available_entities.push(entity_id);
             m_alive_entities[entity_id] = false;
+            m_signatures[entity_id].reset();
         }
     }
 
@@ -50,9 +58,8 @@ namespace HBE::Application::Managers {
      */
     EntityID EntityManager::CreateEntity() {
         if (m_living_entity_count >= MAX_ENTITIES) {
-            auto ex = std::overflow_error("Too many entities in existence.");
-            LOG_CORE(LoggingType::ERROR, ex.what());
-            throw ex;
+            LOG_CORE(LoggingType::WARNING, "Maximum number of entities reached.");
+            return MAX_ENTITIES;
         }
 
         // Take an ID from the front of the queue
@@ -62,7 +69,7 @@ namespace HBE::Application::Managers {
         LOG_CORE(LoggingType::DEBUG, "Creating EntityID \"" + std::to_string(id) + "\"");
 
         m_available_entities.pop();
-        ++m_living_entity_count;
+        m_living_entity_count++;
 
         LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(id) + "\" created.");
         LOG_CORE(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
@@ -79,15 +86,14 @@ namespace HBE::Application::Managers {
      */
     void EntityManager::DestroyEntity(EntityID entity) {
         if (entity < 0 || entity >= MAX_ENTITIES) {
-            std::out_of_range ex = std::out_of_range("Entity out of range.");
-            LOG_CORE(LoggingType::ERROR, ex.what());
-            throw ex;
+            LOG_CORE(LoggingType::ERROR, "Entity out of range.");
+            return;
         }
 
         // If the entity is not alive, return
         if (!m_alive_entities[entity]) return;
 
-        LOG_CORE(LoggingType::DEBUG, "Destroying EntityID \"" + std::to_string(entity) + "\"...");
+        LOG_CORE(LoggingType::DEBUG, "Destroying EntityID \"" + std::to_string(entity) + "\"");
 
         // Invalidate the destroyed entity's signature
         m_signatures[entity].reset();
@@ -95,9 +101,20 @@ namespace HBE::Application::Managers {
         // Place the destroyed entity ID at the back of the queue
         m_available_entities.push(entity);
         m_alive_entities[entity] = false;
-        --m_living_entity_count;
+        m_living_entity_count--;
 
-        LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) + "\" destroyed.");
+        LOG_CORE(LoggingType::INFO, "Entity \"" + std::to_string(entity) + "\" destroyed.");
+        LOG_CORE(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
+        LOG_CORE(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
+    }
+
+    void EntityManager::DestroyAllEntities() {
+        LOG_CORE(LoggingType::DEBUG, "Destroying all entities.");
+
+        // Re-initialize the entity queue
+        InitializeEntities();
+
+        LOG_CORE(LoggingType::INFO, "All entities destroyed.");
         LOG_CORE(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
         LOG_CORE(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
     }
@@ -191,5 +208,24 @@ namespace HBE::Application::Managers {
      */
     EntityID EntityManager::EntityCount() const {
         return m_living_entity_count;
+    }
+
+    std::vector<EntityID> EntityManager::GetAllEntities() {
+        std::vector<EntityID> entities;
+        entities.reserve(m_living_entity_count);
+
+        size_t count = 0;
+        for (EntityID entity_id = 0; entity_id < MAX_ENTITIES; entity_id++) {
+            if (m_alive_entities[entity_id]) {
+                entities.push_back(entity_id);
+                count++;
+            }
+
+            if (count == m_living_entity_count) {
+                break;
+            }
+        }
+
+        return entities;
     }
 }

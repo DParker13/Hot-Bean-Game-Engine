@@ -16,15 +16,21 @@
 namespace HBE::Application::GUI::PropertyNodes {
     
     struct String {
-        static bool RenderProperty(int& id, std::string_view label, std::string& value, bool disabled = false) {
+        static bool RenderProperty(int& id, std::string_view label, std::string& value, bool disabled = false, bool isMultiline = false) {
             ImGui::PushID(id++);
             ImGui::Text("%s", label.data());
             ImGui::SameLine();
-            ImGui::PushItemWidth(50.0f);
             ImGui::BeginDisabled(disabled);
-            bool changed = ImGui::InputTextMultiline("", value.data(), value.size());
+
+            bool changed = false;
+            float width = ImGui::GetContentRegionAvail().x;
+            if (isMultiline) {
+                changed = ImGui::InputTextMultiline("", value.data(), value.size(), ImVec2(width, ImGui::GetTextLineHeight() * 4));
+            }
+            else {
+                changed = ImGui::InputText("", value.data(), value.size());
+            }
             ImGui::EndDisabled();
-            ImGui::PopItemWidth();
             ImGui::PopID();
             return changed;
         }

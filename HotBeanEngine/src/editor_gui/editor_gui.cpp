@@ -5,6 +5,7 @@
 #include "menu.hpp"
 #include "property_window.hpp"
 #include "control_bar.hpp"
+#include "layer_window.hpp"
 
 namespace HBE::Application::GUI {
     EditorGUI::EditorGUI() {
@@ -25,6 +26,7 @@ namespace HBE::Application::GUI {
         std::shared_ptr<EntityWindow> entity_window = std::make_shared<EntityWindow>(property_window);
         std::shared_ptr<ConsoleWindow> console_window = std::make_shared<ConsoleWindow>();
         std::shared_ptr<Menu> menu = std::make_shared<Menu>(m_windows);
+        std::shared_ptr<LayerWindow> layer_window = std::make_shared<LayerWindow>(property_window);
         std::shared_ptr<ControlBar> control_bar = std::make_shared<ControlBar>();
 
         // The order of this stack determines their default docking positions (TODO: Make this configurable)
@@ -32,6 +34,7 @@ namespace HBE::Application::GUI {
         m_windows.push_back(console_window); // Bottom
         m_windows.push_back(property_window); // Right
         m_windows.push_back(menu); // Top
+        m_windows.push_back(layer_window); // IDK
         m_windows.push_back(control_bar); // Control Bar
         
     }

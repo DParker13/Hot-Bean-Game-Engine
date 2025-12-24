@@ -5,17 +5,17 @@ namespace HBE::Application::GUI {
         if (ImGui::BeginMainMenuBar()) {
             if (ImGui::Button("Start")) {
                 // Start the game
-                g_app.GetState() = ApplicationState::Playing;
+                g_app.PlayGame();
             }
 
             if (ImGui::Button("Pause")) {
                 // Pause the game
-                g_app.GetState() = ApplicationState::Paused;
+                g_app.PauseGame();
             }
 
             if (ImGui::Button("Stop")) {
                 // Stop the game
-                g_app.GetState() = ApplicationState::Stopped;
+                g_app.StopGame();
             }
 
             ImGui::EndMainMenuBar();

@@ -47,6 +47,20 @@ namespace HBE::Application::Managers {
         RemoveAllComponents(entity);
     }
 
+    void ECSManager::DestroyAllEntities() {
+        // for (EntityID entity : GetAllEntities()) {
+        //     RemoveAllComponents(entity);
+        // }
+        
+        // Clear all component data to ensure clean state for next scene
+        m_component_manager->ClearAllComponents();
+        m_entity_manager->DestroyAllEntities();
+    }
+
+    std::vector<EntityID> ECSManager::GetAllEntities() {
+        return m_entity_manager->GetAllEntities();
+    }
+
     /**
      * Removes all components associated with a given entity.
      *
@@ -60,7 +74,7 @@ namespace HBE::Application::Managers {
     void ECSManager::RemoveAllComponents(EntityID entity) {
         Signature signature = m_entity_manager->GetSignature(entity);
 
-        for (int i = 0; i < signature.count(); i++) {
+        for (size_t i = 0; i < signature.size(); i++) {
             if(signature[i]) {
                 m_component_manager->RemoveComponent(entity, i);
             }

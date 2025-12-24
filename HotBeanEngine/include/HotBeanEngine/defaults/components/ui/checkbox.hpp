@@ -21,38 +21,20 @@
 #include <HotBeanEngine/editor_gui/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
+    using namespace HBE::Core;
+    using namespace HBE::Application::GUI;
 
-    /**
-     * Represents a text component, which can be attached to an entity.
-     */
-    struct Text : public UIElement, public HBE::Application::GUI::IPropertyRenderable {
+    struct Checkbox : public UIElement, public IPropertyRenderable {
         TTF_Font* m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
-        SDL_Color m_foreground_color = SDL_Color(); ///< The color of the text.
-        SDL_Color m_background_color = SDL_Color(); ///< The background color of the text.
+        SDL_Color m_foreground_color = {255, 255, 255, 255}; ///< The color of the text.
+        SDL_Color m_background_color = {0, 0, 0, 255}; ///< The background color of the text.
         Uint32 m_size = 10; ///< The size of the font.
         Uint32 m_style = TTF_STYLE_NORMAL; ///< The style of the font.
         Uint32 m_wrapping_width = 0; ///< The wrapping width of the text.
         std::string m_text = "default text"; ///< The text to be rendered.
     
-        DEFINE_NAME("Text");
-        /**
-         * @brief Construct a new Text component
-         */
-        Text() {
-            // Set the foreground color to white
-            m_foreground_color = SDL_Color();
-            m_foreground_color.r = 255;
-            m_foreground_color.g = 255;
-            m_foreground_color.b = 255;
-            m_foreground_color.a = 255;
-
-            // Set the background color to transparent
-            m_background_color = SDL_Color();
-            m_background_color.r = 0;
-            m_background_color.g = 0;
-            m_background_color.b = 0;
-            m_background_color.a = 255;
-        };
+        DEFINE_NAME("Checkbox");
+        Checkbox() : UIElement() {}
 
         void Deserialize(YAML::Node& node) override {
             if (node["text"]) {
@@ -115,18 +97,18 @@ namespace HBE::Default::Components {
         }
 
         void RenderProperties(int& id) override {
-            HBE::Application::GUI::PropertyNodes::String::RenderProperty(id, "Text", m_text);
-            HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
-            HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
-            HBE::Application::GUI::PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style, {
+            PropertyNodes::String::RenderProperty(id, "Text", m_text);
+            PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
+            PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
+            PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style, {
                 { TTF_STYLE_NORMAL, "Normal" },
                 { TTF_STYLE_BOLD, "Bold" },
                 { TTF_STYLE_ITALIC, "Italic" },
                 { TTF_STYLE_UNDERLINE, "Underline" },
                 { TTF_STYLE_STRIKETHROUGH, "Strikethrough" }
             });
-            HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int&>(m_size));
-            HBE::Application::GUI::PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int&>(m_wrapping_width));
+            PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int&>(m_size));
+            PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int&>(m_wrapping_width));
         }
     };
 }

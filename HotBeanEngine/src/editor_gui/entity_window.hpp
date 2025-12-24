@@ -15,5 +15,6 @@ namespace HBE::Application::GUI {
             ~EntityWindow() = default;
 
             virtual void RenderWindow() override;
+            void EntitySelected(EntityID entity);
     };
 }

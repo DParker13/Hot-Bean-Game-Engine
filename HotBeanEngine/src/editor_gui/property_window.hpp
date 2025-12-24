@@ -11,16 +11,14 @@ namespace HBE::Application::GUI {
     using namespace HBE::Core;
     
     class PropertyWindow : public IWindow {
+        private:
+            std::vector<std::pair<std::string, IPropertyRenderable*>> m_properties;
+
         public:
             PropertyWindow() : IWindow("Properties") {}
             ~PropertyWindow() = default;
 
-            // Callback function
-            Sint64 m_selected_entity = -1;
-
             void RenderWindow() override;
-
-            // Call this when an entity is selected
-            void EntitySelected(EntityID entity);
+            void SetProperties(std::vector<std::pair<std::string, IPropertyRenderable*>> properties);
     };
 }

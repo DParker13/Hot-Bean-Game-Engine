@@ -18,7 +18,7 @@ target_include_directories(imgui PUBLIC
 )
 
 target_link_libraries(imgui PUBLIC
-    HotBeanEngine_Application
+    HotBeanEngine_Defaults
 )
 
 add_library(HotBeanEngine_EditorGui STATIC
@@ -29,6 +29,8 @@ add_library(HotBeanEngine_EditorGui STATIC
     editor_gui.cpp
     entity_window.cpp
     entity_window.hpp
+    layer_window.cpp
+    layer_window.hpp
     menu.cpp
     menu.hpp
     property_window.cpp

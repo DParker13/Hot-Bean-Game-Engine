@@ -1,9 +1,14 @@
 High Priority
-- Create Debug Manager (Name it Editor system?)
+- Add single camera in editor mode
+    + Add visible viewport for camera entities in editor mode
+    + Disable/Modify clipping in editor mode
+    + Add events to handle input and entity selection/manipulation in editor mode
+    + Add modes to game_loop_manager (Rename this to application_state_manager?)
+- Create Editor System
     + Integrate ImGUI for interactable debug menu!
 - Finish default systems!!
     + Rendering system
-        ~ Add clipping (partially render textures that are on the screen)
+        ~ Fix culling for multicamera
         ~ Add scaling based on camera
     + Collision System
         ~ Separate from Physics System
@@ -28,6 +33,7 @@ High Priority
 - Improve error handling
     + utilize SDL_Error()
     + Create custom errors for easier debugging
+    + Remove exceptions
 - Fix copying of files from source to binary directory
     + Files are only copied once
     + Any changed files are not copied
@@ -39,8 +45,11 @@ High Priority
     + Clean up logic
     + Separate Font pointer from Text component?
 - Create better way to register systems in whatever order the user wants
+    + Add ability to re-order systems in editor mode
 - Add easy way to multithread each System function
-- Encapsulate the game loop using a higher-order system that is able to "start" and "stop" the game to allow for easier development
+- Create an Application Layering system?
+    + Move editor system here
+    + Create game layer
 
 Medium Priority
 - Can modify components in realtime without recompiling

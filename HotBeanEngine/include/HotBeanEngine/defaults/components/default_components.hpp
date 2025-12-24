@@ -14,6 +14,7 @@
 #include <HotBeanEngine/defaults/components/input/controller.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/camera.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/defaults/components/miscellaneous/name.hpp>
 #include <HotBeanEngine/defaults/components/physics/collider_2d.hpp>
 #include <HotBeanEngine/defaults/components/physics/rigidbody.hpp>
 #include <HotBeanEngine/defaults/components/rendering/shape.hpp>

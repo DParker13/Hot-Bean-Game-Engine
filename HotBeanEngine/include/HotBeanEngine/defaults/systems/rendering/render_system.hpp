@@ -28,8 +28,7 @@ namespace HBE::Default::Systems {
         InputSystem& m_input_system;
         CameraSystem& m_camera_system;
         std::map<int, SDL_Texture*> m_layers;
-        std::map<int, bool> m_layer_is_empty;
-        glm::ivec2 m_renderer_size = {0.0f, 0.0f};
+        std::unordered_set<int> m_layers_used;
     
     public:
         DEFINE_SIGNATURE(RenderSystem, "Render System", Transform2D, Texture);
@@ -39,20 +38,17 @@ namespace HBE::Default::Systems {
 
         void OnEntityAdded(EntityID entity) override;
         void OnWindowResize(SDL_Event& event) override;
-        void OnStart() override;
         void OnUpdate() override;
         void OnRender() override;
         void OnPostRender() override;
 
+        std::map<int, SDL_Texture*> GetAllLayers() const { return m_layers; }
+
     private:
-        void CreateTextureLayers();
-        void CreateTextureLayerForEntity(EntityID entity);
-        void UpdateRendererSize();
-        void RenderTextureToLayer(EntityID entity);
+        void CreateLayerTextureForEntity(EntityID entity);
+        void RenderTextureToLayer(EntityID camera_entity, EntityID entity);
         void RenderAllLayers();
-        bool IsCulled(glm::vec2& screen_position, Texture& texture);
-        bool IsCulled(EntityID entity);
-        glm::vec2 CalculateFinalPosition(Transform2D& transform, Texture& texture);
+        glm::vec2 CalculateFinalPosition(EntityID camera_entity, EntityID entity);
         void DrawDebugRect(const Texture& texture, const Transform2D& transform, const SDL_FRect* rect);
     };
 }

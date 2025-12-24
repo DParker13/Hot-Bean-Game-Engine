@@ -82,6 +82,7 @@ namespace HBE::Application {
         m_component_factory->SetECSManager(m_ecs_manager);
         m_component_factory->RegisterComponents();
         m_scene_manager = std::make_unique<SceneManager>(m_ecs_manager, m_logging_manager);
+        m_loop_manager = std::make_unique<GameLoopManager>(m_logging_manager);
     }
 
     /// @brief Initializes the SDL library.
@@ -144,10 +145,6 @@ namespace HBE::Application {
     }
 
     // -- Getters and Setters -- //
-    ApplicationState& Application::GetState() {
-        return m_state;
-    }
-    
     SDL_Renderer* Application::GetRenderer() {
         return m_renderer;
     }
@@ -195,45 +192,51 @@ namespace HBE::Application {
         m_logging_manager->SetLogPath(log_path);
     }
 
+    void Application::PlayGame() {
+        m_loop_manager->QueueStateChange(ApplicationState::Playing);
+    }
+
+    void Application::PauseGame() {
+        m_loop_manager->QueueStateChange(ApplicationState::Paused);
+    }
+
+    void Application::StopGame() {
+        m_loop_manager->QueueStateChange(ApplicationState::Stopped);
+    }
+
     /// @brief Starts the main game loop of the application.
     void Application::Start() {
-        bool recall_start = false;
-        // Call system OnStart methods
         OnStart();
 
         while (!m_quit) {
-            if (m_state == ApplicationState::Stopped) {
-                recall_start = true;
-            }
-            else if (m_state == ApplicationState::Playing && recall_start) {
+            m_loop_manager->UpdateGameLoopState();
+
+            if (m_loop_manager->GetState() == ApplicationState::Playing && m_loop_manager->ShouldReloadScene()) {
                 std::shared_ptr<Scene> current_scene = m_scene_manager->GetCurrentScene();
                 m_scene_manager->UnloadScene(false);
                 m_scene_manager->LoadScene(current_scene);
-                recall_start = false;
+                m_loop_manager->ClearReloadFlag();
             }
 
-            if (m_state == ApplicationState::Playing) {
-                // Calculates delta time
+            if (m_loop_manager->GetState() == ApplicationState::Playing) {
                 UpdateDeltaTime();
                 UpdateDeltaTimeHiRes();
             }
 
-            // Handle all events
+            // Events always process (for UI interaction)
             EventLoop();
 
             // Clear the renderer and prepare for the next frame
-            SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0xFF);
+            SDL_SetRenderTarget(m_renderer, nullptr);
+            SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
             SDL_RenderClear(m_renderer);
 
-            if (m_state == ApplicationState::Playing) {
-                // Fixed timestep physics loop
+            if (m_loop_manager->GetState() == ApplicationState::Playing) {
                 PhysicsLoop();
-
-                // Call system OnUpdate methods
                 OnUpdate();
             }
 
-            // Call system OnRender methods
+            // Call system OnRender methods (always render, even when paused or stopped)
             OnRender();
             m_editor_gui->OnRender();
 
@@ -247,7 +250,7 @@ namespace HBE::Application {
 
     // TODO: Separate editor gui and game loop for production builds
     void Application::EventLoop() {
-        if (m_state == ApplicationState::Playing) {
+        if (m_loop_manager->GetState() == ApplicationState::Playing) {
             OnPreEvent();
         }
 
@@ -264,7 +267,7 @@ namespace HBE::Application {
             }
             else {
                 // Call system OnEvent methods
-                if (m_state == ApplicationState::Playing) {
+                if (m_loop_manager->GetState() == ApplicationState::Playing) {
                     OnEvent(event);
                 }
 

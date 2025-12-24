@@ -17,9 +17,6 @@ namespace HBE::Default::Systems {
             auto& shape = g_ecs.GetComponent<Shape>(entity);
 
             if (shape.IsDirty()) {
-                auto& transform = g_ecs.GetComponent<Transform2D>(entity);
-                auto screen_position = m_camera_system.CalculateScreenPosition(transform.m_world_position);
-
                 // Make sure the shape and texture sizes stay in sync
                 if (!CompareTextureAndShape(texture, shape)) {
                     SDL_DestroyTexture(texture.m_texture); // TODO: Update texture instead of destroying and recreating

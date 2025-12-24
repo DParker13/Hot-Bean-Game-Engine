@@ -40,9 +40,11 @@ namespace HBE::Application::Managers {
 
         EntityID CreateEntity();
         void DestroyEntity(EntityID entity);
+        void DestroyAllEntities();
         void RemoveAllComponents(EntityID entity);
         std::vector<IComponent*> GetAllComponents(EntityID entity);
         EntityID EntityCount() const;
+        std::vector<EntityID> GetAllEntities();
 
         /**
          * Registers a component type with the ComponentManager and assigns it a ComponentID id.
@@ -92,11 +94,8 @@ namespace HBE::Application::Managers {
         template<typename T>
         void RemoveComponent(EntityID entity) {
             m_component_manager->RemoveComponent<T>(entity);
-
-            if (m_component_manager->IsComponentRegistered<T>()) {
-                Signature signature = m_entity_manager->SetSignature(entity, GetComponentID<T>());
-                m_system_manager->EntitySignatureChanged(entity, signature);
-            }
+            Signature signature = m_entity_manager->SetSignature(entity, GetComponentID<T>());
+            m_system_manager->EntitySignatureChanged(entity, signature);
         }
 
         /**
@@ -272,14 +271,7 @@ namespace HBE::Application::Managers {
                 std::vector<std::string> component_names = archetype->GetComponentNames();
 
                 for (std::string component_name : component_names) {
-                    if (IsComponentRegistered(component_name)) {
-                        signature.set(GetComponentID(component_name));
-                    }
-                    else {
-                        LOG_CORE(LoggingType::ERROR, "Component not registered: " + component_name + 
-                            "\n\tWhen setting signature for system, component must be registered first");
-                        throw std::runtime_error("Component not registered. Component must be registered before setting system signature using an Archetype.");
-                    }
+                    signature.set(GetComponentID(component_name));
                 }
     
                 m_system_manager->SetSignature<S>(signature);

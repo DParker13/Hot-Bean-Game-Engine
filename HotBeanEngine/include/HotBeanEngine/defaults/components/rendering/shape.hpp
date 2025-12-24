@@ -19,6 +19,7 @@
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;
+    using namespace HBE::Application::GUI;
     
     /**
      * @brief Primitive shape rendering component
@@ -26,7 +27,7 @@ namespace HBE::Default::Components {
      * Renders basic geometric shapes (rectangles, circles, lines).
      * Supports filled and outlined rendering modes.
      */
-    struct Shape : public IComponent, public IMemberChanged, public HBE::Application::GUI::IPropertyRenderable {
+    struct Shape : public IComponent, public IMemberChanged, public IPropertyRenderable {
         enum class ShapeType {
             Box
         };
@@ -49,12 +50,12 @@ namespace HBE::Default::Components {
             m_color = node["color"].as<SDL_Color>();
         }
 
-        void RenderProperties(int& id, EntityID entity) override {
+        void RenderProperties(int& id) override {
             bool changed = false;
 
-            changed |= HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(id, "Filled", m_filled);
-            changed |= HBE::Application::GUI::PropertyNodes::Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f});
-            changed |= HBE::Application::GUI::PropertyNodes::Color::RenderProperty(id, "Color", m_color);
+            changed |= PropertyNodes::Bool::RenderProperty(id, "Filled", m_filled);
+            changed |= PropertyNodes::Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f});
+            changed |= PropertyNodes::Color::RenderProperty(id, "Color", m_color);
 
             if (changed) {
                 MarkDirty();

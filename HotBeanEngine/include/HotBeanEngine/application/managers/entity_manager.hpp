@@ -43,13 +43,15 @@ namespace HBE::Application::Managers {
 
         EntityID CreateEntity();
         void DestroyEntity(EntityID entity);
+        void DestroyAllEntities();
         Signature SetSignature(EntityID entity, ComponentID component_id);
         Signature SetSignature(EntityID entity, ComponentID component_id, bool value);
         Signature GetSignature(EntityID entity);
         bool HasComponent(EntityID entity, ComponentID component_id);
         EntityID EntityCount() const;
+        std::vector<EntityID> GetAllEntities();
         
     private:
-        void InitializeEntityQueue();
+        void InitializeEntities();
     };
 }
