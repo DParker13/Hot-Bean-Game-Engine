@@ -11,9 +11,6 @@
 #include <HotBeanEngine/defaults/default_scene_serializer.hpp>
 
 namespace HBE::Default {
-    DefaultSceneSerializer::DefaultSceneSerializer(std::shared_ptr<IComponentFactory> component_factory)
-        : m_component_factory(component_factory) {}
-
     void DefaultSceneSerializer::Serialize(std::string_view filepath) {
         assert(!filepath.empty() && "Current filepath is empty.");
 

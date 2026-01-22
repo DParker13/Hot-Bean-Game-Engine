@@ -176,7 +176,8 @@ namespace HBE::Default::Systems {
 
         // TODO: Optimize debug rendering to not create/destroy texture and rect every frame?
         // If Debug key (F1) is pressed, draw a red outline around the entity
-        if (m_input_system.m_keys_pressed.find(SDLK_F1) != m_input_system.m_keys_pressed.end()) {
+        if (g_app.GetInputEventListener().GetKeysPressed().find(SDLK_F1) != 
+            g_app.GetInputEventListener().GetKeysPressed().end()) {
             DrawDebugRect(texture, transform, &rect);
         }
 

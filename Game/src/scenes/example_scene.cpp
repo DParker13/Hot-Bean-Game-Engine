@@ -1,6 +1,8 @@
 #include "example_scene.hpp"
 
 namespace Scenes {
+    using namespace HBE::Default::Components;
+    
     void ExampleScene::SetupScene() {
         int camera_entity = g_ecs.CreateEntity();
 

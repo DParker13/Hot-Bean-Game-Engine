@@ -1,4 +1,6 @@
 #include <HotBeanEngine/editor_gui/editor_gui.hpp>
+#include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/defaults/systems/rendering/transform_system.hpp>
 
 #include "entity_window.hpp"
 #include "console_window.hpp"
@@ -8,7 +10,7 @@
 #include "layer_window.hpp"
 
 namespace HBE::Application::GUI {
-    EditorGUI::EditorGUI() {
+    EditorGUI::EditorGUI() : m_editor_camera(EditorCamera()) {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -55,12 +57,28 @@ namespace HBE::Application::GUI {
     /// @brief Handles SDL events for the editor GUI
     /// @param event The SDL event to handle
     void EditorGUI::OnEvent(SDL_Event& event) {
+        HandleInput(event);
+
         ImGui_ImplSDL3_ProcessEvent(&event);
     }
 
     /// @brief Renders the editor GUI
     void EditorGUI::OnRender() {
-        // Start the Dear ImGui frame
+        RenderCameraViewports();
+        RenderImGui();
+    }
+
+    /// @brief Renders all registered windows in the editor GUI
+    void EditorGUI::RenderWindows() {
+        for (auto& window : m_windows) {
+            if (window->m_open) {
+                window->RenderWindow();
+            }
+        }
+    }
+
+    /// @brief Renders the ImGui interface for the editor GUI
+    void EditorGUI::RenderImGui() {
         ImGui_ImplSDLRenderer3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
         ImGui::NewFrame();
@@ -74,15 +92,6 @@ namespace HBE::Application::GUI {
         // Rendering
         ImGui::Render();
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), g_app.GetRenderer());
-    }
-
-    /// @brief Renders all registered windows in the editor GUI
-    void EditorGUI::RenderWindows() {
-        for (auto& window : m_windows) {
-            if (window->m_open) {
-                window->RenderWindow();
-            }
-        }
     }
 
     void EditorGUI::SetupDefaultDockingLayout() {
@@ -105,5 +114,81 @@ namespace HBE::Application::GUI {
         //     ImGui::DockBuilderDockWindow(m_windows[2]->m_name.c_str(), dock_id_left_bottom);
         //     ImGui::DockBuilderFinish(dockspace_id);
         // }
+    }
+
+    void EditorGUI::RenderCameraViewports() {
+        auto* camera_system = g_ecs.GetSystem<HBE::Default::Systems::CameraSystem>();
+
+        if (!camera_system) {
+            return;
+        }
+
+        SDL_SetRenderDrawColor(g_app.GetRenderer(), 255, 255, 255, 255);
+
+        std::vector<EntityID> camera_entities = camera_system->GetAllActiveCameras();
+
+        for (auto& camera_entity : camera_entities) {
+            SDL_FRect viewport = camera_system->GetViewport(camera_entity);
+            SDL_RenderRect(g_app.GetRenderer(), &viewport);
+        }
+    }
+
+    void EditorGUI::HandleInput(SDL_Event& event) {
+        MoveEditorCamera(event, 100.0f);
+    }
+
+    void EditorGUI::MoveEditorCamera(SDL_Event& event, float speed) {
+        const auto& keys_pressed = g_app.GetInputEventListener().GetKeysPressed();
+
+        if (keys_pressed.size() > 0) {
+            float distance = speed * g_app.GetDeltaTime();
+            glm::vec2 offset(0.0f, 0.0f);
+
+            if (keys_pressed.find(SDLK_LEFT) != keys_pressed.end()) {
+                offset.x += distance;
+            }
+            
+            if (keys_pressed.find(SDLK_RIGHT) != keys_pressed.end()) {
+                offset.x -= distance;
+            }
+            
+            if (keys_pressed.find(SDLK_UP) != keys_pressed.end()) {
+                offset.y += distance;
+            }
+            
+            if (keys_pressed.find(SDLK_DOWN) != keys_pressed.end()) {
+                offset.y -= distance;
+            }
+            
+            // Move all entities by the offset
+            if (offset.x != 0.0f || offset.y != 0.0f) {
+                auto* transform_system = g_ecs.GetSystem<HBE::Default::Systems::TransformSystem>();
+
+                // TODO: Only do this for the editor camera(s). Right now, it moves all Transform2D components, so it looks like nothing is moving.
+
+                if (transform_system) {
+                    auto& scene_graph = transform_system->GetSceneGraph();
+                    
+                    // Iterate through all levels and update transforms
+                    for (auto& level : scene_graph.GetAllLevels()) {
+                        for (auto& entity : level.second) {
+                            auto& transform = g_ecs.GetComponent<Transform2D>(entity);
+                            
+                            // Get parent transform if it exists
+                            const Transform2D* parent_transform = nullptr;
+                            if (transform.m_parent != -1) {
+                                parent_transform = &g_ecs.GetComponent<Transform2D>(transform.m_parent);
+                            }
+                            else {
+                                transform.m_local_position += offset;
+                            }
+                            
+                            // Propagate transforms
+                            TransformHelper::PropagateTransforms(transform, parent_transform);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

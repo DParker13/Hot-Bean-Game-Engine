@@ -12,6 +12,15 @@
 
 #include <string_view>
 
+#define DEFINE_NAME(Name)                               \
+    static std::string_view StaticGetName() {           \
+        return Name;                                    \
+    }                                                   \
+                                                        \
+    std::string_view GetName() const {                  \
+        return Name;                                    \
+    }
+
 namespace HBE::Core {
     /// @brief Interface for named objects.
     struct IName {

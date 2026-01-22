@@ -13,11 +13,9 @@
 #include "../scenes/example_scene.hpp"
 
 namespace Game {
-    using namespace HBE::Application;
-
-    class ExampleGame : public Application {
+    class ExampleGame : public HBE::Application::Application {
         public:
-            ExampleGame(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory);
+            ExampleGame(const std::string& config_path, std::shared_ptr<HBE::Application::IComponentFactory> component_factory);
             ~ExampleGame() = default;
             
         protected:

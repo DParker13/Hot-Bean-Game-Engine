@@ -11,9 +11,7 @@
 #include <HotBeanEngine/defaults/systems/physics/collision_system.hpp>
 
 namespace HBE::Default::Systems {
-    void CollisionSystem::OnUpdate() {
-
-    }
+    void CollisionSystem::OnUpdate() {}
 
     void CollisionSystem::OnEntityAdded(EntityID entity) {
         auto collider = g_ecs.GetComponent<Collider2D>(entity);

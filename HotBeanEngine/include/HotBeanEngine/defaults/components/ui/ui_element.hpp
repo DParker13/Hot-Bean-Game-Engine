@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;

@@ -18,7 +18,7 @@
 #include <HotBeanEngine/application/managers/game_loop_manager.hpp>
 #include <HotBeanEngine/application/component_factory.hpp>
 #include <HotBeanEngine/application/macros.hpp>
-
+#include <HotBeanEngine/application/input_event_listener.hpp>
 #include <HotBeanEngine/editor_gui/editor_gui.hpp>
 
 namespace HBE::Application {
@@ -55,7 +55,8 @@ namespace HBE::Application {
         std::shared_ptr<IComponentFactory> m_component_factory;
         SDL_Renderer* m_renderer = nullptr;
         SDL_Window* m_window = nullptr;
-        std::shared_ptr<GUI::EditorGUI> m_editor_gui;
+        std::unique_ptr<GUI::EditorGUI> m_editor_gui = nullptr;
+        InputEventListener m_input_event_listener;
 
     public:
         bool m_quit = false; ///< Flag to quit the application
@@ -89,6 +90,8 @@ namespace HBE::Application {
         Managers::ECSManager& GetECSManager() const;
         Managers::SceneManager& GetSceneManager() const;
         std::shared_ptr<IComponentFactory> GetComponentFactory() const;
+        InputEventListener& GetInputEventListener();
+        const InputEventListener& GetInputEventListener() const;
 
         // Logging
         void Log(LoggingType type, std::string_view message,

@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
 
 #include <HotBeanEngine/editor_gui/property_nodes/string.hpp>

@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <HotBeanEngine/defaults/systems/input/input_system.hpp>
+#include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
 namespace HBE::Default::Systems {
@@ -25,19 +25,15 @@ namespace HBE::Default::Systems {
      */
     class PhysicsSystem : public ISystem {
     private:
-        InputSystem& m_input_system;
         glm::vec2 m_gravity = {0.0f, 9.8f};
         b2WorldId m_world_id = b2WorldId();
 
     public:
         DEFINE_SIGNATURE(PhysicsSystem, "Physics System", Transform2D, RigidBody);
             
-        PhysicsSystem(InputSystem& input_system, glm::vec2 gravity)
-            : m_input_system(input_system), m_gravity(gravity) {}
+        PhysicsSystem(glm::vec2 gravity) : m_gravity(gravity) {}
 
-        PhysicsSystem(InputSystem& input_system)
-            : PhysicsSystem(input_system, glm::vec2(0.0f, 9.8f)) {}
-
+        PhysicsSystem() : PhysicsSystem(glm::vec2(0.0f, 9.8f)) {}
         void OnStart() override;
         void OnFixedUpdate() override;
         void OnEntityAdded(EntityID entity) override;

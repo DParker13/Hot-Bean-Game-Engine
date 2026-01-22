@@ -33,26 +33,6 @@ namespace HBE::Default {
          * @brief Initializes the default systems needed for basic game functionality.
          * The order each system is initialized is important! That is the order they are then called.
          */
-        void SetupSystems() {
-            std::filesystem::path font_path = std::filesystem::current_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
-
-            // Input
-            InputSystem& input_system = g_ecs.RegisterSystem<InputSystem>();
-            g_ecs.RegisterSystem<PlayerControllerSystem, InputSystem&>(input_system);
-            g_ecs.RegisterSystem<AudioSystem>();
-
-            // Physics
-            g_ecs.RegisterSystem<PhysicsSystem, InputSystem&>(input_system);
-            g_ecs.RegisterSystem<CollisionSystem>();
-
-            // Transform and Camera
-            g_ecs.RegisterSystem<TransformSystem>();
-            CameraSystem& camera_system = g_ecs.RegisterSystem<CameraSystem>();
-
-            // Rendering
-            g_ecs.RegisterSystem<ShapeSystem, CameraSystem&>(camera_system);
-            g_ecs.RegisterSystem<UISystem, std::string>(font_path.string());
-            g_ecs.RegisterSystem<RenderSystem, InputSystem&, CameraSystem&>(input_system, camera_system);
-        };
+        void SetupSystems();
     };
 }

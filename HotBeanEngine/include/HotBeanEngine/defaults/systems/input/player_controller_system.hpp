@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <HotBeanEngine/defaults/systems/input/input_system.hpp>
+#include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
 namespace HBE::Default::Systems {
@@ -21,13 +21,9 @@ namespace HBE::Default::Systems {
      * @brief System for player input to control entities.
      */
     class PlayerControllerSystem : public ISystem {
-    private:
-        InputSystem& m_input_system;
-
     public:
         DEFINE_SIGNATURE(PlayerControllerSystem, "Player Controller System", Transform2D, Controller);
-        PlayerControllerSystem(InputSystem& input_system)
-            : m_input_system(input_system) {}
+        PlayerControllerSystem() = default;
         ~PlayerControllerSystem() = default;
 
         void OnUpdate() override;

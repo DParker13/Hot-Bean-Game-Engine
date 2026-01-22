@@ -1,9 +1,13 @@
 High Priority
+- Create OnEditorUpdate virtual method
+- Create OnEditorRender virtual method too?
+- Remove Managers from application folder
 - Add single camera in editor mode
     + Add visible viewport for camera entities in editor mode
     + Disable/Modify clipping in editor mode
     + Add events to handle input and entity selection/manipulation in editor mode
     + Add modes to game_loop_manager (Rename this to application_state_manager?)
+    + Make input system more generic to be used in editor_gui and in-game
 - Create Editor System
     + Integrate ImGUI for interactable debug menu!
 - Finish default systems!!

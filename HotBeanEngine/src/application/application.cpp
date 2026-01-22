@@ -17,6 +17,7 @@ namespace HBE::Application {
         : m_component_factory(component_factory), m_window(nullptr), m_renderer(nullptr),
         m_quit(false), m_delta_time(0.0f), m_previous_frame_time(0) {
 
+        // Setup singleton instance
         s_instance = this;
 
         bool config_loaded = LoadConfig(config_path) == 0;
@@ -34,6 +35,8 @@ namespace HBE::Application {
             LOG_CORE(LoggingType::INFO, "\tLoading Default config");
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Config Error", std::string("Failed to load config file at \"" + config_path + "\"").data(), m_window);
         }
+
+        m_input_event_listener = InputEventListener();
 
         // Initialize application parts
         InitManagers();
@@ -131,9 +134,7 @@ namespace HBE::Application {
     }
 
     void Application::InitGUI() {
-        if (!m_editor_gui) {
-            m_editor_gui = std::make_shared<HBE::Application::GUI::EditorGUI>();
-        }
+        m_editor_gui = std::make_unique<HBE::Application::GUI::EditorGUI>();
     }
 
     Application& Application::GetInstance() {
@@ -177,6 +178,14 @@ namespace HBE::Application {
         return m_component_factory;
     }
 
+    InputEventListener& Application::GetInputEventListener() {
+        return m_input_event_listener;
+    }
+
+    const InputEventListener& Application::GetInputEventListener() const {
+        return m_input_event_listener;
+    }
+
     /// @brief Logs a message to a log file.
     /// @param message The message to log to the log file
     void Application::Log(LoggingType type, std::string_view message,
@@ -218,10 +227,8 @@ namespace HBE::Application {
                 m_loop_manager->ClearReloadFlag();
             }
 
-            if (m_loop_manager->GetState() == ApplicationState::Playing) {
-                UpdateDeltaTime();
-                UpdateDeltaTimeHiRes();
-            }
+            UpdateDeltaTime();
+            UpdateDeltaTimeHiRes();
 
             // Events always process (for UI interaction)
             EventLoop();
@@ -248,7 +255,6 @@ namespace HBE::Application {
         }
     }
 
-    // TODO: Separate editor gui and game loop for production builds
     void Application::EventLoop() {
         if (m_loop_manager->GetState() == ApplicationState::Playing) {
             OnPreEvent();
@@ -266,6 +272,8 @@ namespace HBE::Application {
                 m_editor_gui->OnWindowResize(event);
             }
             else {
+                m_input_event_listener.OnEvent(event);
+                
                 // Call system OnEvent methods
                 if (m_loop_manager->GetState() == ApplicationState::Playing) {
                     OnEvent(event);

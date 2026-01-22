@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include <HotBeanEngine/defaults/systems/input/input_system.hpp>
 #include <HotBeanEngine/defaults/systems/rendering/camera_system.hpp>
 
 namespace HBE::Default::Systems {
@@ -25,15 +24,14 @@ namespace HBE::Default::Systems {
      */
     class RenderSystem : public ISystem {
     private:
-        InputSystem& m_input_system;
         CameraSystem& m_camera_system;
         std::map<int, SDL_Texture*> m_layers;
         std::unordered_set<int> m_layers_used;
     
     public:
         DEFINE_SIGNATURE(RenderSystem, "Render System", Transform2D, Texture);
-        RenderSystem(InputSystem& input_system, CameraSystem& camera_system)
-            : m_input_system(input_system), m_camera_system(camera_system) {};
+        RenderSystem(CameraSystem& camera_system)
+            : m_camera_system(camera_system) {};
         ~RenderSystem();
 
         void OnEntityAdded(EntityID entity) override;

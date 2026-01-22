@@ -1,6 +1,5 @@
 add_library(HotBeanEngine_Systems STATIC
     audio/audio_system.cpp
-    input/input_system.cpp
     input/player_controller_system.cpp
     physics/collision_system.cpp
     physics/physics_system.cpp

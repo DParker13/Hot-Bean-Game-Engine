@@ -14,7 +14,7 @@ set(BUILD_SHARED_LIBS OFF)
 
 # FetchContent settings
 include(FetchContent)
-set(FETCHCONTENT_FULLY_DISCONNECTED FALSE)
+set(FETCHCONTENT_FULLY_DISCONNECTED TRUE)
 set(FETCHCONTENT_QUIET TRUE)
 
 # Fetch dependencies

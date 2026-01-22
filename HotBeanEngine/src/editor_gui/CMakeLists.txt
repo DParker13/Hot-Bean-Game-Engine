@@ -26,6 +26,7 @@ add_library(HotBeanEngine_EditorGui STATIC
     console_window.hpp
     control_bar.cpp
     control_bar.hpp
+    editor_camera.cpp
     editor_gui.cpp
     entity_window.cpp
     entity_window.hpp

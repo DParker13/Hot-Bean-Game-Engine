@@ -28,7 +28,7 @@ namespace HBE::Default::Systems {
      * @param speed The speed at which the entity will move, in pixels per second.
      */
     void PlayerControllerSystem::Move(EntityID entity, float speed) {
-        auto keys_pressed = m_input_system.m_keys_pressed;
+        auto keys_pressed = g_app.GetInputEventListener().GetKeysPressed();
         
         if (keys_pressed.size() > 0) {
             float distance = speed * g_app.GetDeltaTime();

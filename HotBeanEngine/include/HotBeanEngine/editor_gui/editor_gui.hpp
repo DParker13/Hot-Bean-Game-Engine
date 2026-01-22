@@ -15,10 +15,14 @@
 #include <backends/imgui_impl_sdl3.h>
 #include <backends/imgui_impl_sdlrenderer3.h>
 
-#include <HotBeanEngine/core/all_core.hpp>
+#include <HotBeanEngine/defaults/helpers/transform_helper.hpp>
 #include <HotBeanEngine/editor_gui/iwindow.hpp>
+#include <HotBeanEngine/editor_gui/editor_camera.hpp>
 
 namespace HBE::Application::GUI {
+    using namespace HBE::Default::Helpers;
+    using namespace HBE::Default::Components;
+
     /**
      * @brief Manages ImGui-based editor interface
      * 
@@ -28,6 +32,11 @@ namespace HBE::Application::GUI {
     class EditorGUI : public HBE::Core::IGameLoop {
     private:
         std::vector<std::shared_ptr<IWindow>> m_windows;
+        EditorCamera m_editor_camera;
+
+        void RenderCameraViewports();
+        void MoveEditorCamera(SDL_Event& event, float speed);
+        void HandleInput(SDL_Event& event);
 
     public:
         EditorGUI();
@@ -42,6 +51,7 @@ namespace HBE::Application::GUI {
         virtual void OnPostRender() {};
 
     protected:
+        virtual void RenderImGui();
         virtual void RenderWindows();
         virtual void SetupDefaultDockingLayout();
     };

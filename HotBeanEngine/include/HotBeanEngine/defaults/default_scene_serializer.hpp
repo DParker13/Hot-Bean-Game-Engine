@@ -28,7 +28,8 @@ namespace HBE::Default {
         std::shared_ptr<IComponentFactory> m_component_factory;
 
     public:
-        DefaultSceneSerializer(std::shared_ptr<IComponentFactory> component_factory);
+        DefaultSceneSerializer(std::shared_ptr<IComponentFactory> component_factory)
+            : m_component_factory(component_factory) {}
 
         void Serialize(std::string_view filepath) override;
         void Deserialize(std::string_view filepath) override;

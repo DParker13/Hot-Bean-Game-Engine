@@ -16,15 +16,6 @@
 
 #define LOG(type, message) g_app.Log(type, message, __FILE__, __LINE__, __func__)
 
-#define DEFINE_NAME(Name)                               \
-    static std::string_view StaticGetName() {           \
-        return Name;                                    \
-    }                                                   \
-                                                        \
-    std::string_view GetName() const {                  \
-        return Name;                                    \
-    }
-
 /**
  * @brief Macro to define the signature of a system
  */
