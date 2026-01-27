@@ -1,6 +1,6 @@
 #pragma once
 
-#include <HotBeanEngine/editor_gui/iwindow.hpp>
+#include <HotBeanEngine/editor/iwindow.hpp>
 #include <imgui.h>
 
 namespace HBE::Application::GUI {

@@ -3,7 +3,7 @@
 #include <imgui.h>
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/systems/rendering/render_system.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/texture_preview.hpp>
+#include <HotBeanEngine/editor/property_nodes/texture_preview.hpp>
 
 #include "property_window.hpp"
 

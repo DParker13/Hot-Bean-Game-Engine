@@ -19,14 +19,11 @@
 #include <HotBeanEngine/application/component_factory.hpp>
 #include <HotBeanEngine/application/macros.hpp>
 #include <HotBeanEngine/application/input_event_listener.hpp>
-#include <HotBeanEngine/editor_gui/editor_gui.hpp>
+#include <HotBeanEngine/editor/ieditor_gui.hpp>
 
 namespace HBE::Application {
     using namespace HBE::Core;
     using namespace HBE::Application::Managers;
-
-    // Forward declaration
-    class EditorGUI;
 
     /**
      * @brief Main application class that manages the game loop and core engine systems
@@ -55,7 +52,7 @@ namespace HBE::Application {
         std::shared_ptr<IComponentFactory> m_component_factory;
         SDL_Renderer* m_renderer = nullptr;
         SDL_Window* m_window = nullptr;
-        std::unique_ptr<GUI::EditorGUI> m_editor_gui = nullptr;
+        std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;
         InputEventListener m_input_event_listener;
 
     public:
@@ -73,7 +70,7 @@ namespace HBE::Application {
         double m_accumulator = 0.0; ///< Accumulator for fixed timestep updates
 
         // Constructors
-        Application(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory);
+        Application(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory, std::unique_ptr<GUI::IEditorGUI> editor_gui = nullptr);
         ~Application();
         Application(const Application&) = delete;
         Application& operator=(const Application&) = delete;
@@ -89,6 +86,7 @@ namespace HBE::Application {
         double GetHiResTime() const;
         Managers::ECSManager& GetECSManager() const;
         Managers::SceneManager& GetSceneManager() const;
+        Managers::GameLoopManager& GetLoopManager() const;
         std::shared_ptr<IComponentFactory> GetComponentFactory() const;
         InputEventListener& GetInputEventListener();
         const InputEventListener& GetInputEventListener() const;
@@ -103,7 +101,6 @@ namespace HBE::Application {
          * @brief Entry point for the main loop of the application.
          */
         void Start();
-        void SetupRendererAndWindow();
 
         /**
          * @brief Start/play the game.
@@ -149,12 +146,12 @@ namespace HBE::Application {
         virtual void OnPostRender();
 
     private:
+        void SetupRendererAndWindow();
         void CleanUpSDL();
         void InitManagers();
         void InitSDL();
         void InitSDLTTF();
         void InitSDLMixer();
-        void InitGUI();
         void PhysicsLoop();
         void EventLoop();
         void UpdateDeltaTime();

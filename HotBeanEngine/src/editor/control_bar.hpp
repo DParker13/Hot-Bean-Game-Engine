@@ -2,7 +2,7 @@
 
 #include <imgui.h>
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/editor_gui/iwindow.hpp>
+#include <HotBeanEngine/editor/iwindow.hpp>
 
 namespace HBE::Application::GUI {
     class ControlBar : public IWindow {

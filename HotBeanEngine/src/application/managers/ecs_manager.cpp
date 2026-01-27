@@ -150,6 +150,10 @@ namespace HBE::Application::Managers {
         m_system_manager->UnregisterSystem(system);
     }
 
+    const Signature& ECSManager::GetSignature(EntityID entity) const {
+        return m_entity_manager->GetSignature(entity);
+    }
+
     /**
      * @brief Loop through all systems
      * 

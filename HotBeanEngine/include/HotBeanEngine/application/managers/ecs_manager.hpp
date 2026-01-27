@@ -238,6 +238,13 @@ namespace HBE::Application::Managers {
         void UnregisterSystem(ISystem* system);
 
         template<typename T>
+        Signature& GetSignature() {
+            return m_system_manager->GetSignature<T>();
+        }
+
+        const Signature& GetSignature(EntityID entity) const;
+
+        template<typename T>
         bool IsSystemRegistered() {
             return m_system_manager->IsSystemRegistered<T>();
         }

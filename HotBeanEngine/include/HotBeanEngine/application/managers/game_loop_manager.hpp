@@ -72,5 +72,12 @@ namespace HBE::Application::Managers {
          * @return The previous ApplicationState
          */
         ApplicationState GetState() const { return m_state; }
+
+        /**
+         * @brief Checks if the current state matches the given state.
+         * @param state The ApplicationState to check against
+         * @return true if the current state matches, false otherwise
+         */
+        bool IsState(ApplicationState state) const { return m_state == state; }
     };
 }

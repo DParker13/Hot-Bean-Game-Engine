@@ -11,11 +11,11 @@
 #pragma once
 
 #include <HotBeanEngine/core/all_core.hpp>
-#include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
+#include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor_gui/property_nodes/bool.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/vec2.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/color.hpp>
+#include <HotBeanEngine/editor/property_nodes/bool.hpp>
+#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
+#include <HotBeanEngine/editor/property_nodes/color.hpp>
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;

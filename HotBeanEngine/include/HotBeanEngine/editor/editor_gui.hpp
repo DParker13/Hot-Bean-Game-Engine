@@ -15,9 +15,10 @@
 #include <backends/imgui_impl_sdl3.h>
 #include <backends/imgui_impl_sdlrenderer3.h>
 
+#include <HotBeanEngine/editor/ieditor_gui.hpp>
+
 #include <HotBeanEngine/defaults/helpers/transform_helper.hpp>
-#include <HotBeanEngine/editor_gui/iwindow.hpp>
-#include <HotBeanEngine/editor_gui/editor_camera.hpp>
+#include <HotBeanEngine/editor/iwindow.hpp>
 
 namespace HBE::Application::GUI {
     using namespace HBE::Default::Helpers;
@@ -29,10 +30,9 @@ namespace HBE::Application::GUI {
      * Handles editor windows, docking layout, and GUI rendering.
      * Provides development tools and runtime inspection.
      */
-    class EditorGUI : public HBE::Core::IGameLoop {
+    class EditorGUI : public IEditorGUI {
     private:
         std::vector<std::shared_ptr<IWindow>> m_windows;
-        EditorCamera m_editor_camera;
 
         void RenderCameraViewports();
         void MoveEditorCamera(SDL_Event& event, float speed);
@@ -42,6 +42,8 @@ namespace HBE::Application::GUI {
         EditorGUI();
         ~EditorGUI();
         
+        void InitEditorGUI();
+
         virtual void OnStart() {};
         virtual void OnPreEvent() {};
         virtual void OnEvent(SDL_Event& event);

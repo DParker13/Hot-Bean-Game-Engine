@@ -10,12 +10,11 @@
  */
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/editor_gui/editor_gui.hpp>
+#include <HotBeanEngine/editor/noop_editor_gui.hpp>
 
 namespace HBE::Application {
-    Application::Application(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory)
-        : m_component_factory(component_factory), m_window(nullptr), m_renderer(nullptr),
-        m_quit(false), m_delta_time(0.0f), m_previous_frame_time(0) {
+    Application::Application(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory, std::unique_ptr<GUI::IEditorGUI> editor_gui)
+        : m_component_factory(component_factory), m_editor_gui(std::move(editor_gui)) {
 
         // Setup singleton instance
         s_instance = this;
@@ -43,7 +42,12 @@ namespace HBE::Application {
         InitSDL();
         InitSDLTTF();
         InitSDLMixer();
-        InitGUI();
+        
+        // Ensure we always have an editor GUI instance (Noop by default)
+        if (!m_editor_gui) {
+            m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
+        }
+        m_editor_gui->InitEditorGUI();
     }
 
     Application::~Application() {
@@ -133,10 +137,6 @@ namespace HBE::Application {
         // }
     }
 
-    void Application::InitGUI() {
-        m_editor_gui = std::make_unique<HBE::Application::GUI::EditorGUI>();
-    }
-
     Application& Application::GetInstance() {
         if (!s_instance) {
             std::cout << "Application::GetInstance() was called before the application was instantiated properly!" << std::endl;
@@ -220,7 +220,7 @@ namespace HBE::Application {
         while (!m_quit) {
             m_loop_manager->UpdateGameLoopState();
 
-            if (m_loop_manager->GetState() == ApplicationState::Playing && m_loop_manager->ShouldReloadScene()) {
+            if (m_loop_manager->IsState(ApplicationState::Playing) && m_loop_manager->ShouldReloadScene()) {
                 std::shared_ptr<Scene> current_scene = m_scene_manager->GetCurrentScene();
                 m_scene_manager->UnloadScene(false);
                 m_scene_manager->LoadScene(current_scene);
@@ -230,7 +230,6 @@ namespace HBE::Application {
             UpdateDeltaTime();
             UpdateDeltaTimeHiRes();
 
-            // Events always process (for UI interaction)
             EventLoop();
 
             // Clear the renderer and prepare for the next frame
@@ -238,25 +237,28 @@ namespace HBE::Application {
             SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
             SDL_RenderClear(m_renderer);
 
-            if (m_loop_manager->GetState() == ApplicationState::Playing) {
+            if (m_loop_manager->IsState(ApplicationState::Playing)) {
                 PhysicsLoop();
                 OnUpdate();
             }
+            else {
+                m_editor_gui->OnUpdate();
+            }
 
-            // Call system OnRender methods (always render, even when paused or stopped)
+            // Call remaining system OnRender for non-texture rendering (shapes, UI, etc.)
             OnRender();
             m_editor_gui->OnRender();
 
             // Present the next frame
             SDL_RenderPresent(m_renderer);
 
-            // Call system OnPostRender methods
+            // Clean up after rendering
             OnPostRender();
         }
     }
 
     void Application::EventLoop() {
-        if (m_loop_manager->GetState() == ApplicationState::Playing) {
+        if (m_loop_manager->IsState(ApplicationState::Playing)) {
             OnPreEvent();
         }
 
@@ -273,9 +275,9 @@ namespace HBE::Application {
             }
             else {
                 m_input_event_listener.OnEvent(event);
-                
+
                 // Call system OnEvent methods
-                if (m_loop_manager->GetState() == ApplicationState::Playing) {
+                if (m_loop_manager->IsState(ApplicationState::Playing)) {
                     OnEvent(event);
                 }
 

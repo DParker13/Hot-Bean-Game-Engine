@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-#include <HotBeanEngine/editor_gui/iwindow.hpp>
+#include <HotBeanEngine/editor/iwindow.hpp>
 
 namespace HBE::Application::GUI {
     class Menu : public IWindow {

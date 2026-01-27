@@ -14,12 +14,12 @@
 
 #include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
-#include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
+#include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor_gui/property_nodes/color.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/enum.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/int.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/string.hpp>
+#include <HotBeanEngine/editor/property_nodes/color.hpp>
+#include <HotBeanEngine/editor/property_nodes/enum.hpp>
+#include <HotBeanEngine/editor/property_nodes/int.hpp>
+#include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;

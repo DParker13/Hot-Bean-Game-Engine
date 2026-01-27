@@ -4,8 +4,8 @@
 #include <functional>
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/editor_gui/iwindow.hpp>
-#include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
+#include <HotBeanEngine/editor/iwindow.hpp>
+#include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
 namespace HBE::Application::GUI {
     using namespace HBE::Core;

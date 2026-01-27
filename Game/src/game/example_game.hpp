@@ -15,7 +15,7 @@
 namespace Game {
     class ExampleGame : public HBE::Application::Application {
         public:
-            ExampleGame(const std::string& config_path, std::shared_ptr<HBE::Application::IComponentFactory> component_factory);
+            ExampleGame(const std::string& config_path, std::shared_ptr<HBE::Application::IComponentFactory> component_factory, std::unique_ptr<HBE::Application::GUI::IEditorGUI> editor_gui);
             ~ExampleGame() = default;
             
         protected:

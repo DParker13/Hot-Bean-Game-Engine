@@ -157,7 +157,7 @@ namespace HBE::Application::Managers {
 		 * @brief Get the Signature of a System type T
 		 * 
 		 * @tparam T Type of System
-		 * @return Signature& Reference to the System's Signature
+		 * @return const Signature& Reference to the System's Signature
 		 */
 		template<typename T>
 		Signature& GetSignature() {
@@ -166,7 +166,7 @@ namespace HBE::Application::Managers {
 				throw std::runtime_error("System is not registered");
 			}
 
-			// Set the signature for this system
+			// Get the signature for this system
 			return m_signatures[std::string(GetSystemName<T>())];
 		}
 

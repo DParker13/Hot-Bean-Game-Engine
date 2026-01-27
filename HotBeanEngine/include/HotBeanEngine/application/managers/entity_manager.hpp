@@ -46,7 +46,7 @@ namespace HBE::Application::Managers {
         void DestroyAllEntities();
         Signature SetSignature(EntityID entity, ComponentID component_id);
         Signature SetSignature(EntityID entity, ComponentID component_id, bool value);
-        Signature GetSignature(EntityID entity);
+        const Signature& GetSignature(EntityID entity) const;
         bool HasComponent(EntityID entity, ComponentID component_id);
         EntityID EntityCount() const;
         std::vector<EntityID> GetAllEntities();

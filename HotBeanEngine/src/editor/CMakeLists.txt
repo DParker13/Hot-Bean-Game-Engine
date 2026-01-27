@@ -21,12 +21,11 @@ target_link_libraries(imgui PUBLIC
     HotBeanEngine_Defaults
 )
 
-add_library(HotBeanEngine_EditorGui STATIC
+add_library(HotBeanEngine_Editor STATIC
     console_window.cpp
     console_window.hpp
     control_bar.cpp
     control_bar.hpp
-    editor_camera.cpp
     editor_gui.cpp
     entity_window.cpp
     entity_window.hpp
@@ -36,10 +35,8 @@ add_library(HotBeanEngine_EditorGui STATIC
     menu.hpp
     property_window.cpp
     property_window.hpp
-    viewport_window.cpp
-    viewport_window.hpp
 )
 
-target_link_libraries(HotBeanEngine_EditorGui PUBLIC
+target_link_libraries(HotBeanEngine_Editor PUBLIC
     imgui
 )

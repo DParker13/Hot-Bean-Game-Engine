@@ -22,16 +22,8 @@ namespace HBE::Application {
             m_ecs_manager = ecs_manager;
         }
 
-        template<typename T>
-        void AddComponent(EntityID entity, YAML::Node node) {
-            static_assert(std::is_base_of_v<IComponent, T> && "T must inherit from Component");
-
-            m_ecs_manager->AddComponent<T>(entity, T());
-            m_ecs_manager->GetComponent<T>(entity).Deserialize(node);
-        }
-
         template<typename T, typename... Args>
-        void AddComponent(EntityID entity, YAML::Node node, Args... args) {
+        void AddComponent(EntityID entity, YAML::Node node, const Args&... args) {
             static_assert(std::is_base_of_v<IComponent, T> && "T must inherit from Component");
 
             m_ecs_manager->AddComponent<T>(entity, T(args...));

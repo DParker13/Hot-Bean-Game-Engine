@@ -13,12 +13,12 @@
 #include <box2d/box2d.h>
 
 #include <HotBeanEngine/core/all_core.hpp>
-#include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
+#include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor_gui/property_nodes/int.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/float.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/vec2.hpp>
-#include <HotBeanEngine/editor_gui/property_nodes/enum.hpp>
+#include <HotBeanEngine/editor/property_nodes/int.hpp>
+#include <HotBeanEngine/editor/property_nodes/float.hpp>
+#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
+#include <HotBeanEngine/editor/property_nodes/enum.hpp>
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;

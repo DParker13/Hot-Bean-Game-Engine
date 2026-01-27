@@ -174,14 +174,14 @@ namespace HBE::Application::Managers {
      * @return The signature associated with the given entity.
      * @throw std::out_of_range if the entity ID is out of range.
      */
-    Signature EntityManager::GetSignature(EntityID entity) {
+    const Signature& EntityManager::GetSignature(EntityID entity) const {
         if (entity < 0 || entity >= MAX_ENTITIES) {
             std::out_of_range ex = std::out_of_range("Entity out of range.");
             LOG_CORE(LoggingType::ERROR, ex.what());
             throw ex;
         }
 
-        return m_signatures[entity];
+        return m_signatures.at(entity);
     }
 
     /**

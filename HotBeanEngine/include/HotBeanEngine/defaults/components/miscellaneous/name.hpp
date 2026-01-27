@@ -11,9 +11,9 @@
 #pragma once
 
 #include <HotBeanEngine/core/all_core.hpp>
-#include <HotBeanEngine/editor_gui/iproperty_renderable.hpp>
+#include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor_gui/property_nodes/string.hpp>
+#include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;

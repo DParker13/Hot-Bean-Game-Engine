@@ -1,4 +1,4 @@
-#include <HotBeanEngine/editor_gui/editor_gui.hpp>
+#include <HotBeanEngine/editor/editor_gui.hpp>
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/systems/rendering/transform_system.hpp>
 
@@ -10,19 +10,7 @@
 #include "layer_window.hpp"
 
 namespace HBE::Application::GUI {
-    EditorGUI::EditorGUI() : m_editor_camera(EditorCamera()) {
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
-        ImGui_ImplSDL3_InitForSDLRenderer(g_app.GetWindow(), g_app.GetRenderer());
-        ImGui_ImplSDLRenderer3_Init(g_app.GetRenderer());
-
-        // Setup Dear ImGui style
-        ImGui::StyleColorsDark();
-
+    EditorGUI::EditorGUI() {
         // Create windows
         std::shared_ptr<PropertyWindow> property_window = std::make_shared<PropertyWindow>();
         std::shared_ptr<EntityWindow> entity_window = std::make_shared<EntityWindow>(property_window);
@@ -45,6 +33,20 @@ namespace HBE::Application::GUI {
         ImGui_ImplSDLRenderer3_Shutdown();
         ImGui_ImplSDL3_Shutdown();
         ImGui::DestroyContext();
+    }
+
+    void EditorGUI::InitEditorGUI() {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+        ImGui_ImplSDL3_InitForSDLRenderer(g_app.GetWindow(), g_app.GetRenderer());
+        ImGui_ImplSDLRenderer3_Init(g_app.GetRenderer());
+
+        // Setup Dear ImGui style
+        ImGui::StyleColorsDark();
     }
 
     /// @brief Handles window resize events for the editor GUI
