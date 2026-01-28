@@ -4,7 +4,7 @@
  * @brief Used to register and create default components from YAML files
  * @version 0.1
  * @date 2025-07-06
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -20,9 +20,9 @@ namespace HBE::Default::Components {
      * @brief Factory for registering and creating default engine components
      */
     class DefaultComponentFactory : public IComponentFactory {
-        public:
-            void RegisterComponents() override;
-            void CreateComponentFromYAML(const std::string& component_name, YAML::Node node,
-                                        EntityID parent_entity, EntityID entity) override;
+    public:
+        void RegisterComponents() override;
+        void CreateComponentFromYAML(const std::string &component_name, YAML::Node node, EntityID parent_entity,
+                                     EntityID entity) override;
     };
-}
+} // namespace HBE::Default::Components

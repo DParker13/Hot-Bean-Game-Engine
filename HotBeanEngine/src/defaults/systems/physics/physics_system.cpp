@@ -4,7 +4,7 @@
  * @brief System for simulating 2D physics in the game world using Box2D.
  * @version 0.1
  * @date 2025-03-25
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -28,9 +28,9 @@ namespace HBE::Default::Systems {
         // Step the physics world forward
         b2World_Step(m_world_id, time_step, sub_step_count);
 
-        for (auto& entity : m_entities) {
-            auto& transform = g_ecs.GetComponent<Transform2D>(entity);
-            auto& rigidbody = g_ecs.GetComponent<RigidBody>(entity);
+        for (auto &entity : m_entities) {
+            auto &transform = g_ecs.GetComponent<Transform2D>(entity);
+            auto &rigidbody = g_ecs.GetComponent<RigidBody>(entity);
 
             b2Vec2 position = b2Body_GetPosition(rigidbody.m_body_id);
             b2Rot rotation = b2Body_GetRotation(rigidbody.m_body_id);
@@ -40,8 +40,8 @@ namespace HBE::Default::Systems {
     }
 
     void PhysicsSystem::OnEntityAdded(EntityID entity) {
-        auto& transform = g_ecs.GetComponent<Transform2D>(entity);
-        auto& rigidbody = g_ecs.GetComponent<RigidBody>(entity);
+        auto &transform = g_ecs.GetComponent<Transform2D>(entity);
+        auto &rigidbody = g_ecs.GetComponent<RigidBody>(entity);
 
         b2BodyDef body_def = b2DefaultBodyDef();
         body_def.position = b2Vec2({transform.m_local_position.x, transform.m_local_position.y});
@@ -57,15 +57,11 @@ namespace HBE::Default::Systems {
      * @param entity The entity to remove.
      */
     void PhysicsSystem::OnEntityRemoved(EntityID entity) {
-        auto& rigidbody = g_ecs.GetComponent<RigidBody>(entity);
+        auto &rigidbody = g_ecs.GetComponent<RigidBody>(entity);
         b2DestroyBody(rigidbody.m_body_id);
     }
 
-    float PhysicsSystem::DegreesToRadians(float degrees) {
-        return degrees * (B2_PI / 180.0f);
-    }
+    float PhysicsSystem::DegreesToRadians(float degrees) { return degrees * (B2_PI / 180.0f); }
 
-    float PhysicsSystem::RadiansToDegrees(float radians) {
-        return radians * (180.0f / B2_PI);
-    }
-}
+    float PhysicsSystem::RadiansToDegrees(float radians) { return radians * (180.0f / B2_PI); }
+} // namespace HBE::Default::Systems

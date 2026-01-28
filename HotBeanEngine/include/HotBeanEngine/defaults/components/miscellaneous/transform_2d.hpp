@@ -4,7 +4,7 @@
  * @brief Transform 2D component. Tracks entity position, rotation, and scale.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -13,9 +13,9 @@
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 #include <HotBeanEngine/editor/property_nodes/float.hpp>
 #include <HotBeanEngine/editor/property_nodes/int.hpp>
+#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;
@@ -23,7 +23,7 @@ namespace HBE::Default::Components {
 
     /**
      * @brief 2D transform component for position, rotation, and scale
-     * 
+     *
      * Tracks local and world-space transformations.
      * Supports hierarchical parent-child relationships.
      */
@@ -33,12 +33,12 @@ namespace HBE::Default::Components {
 
         // Local transform (relative to parent)
         glm::vec2 m_local_position = {0.0f, 0.0f};
-        float m_local_rotation = 0.0f;      // degrees
+        float m_local_rotation = 0.0f; // degrees
         glm::vec2 m_local_scale = {1.0f, 1.0f};
 
         // World transform (computed from parent)
         glm::vec2 m_world_position = {0.0f, 0.0f};
-        float m_world_rotation = 0.0f;      // degrees
+        float m_world_rotation = 0.0f; // degrees
         glm::vec2 m_world_scale = {1.0f, 1.0f};
 
         DEFINE_NAME("Transform2D");
@@ -46,7 +46,7 @@ namespace HBE::Default::Components {
         Transform2D(glm::vec2 position) : m_world_position(position) {}
         Transform2D(EntityID parent_entity) : m_parent(parent_entity) {}
 
-        void Serialize(YAML::Emitter& out) const override {
+        void Serialize(YAML::Emitter &out) const override {
             out << YAML::Key << "layer" << YAML::Value << (int)m_layer;
             out << YAML::Key << "parent" << YAML::Value << (int)m_parent;
             out << YAML::Key << "local_position" << YAML::Value << m_local_position;
@@ -57,7 +57,7 @@ namespace HBE::Default::Components {
             out << YAML::Key << "world_scale" << YAML::Value << m_world_scale;
         }
 
-        void Deserialize(YAML::Node& node) override {
+        void Deserialize(YAML::Node &node) override {
             if (node["layer"].IsDefined())
                 m_layer = node["layer"].as<Uint8>();
 
@@ -85,11 +85,11 @@ namespace HBE::Default::Components {
             MarkDirty();
         }
 
-        void RenderProperties(int& id) override {
+        void RenderProperties(int &id) override {
             bool changed = false;
 
-            changed |= PropertyNodes::Int::RenderProperty(id, "Layer", reinterpret_cast<int&>(m_layer));
-            changed |= PropertyNodes::Int::RenderProperty(id, "Parent", reinterpret_cast<int&>(m_parent), -1);
+            changed |= PropertyNodes::Int::RenderProperty(id, "Layer", reinterpret_cast<int &>(m_layer));
+            changed |= PropertyNodes::Int::RenderProperty(id, "Parent", reinterpret_cast<int &>(m_parent), -1);
             ImGui::Separator();
             changed |= PropertyNodes::Vec2::RenderProperty(id, "Local Position", m_local_position);
             changed |= PropertyNodes::Float::RenderProperty(id, "Local Rotation", m_local_rotation);
@@ -100,4 +100,4 @@ namespace HBE::Default::Components {
             }
         }
     };
-}
+} // namespace HBE::Default::Components

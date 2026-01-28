@@ -1,3 +1,14 @@
+/**
+ * @file menu.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Implementation of the main menu window for the editor GUI.
+ * Provides window visibility toggles and menu bar functionality.
+ * @version 0.1
+ * @date 2025-10-17
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include "menu.hpp"
 
 namespace HBE::Application::GUI {
@@ -10,7 +21,7 @@ namespace HBE::Application::GUI {
             //     ImGui::EndMenu();
             // }
             if (ImGui::BeginMenu("Windows")) {
-                for (auto& window : m_windows) {
+                for (auto &window : m_windows) {
                     if (window->m_name.c_str() == "Menu") {
                         continue;
                     }
@@ -24,4 +35,4 @@ namespace HBE::Application::GUI {
             ImGui::EndMainMenuBar();
         }
     }
-}
+} // namespace HBE::Application::GUI

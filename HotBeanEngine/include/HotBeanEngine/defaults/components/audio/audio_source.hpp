@@ -4,7 +4,7 @@
  * @brief Audio Source component. Used to play audio files.
  * @version 0.1
  * @date 2025-04-16
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -14,10 +14,10 @@
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;
-    
+
     /**
      * @brief Audio source component for sound playback
-     * 
+     *
      * Manages audio clip playback and volume control.
      * Integrates with SDL_mixer for audio output.
      */
@@ -30,12 +30,8 @@ namespace HBE::Default::Components {
         DEFINE_NAME("AudioSource");
         AudioSource() = default;
 
-        void Serialize(YAML::Emitter& out) const override {
-            out << YAML::Key << "path" << YAML::Value << path;
-        }
+        void Serialize(YAML::Emitter &out) const override { out << YAML::Key << "path" << YAML::Value << path; }
 
-        void Deserialize(YAML::Node& node) override {
-            path = node["path"].as<std::string>();
-        }
+        void Deserialize(YAML::Node &node) override { path = node["path"].as<std::string>(); }
     };
-}
+} // namespace HBE::Default::Components

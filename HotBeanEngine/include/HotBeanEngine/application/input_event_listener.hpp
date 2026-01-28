@@ -4,7 +4,7 @@
  * @brief System for handling user input.
  * @version 0.1
  * @date 2025-03-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -28,16 +28,16 @@ namespace HBE::Application {
         InputEventListener() = default;
         ~InputEventListener() = default;
 
-        void OnEvent(SDL_Event& event);
-        const std::unordered_set<SDL_Keycode>& GetKeysPressed() const { return m_keys_pressed; }
-        const std::unordered_set<Uint8>& GetMouseButtonsPressed() const { return m_mouse_buttons_pressed; }
-        const glm::vec2& GetMousePosition() const { return m_mouse_position; }
+        void OnEvent(SDL_Event &event);
+        const std::unordered_set<SDL_Keycode> &GetKeysPressed() const { return m_keys_pressed; }
+        const std::unordered_set<Uint8> &GetMouseButtonsPressed() const { return m_mouse_buttons_pressed; }
+        const glm::vec2 &GetMousePosition() const { return m_mouse_position; }
 
     protected:
-        virtual void OnKeyDown(SDL_Event& event) {};
-        virtual void OnKeyUp(SDL_Event& event) {};
-        virtual void OnMouseButtonDown(SDL_Event& event) {};
-        virtual void OnMouseButtonUp(SDL_Event& event) {};
-        virtual void OnMouseMove(SDL_Event& event) {};
+        virtual void OnKeyDown(SDL_Event &event) {};
+        virtual void OnKeyUp(SDL_Event &event) {};
+        virtual void OnMouseButtonDown(SDL_Event &event) {};
+        virtual void OnMouseButtonUp(SDL_Event &event) {};
+        virtual void OnMouseMove(SDL_Event &event) {};
     };
-}
+} // namespace HBE::Application

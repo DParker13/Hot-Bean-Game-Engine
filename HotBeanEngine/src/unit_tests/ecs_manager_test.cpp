@@ -1,8 +1,19 @@
+/**
+ * @file ecs_manager_test.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Unit tests for the ECSManager class.
+ * Tests the integrated ECS functionality including entities, components, and systems.
+ * @version 0.1
+ * @date 2025-07-06
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include <catch2/catch_all.hpp>
 
-#include <HotBeanEngine/application/managers/ecs_manager.hpp>
 #include "test_component.hpp"
 #include "test_system.hpp"
+#include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
 using namespace HBE::Core;
 using namespace HBE::Application::Managers;
@@ -30,9 +41,7 @@ TEST_CASE("ECSManager: Create and Destroy Entity") {
         REQUIRE_THROWS_AS(ecs_manager.CreateEntity(), std::overflow_error);
     }
 
-    SECTION("Initialize entity count to 0") {
-        REQUIRE(ecs_manager.EntityCount() == 0);
-    }
+    SECTION("Initialize entity count to 0") { REQUIRE(ecs_manager.EntityCount() == 0); }
 
     SECTION("Destroy entity") {
         EntityID entity = ecs_manager.CreateEntity();

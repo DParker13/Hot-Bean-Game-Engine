@@ -1,13 +1,13 @@
 #pragma once
 
-#include <imgui.h>
-#include <glm/vec2.hpp>
 #include <SDL3/SDL.h>
+#include <glm/vec2.hpp>
+#include <imgui.h>
 
 namespace HBE::Application::GUI::PropertyNodes {
     class TexturePreview {
     public:
-        static void RenderProperty(int& id, const char* label, SDL_Texture* texture) {
+        static void RenderProperty(int &id, const char *label, SDL_Texture *texture) {
             ImGui::PushID(id++);
             ImGui::Text("%s", label);
             if (texture) {
@@ -25,11 +25,11 @@ namespace HBE::Application::GUI::PropertyNodes {
                     scaled_size = ImVec2(window_width * aspect_ratio, window_width);
                 }
 
-                ImGui::Image((void*)texture, scaled_size);
+                ImGui::Image((void *)texture, scaled_size);
             } else {
                 ImGui::Text("%s: No texture loaded.", label);
             }
             ImGui::PopID();
         }
     };
-}
+} // namespace HBE::Application::GUI::PropertyNodes

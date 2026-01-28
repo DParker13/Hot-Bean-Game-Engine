@@ -1,8 +1,19 @@
+/**
+ * @file component_manager_test.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Unit tests for the ComponentManager class.
+ * Tests component addition, removal, retrieval, and validation operations.
+ * @version 0.1
+ * @date 2025-06-19
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include <catch2/catch_all.hpp>
 
-#include <HotBeanEngine/application/managers/entity_manager.hpp>
-#include <HotBeanEngine/application/managers/component_manager.hpp>
 #include "test_component.hpp"
+#include <HotBeanEngine/application/managers/component_manager.hpp>
+#include <HotBeanEngine/application/managers/entity_manager.hpp>
 
 using namespace HBE::Core;
 using namespace HBE::Application::Managers;

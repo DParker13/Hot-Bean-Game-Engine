@@ -5,7 +5,7 @@
  * Initializes SDL, creates the window and renderer, and manages the main game loop.
  * @version 0.1
  * @date 2025-02-18
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -13,7 +13,8 @@
 #include <HotBeanEngine/editor/noop_editor_gui.hpp>
 
 namespace HBE::Application {
-    Application::Application(const std::string& config_path, std::shared_ptr<IComponentFactory> component_factory, std::unique_ptr<GUI::IEditorGUI> editor_gui)
+    Application::Application(const std::string &config_path, std::shared_ptr<IComponentFactory> component_factory,
+                             std::unique_ptr<GUI::IEditorGUI> editor_gui)
         : m_component_factory(component_factory), m_editor_gui(std::move(editor_gui)) {
 
         // Setup singleton instance
@@ -28,11 +29,12 @@ namespace HBE::Application {
 
         if (config_loaded) {
             LOG_CORE(LoggingType::INFO, "Config file loaded.");
-        }
-        else {
+        } else {
             LOG_CORE(LoggingType::WARNING, "Failed to load config file at \"" + config_path + "\"");
             LOG_CORE(LoggingType::INFO, "\tLoading Default config");
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Config Error", std::string("Failed to load config file at \"" + config_path + "\"").data(), m_window);
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Config Error",
+                                     std::string("Failed to load config file at \"" + config_path + "\"").data(),
+                                     m_window);
         }
 
         m_input_event_listener = InputEventListener();
@@ -42,7 +44,7 @@ namespace HBE::Application {
         InitSDL();
         InitSDLTTF();
         InitSDLMixer();
-        
+
         // Ensure we always have an editor GUI instance (Noop by default)
         if (!m_editor_gui) {
             m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
@@ -59,8 +61,7 @@ namespace HBE::Application {
     void Application::SetupRendererAndWindow() {
         // Create new window surface
         if (m_window == nullptr) {
-            SDL_CreateWindowAndRenderer(WINDOW_TITLE.c_str(), SCREEN_WIDTH,
-                                        SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE,
+            SDL_CreateWindowAndRenderer(WINDOW_TITLE.c_str(), SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE,
                                         &m_window, &m_renderer);
 
             // Check if window creation was successful
@@ -70,7 +71,8 @@ namespace HBE::Application {
             }
 
             if (m_renderer == nullptr) {
-                LOG_CORE(LoggingType::FATAL, std::string("Renderer could not be created! SDL_Error: ") + SDL_GetError());
+                LOG_CORE(LoggingType::FATAL,
+                         std::string("Renderer could not be created! SDL_Error: ") + SDL_GetError());
                 SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to create renderer", m_window);
                 exit(-1);
             }
@@ -79,7 +81,7 @@ namespace HBE::Application {
         // Initialize renderer settings
         SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
-        
+
         // Clear the renderer to prepare for the next frame
         SDL_RenderClear(m_renderer);
     }
@@ -117,101 +119,75 @@ namespace HBE::Application {
     // void Application::InitSDLImage() {
     //     // Initialize Image
     //     if (!IMG_Init()) {
-    //         LOG_CORE(LoggingType::FATAL, std::string("Image could not be initialized! SDL_Error: ") + SDL_GetError());
-    //         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL Image", m_window);
-    //         exit(-1);
+    //         LOG_CORE(LoggingType::FATAL, std::string("Image could not be initialized! SDL_Error: ") +
+    //         SDL_GetError()); SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL
+    //         Image", m_window); exit(-1);
     //     }
     // }
 
     /// @brief Initializes the SDL_Mixer library.
     void Application::InitSDLMixer() {
         if (!MIX_Init()) {
-            LOG_CORE(LoggingType::FATAL, std::string("Audio mixer could not be initialized! SDL_Error: ") + SDL_GetError());
+            LOG_CORE(LoggingType::FATAL,
+                     std::string("Audio mixer could not be initialized! SDL_Error: ") + SDL_GetError());
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Failed to initialize SDL Mixer", m_window);
             exit(-1);
         }
         // else if(MIX_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) {
-        //     LOG_CORE(LoggingType::FATAL, std::string("Audio device could not be opened! SDL_Error: ") + SDL_GetError());
-        //     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Mixer Error", "Failed to open audio device", m_window);
-        //     exit(-1);
+        //     LOG_CORE(LoggingType::FATAL, std::string("Audio device could not be opened! SDL_Error: ") +
+        //     SDL_GetError()); SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Mixer Error", "Failed to open audio
+        //     device", m_window); exit(-1);
         // }
     }
 
-    Application& Application::GetInstance() {
+    Application &Application::GetInstance() {
         if (!s_instance) {
-            std::cout << "Application::GetInstance() was called before the application was instantiated properly!" << std::endl;
+            std::cout << "Application::GetInstance() was called before the application was instantiated properly!"
+                      << std::endl;
         }
 
         return *s_instance;
     }
 
     // -- Getters and Setters -- //
-    SDL_Renderer* Application::GetRenderer() {
-        return m_renderer;
-    }
+    SDL_Renderer *Application::GetRenderer() { return m_renderer; }
 
-    SDL_Window* Application::GetWindow() {
-        return m_window;
-    }
+    SDL_Window *Application::GetWindow() { return m_window; }
 
     /// @brief Gets the delta time (time elapsed) between frames in seconds.
     /// @return Delta time in seconds (float).
-    float Application::GetDeltaTime() const {
-        return m_delta_time;
-    }
+    float Application::GetDeltaTime() const { return m_delta_time; }
 
     /// @brief Gets the high resolution delta time (time elapsed) between frames in seconds.
     /// @return Delta time in seconds (double).
-    double Application::GetDeltaTimeHiRes() const {
-        return m_delta_time_hi_res;
-    }
+    double Application::GetDeltaTimeHiRes() const { return m_delta_time_hi_res; }
 
-    ECSManager& Application::GetECSManager() const {
-        return *m_ecs_manager;
-    }
+    ECSManager &Application::GetECSManager() const { return *m_ecs_manager; }
 
-    SceneManager& Application::GetSceneManager() const {
-        return *m_scene_manager;
-    }
+    SceneManager &Application::GetSceneManager() const { return *m_scene_manager; }
 
-    std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const {
-        return m_component_factory;
-    }
+    std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
 
-    InputEventListener& Application::GetInputEventListener() {
-        return m_input_event_listener;
-    }
+    InputEventListener &Application::GetInputEventListener() { return m_input_event_listener; }
 
-    const InputEventListener& Application::GetInputEventListener() const {
-        return m_input_event_listener;
-    }
+    const InputEventListener &Application::GetInputEventListener() const { return m_input_event_listener; }
 
     /// @brief Logs a message to a log file.
     /// @param message The message to log to the log file
-    void Application::Log(LoggingType type, std::string_view message,
-                    const char* file, int line, const char* function) {
+    void Application::Log(LoggingType type, std::string_view message, const char *file, int line,
+                          const char *function) {
         m_logging_manager->Log(type, message, file, line, function);
     }
 
-    void Application::SetLoggingLevel(LoggingType level) {
-        m_logging_manager->SetLoggingLevel(level);
-    }
+    void Application::SetLoggingLevel(LoggingType level) { m_logging_manager->SetLoggingLevel(level); }
 
-    void Application::SetLogPath(std::string_view log_path) {
-        m_logging_manager->SetLogPath(log_path);
-    }
+    void Application::SetLogPath(std::string_view log_path) { m_logging_manager->SetLogPath(log_path); }
 
-    void Application::PlayGame() {
-        m_loop_manager->QueueStateChange(ApplicationState::Playing);
-    }
+    void Application::PlayGame() { m_loop_manager->QueueStateChange(ApplicationState::Playing); }
 
-    void Application::PauseGame() {
-        m_loop_manager->QueueStateChange(ApplicationState::Paused);
-    }
+    void Application::PauseGame() { m_loop_manager->QueueStateChange(ApplicationState::Paused); }
 
-    void Application::StopGame() {
-        m_loop_manager->QueueStateChange(ApplicationState::Stopped);
-    }
+    void Application::StopGame() { m_loop_manager->QueueStateChange(ApplicationState::Stopped); }
 
     /// @brief Starts the main game loop of the application.
     void Application::Start() {
@@ -240,8 +216,7 @@ namespace HBE::Application {
             if (m_loop_manager->IsState(ApplicationState::Playing)) {
                 PhysicsLoop();
                 OnUpdate();
-            }
-            else {
+            } else {
                 m_editor_gui->OnUpdate();
             }
 
@@ -262,18 +237,17 @@ namespace HBE::Application {
             OnPreEvent();
         }
 
-        //Polls for events
+        // Polls for events
         while (SDL_PollEvent(&event)) {
-            // Application level events are handled here. Each system can handle their own events through the OnEvent method
+            // Application level events are handled here. Each system can handle their own events through the OnEvent
+            // method
             if (event.type == SDL_EVENT_QUIT) {
                 m_quit = true;
-            }
-            else if (event.type == SDL_EVENT_WINDOW_RESIZED) {
+            } else if (event.type == SDL_EVENT_WINDOW_RESIZED) {
                 // Call system OnWindowResize methods
                 OnWindowResize(event);
                 m_editor_gui->OnWindowResize(event);
-            }
-            else {
+            } else {
                 m_input_event_listener.OnEvent(event);
 
                 // Call system OnEvent methods
@@ -283,16 +257,19 @@ namespace HBE::Application {
 
                 m_editor_gui->OnEvent(event);
             }
-            switch(event.type) {
-                case SDL_EVENT_RENDER_DEVICE_LOST:
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "DEVICE LOST!", "SDL_EVENT_RENDER_DEVICE_LOST", m_window);
-                    break;
-                case SDL_EVENT_RENDER_DEVICE_RESET:
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "DEVICE RESET!", "SDL_EVENT_RENDER_DEVICE_RESET", m_window);
-                    break;
-                case SDL_EVENT_RENDER_TARGETS_RESET:
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "TARGETS RESET!", "SDL_EVENT_RENDER_TARGETS_RESET", m_window);
-                    break;
+            switch (event.type) {
+            case SDL_EVENT_RENDER_DEVICE_LOST:
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "DEVICE LOST!", "SDL_EVENT_RENDER_DEVICE_LOST",
+                                         m_window);
+                break;
+            case SDL_EVENT_RENDER_DEVICE_RESET:
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "DEVICE RESET!", "SDL_EVENT_RENDER_DEVICE_RESET",
+                                         m_window);
+                break;
+            case SDL_EVENT_RENDER_TARGETS_RESET:
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "TARGETS RESET!", "SDL_EVENT_RENDER_TARGETS_RESET",
+                                         m_window);
+                break;
             }
         }
     }
@@ -304,7 +281,7 @@ namespace HBE::Application {
     void Application::CleanUpSDL() {
         SDL_DestroyRenderer(m_renderer);
         SDL_DestroyWindow(m_window);
-    
+
         // TTF
         TTF_Quit();
 
@@ -312,7 +289,7 @@ namespace HBE::Application {
         MIX_Quit();
 
         // Image
-        //IMG_Quit();
+        // IMG_Quit();
 
         // SDL
         SDL_Quit();
@@ -365,18 +342,18 @@ namespace HBE::Application {
 
         // Fixed timestep loop
         while (m_accumulator >= m_fixed_time_step) {
-            //m_previousState = m_currentState;
-            // Advance your simulation here (e.g., physics, ECS fixed update)
+            // m_previousState = m_currentState;
+            //  Advance your simulation here (e.g., physics, ECS fixed update)
             m_ecs_manager->IterateSystems(GameLoopState::OnFixedUpdate);
             m_physics_sim_time += m_fixed_time_step; // Advance simulation time tracker
             m_accumulator -= m_fixed_time_step;
         }
 
         // Interpolation factor
-        //double alpha = m_accumulator / m_fixed_time_step;
+        // double alpha = m_accumulator / m_fixed_time_step;
 
         // Interpolate state for rendering (customize as needed)
-        //State renderState = m_currentState * alpha + m_previousState * (1.0 - alpha);
+        // State renderState = m_currentState * alpha + m_previousState * (1.0 - alpha);
     }
 
     /**
@@ -393,25 +370,21 @@ namespace HBE::Application {
      *
      * @param event The SDL event to be handled.
      */
-    void Application::OnPreEvent() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnPreEvent);
-    }
+    void Application::OnPreEvent() { m_ecs_manager->IterateSystems(GameLoopState::OnPreEvent); }
 
     /**
      * @brief Calls the OnEvent method of each system in the system manager.
      *
      * @param event The SDL event to be handled.
      */
-    void Application::OnEvent(SDL_Event& event) {
-        m_ecs_manager->IterateSystems(event, GameLoopState::OnEvent);
-    }
+    void Application::OnEvent(SDL_Event &event) { m_ecs_manager->IterateSystems(event, GameLoopState::OnEvent); }
 
     /**
      * @brief Calls the OnWindowResize method of each system in the system manager.
-     * 
+     *
      * @param event The SDL event to be handled.
      */
-    void Application::OnWindowResize(SDL_Event& event) {
+    void Application::OnWindowResize(SDL_Event &event) {
         m_ecs_manager->IterateSystems(event, GameLoopState::OnWindowResize);
     }
 
@@ -421,9 +394,7 @@ namespace HBE::Application {
      * @param renderer The SDL_Renderer to render with.
      * @param delta_time The time in seconds since the last frame.
      */
-    void Application::OnUpdate() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnUpdate);
-    }
+    void Application::OnUpdate() { m_ecs_manager->IterateSystems(GameLoopState::OnUpdate); }
 
     /**
      * @brief Renders all systems within the application by invoking their OnRender method.
@@ -432,16 +403,12 @@ namespace HBE::Application {
      * @param window The SDL_Window that the renderer is attached to.
      * @param surface The SDL_Surface to render to.
      */
-    void Application::OnRender() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnRender);
-    }
+    void Application::OnRender() { m_ecs_manager->IterateSystems(GameLoopState::OnRender); }
 
     /**
      * @brief Calls the OnPostRender method of each system in the system manager.
-     * 
+     *
      * @param renderer The SDL_Renderer to render with.
      */
-    void Application::OnPostRender() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnPostRender);
-    }
-}
+    void Application::OnPostRender() { m_ecs_manager->IterateSystems(GameLoopState::OnPostRender); }
+} // namespace HBE::Application

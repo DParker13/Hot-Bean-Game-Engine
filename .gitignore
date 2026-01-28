@@ -1,5 +1,5 @@
 .vs
-.vscode
+.vscode/*
 .VSCodeCounter
 bin
 build
@@ -7,3 +7,5 @@ Testing
 HotBeanEngine/docs/index.html.lnk
 HotBeanEngine/docs/index.html
 HotBeanEngine/docs/html/
+
+!.vscode/tasks.json

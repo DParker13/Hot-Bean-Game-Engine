@@ -4,7 +4,7 @@
  * @brief Button component. Used for storing font, text, and styling.
  * @version 0.1
  * @date 2025-11-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -23,20 +23,20 @@
 namespace HBE::Default::Components {
     using namespace HBE::Core;
     using namespace HBE::Application::GUI;
-    
+
     struct Button : public UIElement, public IPropertyRenderable {
-        TTF_Font* m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
+        TTF_Font *m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
         SDL_Color m_foreground_color = {255, 255, 255, 255}; ///< The color of the text.
-        SDL_Color m_background_color = {0, 0, 0, 255}; ///< The background color of the text.
-        Uint32 m_size = 10; ///< The size of the font.
-        Uint32 m_style = TTF_STYLE_NORMAL; ///< The style of the font.
-        Uint32 m_wrapping_width = 0; ///< The wrapping width of the text.
-        std::string m_text = "default text"; ///< The text to be rendered.
+        SDL_Color m_background_color = {0, 0, 0, 255};       ///< The background color of the text.
+        Uint32 m_size = 10;                                  ///< The size of the font.
+        Uint32 m_style = TTF_STYLE_NORMAL;                   ///< The style of the font.
+        Uint32 m_wrapping_width = 0;                         ///< The wrapping width of the text.
+        std::string m_text = "default text";                 ///< The text to be rendered.
 
         DEFINE_NAME("Button");
         Button() : UIElement() {}
 
-        void Deserialize(YAML::Node& node) override {
+        void Deserialize(YAML::Node &node) override {
             if (node["text"]) {
                 m_text = node["text"].as<std::string>();
             }
@@ -62,7 +62,7 @@ namespace HBE::Default::Components {
             }
         }
 
-        void Serialize(YAML::Emitter& out) const override {
+        void Serialize(YAML::Emitter &out) const override {
             if (!m_text.empty()) {
                 out << YAML::Key << "text" << YAML::Value << m_text;
             }
@@ -73,19 +73,18 @@ namespace HBE::Default::Components {
             out << YAML::Key << "wrapping_width" << YAML::Value << m_wrapping_width;
         }
 
-        void RenderProperties(int& id) override {
+        void RenderProperties(int &id) override {
             PropertyNodes::String::RenderProperty(id, "Text", m_text);
             PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
             PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
-            PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style, {
-                { TTF_STYLE_NORMAL, "Normal" },
-                { TTF_STYLE_BOLD, "Bold" },
-                { TTF_STYLE_ITALIC, "Italic" },
-                { TTF_STYLE_UNDERLINE, "Underline" },
-                { TTF_STYLE_STRIKETHROUGH, "Strikethrough" }
-            });
-            PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int&>(m_size));
-            PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int&>(m_wrapping_width));
+            PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style,
+                                                {{TTF_STYLE_NORMAL, "Normal"},
+                                                 {TTF_STYLE_BOLD, "Bold"},
+                                                 {TTF_STYLE_ITALIC, "Italic"},
+                                                 {TTF_STYLE_UNDERLINE, "Underline"},
+                                                 {TTF_STYLE_STRIKETHROUGH, "Strikethrough"}});
+            PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int &>(m_size));
+            PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int &>(m_wrapping_width));
         }
     };
-}
+} // namespace HBE::Default::Components

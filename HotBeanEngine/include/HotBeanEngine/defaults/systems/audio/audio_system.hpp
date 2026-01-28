@@ -4,7 +4,7 @@
  * @brief Audio system for playing audio files.
  * @version 0.1
  * @date 2025-03-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -14,14 +14,14 @@
 
 namespace HBE::Default::Systems {
     using namespace HBE::Core;
-    
+
     /**
      * @brief Manages audio playback for entities
      */
     class AudioSystem : public ISystem {
     private:
-        MIX_Mixer* m_mixer;
-        MIX_Track* m_track_one;
+        MIX_Mixer *m_mixer;
+        MIX_Track *m_track_one;
 
     public:
         DEFINE_SIGNATURE(AudioSystem, "Audio System");
@@ -32,4 +32,4 @@ namespace HBE::Default::Systems {
         void PlayMusic(int numLoops);
         void SetVolume(Uint32 volume);
     };
-}
+} // namespace HBE::Default::Systems

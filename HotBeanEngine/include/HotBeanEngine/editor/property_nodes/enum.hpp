@@ -4,7 +4,7 @@
  * @brief Color property node.
  * @version 0.1
  * @date 2025-10-20
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -16,9 +16,10 @@
 
 namespace HBE::Application::GUI::PropertyNodes {
     struct Enum {
-        template<typename EnumType>
-        static bool RenderProperty(int& id, std::string_view label, EnumType& value,
-            const std::vector<std::pair<EnumType, std::string>>& options, bool disabled = false) {
+        template <typename EnumType>
+        static bool RenderProperty(int &id, std::string_view label, EnumType &value,
+                                   const std::vector<std::pair<EnumType, std::string>> &options,
+                                   bool disabled = false) {
             ImGui::PushID(id++);
             ImGui::Text("%s", label.data());
             ImGui::SameLine();
@@ -35,8 +36,8 @@ namespace HBE::Application::GUI::PropertyNodes {
             }
 
             // Build items array
-            std::vector<const char*> items;
-            for (const auto& opt : options) {
+            std::vector<const char *> items;
+            for (const auto &opt : options) {
                 items.push_back(opt.second.c_str());
             }
 
@@ -52,4 +53,4 @@ namespace HBE::Application::GUI::PropertyNodes {
             return changed;
         }
     };
-}
+} // namespace HBE::Application::GUI::PropertyNodes

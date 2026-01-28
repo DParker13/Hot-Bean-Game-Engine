@@ -4,7 +4,7 @@
  * @brief Includes all core headers for easy access
  * @version 0.1
  * @date 2025-04-20
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -21,8 +21,8 @@
 #include <HotBeanEngine/core/isparse_set.hpp>
 #include <HotBeanEngine/core/isystem.hpp>
 #include <HotBeanEngine/core/logging_type.hpp>
-#include <HotBeanEngine/core/octree_2d_node.hpp>
 #include <HotBeanEngine/core/octree_2d.hpp>
+#include <HotBeanEngine/core/octree_2d_node.hpp>
 #include <HotBeanEngine/core/scene.hpp>
 #include <HotBeanEngine/core/serializer.hpp>
 #include <HotBeanEngine/core/signature.hpp>

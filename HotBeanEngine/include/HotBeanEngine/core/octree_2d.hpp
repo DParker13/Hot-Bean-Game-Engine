@@ -4,7 +4,7 @@
  * @brief Octree 2D structure for spatial partitioning.
  * @version 0.1
  * @date 2025-09-11
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -17,35 +17,27 @@ namespace HBE::Core {
      * @brief 2D spatial partitioning octree for efficient spatial queries.
      * Hierarchical structure for organizing objects in 2D space.
      */
-    template<typename T>
+    template <typename T>
     struct Octree2D {
         // TODO: Create vector? with multiple octrees if items move outside of the root bounds
 
-        Octree2DNode<T>* m_root = nullptr;
+        Octree2DNode<T> *m_root = nullptr;
         int m_max_depth;
-        std::unordered_map<T, Octree2DNode<T>*> m_item_to_node;
+        std::unordered_map<T, Octree2DNode<T> *> m_item_to_node;
 
         Octree2D(glm::ivec3 bounds, int depth = 5) : m_root(new Octree2DNode<T>(bounds)), m_max_depth(depth) {};
-        ~Octree2D() {
-            delete m_root;
-        }
+        ~Octree2D() { delete m_root; }
 
-        void Insert(T* item, const glm::vec2 position) {
-            m_root->Insert(item, position, m_max_depth, *m_item_to_node);
-        }
+        void Insert(T *item, const glm::vec2 position) { m_root->Insert(item, position, m_max_depth, *m_item_to_node); }
 
-        void Remove(T* item) {
+        void Remove(T *item) {
             m_root->Remove(item);
             m_item_to_node.erase(*item);
         }
 
-        void Remove(T* item, glm::vec2 position) {
-            m_root->Remove(item, position);
-        }
+        void Remove(T *item, glm::vec2 position) { m_root->Remove(item, position); }
 
-        Octree2DNode<T>* Find(T* item) {
-            return m_item_to_node[m_item_to_node];
-        }
+        Octree2DNode<T> *Find(T *item) { return m_item_to_node[m_item_to_node]; }
 
         std::vector<glm::ivec3> GetAllBounds() {
             std::vector<glm::ivec3> bounds;
@@ -54,4 +46,4 @@ namespace HBE::Core {
             return bounds;
         }
     };
-}
+} // namespace HBE::Core

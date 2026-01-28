@@ -4,7 +4,7 @@
  * @brief UI element component. Used for rendering UI elements.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -38,14 +38,12 @@ namespace HBE::Default::Components {
         UIElement() = default;
         virtual ~UIElement() = default;
 
-        virtual void Serialize(YAML::Emitter& out) const {
-            out << YAML::Key << "type" << YAML::Value << (int)m_type;
-        }
-        virtual void Deserialize(YAML::Node& node) {
+        virtual void Serialize(YAML::Emitter &out) const { out << YAML::Key << "type" << YAML::Value << (int)m_type; }
+        virtual void Deserialize(YAML::Node &node) {
             if (node["type"])
                 m_type = (UIType)node["type"].as<int>();
 
             MarkDirty();
         }
     };
-}
+} // namespace HBE::Default::Components

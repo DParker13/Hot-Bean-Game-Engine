@@ -4,7 +4,7 @@
  * @brief Used for storing font, text, and styling.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -12,8 +12,8 @@
 
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
+#include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
 #include <HotBeanEngine/editor/property_nodes/color.hpp>
@@ -24,20 +24,20 @@
 namespace HBE::Default::Components {
     using namespace HBE::Core;
     using namespace HBE::Application::GUI;
-    
+
     struct Text : public UIElement, public IPropertyRenderable {
-        TTF_Font* m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
+        TTF_Font *m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
         SDL_Color m_foreground_color = {255, 255, 255, 255}; ///< The color of the text.
-        SDL_Color m_background_color = {0, 0, 0, 255}; ///< The background color of the text.
-        Uint32 m_size = 10; ///< The size of the font.
-        Uint32 m_style = TTF_STYLE_NORMAL; ///< The style of the font.
-        Uint32 m_wrapping_width = 0; ///< The wrapping width of the text.
-        std::string m_text = "default text"; ///< The text to be rendered.
-    
+        SDL_Color m_background_color = {0, 0, 0, 255};       ///< The background color of the text.
+        Uint32 m_size = 10;                                  ///< The size of the font.
+        Uint32 m_style = TTF_STYLE_NORMAL;                   ///< The style of the font.
+        Uint32 m_wrapping_width = 0;                         ///< The wrapping width of the text.
+        std::string m_text = "default text";                 ///< The text to be rendered.
+
         DEFINE_NAME("Text");
         Text() : UIElement() {}
 
-        void Deserialize(YAML::Node& node) override {
+        void Deserialize(YAML::Node &node) override {
             if (node["text"]) {
                 m_text = node["text"].as<std::string>();
             }
@@ -65,7 +65,7 @@ namespace HBE::Default::Components {
             MarkDirty();
         }
 
-        void Serialize(YAML::Emitter& out) const override {
+        void Serialize(YAML::Emitter &out) const override {
             if (!m_text.empty()) {
                 out << YAML::Key << "text" << YAML::Value << m_text;
             }
@@ -76,26 +76,26 @@ namespace HBE::Default::Components {
             out << YAML::Key << "wrapping_width" << YAML::Value << m_wrapping_width;
         }
 
-        void RenderProperties(int& id) override {
+        void RenderProperties(int &id) override {
             bool changed = false;
-            
+
             changed |= PropertyNodes::String::RenderProperty(id, "Text", m_text);
             changed |= PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
             changed |= PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
-            changed |= PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style, {
-                { TTF_STYLE_NORMAL, "Normal" },
-                { TTF_STYLE_BOLD, "Bold" },
-                { TTF_STYLE_ITALIC, "Italic" },
-                { TTF_STYLE_UNDERLINE, "Underline" },
-                { TTF_STYLE_STRIKETHROUGH, "Strikethrough" }
-            });
-            changed |= PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int&>(m_size));
-            changed |= PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int&>(m_wrapping_width));
-            
+            changed |= PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style,
+                                                           {{TTF_STYLE_NORMAL, "Normal"},
+                                                            {TTF_STYLE_BOLD, "Bold"},
+                                                            {TTF_STYLE_ITALIC, "Italic"},
+                                                            {TTF_STYLE_UNDERLINE, "Underline"},
+                                                            {TTF_STYLE_STRIKETHROUGH, "Strikethrough"}});
+            changed |= PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int &>(m_size));
+            changed |=
+                PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int &>(m_wrapping_width));
+
             // Mark texture as dirty if any property changed
             if (changed) {
                 MarkDirty();
             }
         }
     };
-}
+} // namespace HBE::Default::Components

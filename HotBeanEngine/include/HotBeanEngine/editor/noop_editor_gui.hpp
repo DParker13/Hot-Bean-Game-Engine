@@ -16,10 +16,10 @@ namespace HBE::Application::GUI {
 
         void OnStart() override {}
         void OnPreEvent() override {}
-        void OnEvent(SDL_Event& /*event*/) override {}
-        void OnWindowResize(SDL_Event& /*event*/) override {}
+        void OnEvent(SDL_Event & /*event*/) override {}
+        void OnWindowResize(SDL_Event & /*event*/) override {}
         void OnUpdate() override {}
         void OnRender() override {}
         void OnPostRender() override {}
     };
-}
+} // namespace HBE::Application::GUI

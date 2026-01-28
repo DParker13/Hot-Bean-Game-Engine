@@ -1,7 +1,18 @@
+/**
+ * @file sparse_set_test.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Unit tests for the sparse set data structure.
+ * Tests insertion, deletion, lookup, and iteration operations.
+ * @version 0.1
+ * @date 2025-07-06
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include <catch2/catch_all.hpp>
 
-#include <HotBeanEngine/core/isparse_set.hpp>
 #include "test_system.hpp"
+#include <HotBeanEngine/core/isparse_set.hpp>
 
 // TEST_CASE("SparseSet") {
 //     #define MAX_ITEMS 10

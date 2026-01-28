@@ -13,4 +13,4 @@ namespace HBE::Application::GUI {
 
         virtual void InitEditorGUI() = 0;
     };
-}
+} // namespace HBE::Application::GUI

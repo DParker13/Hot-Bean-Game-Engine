@@ -4,7 +4,7 @@
  * @brief Default archetype definitions. Combines components into archetypes for easier entity creation.
  * @version 0.1
  * @date 2025-07-06
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -25,4 +25,4 @@ namespace HBE::Default::Archetypes {
     // --- UI ---
     using UIElementArchetype = Archetype<Transform2D, Texture, UIElement>;
     using TextArchetype = Archetype<Transform2D, Text, Texture, UIElement>;
-}
+} // namespace HBE::Default::Archetypes

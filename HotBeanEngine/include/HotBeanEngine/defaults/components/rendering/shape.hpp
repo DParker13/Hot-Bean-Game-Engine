@@ -4,7 +4,7 @@
  * @brief Shape component. Used for rendering a shape.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -14,23 +14,21 @@
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
 #include <HotBeanEngine/editor/property_nodes/bool.hpp>
-#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 #include <HotBeanEngine/editor/property_nodes/color.hpp>
+#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;
     using namespace HBE::Application::GUI;
-    
+
     /**
      * @brief Primitive shape rendering component
-     * 
+     *
      * Renders basic geometric shapes (rectangles, circles, lines).
      * Supports filled and outlined rendering modes.
      */
     struct Shape : public IComponent, public IMemberChanged, public IPropertyRenderable {
-        enum class ShapeType {
-            Box
-        };
+        enum class ShapeType { Box };
 
         ShapeType m_type = ShapeType::Box;
         glm::vec2 m_size = glm::vec2(1.0f, 1.0f);
@@ -40,17 +38,17 @@ namespace HBE::Default::Components {
         DEFINE_NAME("Shape");
         Shape() = default;
 
-        void Serialize(YAML::Emitter& out) const override {
+        void Serialize(YAML::Emitter &out) const override {
             out << YAML::Key << "size" << YAML::Value << m_size;
             out << YAML::Key << "color" << YAML::Value << m_color;
         }
 
-        void Deserialize(YAML::Node& node) override {
+        void Deserialize(YAML::Node &node) override {
             m_size = node["size"].as<glm::vec2>();
             m_color = node["color"].as<SDL_Color>();
         }
 
-        void RenderProperties(int& id) override {
+        void RenderProperties(int &id) override {
             bool changed = false;
 
             changed |= PropertyNodes::Bool::RenderProperty(id, "Filled", m_filled);
@@ -62,4 +60,4 @@ namespace HBE::Default::Components {
             }
         }
     };
-}
+} // namespace HBE::Default::Components

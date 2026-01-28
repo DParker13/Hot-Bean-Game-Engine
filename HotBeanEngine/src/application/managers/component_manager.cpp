@@ -4,7 +4,7 @@
  * @brief Manages the entity-component relationship.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -16,7 +16,7 @@ namespace HBE::Application::Managers {
 
     /**
      * @brief Retrieves the name of a component
-     * 
+     *
      * @param component_id The type of the component
      * @return std::string The name of the component
      * @throw ComponentNotRegisteredException
@@ -33,7 +33,7 @@ namespace HBE::Application::Managers {
 
     /**
      * @brief Retrieves the Component Type associated with the given component name
-     * 
+     *
      * @param component_name The name of the component
      * @return ComponentID The ComponentID associated with the given component name
      * @throw ComponentNotRegisteredException
@@ -48,38 +48,38 @@ namespace HBE::Application::Managers {
         return m_component_name_to_type[component_name];
     }
 
-
     /**
      * @brief Retrieves a component from an entity
-     * 
+     *
      * @param entity EntityID to retrieve component from
      * @param component_id Type of component to retrieve
      * @return Component& Component data
      * @throws ComponentNotRegisteredException or std::bad_any_cast
      */
-    IComponent* ComponentManager::GetComponent(EntityID entity, ComponentID component_id) {
+    IComponent *ComponentManager::GetComponent(EntityID entity, ComponentID component_id) {
         if (!IsComponentRegistered(component_id)) {
             auto ex = ComponentNotRegisteredException();
             LOG_CORE(LoggingType::ERROR, ex.what());
             throw ex;
         }
-        
+
         // Resolve component name outside of try so catch can reference it
         std::string component_name = m_component_id_to_name[component_id];
 
         try {
             std::shared_ptr<ISparseSet> sparse_set = m_component_name_to_data[component_name];
-            return std::any_cast<IComponent*>(sparse_set->GetElementPtrAsAny(entity));
-        }
-        catch (const std::bad_any_cast&) {
-            LOG_CORE(LoggingType::ERROR, "Failed to cast component for EntityID " + std::to_string(entity) + ", Component \"" + component_name + "\" (id " + std::to_string(component_id) + ").");
+            return std::any_cast<IComponent *>(sparse_set->GetElementPtrAsAny(entity));
+        } catch (const std::bad_any_cast &) {
+            LOG_CORE(LoggingType::ERROR, "Failed to cast component for EntityID " + std::to_string(entity) +
+                                             ", Component \"" + component_name + "\" (id " +
+                                             std::to_string(component_id) + ").");
             throw;
         }
     }
 
     /**
      * @brief Removes a component from an entity
-     * 
+     *
      * @param entity EntityID to remove component from
      * @param component_id Type of component to remove
      * @throw ComponentNotRegisteredException
@@ -90,7 +90,7 @@ namespace HBE::Application::Managers {
             LOG_CORE(LoggingType::ERROR, ex.what());
             throw ex;
         }
-        
+
         std::string component_name = m_component_id_to_name[component_id];
         auto sparse_set = m_component_name_to_data[component_name];
 
@@ -113,10 +113,10 @@ namespace HBE::Application::Managers {
 
     /**
      * @brief Checks if a component is registered
-     * 
+     *
      * @param component_name The name of the component
-     * @return true 
-     * @return false 
+     * @return true
+     * @return false
      */
     bool ComponentManager::IsComponentRegistered(std::string component_name) const {
         return m_component_name_to_type.find(component_name) != m_component_name_to_type.end();
@@ -124,10 +124,10 @@ namespace HBE::Application::Managers {
 
     /**
      * @brief Checks if a component is registered
-     * 
+     *
      * @param component_id The type of the component
-     * @return true 
-     * @return false 
+     * @return true
+     * @return false
      */
     bool ComponentManager::IsComponentRegistered(ComponentID component_id) const {
         return m_component_id_to_name.find(component_id) != m_component_id_to_name.end();
@@ -146,4 +146,4 @@ namespace HBE::Application::Managers {
 
         LOG_CORE(LoggingType::DEBUG, "All components cleared.");
     }
-}
+} // namespace HBE::Application::Managers

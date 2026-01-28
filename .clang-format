@@ -1,0 +1,7 @@
+BasedOnStyle: llvm
+IndentWidth: 4
+NamespaceIndentation: All
+AccessModifierOffset: -4
+BreakBeforeBraces: Attach
+ColumnLimit: 120
+AlwaysBreakTemplateDeclarations: Yes

@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Generate Doxygen Documentation",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/HotBeanEngine/docs && doxygen",
+            "options": {
+                "env": {
+                    "DOXYGEN_INPUT_DIR": "${workspaceFolder}/HotBeanEngine"
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Format All C++ Files",
+            "type": "shell",
+            "command": "find Game HotBeanEngine -type f \\( -name \"*.cpp\" -o -name \"*.h\" -o -name \"*.hpp\" -o -name \"*.c\" \\) -exec clang-format -i {} +",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always"
+            }
+        }
+    ]
+}

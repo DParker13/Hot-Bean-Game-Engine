@@ -4,15 +4,15 @@
  * @brief Default scene implementation. Sets up default systems for a basic game scene.
  * @version 0.1
  * @date 2025-10-17
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
 #pragma once
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/systems/default_systems.hpp>
 #include <HotBeanEngine/defaults/default_scene_serializer.hpp>
+#include <HotBeanEngine/defaults/systems/default_systems.hpp>
 
 namespace HBE::Default {
     using namespace HBE::Application;
@@ -20,7 +20,7 @@ namespace HBE::Default {
 
     /**
      * @brief Default scene implementation with standard setup
-     * 
+     *
      * Provides basic scene configuration and system initialization.
      * Serves as template for custom scene implementations.
      */
@@ -35,4 +35,4 @@ namespace HBE::Default {
          */
         void SetupSystems();
     };
-}
+} // namespace HBE::Default

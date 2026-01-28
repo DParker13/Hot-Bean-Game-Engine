@@ -4,7 +4,7 @@
  * @brief System for player input to control entities.
  * @version 0.1
  * @date 2025-03-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -16,7 +16,7 @@
 namespace HBE::Default::Systems {
     using namespace HBE::Core;
     using namespace HBE::Default::Components;
-    
+
     /**
      * @brief System for player input to control entities.
      */
@@ -29,4 +29,4 @@ namespace HBE::Default::Systems {
         void OnUpdate() override;
         void Move(EntityID entity, float speed);
     };
-}
+} // namespace HBE::Default::Systems

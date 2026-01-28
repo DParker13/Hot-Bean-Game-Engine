@@ -4,7 +4,7 @@
  * @brief System for 2D UI management.
  * @version 0.1
  * @date 2025-03-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -29,17 +29,17 @@ namespace HBE::Default::Systems {
 
     public:
         std::unordered_set<SDL_Keycode> _keysPressed;
-        TTF_Font* m_font = nullptr; // This is not a good idea
-        
+        TTF_Font *m_font = nullptr; // This is not a good idea
+
         DEFINE_SIGNATURE(UISystem, "UI System", Transform2D, Texture, UIElement);
         UISystem(std::string font_path) : _font_path(font_path), m_font(nullptr) {}
         ~UISystem();
 
-        //System interface
+        // System interface
         void OnStart() override;
-        void OnWindowResize(SDL_Event& event) override;
+        void OnWindowResize(SDL_Event &event) override;
         void OnUpdate() override;
-    
+
     private:
         void SetupFont();
         void OnUpdateText(EntityID entity);
@@ -51,4 +51,4 @@ namespace HBE::Default::Systems {
         void OnUpdateCheckbox(EntityID entity);
         void OnUpdateRadio(EntityID entity);
     };
-}
+} // namespace HBE::Default::Systems

@@ -4,7 +4,7 @@
  * @brief Rigidbody component. Used for 2D physics calculations.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -15,50 +15,49 @@
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor/property_nodes/int.hpp>
-#include <HotBeanEngine/editor/property_nodes/float.hpp>
-#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 #include <HotBeanEngine/editor/property_nodes/enum.hpp>
+#include <HotBeanEngine/editor/property_nodes/float.hpp>
+#include <HotBeanEngine/editor/property_nodes/int.hpp>
+#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
     using namespace HBE::Core;
     using namespace HBE::Application::GUI;
-    
+
     /**
      * @brief Physics body component for 2D dynamics
-     * 
+     *
      * Integrates with Box2D physics engine.
      * Handles mass, velocity, and collision response.
      */
     class RigidBody : public IComponent, public IPropertyRenderable {
-        public:
-            float m_mass = 1.0f;
-            b2BodyType m_type = b2BodyType::b2_kinematicBody;
-            b2BodyId m_body_id = b2BodyId(); // ID of the body in the Box2D physics engine
+    public:
+        float m_mass = 1.0f;
+        b2BodyType m_type = b2BodyType::b2_kinematicBody;
+        b2BodyId m_body_id = b2BodyId(); // ID of the body in the Box2D physics engine
 
-            DEFINE_NAME("RigidBody");
-            RigidBody() = default;
+        DEFINE_NAME("RigidBody");
+        RigidBody() = default;
 
-            void Serialize(YAML::Emitter& out) const override {
-                out << YAML::Key << "mass" << YAML::Value << m_mass;
-                out << YAML::Key << "type" << YAML::Value << (int)m_type;
-            }
+        void Serialize(YAML::Emitter &out) const override {
+            out << YAML::Key << "mass" << YAML::Value << m_mass;
+            out << YAML::Key << "type" << YAML::Value << (int)m_type;
+        }
 
-            void Deserialize(YAML::Node& node) override {
-                if (node["mass"])
-                    m_mass = node["mass"].as<float>();
-                if (node["type"])
-                    m_type = (b2BodyType)node["type"].as<int>();
-            }
+        void Deserialize(YAML::Node &node) override {
+            if (node["mass"])
+                m_mass = node["mass"].as<float>();
+            if (node["type"])
+                m_type = (b2BodyType)node["type"].as<int>();
+        }
 
-            void RenderProperties(int& id) override {
-                PropertyNodes::Int::RenderProperty(id, "ID", m_body_id.index1, INT_MIN, INT_MAX, true);
-                PropertyNodes::Float::RenderProperty(id, "Mass", m_mass, 0.0f);
-                PropertyNodes::Enum::RenderProperty<b2BodyType>(id, "Type", m_type, {
-                    {b2BodyType::b2_staticBody, "Static"},
-                    {b2BodyType::b2_kinematicBody, "Kinematic"},
-                    {b2BodyType::b2_dynamicBody, "Dynamic"}
-                });
-            }
+        void RenderProperties(int &id) override {
+            PropertyNodes::Int::RenderProperty(id, "ID", m_body_id.index1, INT_MIN, INT_MAX, true);
+            PropertyNodes::Float::RenderProperty(id, "Mass", m_mass, 0.0f);
+            PropertyNodes::Enum::RenderProperty<b2BodyType>(id, "Type", m_type,
+                                                            {{b2BodyType::b2_staticBody, "Static"},
+                                                             {b2BodyType::b2_kinematicBody, "Kinematic"},
+                                                             {b2BodyType::b2_dynamicBody, "Dynamic"}});
+        }
     };
-}
+} // namespace HBE::Default::Components

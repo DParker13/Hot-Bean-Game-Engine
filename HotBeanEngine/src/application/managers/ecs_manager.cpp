@@ -2,23 +2,22 @@
  * @file ecs_manager.cpp
  * @author Daniel Parker (DParker13)
  * @brief Manages all ECS managers (entities, components, and systems).
- * 
- * @details Merges EntityManager, ComponentManager, and SystemManager into one 
+ *
+ * @details Merges EntityManager, ComponentManager, and SystemManager into one
  * class for easier management of entities, components, and systems. A singleton is created in Application.cpp to handle
  * all entities, components, and systems in the game. This class handles all the backend management of the ECS framework
  * and has been further expanded by gameobject classes that act as a single class. Gameobjects follow the ECS framework
  * but are able to be manipulated by the user directly without a system.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
 namespace HBE::Application::Managers {
-    ECSManager::ECSManager(std::shared_ptr<LoggingManager> logging_manager)
-        : m_logging_manager(logging_manager) {
+    ECSManager::ECSManager(std::shared_ptr<LoggingManager> logging_manager) : m_logging_manager(logging_manager) {
         m_entity_manager = std::make_unique<EntityManager>(logging_manager);
         m_component_manager = std::make_unique<ComponentManager>(logging_manager);
         m_system_manager = std::make_unique<SystemManager>(logging_manager);
@@ -31,9 +30,7 @@ namespace HBE::Application::Managers {
      *
      * @throws assertion failure if the maximum number of entities has been reached.
      */
-    EntityID ECSManager::CreateEntity() {
-        return m_entity_manager->CreateEntity();
-    }
+    EntityID ECSManager::CreateEntity() { return m_entity_manager->CreateEntity(); }
 
     /**
      * Destroys an entity and releases its resources.
@@ -51,15 +48,13 @@ namespace HBE::Application::Managers {
         // for (EntityID entity : GetAllEntities()) {
         //     RemoveAllComponents(entity);
         // }
-        
+
         // Clear all component data to ensure clean state for next scene
         m_component_manager->ClearAllComponents();
         m_entity_manager->DestroyAllEntities();
     }
 
-    std::vector<EntityID> ECSManager::GetAllEntities() {
-        return m_entity_manager->GetAllEntities();
-    }
+    std::vector<EntityID> ECSManager::GetAllEntities() { return m_entity_manager->GetAllEntities(); }
 
     /**
      * Removes all components associated with a given entity.
@@ -75,15 +70,15 @@ namespace HBE::Application::Managers {
         Signature signature = m_entity_manager->GetSignature(entity);
 
         for (size_t i = 0; i < signature.size(); i++) {
-            if(signature[i]) {
+            if (signature[i]) {
                 m_component_manager->RemoveComponent(entity, i);
             }
         }
     }
 
-    std::vector<IComponent*> ECSManager::GetAllComponents(EntityID entity) {
+    std::vector<IComponent *> ECSManager::GetAllComponents(EntityID entity) {
         Signature signature = m_entity_manager->GetSignature(entity);
-        std::vector<IComponent*> components = std::vector<IComponent*>();
+        std::vector<IComponent *> components = std::vector<IComponent *>();
 
         for (size_t i = 0; i < signature.size(); i++) {
             if (signature.test(i)) {
@@ -94,9 +89,7 @@ namespace HBE::Application::Managers {
         return components;
     }
 
-    EntityID ECSManager::EntityCount() const {
-        return m_entity_manager->EntityCount();
-    }
+    EntityID ECSManager::EntityCount() const { return m_entity_manager->EntityCount(); }
 
     bool ECSManager::HasComponent(EntityID entity, std::string component_name) const {
         return m_entity_manager->HasComponent(entity, GetComponentID(component_name));
@@ -118,7 +111,7 @@ namespace HBE::Application::Managers {
 
     /**
      * @brief Get the registered Component Type using the Component Name
-     * 
+     *
      * @param component_name Component Name to search
      * @return ComponentID
      */
@@ -128,7 +121,7 @@ namespace HBE::Application::Managers {
 
     /**
      * @brief Checks if a component is registered
-     * 
+     *
      * @param component_name The name of the component
      * @return true if the component is registered, false otherwise
      */
@@ -138,7 +131,7 @@ namespace HBE::Application::Managers {
 
     /**
      * @brief Checks if a component is registered
-     * 
+     *
      * @param component_id The type of the component
      * @return true if the component is registered, false otherwise
      */
@@ -146,34 +139,26 @@ namespace HBE::Application::Managers {
         return m_component_manager->IsComponentRegistered(component_id);
     }
 
-    void ECSManager::UnregisterSystem(ISystem* system) {
-        m_system_manager->UnregisterSystem(system);
-    }
+    void ECSManager::UnregisterSystem(ISystem *system) { m_system_manager->UnregisterSystem(system); }
 
-    const Signature& ECSManager::GetSignature(EntityID entity) const {
-        return m_entity_manager->GetSignature(entity);
-    }
+    const Signature &ECSManager::GetSignature(EntityID entity) const { return m_entity_manager->GetSignature(entity); }
 
     /**
      * @brief Loop through all systems
-     * 
+     *
      * @param state Game loop state
      */
-    void ECSManager::IterateSystems(GameLoopState state) {
-        m_system_manager->IterateSystems(state);
-    }
+    void ECSManager::IterateSystems(GameLoopState state) { m_system_manager->IterateSystems(state); }
 
     /**
      * @brief Loop through all systems
-     * 
+     *
      * @param event SDL event
      * @param state Game loop state
      */
-    void ECSManager::IterateSystems(SDL_Event& event, GameLoopState state) {
+    void ECSManager::IterateSystems(SDL_Event &event, GameLoopState state) {
         m_system_manager->IterateSystems(event, state);
     }
 
-    std::vector<ISystem*> ECSManager::GetAllSystems() {
-        return m_system_manager->GetAllSystems();
-    }
-}
+    std::vector<ISystem *> ECSManager::GetAllSystems() { return m_system_manager->GetAllSystems(); }
+} // namespace HBE::Application::Managers

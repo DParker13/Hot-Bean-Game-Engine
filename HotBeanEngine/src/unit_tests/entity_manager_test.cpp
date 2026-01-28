@@ -1,3 +1,14 @@
+/**
+ * @file entity_manager_test.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Unit tests for the EntityManager class.
+ * Tests entity creation, destruction, signature management, and ID recycling.
+ * @version 0.1
+ * @date 2025-07-06
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/application/managers/entity_manager.hpp>
 #include <catch2/catch_all.hpp>
 
@@ -27,9 +38,7 @@ TEST_CASE("EntityManager: Create and Destroy Entity") {
         REQUIRE_THROWS_AS(entity_manager.CreateEntity(), std::overflow_error);
     }
 
-    SECTION("Initialize entity count to 0") {
-        REQUIRE(entity_manager.EntityCount() == 0);
-    }
+    SECTION("Initialize entity count to 0") { REQUIRE(entity_manager.EntityCount() == 0); }
 
     SECTION("Destroy entity") {
         EntityID entity = entity_manager.CreateEntity();

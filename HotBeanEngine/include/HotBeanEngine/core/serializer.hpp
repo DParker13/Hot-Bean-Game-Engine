@@ -4,7 +4,7 @@
  * @brief Interface for serialization and deserialization.
  * @version 0.1
  * @date 2025-10-11
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -20,4 +20,4 @@ namespace HBE::Core {
         virtual void Deserialize(std::string_view filepath) = 0;
         virtual bool FileExists(std::string_view filepath) = 0;
     };
-}
+} // namespace HBE::Core

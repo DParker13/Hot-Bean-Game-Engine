@@ -4,7 +4,7 @@
  * @brief System for offsetting all transforms based on the active camera. Only one camera can be active at a time.
  * @version 0.1
  * @date 2025-05-14
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -18,7 +18,7 @@ namespace HBE::Default::Systems {
             return 1.0f;
         }
 
-        const Camera& camera = g_ecs.GetComponent<Camera>(camera_entity);
+        const Camera &camera = g_ecs.GetComponent<Camera>(camera_entity);
         return camera.m_zoom;
     }
 
@@ -33,30 +33,23 @@ namespace HBE::Default::Systems {
             return SDL_FRect{0.0f, 0.0f, static_cast<float>(screen_width), static_cast<float>(screen_height)};
         }
 
-        const Camera& camera = g_ecs.GetComponent<Camera>(camera_entity);
+        const Camera &camera = g_ecs.GetComponent<Camera>(camera_entity);
 
         // Convert normalized viewport coordinates to pixel coordinates
-        return SDL_FRect{
-            camera.m_viewport_position.x * screen_width,
-            camera.m_viewport_position.y * screen_height,
-            camera.m_viewport_size.x * screen_width,
-            camera.m_viewport_size.y * screen_height
-        };
+        return SDL_FRect{camera.m_viewport_position.x * screen_width, camera.m_viewport_position.y * screen_height,
+                         camera.m_viewport_size.x * screen_width, camera.m_viewport_size.y * screen_height};
     }
 
     glm::vec2 CameraSystem::GetViewportCenter(EntityID camera_entity) {
         SDL_FRect viewport = GetViewport(camera_entity);
-        return glm::vec2(
-            viewport.x + viewport.w * 0.5f,
-            viewport.y + viewport.h * 0.5f
-        );
+        return glm::vec2(viewport.x + viewport.w * 0.5f, viewport.y + viewport.h * 0.5f);
     }
 
     std::vector<EntityID> CameraSystem::GetAllActiveCameras() {
         std::vector<EntityID> active_cameras;
 
         for (EntityID entity : m_entities) {
-            const auto& camera = g_ecs.GetComponent<Camera>(entity);
+            const auto &camera = g_ecs.GetComponent<Camera>(entity);
 
             if (camera.m_active) {
                 active_cameras.push_back(entity);
@@ -74,17 +67,17 @@ namespace HBE::Default::Systems {
                 return {0.0f, 0.0f};
             }
 
-            Transform2D& transform = g_ecs.GetComponent<Transform2D>(entity);
+            Transform2D &transform = g_ecs.GetComponent<Transform2D>(entity);
             return transform.m_world_position;
         }
 
-        const Camera& camera = g_ecs.GetComponent<Camera>(camera_entity);
-        const Transform2D& camera_transform = g_ecs.GetComponent<Transform2D>(camera_entity);
-        Transform2D& transform = g_ecs.GetComponent<Transform2D>(entity);
-        
+        const Camera &camera = g_ecs.GetComponent<Camera>(camera_entity);
+        const Transform2D &camera_transform = g_ecs.GetComponent<Transform2D>(camera_entity);
+        Transform2D &transform = g_ecs.GetComponent<Transform2D>(entity);
+
         // Get viewport center (handles split-screen, minimaps, etc.)
         glm::vec2 viewport_center = GetViewportCenter(camera_entity);
-        
+
         // Calculate position relative to camera and apply zoom
         glm::vec2 relative_position = transform.m_world_position - camera_transform.m_world_position;
         glm::vec2 zoomed_position = relative_position * camera.m_zoom;
@@ -101,24 +94,22 @@ namespace HBE::Default::Systems {
      * @param texture The texture to check for culling
      */
     bool CameraSystem::IsCulled(EntityID camera_entity, EntityID entity) {
-        Texture& texture = g_ecs.GetComponent<Texture>(entity);
-        
+        Texture &texture = g_ecs.GetComponent<Texture>(entity);
+
         glm::vec2 screen_position = CalculateScreenPosition(camera_entity, entity);
 
         // Get camera zoom and apply to texture size for culling check
         float zoom = GetZoom(camera_entity);
         glm::vec2 scaled_size = texture.m_size * zoom;
-        
+
         // Get viewport bounds (not full screen bounds)
         SDL_FRect viewport = GetViewport(camera_entity);
-        
+
         float viewport_right = viewport.x + viewport.w;
         float viewport_bottom = viewport.y + viewport.h;
-        
+
         // Cull if outside viewport bounds
-        return screen_position.x + scaled_size.x <= viewport.x ||
-            screen_position.y + scaled_size.y <= viewport.y ||
-            screen_position.x >= viewport_right ||
-            screen_position.y >= viewport_bottom;
+        return screen_position.x + scaled_size.x <= viewport.x || screen_position.y + scaled_size.y <= viewport.y ||
+               screen_position.x >= viewport_right || screen_position.y >= viewport_bottom;
     }
-}
+} // namespace HBE::Default::Systems

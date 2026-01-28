@@ -1,8 +1,19 @@
+/**
+ * @file example_scene.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Implementation of the example game scene.
+ * Sets up the initial game scene with cameras, entities, physics, and visual components.
+ * @version 0.1
+ * @date 2025-06-12
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include "example_scene.hpp"
 
 namespace Scenes {
     using namespace HBE::Default::Components;
-    
+
     void ExampleScene::SetupScene() {
         int camera_entity = g_ecs.CreateEntity();
 
@@ -93,4 +104,4 @@ namespace Scenes {
 
         g_ecs.RegisterSystem<Systems::CustomAudioSystem>();
     }
-}
+} // namespace Scenes

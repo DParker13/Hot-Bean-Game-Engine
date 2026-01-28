@@ -4,7 +4,7 @@
  * @brief YAML conversion extensions for glm vectors and SDL_Color.
  * @version 0.1
  * @date 2025-05-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -18,9 +18,9 @@
 namespace YAML {
 
     // Vec2
-    template<>
+    template <>
     struct convert<glm::vec2> {
-        static Node encode(const glm::vec2& v2) {
+        static Node encode(const glm::vec2 &v2) {
             Node node;
 
             node.push_back(v2.x);
@@ -28,12 +28,12 @@ namespace YAML {
 
             return node;
         }
-    
-        static bool decode(const Node& node, glm::vec2& v2) {
-            if(!node.IsSequence() || node.size() != 2) {
+
+        static bool decode(const Node &node, glm::vec2 &v2) {
+            if (!node.IsSequence() || node.size() != 2) {
                 return false;
             }
-        
+
             v2.x = node[0].as<float>();
             v2.y = node[1].as<float>();
 
@@ -42,9 +42,9 @@ namespace YAML {
     };
 
     // IVec2
-    template<>
+    template <>
     struct convert<glm::ivec2> {
-        static Node encode(const glm::ivec2& v2) {
+        static Node encode(const glm::ivec2 &v2) {
             Node node;
 
             node.push_back(v2.x);
@@ -52,12 +52,12 @@ namespace YAML {
 
             return node;
         }
-    
-        static bool decode(const Node& node, glm::ivec2& v2) {
-            if(!node.IsSequence() || node.size() != 2) {
+
+        static bool decode(const Node &node, glm::ivec2 &v2) {
+            if (!node.IsSequence() || node.size() != 2) {
                 return false;
             }
-        
+
             v2.x = node[0].as<int>();
             v2.y = node[1].as<int>();
 
@@ -66,9 +66,9 @@ namespace YAML {
     };
 
     // Vec3
-    template<>
+    template <>
     struct convert<glm::vec3> {
-        static Node encode(const glm::vec3& v3) {
+        static Node encode(const glm::vec3 &v3) {
             Node node;
 
             node.push_back(v3.x);
@@ -78,8 +78,8 @@ namespace YAML {
             return node;
         }
 
-        static bool decode(const Node& node, glm::vec3& v3) {
-            if(!node.IsSequence() || node.size() != 3) {
+        static bool decode(const Node &node, glm::vec3 &v3) {
+            if (!node.IsSequence() || node.size() != 3) {
                 return false;
             }
 
@@ -92,9 +92,9 @@ namespace YAML {
     };
 
     // SDL_Color
-    template<>
+    template <>
     struct convert<SDL_Color> {
-        static Node encode(const SDL_Color& color) {
+        static Node encode(const SDL_Color &color) {
             Node node;
 
             node.push_back(color.r);
@@ -105,8 +105,8 @@ namespace YAML {
             return node;
         }
 
-        static bool decode(const Node& node, SDL_Color& color) {
-            if(!node.IsSequence() || node.size() != 4) {
+        static bool decode(const Node &node, SDL_Color &color) {
+            if (!node.IsSequence() || node.size() != 4) {
                 return false;
             }
 
@@ -118,38 +118,38 @@ namespace YAML {
             return true;
         }
     };
-}
+} // namespace YAML
 
 // Bitset
-static std::bitset<16> string_to_bitset(const std::string& s) {
+static std::bitset<16> string_to_bitset(const std::string &s) {
     assert(s.size() == 16 && "There must be 16 bits");
 
     return std::bitset<16>(s);
 }
 
 // Vec2
-inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::vec2& v) {
+inline YAML::Emitter &operator<<(YAML::Emitter &out, const glm::vec2 &v) {
     out << YAML::Flow;
     out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
     return out;
 }
 
 // IVec2
-inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::ivec2& v) {
+inline YAML::Emitter &operator<<(YAML::Emitter &out, const glm::ivec2 &v) {
     out << YAML::Flow;
     out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
     return out;
 }
 
 // Vec3
-inline YAML::Emitter& operator << (YAML::Emitter& out, const glm::vec3& vec) {
+inline YAML::Emitter &operator<<(YAML::Emitter &out, const glm::vec3 &vec) {
     out << YAML::Flow;
     out << YAML::BeginSeq << vec.x << vec.y << vec.z << YAML::EndSeq;
     return out;
 }
 
 // SDL_Color
-inline YAML::Emitter& operator << (YAML::Emitter& out, const SDL_Color& color) {
+inline YAML::Emitter &operator<<(YAML::Emitter &out, const SDL_Color &color) {
     out << YAML::Flow;
     out << YAML::BeginSeq << (int)color.r << (int)color.g << (int)color.b << (int)color.a << YAML::EndSeq;
     return out;

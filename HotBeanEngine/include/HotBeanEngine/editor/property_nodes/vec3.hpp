@@ -4,7 +4,7 @@
  * @brief Vector 3 property node.
  * @version 0.1
  * @date 2025-10-19
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -18,8 +18,9 @@ namespace HBE::Application::GUI::PropertyNodes {
     using namespace HBE::Core;
 
     struct Vec3 {
-        static bool RenderProperty(int& id, std::string_view label, glm::vec3& values,
-            glm::vec3 min = glm::vec3(-FLT_MAX), glm::vec3 max = glm::vec3(FLT_MAX), bool disabled = false) {
+        static bool RenderProperty(int &id, std::string_view label, glm::vec3 &values,
+                                   glm::vec3 min = glm::vec3(-FLT_MAX), glm::vec3 max = glm::vec3(FLT_MAX),
+                                   bool disabled = false) {
             ImGui::PushID(id++);
             ImGui::Text("%s", label.data());
             ImGui::SameLine();
@@ -45,8 +46,8 @@ namespace HBE::Application::GUI::PropertyNodes {
             ImGui::EndDisabled();
             ImGui::PopItemWidth();
             ImGui::PopID();
-            
+
             return changed_x || changed_y || changed_z;
         }
     };
-}
+} // namespace HBE::Application::GUI::PropertyNodes

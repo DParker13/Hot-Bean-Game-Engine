@@ -4,7 +4,7 @@
  * @brief System for 2D collision detection.
  * @version 0.1
  * @date 2025-03-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 #pragma once
@@ -28,4 +28,4 @@ namespace HBE::Default::Systems {
         void OnUpdate() override;
         void OnEntityAdded(EntityID entity) override;
     };
-}
+} // namespace HBE::Default::Systems

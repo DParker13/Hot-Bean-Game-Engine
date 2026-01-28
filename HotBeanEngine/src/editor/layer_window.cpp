@@ -1,3 +1,14 @@
+/**
+ * @file layer_window.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Implementation of the layer window for managing render layers.
+ * Displays available layers and properties of selected layers.
+ * @version 0.1
+ * @date 2025-12-24
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include "layer_window.hpp"
 
 namespace HBE::Application::GUI {
@@ -8,13 +19,12 @@ namespace HBE::Application::GUI {
         }
     }
 
-
     void LayerWindow::RenderWindow() {
         ImGui::Begin(m_name.c_str(), &m_open);
-        Default::Systems::RenderSystem* render_system = g_ecs.GetSystem<Default::Systems::RenderSystem>();
+        Default::Systems::RenderSystem *render_system = g_ecs.GetSystem<Default::Systems::RenderSystem>();
 
         int id = 0;
-        for (auto& layer : render_system->GetAllLayers()) {
+        for (auto &layer : render_system->GetAllLayers()) {
             glm::vec2 layer_size;
             SDL_GetTextureSize(layer.second, &layer_size.x, &layer_size.y);
             ImGui::BeginGroup();
@@ -27,9 +37,9 @@ namespace HBE::Application::GUI {
         ImGui::End();
     }
 
-    void LayerWindow::LayerSelected(std::pair<const int, SDL_Texture*> layer) {
+    void LayerWindow::LayerSelected(std::pair<const int, SDL_Texture *> layer) {
         if (m_property_window) {
-            std::vector<std::pair<std::string, IPropertyRenderable*>> property_nodes;
+            std::vector<std::pair<std::string, IPropertyRenderable *>> property_nodes;
             if (m_selected_layer) {
                 delete m_selected_layer;
                 m_selected_layer = nullptr;
@@ -38,9 +48,8 @@ namespace HBE::Application::GUI {
             std::string layer_name = "Layer " + std::to_string(layer.first);
             property_nodes.push_back({layer_name, m_selected_layer});
             m_property_window->SetProperties(property_nodes);
-        }
-        else {
+        } else {
             LOG(LoggingType::ERROR, "Property window was never setup.");
         }
     }
-}
+} // namespace HBE::Application::GUI

@@ -4,7 +4,7 @@
  * @brief System for managing audio playback using SDL_mixer.
  * @version 0.1
  * @date 2025-01-03
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -17,9 +17,7 @@ namespace HBE::Default::Systems {
         m_track_one = MIX_CreateTrack(m_mixer);
     }
 
-    AudioSystem::~AudioSystem() {
-        MIX_DestroyMixer(m_mixer);
-    }
+    AudioSystem::~AudioSystem() { MIX_DestroyMixer(m_mixer); }
 
     /**
      * Loads a music sample from the given file path.
@@ -29,9 +27,9 @@ namespace HBE::Default::Systems {
      */
     void AudioSystem::LoadMusic(std::string music_file_path) {
         // load sample.wav in to sample
-        
-        MIX_Audio* audio = MIX_LoadAudio(m_mixer, music_file_path.data(), false);
-        if(!audio) {
+
+        MIX_Audio *audio = MIX_LoadAudio(m_mixer, music_file_path.data(), false);
+        if (!audio) {
             LOG(LoggingType::ERROR, std::string(SDL_GetError()));
         }
 
@@ -50,7 +48,7 @@ namespace HBE::Default::Systems {
      */
     void AudioSystem::PlayMusic(int numLoops) {
         if (!MIX_TrackPlaying(m_track_one)) {
-            if(!MIX_PlayTrack(m_track_one, numLoops)) {
+            if (!MIX_PlayTrack(m_track_one, numLoops)) {
                 LOG(LoggingType::ERROR, std::string(SDL_GetError()));
             }
         }
@@ -63,7 +61,5 @@ namespace HBE::Default::Systems {
      *
      * @param volume the volume value
      */
-    void AudioSystem::SetVolume(Uint32 volume) {
-        
-    }
-}
+    void AudioSystem::SetVolume(Uint32 volume) {}
+} // namespace HBE::Default::Systems

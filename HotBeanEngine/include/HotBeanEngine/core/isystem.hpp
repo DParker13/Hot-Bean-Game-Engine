@@ -4,7 +4,7 @@
  * @brief System base class for ECS architecture.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -12,9 +12,9 @@
 
 #include <set>
 
-#include <HotBeanEngine/core/iname.hpp>
 #include <HotBeanEngine/core/entity.hpp>
 #include <HotBeanEngine/core/igame_loop.hpp>
+#include <HotBeanEngine/core/iname.hpp>
 
 namespace HBE::Core {
     /**
@@ -34,11 +34,11 @@ namespace HBE::Core {
         // GameLoop interface
         virtual void OnStart() {};
         virtual void OnPreEvent() {};
-        virtual void OnEvent(SDL_Event& event) {};
-        virtual void OnWindowResize(SDL_Event& event) {};
+        virtual void OnEvent(SDL_Event &event) {};
+        virtual void OnWindowResize(SDL_Event &event) {};
         virtual void OnFixedUpdate() {};
         virtual void OnUpdate() {};
         virtual void OnRender() {};
         virtual void OnPostRender() {};
     };
-}
+} // namespace HBE::Core

@@ -4,7 +4,7 @@
  * @brief Interface for GUI windows using ImGui.
  * @version 0.1
  * @date 2025-10-26
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -25,4 +25,4 @@ namespace HBE::Application::GUI {
 
         virtual void RenderWindow() = 0;
     };
-}
+} // namespace HBE::Application::GUI

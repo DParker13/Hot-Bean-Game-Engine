@@ -4,7 +4,7 @@
  * @brief Setups up global constants.
  * @version 0.1
  * @date 2025-03-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 #pragma once
@@ -13,13 +13,13 @@
 #include <string>
 #include <yaml-cpp/yaml.h>
 
-#include <HotBeanEngine/core/entity.hpp>
 #include <HotBeanEngine/core/component.hpp>
+#include <HotBeanEngine/core/entity.hpp>
 #include <HotBeanEngine/core/logging_type.hpp>
 
 namespace HBE::Core {
     // ECS (These need to be set at compile time)
-    inline const EntityID MAX_ENTITIES = 50000; //< Maximum number of entities that can be created
+    inline const EntityID MAX_ENTITIES = 50000;   //< Maximum number of entities that can be created
     inline const ComponentID MAX_COMPONENTS = 64; //< Maximum number of components that can be registered
 
     // Window
@@ -35,7 +35,7 @@ namespace HBE::Core {
     // Misc
     inline std::string ASSET_PATH = "./assets/";
 
-    static int LoadConfig(const std::string& config_path) {
+    static int LoadConfig(const std::string &config_path) {
         try {
             YAML::Node config = YAML::LoadFile(config_path);
 
@@ -66,9 +66,8 @@ namespace HBE::Core {
             }
 
             return 0;
-        }
-        catch (YAML::Exception&) {
+        } catch (YAML::Exception &) {
             return -1;
         }
     }
-}
+} // namespace HBE::Core

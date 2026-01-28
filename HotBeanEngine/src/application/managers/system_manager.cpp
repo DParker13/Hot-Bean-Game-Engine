@@ -4,7 +4,7 @@
  * @brief Manages component-system relationship.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -16,7 +16,7 @@ namespace HBE::Application::Managers {
         : m_logging_manager(logging_manager) {}
 
     SystemManager::~SystemManager() {
-        for (auto& [name, system] : m_systems) {
+        for (auto &[name, system] : m_systems) {
             delete system;
             system = nullptr;
         }
@@ -27,19 +27,19 @@ namespace HBE::Application::Managers {
      *
      * @param entity The ID of the entity that was destroyed.
      */
-    void SystemManager::EntityDestroyed(EntityID entity)
-    {
+    void SystemManager::EntityDestroyed(EntityID entity) {
         int erased_entities = 0;
 
         LOG_CORE(LoggingType::DEBUG, "Destroying EntityID \"" + std::to_string(entity) + "\"");
 
         // Erase a destroyed entity from all system lists
         // m_entities is a set so no check needed
-        for (auto& [type_name, system] : m_systems) {
+        for (auto &[type_name, system] : m_systems) {
             erased_entities += static_cast<int>(system->m_entities.erase(entity));
         }
 
-        LOG_CORE(LoggingType::DEBUG, "\tErased EntityID \"" + std::to_string(entity) + "\" from " + std::to_string(erased_entities) + " Systems");
+        LOG_CORE(LoggingType::DEBUG, "\tErased EntityID \"" + std::to_string(entity) + "\" from " +
+                                         std::to_string(erased_entities) + " Systems");
     }
 
     /**
@@ -49,16 +49,16 @@ namespace HBE::Application::Managers {
      * @param entity_signature The new signature of the entity.
      *
      * This function iterates over each system and checks if the entity's new signature matches the system's signature.
-     * If it does, the entity is added to the system's set of entities. If it does not, the entity is removed from the system's set of entities.
+     * If it does, the entity is added to the system's set of entities. If it does not, the entity is removed from the
+     * system's set of entities.
      */
-    void SystemManager::EntitySignatureChanged(EntityID entity, Signature entity_signature)
-    {
+    void SystemManager::EntitySignatureChanged(EntityID entity, Signature entity_signature) {
         int entity_added_to_systems = 0;
         int entity_removed_from_systems = 0;
 
         // Notify each system that an entity's signature changed
-        for (auto& [type_name, system] : m_systems) {
-            auto const& system_signature = m_signatures[type_name];
+        for (auto &[type_name, system] : m_systems) {
+            auto const &system_signature = m_signatures[type_name];
 
             // EntityID signature matches system signature - insert into set
             if ((entity_signature & system_signature) == system_signature) {
@@ -75,75 +75,77 @@ namespace HBE::Application::Managers {
         }
 
         if (entity_added_to_systems > 0) {
-            LOG_CORE(LoggingType::DEBUG, "\tAdded EntityID \"" + std::to_string(entity) + "\" to " + std::to_string(entity_added_to_systems) + " Systems");
+            LOG_CORE(LoggingType::DEBUG, "\tAdded EntityID \"" + std::to_string(entity) + "\" to " +
+                                             std::to_string(entity_added_to_systems) + " Systems");
         }
 
         if (entity_removed_from_systems > 0) {
-            LOG_CORE(LoggingType::DEBUG, "\tRemoved EntityID \"" + std::to_string(entity) + "\" from " + std::to_string(entity_removed_from_systems) + " Systems");
+            LOG_CORE(LoggingType::DEBUG, "\tRemoved EntityID \"" + std::to_string(entity) + "\" from " +
+                                             std::to_string(entity_removed_from_systems) + " Systems");
         }
     }
 
     /**
      * @brief Iterates all systems and calls specific game loop method
-     * 
+     *
      * @param state Current game loop state
      */
     void SystemManager::IterateSystems(GameLoopState state) {
-        for (auto& system : m_systems_ordered) {
-            switch(state) {
-                case GameLoopState::OnStart:
-                    system->OnStart();
-                    break;
-                case GameLoopState::OnPreEvent:
-                    system->OnPreEvent();
-                    break;
-                case GameLoopState::OnFixedUpdate:
-                    system->OnFixedUpdate();
-                    break;
-                case GameLoopState::OnUpdate:
-                    system->OnUpdate();
-                    break;
-                case GameLoopState::OnRender:
-                    system->OnRender();
-                    break;
-                case GameLoopState::OnPostRender:
-                    system->OnPostRender();
-                    break;
+        for (auto &system : m_systems_ordered) {
+            switch (state) {
+            case GameLoopState::OnStart:
+                system->OnStart();
+                break;
+            case GameLoopState::OnPreEvent:
+                system->OnPreEvent();
+                break;
+            case GameLoopState::OnFixedUpdate:
+                system->OnFixedUpdate();
+                break;
+            case GameLoopState::OnUpdate:
+                system->OnUpdate();
+                break;
+            case GameLoopState::OnRender:
+                system->OnRender();
+                break;
+            case GameLoopState::OnPostRender:
+                system->OnPostRender();
+                break;
             }
         }
     }
 
-    void SystemManager::IterateSystems(SDL_Event& event, GameLoopState state) {
+    void SystemManager::IterateSystems(SDL_Event &event, GameLoopState state) {
 
         if (m_logging_manager->GetLoggingLevel() == LoggingType::DEBUG) {
-            switch(state) {
-                case GameLoopState::OnWindowResize:
-                    LOG_CORE(LoggingType::DEBUG, "OnWindowResize called");
-                    break;
-            } 
+            switch (state) {
+            case GameLoopState::OnWindowResize:
+                LOG_CORE(LoggingType::DEBUG, "OnWindowResize called");
+                break;
+            }
         }
 
-        for (auto& system : m_systems_ordered) {
-            switch(state) {
-                case GameLoopState::OnEvent:
-                    system->OnEvent(event);
-                    break;
-                case GameLoopState::OnWindowResize:
-                    system->OnWindowResize(event);
-                    break;
+        for (auto &system : m_systems_ordered) {
+            switch (state) {
+            case GameLoopState::OnEvent:
+                system->OnEvent(event);
+                break;
+            case GameLoopState::OnWindowResize:
+                system->OnWindowResize(event);
+                break;
             }
         }
 
         if (m_logging_manager->GetLoggingLevel() == LoggingType::DEBUG) {
-            switch(state) {
-                case GameLoopState::OnWindowResize:
-                    LOG_CORE(LoggingType::DEBUG, "OnWindowResize finished");
-                    break;
-            } 
+            switch (state) {
+            case GameLoopState::OnWindowResize:
+                LOG_CORE(LoggingType::DEBUG, "OnWindowResize finished");
+                break;
+            }
         }
     }
 
-    void SystemManager::UnregisterSystem(ISystem* system) {
+    void SystemManager::UnregisterSystem(ISystem *system) {
         if (!system) {
             return;
         }
@@ -155,11 +157,13 @@ namespace HBE::Application::Managers {
 
         LOG_CORE(LoggingType::DEBUG, "Unregistering System \"" + std::string(system->GetName()) + "\"");
         RemoveSignature(system);
-        m_systems_ordered.erase(std::remove(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[std::string(system->GetName())]), m_systems_ordered.end());
+        m_systems_ordered.erase(
+            std::remove(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[std::string(system->GetName())]),
+            m_systems_ordered.end());
         m_systems.erase(std::string(system->GetName()));
     }
 
-    bool SystemManager::IsSystemRegistered(ISystem* system) {
+    bool SystemManager::IsSystemRegistered(ISystem *system) {
         if (!system) {
             return false;
         }
@@ -167,7 +171,7 @@ namespace HBE::Application::Managers {
         return m_systems.find(std::string(system->GetName())) != m_systems.end();
     }
 
-    void SystemManager::RemoveSignature(ISystem* system) {
+    void SystemManager::RemoveSignature(ISystem *system) {
         if (!system) {
             return;
         }
@@ -182,7 +186,5 @@ namespace HBE::Application::Managers {
         m_signatures.erase(std::string(system->GetName()));
     }
 
-    std::vector<ISystem*> SystemManager::GetAllSystems() {
-        return m_systems_ordered;
-    }
-}
+    std::vector<ISystem *> SystemManager::GetAllSystems() { return m_systems_ordered; }
+} // namespace HBE::Application::Managers

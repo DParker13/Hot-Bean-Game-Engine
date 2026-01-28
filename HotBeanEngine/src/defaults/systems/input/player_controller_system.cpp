@@ -4,7 +4,7 @@
  * @brief System for applying player input to entities.
  * @version 0.1
  * @date 2024-12-20
- * 
+ *
  * @copyright Copyright (c) 2024
  */
 
@@ -16,7 +16,7 @@ namespace HBE::Default::Systems {
      * This function is called every frame and processes input to move entities.
      */
     void PlayerControllerSystem::OnUpdate() {
-        for (auto& entity : m_entities) {
+        for (auto &entity : m_entities) {
             Move(entity, 100);
         }
     }
@@ -29,31 +29,31 @@ namespace HBE::Default::Systems {
      */
     void PlayerControllerSystem::Move(EntityID entity, float speed) {
         auto keys_pressed = g_app.GetInputEventListener().GetKeysPressed();
-        
+
         if (keys_pressed.size() > 0) {
             float distance = speed * g_app.GetDeltaTime();
 
-            auto& controller = g_ecs.GetComponent<Controller>(entity);
+            auto &controller = g_ecs.GetComponent<Controller>(entity);
 
             if (controller.controllable) {
-                auto& transform = g_ecs.GetComponent<Transform2D>(entity);
+                auto &transform = g_ecs.GetComponent<Transform2D>(entity);
 
                 if (keys_pressed.find(SDLK_LEFT) != keys_pressed.end()) {
                     transform.m_local_position.x -= distance;
                 }
-                
+
                 if (keys_pressed.find(SDLK_RIGHT) != keys_pressed.end()) {
                     transform.m_local_position.x += distance;
                 }
-                
+
                 if (keys_pressed.find(SDLK_UP) != keys_pressed.end()) {
                     transform.m_local_position.y -= distance;
                 }
-                
+
                 if (keys_pressed.find(SDLK_DOWN) != keys_pressed.end()) {
                     transform.m_local_position.y += distance;
                 }
             }
         }
     }
-}
+} // namespace HBE::Default::Systems

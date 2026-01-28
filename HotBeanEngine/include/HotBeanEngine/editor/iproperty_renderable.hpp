@@ -4,7 +4,7 @@
  * @brief Interface for components that can be rendered in the editor GUI.
  * @version 0.1
  * @date 2025-10-26
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -14,6 +14,6 @@
 
 namespace HBE::Application::GUI {
     struct IPropertyRenderable {
-        virtual void RenderProperties(int& id) = 0;
+        virtual void RenderProperties(int &id) = 0;
     };
-}
+} // namespace HBE::Application::GUI

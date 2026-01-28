@@ -1,13 +1,24 @@
-#include <HotBeanEngine/editor/editor_gui.hpp>
+/**
+ * @file editor_gui.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Implementation of the editor GUI that integrates all editor windows.
+ * Manages ImGui-based interface with docking for entity editing and debugging.
+ * @version 0.1
+ * @date 2025-10-30
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/systems/rendering/transform_system.hpp>
+#include <HotBeanEngine/editor/editor_gui.hpp>
 
-#include "entity_window.hpp"
 #include "console_window.hpp"
+#include "control_bar.hpp"
+#include "entity_window.hpp"
+#include "layer_window.hpp"
 #include "menu.hpp"
 #include "property_window.hpp"
-#include "control_bar.hpp"
-#include "layer_window.hpp"
 
 namespace HBE::Application::GUI {
     EditorGUI::EditorGUI() {
@@ -20,13 +31,12 @@ namespace HBE::Application::GUI {
         std::shared_ptr<ControlBar> control_bar = std::make_shared<ControlBar>();
 
         // The order of this stack determines their default docking positions (TODO: Make this configurable)
-        m_windows.push_back(entity_window); // Left
-        m_windows.push_back(console_window); // Bottom
+        m_windows.push_back(entity_window);   // Left
+        m_windows.push_back(console_window);  // Bottom
         m_windows.push_back(property_window); // Right
-        m_windows.push_back(menu); // Top
-        m_windows.push_back(layer_window); // IDK
-        m_windows.push_back(control_bar); // Control Bar
-        
+        m_windows.push_back(menu);            // Top
+        m_windows.push_back(layer_window);    // IDK
+        m_windows.push_back(control_bar);     // Control Bar
     }
 
     EditorGUI::~EditorGUI() {
@@ -38,10 +48,11 @@ namespace HBE::Application::GUI {
     void EditorGUI::InitEditorGUI() {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+        ImGuiIO &io = ImGui::GetIO();
+        (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
         ImGui_ImplSDL3_InitForSDLRenderer(g_app.GetWindow(), g_app.GetRenderer());
         ImGui_ImplSDLRenderer3_Init(g_app.GetRenderer());
 
@@ -51,14 +62,14 @@ namespace HBE::Application::GUI {
 
     /// @brief Handles window resize events for the editor GUI
     /// @param event The SDL event to handle
-    void EditorGUI::OnWindowResize(SDL_Event& event) {
-        ImGuiIO& io = ImGui::GetIO();
+    void EditorGUI::OnWindowResize(SDL_Event &event) {
+        ImGuiIO &io = ImGui::GetIO();
         io.DisplaySize = ImVec2((float)event.window.data1, (float)event.window.data2);
     }
 
     /// @brief Handles SDL events for the editor GUI
     /// @param event The SDL event to handle
-    void EditorGUI::OnEvent(SDL_Event& event) {
+    void EditorGUI::OnEvent(SDL_Event &event) {
         HandleInput(event);
 
         ImGui_ImplSDL3_ProcessEvent(&event);
@@ -72,7 +83,7 @@ namespace HBE::Application::GUI {
 
     /// @brief Renders all registered windows in the editor GUI
     void EditorGUI::RenderWindows() {
-        for (auto& window : m_windows) {
+        for (auto &window : m_windows) {
             if (window->m_open) {
                 window->RenderWindow();
             }
@@ -119,7 +130,7 @@ namespace HBE::Application::GUI {
     }
 
     void EditorGUI::RenderCameraViewports() {
-        auto* camera_system = g_ecs.GetSystem<HBE::Default::Systems::CameraSystem>();
+        auto *camera_system = g_ecs.GetSystem<HBE::Default::Systems::CameraSystem>();
 
         if (!camera_system) {
             return;
@@ -129,18 +140,16 @@ namespace HBE::Application::GUI {
 
         std::vector<EntityID> camera_entities = camera_system->GetAllActiveCameras();
 
-        for (auto& camera_entity : camera_entities) {
+        for (auto &camera_entity : camera_entities) {
             SDL_FRect viewport = camera_system->GetViewport(camera_entity);
             SDL_RenderRect(g_app.GetRenderer(), &viewport);
         }
     }
 
-    void EditorGUI::HandleInput(SDL_Event& event) {
-        MoveEditorCamera(event, 100.0f);
-    }
+    void EditorGUI::HandleInput(SDL_Event &event) { MoveEditorCamera(event, 100.0f); }
 
-    void EditorGUI::MoveEditorCamera(SDL_Event& event, float speed) {
-        const auto& keys_pressed = g_app.GetInputEventListener().GetKeysPressed();
+    void EditorGUI::MoveEditorCamera(SDL_Event &event, float speed) {
+        const auto &keys_pressed = g_app.GetInputEventListener().GetKeysPressed();
 
         if (keys_pressed.size() > 0) {
             float distance = speed * g_app.GetDeltaTime();
@@ -149,42 +158,42 @@ namespace HBE::Application::GUI {
             if (keys_pressed.find(SDLK_LEFT) != keys_pressed.end()) {
                 offset.x += distance;
             }
-            
+
             if (keys_pressed.find(SDLK_RIGHT) != keys_pressed.end()) {
                 offset.x -= distance;
             }
-            
+
             if (keys_pressed.find(SDLK_UP) != keys_pressed.end()) {
                 offset.y += distance;
             }
-            
+
             if (keys_pressed.find(SDLK_DOWN) != keys_pressed.end()) {
                 offset.y -= distance;
             }
-            
+
             // Move all entities by the offset
             if (offset.x != 0.0f || offset.y != 0.0f) {
-                auto* transform_system = g_ecs.GetSystem<HBE::Default::Systems::TransformSystem>();
+                auto *transform_system = g_ecs.GetSystem<HBE::Default::Systems::TransformSystem>();
 
-                // TODO: Only do this for the editor camera(s). Right now, it moves all Transform2D components, so it looks like nothing is moving.
+                // TODO: Only do this for the editor camera(s). Right now, it moves all Transform2D components, so it
+                // looks like nothing is moving.
 
                 if (transform_system) {
-                    auto& scene_graph = transform_system->GetSceneGraph();
-                    
+                    auto &scene_graph = transform_system->GetSceneGraph();
+
                     // Iterate through all levels and update transforms
-                    for (auto& level : scene_graph.GetAllLevels()) {
-                        for (auto& entity : level.second) {
-                            auto& transform = g_ecs.GetComponent<Transform2D>(entity);
-                            
+                    for (auto &level : scene_graph.GetAllLevels()) {
+                        for (auto &entity : level.second) {
+                            auto &transform = g_ecs.GetComponent<Transform2D>(entity);
+
                             // Get parent transform if it exists
-                            const Transform2D* parent_transform = nullptr;
+                            const Transform2D *parent_transform = nullptr;
                             if (transform.m_parent != -1) {
                                 parent_transform = &g_ecs.GetComponent<Transform2D>(transform.m_parent);
-                            }
-                            else {
+                            } else {
                                 transform.m_local_position += offset;
                             }
-                            
+
                             // Propagate transforms
                             TransformHelper::PropagateTransforms(transform, parent_transform);
                         }
@@ -193,4 +202,4 @@ namespace HBE::Application::GUI {
             }
         }
     }
-}
+} // namespace HBE::Application::GUI

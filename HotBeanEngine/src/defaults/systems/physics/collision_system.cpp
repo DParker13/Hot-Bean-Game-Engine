@@ -4,7 +4,7 @@
  * @brief System for managing 2D collision shapes in the physics world.
  * @version 0.1
  * @date 2025-03-25
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -21,17 +21,17 @@ namespace HBE::Default::Systems {
         shape_def.density = 1.0f;
         shape_def.material.friction = 0.3f;
 
-        switch(collider.m_shape) {
-            case Collider2D::ColliderShape::Box: {
-                b2Polygon box = b2MakeBox(collider.m_size.x / 2.0f, collider.m_size.y / 2.0f);
-                b2CreatePolygonShape(rigidbody.m_body_id, &shape_def, &box);
-                break;
-            }
-            case Collider2D::ColliderShape::Circle: {
-                b2Circle circle = b2Circle{{0.0f, 0.0f}, collider.m_size.x / 2.0f};
-                b2CreateCircleShape(rigidbody.m_body_id, &shape_def, &circle);
-                break;
-            }
+        switch (collider.m_shape) {
+        case Collider2D::ColliderShape::Box: {
+            b2Polygon box = b2MakeBox(collider.m_size.x / 2.0f, collider.m_size.y / 2.0f);
+            b2CreatePolygonShape(rigidbody.m_body_id, &shape_def, &box);
+            break;
+        }
+        case Collider2D::ColliderShape::Circle: {
+            b2Circle circle = b2Circle{{0.0f, 0.0f}, collider.m_size.x / 2.0f};
+            b2CreateCircleShape(rigidbody.m_body_id, &shape_def, &circle);
+            break;
+        }
         }
     }
-}
+} // namespace HBE::Default::Systems

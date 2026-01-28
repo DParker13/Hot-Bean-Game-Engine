@@ -4,7 +4,7 @@
  * @brief Used for setting the logging level.
  * @version 0.1
  * @date 2025-03-27
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -12,11 +12,5 @@
 
 namespace HBE::Core {
     /// @brief Used for setting the logging level.
-    enum class LoggingType {
-        DEBUG,
-        INFO,
-        WARNING,
-        ERROR,
-        FATAL
-    };
-}
+    enum class LoggingType { DEBUG, INFO, WARNING, ERROR, FATAL };
+} // namespace HBE::Core

@@ -11,11 +11,14 @@
  *
  * @return an integer indicating the exit status of the program
  */
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     std::string config_path = (std::filesystem::current_path() / "config.yaml").string();
-    std::shared_ptr<HBE::Application::IComponentFactory> component_factory = std::make_shared<HBE::Default::DefaultComponentFactory>();
-    std::unique_ptr<HBE::Application::GUI::IEditorGUI> editor_gui = std::make_unique<HBE::Application::GUI::EditorGUI>();
-    
+    std::shared_ptr<HBE::Application::IComponentFactory> component_factory =
+        std::make_shared<HBE::Default::DefaultComponentFactory>();
+
+    std::unique_ptr<HBE::Application::GUI::IEditorGUI> editor_gui =
+        std::make_unique<HBE::Application::GUI::EditorGUI>();
+
     Game::ExampleGame game = Game::ExampleGame(config_path, component_factory, std::move(editor_gui));
     game.Start();
 

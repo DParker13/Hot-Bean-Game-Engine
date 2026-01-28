@@ -4,7 +4,7 @@
  * @brief Interface for components that track field changes.
  * @version 0.1
  * @date 2025-11-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -17,16 +17,10 @@ namespace HBE::Core {
         bool m_dirty = true; // Initialize as dirty so new components get processed
 
     public:
-        virtual void MarkDirty() {
-            m_dirty = true;
-        }
+        virtual void MarkDirty() { m_dirty = true; }
 
-        virtual void MarkClean() {
-            m_dirty = false;
-        }
-        
-        virtual bool IsDirty() const {
-            return m_dirty;
-        }
+        virtual void MarkClean() { m_dirty = false; }
+
+        virtual bool IsDirty() const { return m_dirty; }
     };
-}
+} // namespace HBE::Core

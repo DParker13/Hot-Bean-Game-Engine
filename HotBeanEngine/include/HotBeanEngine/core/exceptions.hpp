@@ -4,7 +4,7 @@
  * @brief Defines custom exceptions.
  * @version 0.1
  * @date 2025-07-30
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -13,17 +13,15 @@
 namespace HBE::Core {
     struct ComponentNotRegisteredException : public std::runtime_error {
     public:
-        ComponentNotRegisteredException()
-            : std::runtime_error("Component not registered") {}
+        ComponentNotRegisteredException() : std::runtime_error("Component not registered") {}
 
-        ComponentNotRegisteredException(const std::string& component_name)
+        ComponentNotRegisteredException(const std::string &component_name)
             : std::runtime_error("Component not registered: " + component_name) {}
     };
 
     class ComponentNameNotDefinedException : public std::runtime_error {
     public:
-        ComponentNameNotDefinedException()
-            : std::runtime_error("Component GetName() method is not defined or empty") {}
+        ComponentNameNotDefinedException() : std::runtime_error("Component GetName() method is not defined or empty") {}
     };
 
     class MaxNumberOfComponentsRegisteredException : public std::length_error {
@@ -34,7 +32,7 @@ namespace HBE::Core {
 
     class SystemNotRegisteredException : public std::runtime_error {
     public:
-        SystemNotRegisteredException(const std::string& system_name)
+        SystemNotRegisteredException(const std::string &system_name)
             : std::runtime_error("System not registered: " + system_name) {}
     };
-}
+} // namespace HBE::Core

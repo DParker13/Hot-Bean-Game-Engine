@@ -4,7 +4,7 @@
  * @brief Controller component. Used to control an entity using user input.
  * @version 0.1
  * @date 2025-02-23
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -18,10 +18,10 @@
 namespace HBE::Default::Components {
     using namespace HBE::Core;
     using namespace HBE::Application::GUI;
-    
+
     /**
      * @brief Input controller component for player input handling
-     * 
+     *
      * Maps input actions to entity behavior.
      * Supports keyboard, mouse, and gamepad input.
      */
@@ -31,18 +31,18 @@ namespace HBE::Default::Components {
         DEFINE_NAME("Controller");
         Controller() = default;
 
-        void Serialize(YAML::Emitter& out) const override {
+        void Serialize(YAML::Emitter &out) const override {
             out << YAML::Key << "controllable" << YAML::Value << controllable;
         }
 
-        void Deserialize(YAML::Node& node) override {
+        void Deserialize(YAML::Node &node) override {
             if (node["controllable"]) {
                 controllable = node["controllable"].as<bool>();
             }
         }
 
-        void RenderProperties(int& id) override {
+        void RenderProperties(int &id) override {
             PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
         }
     };
-}
+} // namespace HBE::Default::Components

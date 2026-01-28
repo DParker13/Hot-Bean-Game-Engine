@@ -1,3 +1,14 @@
+/**
+ * @file audio_system.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Implementation of the custom audio system for the example game.
+ * Extends the default audio system with game-specific music and sound initialization.
+ * @version 0.1
+ * @date 2025-05-22
+ *
+ * @copyright Copyright (c) 2025
+ */
+
 #include "audio_system.hpp"
 
 namespace Systems {
@@ -10,4 +21,4 @@ namespace Systems {
         PlayMusic(-1);
     }
 
-}
+} // namespace Systems

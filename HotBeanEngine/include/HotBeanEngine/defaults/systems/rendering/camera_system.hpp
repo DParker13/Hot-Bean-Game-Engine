@@ -4,7 +4,7 @@
  * @brief System for 2D camera management.
  * @version 0.1
  * @date 2025-03-02
- * 
+ *
  * @copyright Copyright (c) 2025
  */
 
@@ -19,7 +19,7 @@ namespace HBE::Default::Systems {
 
     /**
      * @brief Manages camera positioning and view matrices
-     * 
+     *
      * Updates active camera transforms for rendering.
      * Handles camera switching and viewport management.
      */
@@ -36,4 +36,4 @@ namespace HBE::Default::Systems {
         static glm::vec2 CalculateScreenPosition(EntityID camera_entity, EntityID entity);
         static bool IsCulled(EntityID camera_entity, EntityID entity);
     };
-}
+} // namespace HBE::Default::Systems

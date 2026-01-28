@@ -7,7 +7,7 @@ namespace HBE::Application {
     /**
      * @brief Template-based archetype for creating entities with predefined component sets
      */
-    template<typename... Cs>
+    template <typename... Cs>
     struct Archetype : public HBE::Core::IArchetype {
         // std::vector<std::string> GetComponentNames() {
         //     std::vector<std::string> component_names;
@@ -21,7 +21,7 @@ namespace HBE::Application {
         //     delete archetype;
         // }
 
-        static EntityID Create(Cs&&... comps) {
+        static EntityID Create(Cs &&...comps) {
             EntityID entity = g_ecs.CreateEntity();
             (g_ecs.AddComponent<Cs>(entity, std::forward<Cs>(comps)), ...);
 
@@ -35,9 +35,9 @@ namespace HBE::Application {
             return entity;
         }
 
-        template<typename T>
-        static T& Get(EntityID entity) {
+        template <typename T>
+        static T &Get(EntityID entity) {
             return g_ecs.GetComponent<T>(entity);
         }
     };
-}
+} // namespace HBE::Application
