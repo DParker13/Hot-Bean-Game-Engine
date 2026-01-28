@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
+    set(FETCHCONTENT_UPDATES_DISCONNECTED TRUE)
 endif()
 message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}'")
 
@@ -14,7 +15,6 @@ set(BUILD_SHARED_LIBS OFF)
 
 # FetchContent settings
 include(FetchContent)
-set(FETCHCONTENT_FULLY_DISCONNECTED TRUE)
 set(FETCHCONTENT_QUIET TRUE)
 
 # Fetch dependencies
@@ -27,25 +27,25 @@ FetchContent_Declare(
 FetchContent_Declare(
     SDL3
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG main # A stable release should be used when ver 3.4.0 releases!!!
+    GIT_TAG release-3.4.x
 )
 
 FetchContent_Declare(
     SDL3_TTF
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
-    GIT_TAG release-3.2.x
+    GIT_TAG release-3.2.x # Waiting for official 3.4.x release
 )
 
 FetchContent_Declare(
     SDL3_MIXER
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
-    GIT_TAG main
+    GIT_TAG main # No official 3.x release yet
 )
 
 FetchContent_Declare(
     SDL3_IMAGE
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
-    GIT_TAG release-3.2.x
+    GIT_TAG release-3.4.x
 )
 
 FetchContent_Declare(
