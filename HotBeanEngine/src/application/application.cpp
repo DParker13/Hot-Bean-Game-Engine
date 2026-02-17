@@ -29,7 +29,8 @@ namespace HBE::Application {
 
         if (config_loaded) {
             LOG_CORE(LoggingType::INFO, "Config file loaded.");
-        } else {
+        }
+        else {
             LOG_CORE(LoggingType::WARNING, "Failed to load config file at \"" + config_path + "\"");
             LOG_CORE(LoggingType::INFO, "\tLoading Default config");
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Config Error",
@@ -37,7 +38,8 @@ namespace HBE::Application {
                                      m_window);
         }
 
-        m_input_event_listener = InputEventListener();
+        // Initialize input event listener
+        m_input_event_listener = std::make_unique<InputEventListener>(m_logging_manager);
 
         // Initialize application parts
         InitManagers();
@@ -92,6 +94,12 @@ namespace HBE::Application {
         m_component_factory->RegisterComponents();
         m_scene_manager = std::make_unique<SceneManager>(m_ecs_manager, m_logging_manager);
         m_loop_manager = std::make_unique<GameLoopManager>(m_logging_manager);
+        m_camera_manager = std::make_shared<CameraManager>();
+        m_render_manager = std::make_shared<RenderManager>(m_camera_manager);
+        m_transform_manager = std::make_shared<TransformManager>();
+        
+        // Register render manager as entity lifecycle listener with ECS manager
+        m_ecs_manager->RegisterEntityListener(m_render_manager.get());
     }
 
     /// @brief Initializes the SDL library.
@@ -166,11 +174,21 @@ namespace HBE::Application {
 
     SceneManager &Application::GetSceneManager() const { return *m_scene_manager; }
 
+    GameLoopManager &Application::GetLoopManager() const { return *m_loop_manager; }
+
+    RenderManager &Application::GetRenderManager() const { return *m_render_manager; }
+
+    CameraManager &Application::GetCameraManager() const { return *m_camera_manager; }
+
+    TransformManager &Application::GetTransformManager() const { return *m_transform_manager; }
+
     std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
 
-    InputEventListener &Application::GetInputEventListener() { return m_input_event_listener; }
+    InputEventListener &Application::GetInputEventListener() { return *m_input_event_listener; }
 
-    const InputEventListener &Application::GetInputEventListener() const { return m_input_event_listener; }
+    const InputEventListener &Application::GetInputEventListener() const { return *m_input_event_listener; }
+
+    GUI::IEditorGUI &Application::GetEditorGUI() { return *m_editor_gui; }
 
     /// @brief Logs a message to a log file.
     /// @param message The message to log to the log file
@@ -191,6 +209,11 @@ namespace HBE::Application {
 
     /// @brief Starts the main game loop of the application.
     void Application::Start() {
+        // If using NoopEditorGUI, automatically start in Playing state
+        if (dynamic_cast<GUI::NoopEditorGUI *>(m_editor_gui.get()) != nullptr) {
+            m_loop_manager->QueueStateChange(ApplicationState::Playing);
+        }
+
         OnStart();
 
         while (!m_quit) {
@@ -213,16 +236,8 @@ namespace HBE::Application {
             SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
             SDL_RenderClear(m_renderer);
 
-            if (m_loop_manager->IsState(ApplicationState::Playing)) {
-                PhysicsLoop();
-                OnUpdate();
-            } else {
-                m_editor_gui->OnUpdate();
-            }
-
-            // Call remaining system OnRender for non-texture rendering (shapes, UI, etc.)
+            OnUpdate();
             OnRender();
-            m_editor_gui->OnRender();
 
             // Present the next frame
             SDL_RenderPresent(m_renderer);
@@ -233,9 +248,7 @@ namespace HBE::Application {
     }
 
     void Application::EventLoop() {
-        if (m_loop_manager->IsState(ApplicationState::Playing)) {
-            OnPreEvent();
-        }
+        OnPreEvent();
 
         // Polls for events
         while (SDL_PollEvent(&event)) {
@@ -243,19 +256,13 @@ namespace HBE::Application {
             // method
             if (event.type == SDL_EVENT_QUIT) {
                 m_quit = true;
-            } else if (event.type == SDL_EVENT_WINDOW_RESIZED) {
+            }
+            else if (event.type == SDL_EVENT_WINDOW_RESIZED) {
                 // Call system OnWindowResize methods
                 OnWindowResize(event);
-                m_editor_gui->OnWindowResize(event);
-            } else {
-                m_input_event_listener.OnEvent(event);
-
-                // Call system OnEvent methods
-                if (m_loop_manager->IsState(ApplicationState::Playing)) {
-                    OnEvent(event);
-                }
-
-                m_editor_gui->OnEvent(event);
+            }
+            else {
+                OnEvent(event);
             }
             switch (event.type) {
             case SDL_EVENT_RENDER_DEVICE_LOST:
@@ -367,17 +374,28 @@ namespace HBE::Application {
 
     /**
      * @brief Calls the OnEvent method of each system in the system manager.
-     *
-     * @param event The SDL event to be handled.
      */
-    void Application::OnPreEvent() { m_ecs_manager->IterateSystems(GameLoopState::OnPreEvent); }
+    void Application::OnPreEvent() {
+        if (m_loop_manager->IsState(ApplicationState::Playing)) {
+            m_ecs_manager->IterateSystems(GameLoopState::OnPreEvent);
+        }
+    }
 
     /**
      * @brief Calls the OnEvent method of each system in the system manager.
      *
      * @param event The SDL event to be handled.
      */
-    void Application::OnEvent(SDL_Event &event) { m_ecs_manager->IterateSystems(event, GameLoopState::OnEvent); }
+    void Application::OnEvent(SDL_Event &event) {
+        m_input_event_listener->OnEvent(event);
+
+        // Call system OnEvent methods
+        if (m_loop_manager->IsState(ApplicationState::Playing)) {
+            m_ecs_manager->IterateSystems(event, GameLoopState::OnEvent);
+        }
+
+        m_editor_gui->OnEvent(event);
+    }
 
     /**
      * @brief Calls the OnWindowResize method of each system in the system manager.
@@ -386,29 +404,42 @@ namespace HBE::Application {
      */
     void Application::OnWindowResize(SDL_Event &event) {
         m_ecs_manager->IterateSystems(event, GameLoopState::OnWindowResize);
+
+        m_render_manager->OnWindowResize(event);
+        m_editor_gui->OnWindowResize(event);
     }
 
     /**
      * @brief Calls the OnUpdate method of each system in the system manager.
-     *
-     * @param renderer The SDL_Renderer to render with.
-     * @param delta_time The time in seconds since the last frame.
      */
-    void Application::OnUpdate() { m_ecs_manager->IterateSystems(GameLoopState::OnUpdate); }
+    void Application::OnUpdate() {
+        m_transform_manager->OnUpdate();
+
+        if (m_loop_manager->IsState(ApplicationState::Playing)) {
+            PhysicsLoop();
+            m_ecs_manager->IterateSystems(GameLoopState::OnUpdate);
+        }
+        else {
+            m_editor_gui->OnUpdate();
+        }
+    }
 
     /**
      * @brief Renders all systems within the application by invoking their OnRender method.
-     *
-     * @param renderer The SDL_Renderer to render with.
-     * @param window The SDL_Window that the renderer is attached to.
-     * @param surface The SDL_Surface to render to.
      */
-    void Application::OnRender() { m_ecs_manager->IterateSystems(GameLoopState::OnRender); }
+    void Application::OnRender() {
+        m_ecs_manager->IterateSystems(GameLoopState::OnRender);
+
+        m_render_manager->OnRender();
+        m_editor_gui->OnRender();
+    }
 
     /**
      * @brief Calls the OnPostRender method of each system in the system manager.
-     *
-     * @param renderer The SDL_Renderer to render with.
      */
-    void Application::OnPostRender() { m_ecs_manager->IterateSystems(GameLoopState::OnPostRender); }
+    void Application::OnPostRender() {
+        m_ecs_manager->IterateSystems(GameLoopState::OnPostRender);
+
+        m_render_manager->OnPostRender();
+    }
 } // namespace HBE::Application

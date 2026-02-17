@@ -9,8 +9,10 @@
  */
 #pragma once
 
-#include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/components/default_components.hpp>
+#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/defaults/components/physics/collider_2d.hpp>
+#include <HotBeanEngine/defaults/components/physics/rigidbody.hpp>
 
 namespace HBE::Default::Systems {
     using namespace HBE::Core;
@@ -21,7 +23,9 @@ namespace HBE::Default::Systems {
      */
     class CollisionSystem : public ISystem {
     public:
-        DEFINE_SIGNATURE(CollisionSystem, "Collision System", Transform2D, RigidBody, Collider2D);
+        REQUIRES_COMPONENTS(Transform2D, RigidBody, Collider2D);
+        DEFINE_NAME("Collision System")
+
         CollisionSystem() = default;
         ~CollisionSystem() = default;
 

@@ -2,6 +2,10 @@ BasedOnStyle: llvm
 IndentWidth: 4
 NamespaceIndentation: All
 AccessModifierOffset: -4
-BreakBeforeBraces: Attach
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: false
+  AfterControlStatement: Never
+  BeforeElse: true
 ColumnLimit: 120
 AlwaysBreakTemplateDeclarations: Yes

@@ -104,6 +104,17 @@ namespace HBE::Application::Managers {
         }
 
         template <typename T>
+        void UnregisterComponentID() {
+            static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from Component");
+
+            std::string component_name = std::string(GetComponentName<T>());
+
+            UnregisterComponentID(component_name);
+        }
+
+        void UnregisterComponentID(std::string component_name);
+
+        template <typename T>
         ComponentID AddComponent(EntityID entity) {
             static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from Component");
 
@@ -236,7 +247,8 @@ namespace HBE::Application::Managers {
                 auto ex = ComponentNotRegisteredException(std::string(GetComponentName<T>()));
                 LOG_CORE(LoggingType::ERROR, ex.what());
                 throw ex;
-            } else {
+            }
+            else {
                 return m_component_name_to_type[std::string(GetComponentName<T>())];
             }
         }
@@ -263,6 +275,13 @@ namespace HBE::Application::Managers {
             } catch (const ComponentNotRegisteredException &) {
                 return false;
             }
+        }
+
+        template <typename... Ts>
+        Signature GetSignature() {
+            Signature signature;
+            (..., signature.set(GetComponentID<Ts>(), true));
+            return signature;
         }
 
         /**

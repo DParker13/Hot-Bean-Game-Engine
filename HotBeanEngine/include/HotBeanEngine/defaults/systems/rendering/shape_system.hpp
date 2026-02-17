@@ -10,11 +10,17 @@
 
 #pragma once
 
-#include <HotBeanEngine/defaults/systems/rendering/camera_system.hpp>
+#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/defaults/components/rendering/shape.hpp>
+#include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 
 namespace HBE::Default::Systems {
     using namespace HBE::Core;
     using namespace HBE::Default::Components;
+
+    // Forward declaration
+    class CameraSystem;
 
     /**
      * @brief Renders primitive geometric shapes
@@ -23,12 +29,12 @@ namespace HBE::Default::Systems {
      * Processes entities with Transform2D and Shape components.
      */
     class ShapeSystem : public ISystem {
-    private:
-        CameraSystem &m_camera_system;
+    public:
+        REQUIRES_COMPONENTS(Transform2D, Texture, Shape);
+        DEFINE_NAME("Shape System")
 
     public:
-        DEFINE_SIGNATURE(ShapeSystem, "Shape System", Transform2D, Texture, Shape);
-        ShapeSystem(CameraSystem &camera_system) : m_camera_system(camera_system) {}
+        ShapeSystem() = default;
 
         void OnRender() override;
         void OnEntityAdded(EntityID entity) override;

@@ -43,8 +43,8 @@ add_custom_command(
 
     # Copy config.yaml
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/config.yaml"
-            "${CMAKE_CURRENT_BINARY_DIR}/config.yaml"
+            "${CMAKE_CURRENT_SOURCE_DIR}/assets/config.yaml"
+            "${CMAKE_CURRENT_BINARY_DIR}/assets/config.yaml"
 
     # Copy the HotBeanEngine DLL
     # COMMAND ${CMAKE_COMMAND} -E copy

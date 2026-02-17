@@ -12,7 +12,7 @@
 
 #include <unordered_set>
 
-#include <HotBeanEngine/core/all_core.hpp>
+#include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application {
     /**
@@ -20,12 +20,14 @@ namespace HBE::Application {
      */
     class InputEventListener {
     private:
+        std::shared_ptr<HBE::Application::Managers::LoggingManager> m_logging_manager;
         std::unordered_set<SDL_Keycode> m_keys_pressed;
         std::unordered_set<Uint8> m_mouse_buttons_pressed;
         glm::vec2 m_mouse_position = {0.0f, 0.0f};
 
     public:
-        InputEventListener() = default;
+        InputEventListener(std::shared_ptr<HBE::Application::Managers::LoggingManager> logging_manager)
+            : m_logging_manager(logging_manager) {};
         ~InputEventListener() = default;
 
         void OnEvent(SDL_Event &event);

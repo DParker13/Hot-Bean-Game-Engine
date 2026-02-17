@@ -92,8 +92,8 @@ endif()
 
 # Add subdirectories
 add_subdirectory(src/application)
-add_subdirectory(src/defaults)
 add_subdirectory(src/editor)
+add_subdirectory(src/defaults)
 
 # Compiler-specific settings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

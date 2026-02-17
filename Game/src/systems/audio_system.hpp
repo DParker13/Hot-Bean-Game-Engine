@@ -10,21 +10,23 @@
 #pragma once
 
 #include <HotBeanEngine/HotBeanEngine_Defaults.hpp>
+#include <HotBeanEngine/application/macros.hpp>
 
 namespace Systems {
     /**
      * @class CustomAudioSystem
      * @brief Custom audio system for the example game.
-     * 
+     *
      * Extends the default AudioSystem with game-specific initialization.
      * Loads and manages background music and sound effects for the game.
      */
-    class CustomAudioSystem : public HBE::Default::Systems::AudioSystem {
-    public:
-        EXTEND_SYSTEM(AudioSystem, CustomAudioSystem, "Custom Audio System");
-        CustomAudioSystem() = default;
-        ~CustomAudioSystem() = default;
+    // class CustomAudioSystem : public HBE::Default::Systems::AudioSystem {
+    // public:
+    //     DEFINE_NAME("Custom Audio System");
 
-        void OnStart() override;
-    };
+    //     CustomAudioSystem() = default;
+    //     ~CustomAudioSystem() = default;
+
+    //     void OnStart() override;
+    // };
 } // namespace Systems

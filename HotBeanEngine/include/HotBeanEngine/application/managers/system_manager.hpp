@@ -12,7 +12,11 @@
 #pragma once
 
 #include <map>
+#include <tuple>
+#include <utility>
 
+#include <HotBeanEngine/application/managers/component_manager.hpp>
+#include <HotBeanEngine/application/managers/entity_lifecycle_listener.hpp>
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application::Managers {
@@ -25,6 +29,7 @@ namespace HBE::Application::Managers {
      */
     class SystemManager {
     private:
+        std::shared_ptr<ComponentManager> m_component_manager;
         std::shared_ptr<LoggingManager> m_logging_manager;
 
         // Map from system type name to a signature
@@ -35,7 +40,9 @@ namespace HBE::Application::Managers {
         std::vector<ISystem *> m_systems_ordered;
 
     public:
-        SystemManager(std::shared_ptr<LoggingManager> logging_manager);
+        SystemManager(std::shared_ptr<ComponentManager> component_manager,
+                      std::shared_ptr<LoggingManager> logging_manager)
+            : m_component_manager(component_manager), m_logging_manager(logging_manager) {}
         /**
          * @brief Destructor. Releases all registered systems.
          */
@@ -51,7 +58,7 @@ namespace HBE::Application::Managers {
          */
         template <typename T, typename... Args>
         T &RegisterSystem(Args &&...params) {
-            static_assert(std::is_base_of_v<ISystem, T> && "T must inherit from ISystem");
+            static_assert(std::is_base_of_v<ISystem, T>, "T must inherit from ISystem");
 
             std::string system_name = std::string(GetSystemName<T>());
             LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + system_name + "\"");
@@ -62,6 +69,9 @@ namespace HBE::Application::Managers {
             }
 
             T *system = new T(std::forward<Args>(params)...);
+
+            // Extract and set the system signature from RequiredComponents
+            m_signatures.insert({system_name, ExtractSignature<T>()});
 
             // Create a pointer to the system and return it so it can be used externally
             m_systems.insert({system_name, system});
@@ -78,7 +88,7 @@ namespace HBE::Application::Managers {
          */
         template <typename T>
         T &RegisterSystem() {
-            static_assert(std::is_base_of_v<ISystem, T> && "T must inherit from ISystem");
+            static_assert(std::is_base_of_v<ISystem, T>, "T must inherit from ISystem");
 
             std::string system_name = std::string(GetSystemName<T>());
             LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + system_name + "\"");
@@ -89,6 +99,9 @@ namespace HBE::Application::Managers {
             }
 
             T *system = new T();
+
+            // Extract and set the system signature from RequiredComponents
+            m_signatures.insert({system_name, ExtractSignature<T>()});
 
             // Create a pointer to the system and return it so it can be used externally
             m_systems.insert({system_name, system});
@@ -158,6 +171,8 @@ namespace HBE::Application::Managers {
             m_signatures.insert({system_name, signature});
         }
 
+        void SetSignature(ISystem *system, Signature signature);
+
         /**
          * @brief Get the Signature of a System type T
          *
@@ -175,6 +190,8 @@ namespace HBE::Application::Managers {
             return m_signatures[std::string(GetSystemName<T>())];
         }
 
+        Signature &GetSignature(ISystem *system);
+
         /**
          * @brief Get the System
          *
@@ -186,7 +203,8 @@ namespace HBE::Application::Managers {
             if (!IsSystemRegistered<T>()) {
                 LOG_CORE(LoggingType::WARNING, "System is not registered");
                 return nullptr;
-            } else {
+            }
+            else {
                 return static_cast<T *>(m_systems[std::string(GetSystemName<T>())]);
             }
         }
@@ -234,6 +252,58 @@ namespace HBE::Application::Managers {
     private:
         bool IsSystemRegistered(ISystem *system);
 
+        /**
+         * @brief Type trait to detect if a type has RequiredComponents member
+         */
+        template <typename T, typename = void>
+        struct has_required_components : std::false_type {};
+
+        template <typename T>
+        struct has_required_components<T, std::void_t<typename T::RequiredComponents>> : std::true_type {};
+
+        /**
+         * @brief Helper to extract signature from a system's RequiredComponents type alias
+         * @tparam T System type
+         * @return Signature built from the system's required components
+         */
+        template <typename T>
+        Signature ExtractSignature() {
+            // Check if system has RequiredComponents type alias
+            if constexpr (has_required_components<T>::value) {
+                return ExtractSignatureFromTuple<typename T::RequiredComponents>();
+            }
+            else {
+                // Empty signature for systems with no components
+                return Signature{};
+            }
+        }
+
+        /**
+         * @brief Helper to unpack tuple and build signature
+         * @tparam Tuple std::tuple of component types
+         * @return Signature with all component IDs set
+         */
+        template <typename Tuple>
+        Signature ExtractSignatureFromTuple() {
+            return std::apply(
+                [this](auto... args) {
+                    using Components = std::tuple<decltype(args)...>;
+                    return BuildSignatureFromTypes<Components>(std::index_sequence_for<decltype(args)...>{});
+                },
+                Tuple{});
+        }
+
+        /**
+         * @brief Helper to build signature from component types
+         * @tparam Tuple std::tuple of component types
+         * @tparam Indices Index sequence for unpacking
+         * @return Signature with all component IDs set
+         */
+        template <typename Tuple, std::size_t... Indices>
+        Signature BuildSignatureFromTypes(std::index_sequence<Indices...>) {
+            return m_component_manager->GetSignature<std::tuple_element_t<Indices, Tuple>...>();
+        }
+
         template <typename T>
         void RemoveSignature() {
             if (!IsSystemRegistered<T>()) {
@@ -268,5 +338,8 @@ namespace HBE::Application::Managers {
 
             return T::StaticGetName();
         }
+
+        std::string_view GetSystemName(ISystem *system) const;
+
     };
 } // namespace HBE::Application::Managers

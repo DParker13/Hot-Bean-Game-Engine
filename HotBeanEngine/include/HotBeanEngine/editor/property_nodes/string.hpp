@@ -28,7 +28,8 @@ namespace HBE::Application::GUI::PropertyNodes {
             if (isMultiline) {
                 changed = ImGui::InputTextMultiline("", value.data(), value.size(),
                                                     ImVec2(width, ImGui::GetTextLineHeight() * 4));
-            } else {
+            }
+            else {
                 changed = ImGui::InputText("", value.data(), value.size());
             }
             ImGui::EndDisabled();

@@ -34,14 +34,17 @@ namespace HBE::Default {
 
                 if (m_parent_entity_map.find(parent_entity) == m_parent_entity_map.end()) {
                     m_parent_entity_map[parent_entity] = std::vector<EntityID>{entity};
-                } else {
+                }
+                else {
                     m_parent_entity_map[parent_entity].push_back(entity);
                 }
-            } else {
+            }
+            else {
                 // default to -1 when there is no parent
                 if (m_parent_entity_map.find(-1) == m_parent_entity_map.end()) {
                     m_parent_entity_map[-1] = std::vector<EntityID>{entity};
-                } else {
+                }
+                else {
                     m_parent_entity_map[-1].push_back(entity);
                 }
             }
@@ -118,7 +121,8 @@ namespace HBE::Default {
             if (g_ecs.IsComponentRegistered(component_name)) {
                 LOG(LoggingType::INFO, "Loading component: " + component_name);
                 m_component_factory->CreateComponentFromYAML(component_name, component, parent_entity, entity);
-            } else {
+            }
+            else {
                 LOG(LoggingType::FATAL, "Component " + component_name + " is not registered.");
             }
         }

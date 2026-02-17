@@ -10,8 +10,9 @@
 
 #pragma once
 
-#include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/components/default_components.hpp>
+#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/defaults/components/input/controller.hpp>
+#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 
 namespace HBE::Default::Systems {
     using namespace HBE::Core;
@@ -22,7 +23,9 @@ namespace HBE::Default::Systems {
      */
     class PlayerControllerSystem : public ISystem {
     public:
-        DEFINE_SIGNATURE(PlayerControllerSystem, "Player Controller System", Transform2D, Controller);
+        REQUIRES_COMPONENTS(Transform2D, Controller);
+        DEFINE_NAME("Player Controller System")
+
         PlayerControllerSystem() = default;
         ~PlayerControllerSystem() = default;
 

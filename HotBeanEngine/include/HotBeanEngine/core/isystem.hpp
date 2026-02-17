@@ -11,10 +11,14 @@
 #pragma once
 
 #include <set>
+#include <tuple>
 
 #include <HotBeanEngine/core/entity.hpp>
 #include <HotBeanEngine/core/igame_loop.hpp>
 #include <HotBeanEngine/core/iname.hpp>
+
+// Helper macro for declaring required components
+#define REQUIRES_COMPONENTS(...) using RequiredComponents = std::tuple<__VA_ARGS__>
 
 namespace HBE::Core {
     /**
@@ -27,7 +31,7 @@ namespace HBE::Core {
 
         // System interface
         virtual std::string_view GetName() const = 0;
-        virtual void SetSignature() = 0;
+        virtual void SetSignature() {}; // Optional override - manager extracts from RequiredComponents
         virtual void OnEntityRemoved(EntityID entity) {};
         virtual void OnEntityAdded(EntityID entity) {};
 

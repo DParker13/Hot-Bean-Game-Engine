@@ -12,7 +12,7 @@
  * @return an integer indicating the exit status of the program
  */
 int main(int argc, char *argv[]) {
-    std::string config_path = (std::filesystem::current_path() / "config.yaml").string();
+    std::string config_path = (std::filesystem::current_path().parent_path() / "Game" / "assets" / "config.yaml").string();
     std::shared_ptr<HBE::Application::IComponentFactory> component_factory =
         std::make_shared<HBE::Default::DefaultComponentFactory>();
 

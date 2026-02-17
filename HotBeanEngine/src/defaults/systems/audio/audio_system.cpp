@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/systems/audio/audio_system.hpp>
 
 namespace HBE::Default::Systems {

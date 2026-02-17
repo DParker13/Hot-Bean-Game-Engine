@@ -9,15 +9,14 @@
  */
 #pragma once
 
-#include <random>
-
-#include "../systems/audio_system.hpp"
+#include <HotBeanEngine/HotBeanEngine_Defaults.hpp>
+#include <HotBeanEngine/defaults/default_scene_serializer.hpp>
 
 namespace Scenes {
     /**
      * @class ExampleScene
      * @brief Example scene demonstrating scene setup and configuration.
-     * 
+     *
      * Sets up the initial game scene with cameras, entities, physics components,
      * and rendering systems. Demonstrates best practices for scene initialization
      * and entity/component configuration.

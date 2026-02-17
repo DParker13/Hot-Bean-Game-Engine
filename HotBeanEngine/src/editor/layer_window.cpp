@@ -10,6 +10,7 @@
  */
 
 #include "layer_window.hpp"
+#include <HotBeanEngine/application/managers/render_manager.hpp>
 
 namespace HBE::Application::GUI {
     LayerWindow::~LayerWindow() {
@@ -21,10 +22,9 @@ namespace HBE::Application::GUI {
 
     void LayerWindow::RenderWindow() {
         ImGui::Begin(m_name.c_str(), &m_open);
-        Default::Systems::RenderSystem *render_system = g_ecs.GetSystem<Default::Systems::RenderSystem>();
 
         int id = 0;
-        for (auto &layer : render_system->GetAllLayers()) {
+        for (auto &layer : g_app.GetRenderManager().GetAllLayers()) {
             glm::vec2 layer_size;
             SDL_GetTextureSize(layer.second, &layer_size.x, &layer_size.y);
             ImGui::BeginGroup();
@@ -48,7 +48,8 @@ namespace HBE::Application::GUI {
             std::string layer_name = "Layer " + std::to_string(layer.first);
             property_nodes.push_back({layer_name, m_selected_layer});
             m_property_window->SetProperties(property_nodes);
-        } else {
+        }
+        else {
             LOG(LoggingType::ERROR, "Property window was never setup.");
         }
     }

@@ -9,6 +9,7 @@
  */
 
 #include <HotBeanEngine/defaults/default_scene.hpp>
+#include <HotBeanEngine/defaults/systems/default_systems.hpp>
 
 namespace HBE::Default {
     using namespace HBE::Application;
@@ -28,11 +29,9 @@ namespace HBE::Default {
 
         // Transform and Camera
         g_ecs.RegisterSystem<TransformSystem>();
-        CameraSystem &camera_system = g_ecs.RegisterSystem<CameraSystem>();
 
         // Rendering
-        g_ecs.RegisterSystem<ShapeSystem, CameraSystem &>(camera_system);
+        g_ecs.RegisterSystem<ShapeSystem>();
         g_ecs.RegisterSystem<UISystem, std::string>(font_path.string());
-        g_ecs.RegisterSystem<RenderSystem, CameraSystem &>(camera_system);
     };
 } // namespace HBE::Default

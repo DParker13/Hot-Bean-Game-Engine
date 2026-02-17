@@ -1,11 +1,14 @@
 add_library(HotBeanEngine_Managers STATIC
+    camera_manager.cpp
     component_manager.cpp
     ecs_manager.cpp
     entity_manager.cpp
     game_loop_manager.cpp
-    system_manager.cpp
     logging_manager.cpp
+    render_manager.cpp
     scene_manager.cpp
+    system_manager.cpp
+    transform_manager.cpp
 )
 
 target_include_directories(HotBeanEngine_Managers PUBLIC
@@ -19,6 +22,7 @@ target_include_directories(HotBeanEngine_Managers PUBLIC
 )
 
 target_link_libraries(HotBeanEngine_Managers PUBLIC
+    HotBeanEngine_Defaults
     SDL3::SDL3
     SDL3_mixer::SDL3_mixer
     SDL3_image::SDL3_image

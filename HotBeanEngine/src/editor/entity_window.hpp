@@ -18,7 +18,7 @@ namespace HBE::Application::GUI {
     /**
      * @class EntityWindow
      * @brief Window for browsing and selecting entities.
-     * 
+     *
      * Displays entities organized by their systems.
      * Allows users to select entities and view/edit their component properties.
      */

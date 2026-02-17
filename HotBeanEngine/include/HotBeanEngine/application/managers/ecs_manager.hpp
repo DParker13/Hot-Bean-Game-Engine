@@ -17,6 +17,7 @@
 #pragma once
 
 #include <HotBeanEngine/application/managers/component_manager.hpp>
+#include <HotBeanEngine/application/managers/entity_lifecycle_listener.hpp>
 #include <HotBeanEngine/application/managers/entity_manager.hpp>
 #include <HotBeanEngine/application/managers/system_manager.hpp>
 
@@ -29,8 +30,11 @@ namespace HBE::Application::Managers {
     class ECSManager {
     private:
         std::unique_ptr<EntityManager> m_entity_manager;
-        std::unique_ptr<ComponentManager> m_component_manager;
+        std::shared_ptr<ComponentManager> m_component_manager;
         std::unique_ptr<SystemManager> m_system_manager;
+
+        // Listeners for entity lifecycle events
+        std::vector<IEntityLifecycleListener *> m_entity_listeners;
 
     public:
         std::shared_ptr<LoggingManager> m_logging_manager;
@@ -81,6 +85,13 @@ namespace HBE::Application::Managers {
             return m_component_manager->RegisterComponentID<T>();
         }
 
+        template <typename T>
+        void UnregisterComponentID() {
+            m_component_manager->UnregisterComponentID<T>();
+        }
+
+        void UnregisterComponentID(std::string component_name);
+
         /**
          * @brief Adds a component of type T to an entity. Registers the component type if it's not already registered.
          *
@@ -92,6 +103,7 @@ namespace HBE::Application::Managers {
             ComponentID component_id = m_component_manager->AddComponent<T>(entity);
             Signature signature = m_entity_manager->SetSignature(entity, component_id);
             m_system_manager->EntitySignatureChanged(entity, signature);
+            NotifyComponentAdded(entity);
         }
 
         /**
@@ -106,6 +118,7 @@ namespace HBE::Application::Managers {
             ComponentID component_id = m_component_manager->AddComponent<T>(entity, component);
             Signature signature = m_entity_manager->SetSignature(entity, component_id);
             m_system_manager->EntitySignatureChanged(entity, signature);
+            NotifyComponentAdded(entity);
         }
 
         /**
@@ -119,6 +132,7 @@ namespace HBE::Application::Managers {
             m_component_manager->RemoveComponent<T>(entity);
             Signature signature = m_entity_manager->SetSignature(entity, GetComponentID<T>());
             m_system_manager->EntitySignatureChanged(entity, signature);
+            NotifyComponentRemoved(entity);
         }
 
         /**
@@ -142,6 +156,27 @@ namespace HBE::Application::Managers {
         template <typename T>
         ComponentID GetComponentID() {
             return m_component_manager->GetComponentID<T>();
+        }
+
+        /**
+         * @brief Get all Entities that have all specified component types.
+         * @warning USE THIS SPARINGLY! This function iterates over all entities and checks their signatures, which can
+         * be expensive with a large number of entities. It is recommended to use Systems to manage entity groups
+         * instead of calling this function frequently. Or you can subscribe to entity lifecycle events and maintain
+         * your own sets of entities with specific component combinations.
+         *
+         * @tparam Components
+         * @return std::set<EntityID>
+         */
+        template <typename... Components>
+        std::set<EntityID> GetEntitiesWithComponents() {
+            std::set<EntityID> result;
+            for (EntityID entity : GetAllEntities()) {
+                if ((HasComponent<Components>(entity) && ...)) {
+                    result.insert(entity);
+                }
+            }
+            return result;
         }
 
         /**
@@ -328,6 +363,24 @@ namespace HBE::Application::Managers {
                 LOG_CORE(LoggingType::ERROR, "Runtime error: Failed to set System signature");
             }
         }
+
+        /**
+         * @brief Register a listener to receive entity lifecycle notifications.
+         * @param listener The listener to register.
+         */
+        void RegisterEntityListener(IEntityLifecycleListener *listener);
+
+        /**
+         * @brief Notify all listeners that a component was added to an entity.
+         * @param entity The entity ID that was added.
+         */
+        void NotifyComponentAdded(EntityID entity);
+
+        /**
+         * @brief Notify all listeners that a component was removed from an entity.
+         * @param entity The entity ID that was removed.
+         */
+        void NotifyComponentRemoved(EntityID entity);
 
         /**
          * @brief Iterates over each system and calls specific game loop methods

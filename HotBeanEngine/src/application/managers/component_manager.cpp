@@ -15,6 +15,23 @@ namespace HBE::Application::Managers {
         : m_logging_manager(logging_manager), m_registered_components(0) {}
 
     /**
+     * @brief Unregisters a component type from the Component Manager
+     *
+     * @param component_name The name of the component
+     */
+    void ComponentManager::UnregisterComponentID(std::string component_name) {
+        LOG_CORE(LoggingType::DEBUG, "Unregistering Component \"" + component_name + "\"");
+
+        m_component_id_to_name.erase(m_component_name_to_type[component_name]);
+        m_component_name_to_type.erase(component_name);
+        m_component_name_to_data.erase(component_name);
+
+        m_registered_components--;
+
+        LOG_CORE(LoggingType::DEBUG, "\t" + std::to_string(m_registered_components) + " Registered Components");
+    }
+
+    /**
      * @brief Retrieves the name of a component
      *
      * @param component_id The type of the component

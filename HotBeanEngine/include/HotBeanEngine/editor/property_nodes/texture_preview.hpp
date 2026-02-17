@@ -21,12 +21,14 @@ namespace HBE::Application::GUI::PropertyNodes {
                 ImVec2 scaled_size;
                 if (aspect_ratio > 1.0f) {
                     scaled_size = ImVec2(window_width, window_width / aspect_ratio);
-                } else {
+                }
+                else {
                     scaled_size = ImVec2(window_width * aspect_ratio, window_width);
                 }
 
                 ImGui::Image((void *)texture, scaled_size);
-            } else {
+            }
+            else {
                 ImGui::Text("%s: No texture loaded.", label);
             }
             ImGui::PopID();

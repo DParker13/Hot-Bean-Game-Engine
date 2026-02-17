@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/systems/rendering/shape_system.hpp>
 
 namespace HBE::Default::Systems {
@@ -35,7 +36,8 @@ namespace HBE::Default::Systems {
                     const SDL_FRect *rect = new SDL_FRect({0, 0, shape.m_size.x, shape.m_size.y});
                     if (shape.m_filled) {
                         SDL_RenderFillRect(g_app.GetRenderer(), rect);
-                    } else {
+                    }
+                    else {
                         SDL_RenderRect(g_app.GetRenderer(), rect);
                     }
 

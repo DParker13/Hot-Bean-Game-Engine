@@ -80,7 +80,8 @@ namespace HBE::Core {
                         }
                     }
                 }
-            } else if (m_items.size() > 0) {
+            }
+            else if (m_items.size() > 0) {
                 int index = m_items.find(item);
 
                 // If the item is not found in this node, return
@@ -119,7 +120,8 @@ namespace HBE::Core {
                             }
                         }
                     }
-                } else if (m_items.size() > 0) {
+                }
+                else if (m_items.size() > 0) {
                     int index = m_items.find(item);
 
                     if (index == -1) {

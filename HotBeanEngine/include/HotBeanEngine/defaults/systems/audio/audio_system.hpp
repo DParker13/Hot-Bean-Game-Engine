@@ -24,7 +24,7 @@ namespace HBE::Default::Systems {
         MIX_Track *m_track_one;
 
     public:
-        DEFINE_SIGNATURE(AudioSystem, "Audio System");
+        DEFINE_NAME("Audio System");
         AudioSystem();
         ~AudioSystem();
 

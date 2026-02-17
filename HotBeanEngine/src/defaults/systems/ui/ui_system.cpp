@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/defaults/components/ui/text.hpp>
 #include <HotBeanEngine/defaults/systems/ui/ui_system.hpp>
 
 namespace HBE::Default::Systems {
@@ -80,7 +82,8 @@ namespace HBE::Default::Systems {
             if (text.m_background_color.a == 0) {
                 text_surface = TTF_RenderText_Solid_Wrapped(m_font, text.m_text.c_str(), sizeof(text),
                                                             text.m_foreground_color, text.m_wrapping_width);
-            } else {
+            }
+            else {
                 text_surface =
                     TTF_RenderText_LCD_Wrapped(m_font, text.m_text.c_str(), sizeof(text), text.m_foreground_color,
                                                text.m_background_color, text.m_wrapping_width);
@@ -120,7 +123,8 @@ namespace HBE::Default::Systems {
 
         if (!m_font) {
             LOG(LoggingType::ERROR, "Couldn't load font: " + std::string(SDL_GetError()));
-        } else {
+        }
+        else {
             TTF_SetFontStyle(m_font, TTF_STYLE_NORMAL);
             TTF_SetFontOutline(m_font, 0);
             TTF_SetFontKerning(m_font, 1);

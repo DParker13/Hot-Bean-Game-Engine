@@ -67,10 +67,6 @@ namespace HBE::Application::Managers {
 
             m_ecs_manager->DestroyAllEntities();
 
-            for (auto &system : m_ecs_manager->GetAllSystems()) {
-                m_ecs_manager->UnregisterSystem(system);
-            }
-
             LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
         } catch (const YAML::Exception &e) {
             LOG_CORE(LoggingType::ERROR, "Error serializing to YAML file: " + (std::string)e.what());

@@ -23,7 +23,8 @@ namespace HBE::Default::Utilities {
             // Add entity at parent level + 1
             Uint32 parent_level = m_entity_graph_level[parent_entity];
             AddEntityAtLevel(entity, parent_level + 1);
-        } else {
+        }
+        else {
             // Root level entity
             AddEntityAtLevel(entity, 0);
         }
@@ -80,7 +81,8 @@ namespace HBE::Default::Utilities {
         // Check if the current entity is already mapped to a level
         if (m_entity_graph_level.find(entity) == m_entity_graph_level.end()) {
             m_entity_graph_level.emplace(entity, level);
-        } else {
+        }
+        else {
             // Update existing mapping
             m_entity_graph_level[entity] = level;
         }
@@ -88,7 +90,8 @@ namespace HBE::Default::Utilities {
         // Check if the current scene graph level exists
         if (m_scene_graph.find(level) == m_scene_graph.end()) {
             m_scene_graph.emplace(level, std::set<EntityID>{entity});
-        } else if (m_scene_graph[level].find(entity) == m_scene_graph[level].end()) {
+        }
+        else if (m_scene_graph[level].find(entity) == m_scene_graph[level].end()) {
             m_scene_graph[level].emplace(entity);
         }
     }

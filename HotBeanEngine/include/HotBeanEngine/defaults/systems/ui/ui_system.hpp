@@ -12,8 +12,13 @@
 
 #include <unordered_set>
 
-#include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/components/default_components.hpp>
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
+#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/defaults/components/rendering/texture.hpp>
+#include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
 
 namespace HBE::Default::Systems {
     using namespace HBE::Core;
@@ -24,6 +29,10 @@ namespace HBE::Default::Systems {
      * Renders element to their texture and handles user interaction.
      */
     class UISystem : public ISystem {
+    public:
+        REQUIRES_COMPONENTS(Transform2D, Texture, UIElement);
+        DEFINE_NAME("UI System")
+
     private:
         const std::string _font_path;
 
@@ -31,7 +40,6 @@ namespace HBE::Default::Systems {
         std::unordered_set<SDL_Keycode> _keysPressed;
         TTF_Font *m_font = nullptr; // This is not a good idea
 
-        DEFINE_SIGNATURE(UISystem, "UI System", Transform2D, Texture, UIElement);
         UISystem(std::string font_path) : _font_path(font_path), m_font(nullptr) {}
         ~UISystem();
 

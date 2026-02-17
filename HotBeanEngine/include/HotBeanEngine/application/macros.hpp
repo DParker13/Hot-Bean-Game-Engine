@@ -1,5 +1,7 @@
 #pragma once
 
+#include <tuple>
+
 // TODO: Allow setting up systems with components or archetypes
 // #define MAKE_SHARED_ARCHETYPE(...) std::make_shared<__VA_ARGS__>().get()
 

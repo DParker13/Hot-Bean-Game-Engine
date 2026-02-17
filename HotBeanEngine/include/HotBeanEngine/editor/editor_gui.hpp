@@ -16,12 +16,9 @@
 #include <imgui_internal.h>
 
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
-
-#include <HotBeanEngine/defaults/helpers/transform_helper.hpp>
 #include <HotBeanEngine/editor/iwindow.hpp>
 
 namespace HBE::Application::GUI {
-    using namespace HBE::Default::Helpers;
     using namespace HBE::Default::Components;
 
     /**
@@ -35,8 +32,6 @@ namespace HBE::Application::GUI {
         std::vector<std::shared_ptr<IWindow>> m_windows;
 
         void RenderCameraViewports();
-        void MoveEditorCamera(SDL_Event &event, float speed);
-        void HandleInput(SDL_Event &event);
 
     public:
         EditorGUI();
@@ -48,7 +43,7 @@ namespace HBE::Application::GUI {
         virtual void OnPreEvent() {};
         virtual void OnEvent(SDL_Event &event);
         virtual void OnWindowResize(SDL_Event &event);
-        virtual void OnUpdate() {};
+        virtual void OnUpdate();
         virtual void OnRender();
         virtual void OnPostRender() {};
 
@@ -56,5 +51,6 @@ namespace HBE::Application::GUI {
         virtual void RenderImGui();
         virtual void RenderWindows();
         virtual void SetupDefaultDockingLayout();
+        void MoveCamera(float speed);
     };
 } // namespace HBE::Application::GUI

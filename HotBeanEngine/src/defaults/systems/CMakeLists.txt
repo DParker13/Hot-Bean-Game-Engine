@@ -3,8 +3,6 @@ add_library(HotBeanEngine_Systems STATIC
     input/player_controller_system.cpp
     physics/collision_system.cpp
     physics/physics_system.cpp
-    rendering/camera_system.cpp
-    rendering/render_system.cpp
     rendering/shape_system.cpp
     rendering/transform_system.cpp
     ui/ui_system.cpp

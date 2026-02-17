@@ -12,9 +12,6 @@
 
 namespace HBE::Application::Managers {
 
-    SystemManager::SystemManager(std::shared_ptr<LoggingManager> logging_manager)
-        : m_logging_manager(logging_manager) {}
-
     SystemManager::~SystemManager() {
         for (auto &[name, system] : m_systems) {
             delete system;
@@ -187,4 +184,42 @@ namespace HBE::Application::Managers {
     }
 
     std::vector<ISystem *> SystemManager::GetAllSystems() { return m_systems_ordered; }
+
+    std::string_view SystemManager::GetSystemName(ISystem *system) const {
+        if (!system) {
+            return "System Doesn't Exist";
+        }
+
+        return system->GetName();
+    }
+
+    void SystemManager::SetSignature(ISystem *system, Signature signature) {
+        if (!system) {
+            LOG_CORE(LoggingType::WARNING, "System pointer is null");
+            return;
+        }
+
+        if (!IsSystemRegistered(system)) {
+            LOG_CORE(LoggingType::WARNING, "System is not registered");
+            return;
+        }
+
+        std::string system_name = std::string(system->GetName());
+
+        LOG_CORE(LoggingType::DEBUG, "System \"" + system_name +
+                                         "\" Signature set to"
+                                         " \"" +
+                                         signature.to_string() + "\"");
+
+        // Set the signature for this system
+        m_signatures.insert({system_name, signature});
+    }
+
+    Signature &SystemManager::GetSignature(ISystem *system) {
+        assert(system != nullptr && "System pointer is null");
+        assert(IsSystemRegistered(system) && "System is not registered");
+
+        // Get the signature for this system
+        return m_signatures[std::string(system->GetName())];
+    }
 } // namespace HBE::Application::Managers

@@ -22,7 +22,7 @@ namespace HBE::Application::GUI {
     /**
      * @class PropertyWindow
      * @brief Window for editing entity component properties.
-     * 
+     *
      * Displays and manages component properties with collapsible sections.
      * Allows users to inspect and modify properties of selected entities.
      */

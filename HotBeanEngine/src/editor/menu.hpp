@@ -19,7 +19,7 @@ namespace HBE::Application::GUI {
     /**
      * @class Menu
      * @brief Main menu window for the editor UI.
-     * 
+     *
      * Provides window visibility toggles and menu bar functionality.
      * Displays all available editor windows and allows users to show/hide them.
      */

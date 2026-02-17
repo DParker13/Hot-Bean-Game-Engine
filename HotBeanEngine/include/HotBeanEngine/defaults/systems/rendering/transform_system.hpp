@@ -10,16 +10,12 @@
 
 #pragma once
 
-#include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/components/default_components.hpp>
-#include <HotBeanEngine/defaults/helpers/transform_helper.hpp>
-#include <HotBeanEngine/defaults/utilities/scene_graph.hpp>
+#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 
 namespace HBE::Default::Systems {
     using namespace HBE::Core;
     using namespace HBE::Default::Components;
-    using namespace HBE::Default::Helpers;
-    using namespace HBE::Default::Utilities;
 
     /**
      * @brief Updates entity transforms and hierarchy
@@ -28,23 +24,15 @@ namespace HBE::Default::Systems {
      * Handles parent-child transformation propagation.
      */
     class TransformSystem : public ISystem {
-    private:
-        SceneGraph m_scene_graph;
+    public:
+        REQUIRES_COMPONENTS(Transform2D);
+        DEFINE_NAME("Transform System")
 
     public:
-        DEFINE_SIGNATURE(TransformSystem, "Transform System", Transform2D);
-        TransformSystem();
+        TransformSystem() = default;
         ~TransformSystem() = default;
 
         void OnEntityAdded(EntityID entity) override;
         void OnEntityRemoved(EntityID entity) override;
-        void OnUpdate() override;
-
-        /**
-         * @brief Get reference to the scene graph
-         * @return Scene graph reference
-         */
-        SceneGraph &GetSceneGraph() { return m_scene_graph; }
-        const SceneGraph &GetSceneGraph() const { return m_scene_graph; }
     };
 } // namespace HBE::Default::Systems

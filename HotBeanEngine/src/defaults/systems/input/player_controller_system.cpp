@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2024
  */
 
+#include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/defaults/systems/input/player_controller_system.hpp>
 
 namespace HBE::Default::Systems {

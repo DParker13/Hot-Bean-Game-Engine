@@ -124,9 +124,7 @@ public:
 #include <HotBeanEngine/core/isystem.hpp>
 
 class CustomSystem : public HBE::Core::ISystem {
-public:
-    DEFINE_SIGNATURE(CustomComponent, AnotherComponent);
-    
+public:    
     void OnUpdate() override {
         // System logic here
     }

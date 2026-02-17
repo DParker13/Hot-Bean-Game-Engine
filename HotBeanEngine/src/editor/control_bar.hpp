@@ -17,7 +17,7 @@ namespace HBE::Application::GUI {
     /**
      * @class ControlBar
      * @brief Control bar window for game state management.
-     * 
+     *
      * Provides buttons for starting, pausing, and stopping game simulation.
      * Integrates with the Application to control game loop state.
      */

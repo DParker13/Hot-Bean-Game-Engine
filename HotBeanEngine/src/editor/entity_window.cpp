@@ -44,7 +44,8 @@ namespace HBE::Application::GUI {
                 }
             }
             m_property_window->SetProperties(property_nodes);
-        } else {
+        }
+        else {
             LOG(LoggingType::ERROR, "Property window was never setup.");
         }
     }

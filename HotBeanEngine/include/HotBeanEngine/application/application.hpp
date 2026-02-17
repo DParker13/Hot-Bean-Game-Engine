@@ -16,9 +16,12 @@
 #include <HotBeanEngine/application/component_factory.hpp>
 #include <HotBeanEngine/application/input_event_listener.hpp>
 #include <HotBeanEngine/application/macros.hpp>
+#include <HotBeanEngine/application/managers/camera_manager.hpp>
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 #include <HotBeanEngine/application/managers/game_loop_manager.hpp>
+#include <HotBeanEngine/application/managers/render_manager.hpp>
 #include <HotBeanEngine/application/managers/scene_manager.hpp>
+#include <HotBeanEngine/application/managers/transform_manager.hpp>
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
 
 namespace HBE::Application {
@@ -49,11 +52,14 @@ namespace HBE::Application {
         std::shared_ptr<Managers::LoggingManager> m_logging_manager;
         std::unique_ptr<Managers::SceneManager> m_scene_manager;
         std::unique_ptr<Managers::GameLoopManager> m_loop_manager; ///< Manages game loop state transitions
+        std::shared_ptr<Managers::RenderManager> m_render_manager;
+        std::shared_ptr<Managers::CameraManager> m_camera_manager;
+        std::shared_ptr<Managers::TransformManager> m_transform_manager;
         std::shared_ptr<IComponentFactory> m_component_factory;
         SDL_Renderer *m_renderer = nullptr;
         SDL_Window *m_window = nullptr;
         std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;
-        InputEventListener m_input_event_listener;
+        std::unique_ptr<InputEventListener> m_input_event_listener;
 
     public:
         bool m_quit = false; ///< Flag to quit the application
@@ -117,9 +123,13 @@ namespace HBE::Application {
          */
         Managers::SceneManager &GetSceneManager() const;
         Managers::GameLoopManager &GetLoopManager() const;
+        Managers::RenderManager &GetRenderManager() const;
+        Managers::CameraManager &GetCameraManager() const;
+        Managers::TransformManager &GetTransformManager() const;
         std::shared_ptr<IComponentFactory> GetComponentFactory() const;
         InputEventListener &GetInputEventListener();
         const InputEventListener &GetInputEventListener() const;
+        GUI::IEditorGUI &GetEditorGUI();
 
         // Logging
         void Log(LoggingType type, std::string_view message, const char *file, int line, const char *function);

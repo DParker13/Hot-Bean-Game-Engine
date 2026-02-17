@@ -69,15 +69,13 @@ namespace HBE::Application::GUI {
 
     /// @brief Handles SDL events for the editor GUI
     /// @param event The SDL event to handle
-    void EditorGUI::OnEvent(SDL_Event &event) {
-        HandleInput(event);
+    void EditorGUI::OnEvent(SDL_Event &event) { ImGui_ImplSDL3_ProcessEvent(&event); }
 
-        ImGui_ImplSDL3_ProcessEvent(&event);
-    }
+    void EditorGUI::OnUpdate() { MoveCamera(100.0f); }
 
     /// @brief Renders the editor GUI
     void EditorGUI::OnRender() {
-        RenderCameraViewports();
+        //RenderCameraViewports();
         RenderImGui();
     }
 
@@ -130,75 +128,50 @@ namespace HBE::Application::GUI {
     }
 
     void EditorGUI::RenderCameraViewports() {
-        auto *camera_system = g_ecs.GetSystem<HBE::Default::Systems::CameraSystem>();
-
-        if (!camera_system) {
-            return;
-        }
-
         SDL_SetRenderDrawColor(g_app.GetRenderer(), 255, 255, 255, 255);
 
-        std::vector<EntityID> camera_entities = camera_system->GetAllActiveCameras();
+        std::vector<EntityID> camera_entities = g_app.GetCameraManager().GetAllActiveCameras();
+        int screen_width, screen_height;
+        SDL_GetRenderOutputSize(g_app.GetRenderer(), &screen_width, &screen_height);
 
         for (auto &camera_entity : camera_entities) {
-            SDL_FRect viewport = camera_system->GetViewport(camera_entity);
+            auto &camera = g_ecs.GetComponent<Camera>(camera_entity);
+            auto &camera_transform = g_ecs.GetComponent<Transform2D>(camera_entity);
+            SDL_FRect viewport =
+                SDL_FRect{camera.m_viewport_position.x +
+                              g_app.GetCameraManager()
+                                  .CalculateScreenPosition(camera, GetEditorCameraTransform(), camera_transform)
+                                  .x,
+                          camera.m_viewport_position.y +
+                              g_app.GetCameraManager()
+                                  .CalculateScreenPosition(camera, GetEditorCameraTransform(), camera_transform)
+                                  .y,
+                          camera.m_viewport_size.x * screen_width, camera.m_viewport_size.y * screen_height};
             SDL_RenderRect(g_app.GetRenderer(), &viewport);
         }
     }
 
-    void EditorGUI::HandleInput(SDL_Event &event) { MoveEditorCamera(event, 100.0f); }
-
-    void EditorGUI::MoveEditorCamera(SDL_Event &event, float speed) {
-        const auto &keys_pressed = g_app.GetInputEventListener().GetKeysPressed();
+    void EditorGUI::MoveCamera(float speed) {
+        Transform2D &editor_camera_transform = g_app.GetEditorGUI().GetEditorCameraTransform();
+        auto keys_pressed = g_app.GetInputEventListener().GetKeysPressed();
 
         if (keys_pressed.size() > 0) {
             float distance = speed * g_app.GetDeltaTime();
-            glm::vec2 offset(0.0f, 0.0f);
 
             if (keys_pressed.find(SDLK_LEFT) != keys_pressed.end()) {
-                offset.x += distance;
+                editor_camera_transform.m_local_position.x -= distance;
             }
 
             if (keys_pressed.find(SDLK_RIGHT) != keys_pressed.end()) {
-                offset.x -= distance;
+                editor_camera_transform.m_local_position.x += distance;
             }
 
             if (keys_pressed.find(SDLK_UP) != keys_pressed.end()) {
-                offset.y += distance;
+                editor_camera_transform.m_local_position.y -= distance;
             }
 
             if (keys_pressed.find(SDLK_DOWN) != keys_pressed.end()) {
-                offset.y -= distance;
-            }
-
-            // Move all entities by the offset
-            if (offset.x != 0.0f || offset.y != 0.0f) {
-                auto *transform_system = g_ecs.GetSystem<HBE::Default::Systems::TransformSystem>();
-
-                // TODO: Only do this for the editor camera(s). Right now, it moves all Transform2D components, so it
-                // looks like nothing is moving.
-
-                if (transform_system) {
-                    auto &scene_graph = transform_system->GetSceneGraph();
-
-                    // Iterate through all levels and update transforms
-                    for (auto &level : scene_graph.GetAllLevels()) {
-                        for (auto &entity : level.second) {
-                            auto &transform = g_ecs.GetComponent<Transform2D>(entity);
-
-                            // Get parent transform if it exists
-                            const Transform2D *parent_transform = nullptr;
-                            if (transform.m_parent != -1) {
-                                parent_transform = &g_ecs.GetComponent<Transform2D>(transform.m_parent);
-                            } else {
-                                transform.m_local_position += offset;
-                            }
-
-                            // Propagate transforms
-                            TransformHelper::PropagateTransforms(transform, parent_transform);
-                        }
-                    }
-                }
+                editor_camera_transform.m_local_position.y += distance;
             }
         }
     }

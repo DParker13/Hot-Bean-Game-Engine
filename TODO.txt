@@ -1,7 +1,10 @@
 High Priority
-- Create OnEditorUpdate virtual method
-- Create OnEditorRender virtual method too?
-- Remove Managers from application folder
+- Create concept of Game systems and Scene Systems?
+- Make RenderManager into RenderService where it is used as a staging area and then the RenderSystem is the one actually in charge of presenting the changes to screen.
+- Create TransformManager to wrap TransformSystem so it can be used by the editor
+- Create AudioManager
+- Create OnInit() in IGameLoop. OnStart will only be called when the application is started/playing,
+so it can be called multiple times in editor mode
 - Add single camera in editor mode
     + Add visible viewport for camera entities in editor mode
     + Disable/Modify clipping in editor mode

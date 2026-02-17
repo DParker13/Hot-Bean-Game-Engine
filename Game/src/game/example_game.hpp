@@ -15,7 +15,7 @@ namespace Game {
     /**
      * @class ExampleGame
      * @brief Example game implementation demonstrating engine usage.
-     * 
+     *
      * Extends the Application class with example game logic, scene management,
      * and custom systems. Serves as a template for creating new games with the engine.
      */

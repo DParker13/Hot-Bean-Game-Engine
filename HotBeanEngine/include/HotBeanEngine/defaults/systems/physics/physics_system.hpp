@@ -10,8 +10,12 @@
 
 #pragma once
 
-#include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/components/default_components.hpp>
+#include <box2d/box2d.h>
+#include <glm/glm.hpp>
+
+#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/defaults/components/physics/rigidbody.hpp>
 
 namespace HBE::Default::Systems {
     using namespace HBE::Core;
@@ -24,16 +28,18 @@ namespace HBE::Default::Systems {
      * Synchronizes physics state with entity transforms.
      */
     class PhysicsSystem : public ISystem {
+    public:
+        REQUIRES_COMPONENTS(Transform2D, RigidBody);
+        DEFINE_NAME("Physics System")
+
     private:
         glm::vec2 m_gravity = {0.0f, 9.8f};
         b2WorldId m_world_id = b2WorldId();
 
     public:
-        DEFINE_SIGNATURE(PhysicsSystem, "Physics System", Transform2D, RigidBody);
-
         PhysicsSystem(glm::vec2 gravity) : m_gravity(gravity) {}
-
         PhysicsSystem() : PhysicsSystem(glm::vec2(0.0f, 9.8f)) {}
+
         void OnStart() override;
         void OnFixedUpdate() override;
         void OnEntityAdded(EntityID entity) override;

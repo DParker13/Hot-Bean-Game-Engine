@@ -10,7 +10,6 @@
 #pragma once
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/systems/rendering/render_system.hpp>
 #include <HotBeanEngine/editor/property_nodes/texture_preview.hpp>
 #include <imgui.h>
 
@@ -20,7 +19,7 @@ namespace HBE::Application::GUI {
     /**
      * @class LayerWindow
      * @brief Window for managing and displaying render layers.
-     * 
+     *
      * Shows available render layers and displays properties of selected layers.
      * Allows users to inspect texture preview and layer properties.
      */

@@ -11,12 +11,9 @@
 #pragma once
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/default_scene_serializer.hpp>
-#include <HotBeanEngine/defaults/systems/default_systems.hpp>
 
 namespace HBE::Default {
     using namespace HBE::Application;
-    using namespace HBE::Default::Systems;
 
     /**
      * @brief Default scene implementation with standard setup

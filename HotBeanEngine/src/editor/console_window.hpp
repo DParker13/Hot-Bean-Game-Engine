@@ -16,7 +16,7 @@ namespace HBE::Application::GUI {
     /**
      * @class ConsoleWindow
      * @brief Debug console window for the editor UI.
-     * 
+     *
      * Displays debug output and application messages.
      * Provides a centralized location for viewing log messages and diagnostics.
      */

@@ -19,8 +19,8 @@
 namespace HBE::Application::Managers {
     ECSManager::ECSManager(std::shared_ptr<LoggingManager> logging_manager) : m_logging_manager(logging_manager) {
         m_entity_manager = std::make_unique<EntityManager>(logging_manager);
-        m_component_manager = std::make_unique<ComponentManager>(logging_manager);
-        m_system_manager = std::make_unique<SystemManager>(logging_manager);
+        m_component_manager = std::make_shared<ComponentManager>(logging_manager);
+        m_system_manager = std::make_unique<SystemManager>(m_component_manager, logging_manager);
     }
 
     /**
@@ -44,20 +44,20 @@ namespace HBE::Application::Managers {
         RemoveAllComponents(entity);
     }
 
-    void ECSManager::DestroyAllEntities() {
-        // for (EntityID entity : GetAllEntities()) {
-        //     RemoveAllComponents(entity);
-        // }
+    /**
+     * @brief Destroys all entities and clears component/system mappings.
+     */
+    void ECSManager::DestroyAllEntities() { m_entity_manager->DestroyAllEntities(); }
 
-        // Clear all component data to ensure clean state for next scene
-        m_component_manager->ClearAllComponents();
-        m_entity_manager->DestroyAllEntities();
-    }
-
+    /**
+     * @brief Retrieves all entity IDs in the manager.
+     *
+     * @return A vector of all active entity IDs.
+     */
     std::vector<EntityID> ECSManager::GetAllEntities() { return m_entity_manager->GetAllEntities(); }
 
     /**
-     * Removes all components associated with a given entity.
+     * @brief Removes all components associated with a given entity.
      *
      * @param entity The ID of the entity from which all components are to be removed.
      *
@@ -89,21 +89,68 @@ namespace HBE::Application::Managers {
         return components;
     }
 
+    /**
+     * @brief Gets the total number of active entities.
+     *
+     * @return The count of active entities.
+     */
     EntityID ECSManager::EntityCount() const { return m_entity_manager->EntityCount(); }
 
+    /**
+     * @brief Unregisters a component type by name.
+     *
+     * @warning This will remove the component from all entities and update system signatures. This may lead to errors
+     * or unintended behavior if systems expect the component to exist.
+     * @param component_name The name of the component type to unregister.
+     */
+    void ECSManager::UnregisterComponentID(std::string component_name) {
+        ComponentID component_id = GetComponentID(component_name);
+
+        // Remove component from all entities that have it
+        for (EntityID entity : GetAllEntities()) {
+            if (HasComponent(entity, component_id)) {
+                m_component_manager->RemoveComponent(entity, component_id);
+            }
+        }
+
+        // Update all system signatures to remove this component
+        for (ISystem *system : GetAllSystems()) {
+            Signature system_signature = m_system_manager->GetSignature(system);
+            if (system_signature[component_id]) {
+                system_signature[component_id] = false;
+            }
+        }
+
+        m_component_manager->UnregisterComponentID(component_name);
+    }
+
+    /**
+     * @brief Checks if an entity has a specific component by name.
+     *
+     * @param entity The entity ID.
+     * @param component_name The name of the component to check.
+     * @return True if the entity has the component, false otherwise.
+     */
     bool ECSManager::HasComponent(EntityID entity, std::string component_name) const {
         return m_entity_manager->HasComponent(entity, GetComponentID(component_name));
     }
 
+    /**
+     * @brief Checks if an entity has a specific component by ID.
+     *
+     * @param entity The entity ID.
+     * @param component_id The component ID to check.
+     * @return True if the entity has the component, false otherwise.
+     */
     bool ECSManager::HasComponent(EntityID entity, ComponentID component_id) const {
         return m_entity_manager->HasComponent(entity, component_id);
     }
 
     /**
-     * Retrieves the Component Name associated with the given component type.
+     * @brief Retrieves the component name associated with a component ID.
      *
-     * @param component_id The component type to retrieve the name for.
-     * @return The name associated with the given component type, or an empty string if the component is not registered.
+     * @param component_id The component ID to look up.
+     * @return The name associated with the given component ID, or an empty string if not registered.
      */
     std::string ECSManager::GetComponentName(ComponentID component_id) const {
         return m_component_manager->GetComponentName(component_id);
@@ -141,7 +188,31 @@ namespace HBE::Application::Managers {
 
     void ECSManager::UnregisterSystem(ISystem *system) { m_system_manager->UnregisterSystem(system); }
 
+    /**
+     * @brief Gets the component signature for an entity.
+     *
+     * @param entity The entity ID.
+     * @return A reference to the entity's component signature.
+     */
     const Signature &ECSManager::GetSignature(EntityID entity) const { return m_entity_manager->GetSignature(entity); }
+
+    void ECSManager::RegisterEntityListener(IEntityLifecycleListener *listener) {
+        if (listener) {
+            m_entity_listeners.push_back(listener);
+        }
+    }
+
+    void ECSManager::NotifyComponentAdded(EntityID entity) {
+        for (auto listener : m_entity_listeners) {
+            listener->OnComponentAdded(entity);
+        }
+    }
+
+    void ECSManager::NotifyComponentRemoved(EntityID entity) {
+        for (auto listener : m_entity_listeners) {
+            listener->OnComponentRemoved(entity);
+        }
+    }
 
     /**
      * @brief Loop through all systems
