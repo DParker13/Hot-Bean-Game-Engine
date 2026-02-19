@@ -16,8 +16,10 @@
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 
 namespace HBE::Default::Systems {
-    using namespace HBE::Core;
-    using namespace HBE::Default::Components;
+    using HBE::Core::EntityID;
+    using HBE::Default::Components::Transform2D;
+    using HBE::Default::Components::Texture;
+    using HBE::Default::Components::Shape;
 
     // Forward declaration
     class CameraSystem;
@@ -28,7 +30,7 @@ namespace HBE::Default::Systems {
      * Draws rectangles, circles, and lines to screen.
      * Processes entities with Transform2D and Shape components.
      */
-    class ShapeSystem : public ISystem {
+    class ShapeSystem : public HBE::Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D, Texture, Shape);
         DEFINE_NAME("Shape System")

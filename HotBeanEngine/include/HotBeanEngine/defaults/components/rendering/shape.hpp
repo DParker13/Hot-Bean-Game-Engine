@@ -18,8 +18,9 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-    using namespace HBE::Application::GUI;
+    using HBE::Application::GUI::PropertyNodes::Bool;
+    using HBE::Application::GUI::PropertyNodes::Color;
+    using HBE::Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief Primitive shape rendering component
@@ -27,7 +28,7 @@ namespace HBE::Default::Components {
      * Renders basic geometric shapes (rectangles, circles, lines).
      * Supports filled and outlined rendering modes.
      */
-    struct Shape : public IComponent, public IMemberChanged, public IPropertyRenderable {
+    struct Shape : public HBE::Core::IComponent, public HBE::Core::IMemberChanged, public HBE::Application::GUI::IPropertyRenderable {
         enum class ShapeType { Box };
 
         ShapeType m_type = ShapeType::Box;
@@ -51,9 +52,9 @@ namespace HBE::Default::Components {
         void RenderProperties(int &id) override {
             bool changed = false;
 
-            changed |= PropertyNodes::Bool::RenderProperty(id, "Filled", m_filled);
-            changed |= PropertyNodes::Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f});
-            changed |= PropertyNodes::Color::RenderProperty(id, "Color", m_color);
+            changed |= Bool::RenderProperty(id, "Filled", m_filled);
+            changed |= Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f});
+            changed |= Color::RenderProperty(id, "Color", m_color);
 
             if (changed) {
                 MarkDirty();

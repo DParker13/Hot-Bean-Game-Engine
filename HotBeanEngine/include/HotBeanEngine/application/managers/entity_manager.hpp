@@ -14,8 +14,11 @@
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using namespace HBE::Core;
-
+    using HBE::Core::EntityID;
+    using HBE::Core::ComponentID;
+    using HBE::Core::Signature;
+    using HBE::Core::MAX_ENTITIES;
+    
     /**
      * @brief Manages entity creation and destruction lifecycle.
      * Handles entity ID allocation, recycling, and signature management.

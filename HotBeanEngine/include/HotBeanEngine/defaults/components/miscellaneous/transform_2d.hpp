@@ -18,8 +18,9 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-    using namespace HBE::Application::GUI;
+    using HBE::Application::GUI::PropertyNodes::Int;
+    using HBE::Application::GUI::PropertyNodes::Float;
+    using HBE::Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief 2D transform component for position, rotation, and scale
@@ -27,7 +28,7 @@ namespace HBE::Default::Components {
      * Tracks local and world-space transformations.
      * Supports hierarchical parent-child relationships.
      */
-    struct Transform2D : public IComponent, public IMemberChanged, public IPropertyRenderable {
+    struct Transform2D : public HBE::Core::IComponent, public HBE::Core::IMemberChanged, public HBE::Application::GUI::IPropertyRenderable {
         Uint8 m_layer = 0;
         Sint64 m_parent = -1;
 
@@ -44,7 +45,7 @@ namespace HBE::Default::Components {
         DEFINE_NAME("Transform2D");
         Transform2D() = default;
         Transform2D(glm::vec2 position) : m_world_position(position) {}
-        Transform2D(EntityID parent_entity) : m_parent(parent_entity) {}
+        Transform2D(HBE::Core::EntityID parent_entity) : m_parent(parent_entity) {}
 
         void Serialize(YAML::Emitter &out) const override {
             out << YAML::Key << "layer" << YAML::Value << (int)m_layer;
@@ -88,12 +89,12 @@ namespace HBE::Default::Components {
         void RenderProperties(int &id) override {
             bool changed = false;
 
-            changed |= PropertyNodes::Int::RenderProperty(id, "Layer", reinterpret_cast<int &>(m_layer));
-            changed |= PropertyNodes::Int::RenderProperty(id, "Parent", reinterpret_cast<int &>(m_parent), -1);
+            changed |= Int::RenderProperty(id, "Layer", reinterpret_cast<int &>(m_layer));
+            changed |= Int::RenderProperty(id, "Parent", reinterpret_cast<int &>(m_parent), -1);
             ImGui::Separator();
-            changed |= PropertyNodes::Vec2::RenderProperty(id, "Local Position", m_local_position);
-            changed |= PropertyNodes::Float::RenderProperty(id, "Local Rotation", m_local_rotation);
-            changed |= PropertyNodes::Vec2::RenderProperty(id, "Local Scale", m_local_scale);
+            changed |= Vec2::RenderProperty(id, "Local Position", m_local_position);
+            changed |= Float::RenderProperty(id, "Local Rotation", m_local_rotation);
+            changed |= Vec2::RenderProperty(id, "Local Scale", m_local_scale);
 
             if (changed) {
                 MarkDirty();

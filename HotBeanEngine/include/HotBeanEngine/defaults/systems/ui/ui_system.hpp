@@ -21,14 +21,16 @@
 #include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
 
 namespace HBE::Default::Systems {
-    using namespace HBE::Core;
-    using namespace HBE::Default::Components;
-
+    using HBE::Core::EntityID;
+    using HBE::Default::Components::Transform2D;
+    using HBE::Default::Components::Texture;
+    using HBE::Default::Components::UIElement;
+    
     /**
      * @brief Manages UI elements (Buttons, Checkboxes, etc).
      * Renders element to their texture and handles user interaction.
      */
-    class UISystem : public ISystem {
+    class UISystem : public HBE::Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D, Texture, UIElement);
         DEFINE_NAME("UI System")

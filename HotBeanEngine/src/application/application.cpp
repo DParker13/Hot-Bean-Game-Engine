@@ -13,6 +13,9 @@
 #include <HotBeanEngine/editor/noop_editor_gui.hpp>
 
 namespace HBE::Application {
+    using namespace HBE::Core;
+    using namespace HBE::Application::Managers;
+    
     Application::Application(const std::string &config_path, std::shared_ptr<IComponentFactory> component_factory,
                              std::unique_ptr<GUI::IEditorGUI> editor_gui)
         : m_component_factory(component_factory), m_editor_gui(std::move(editor_gui)) {

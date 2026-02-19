@@ -14,7 +14,7 @@
 #include <string>
 
 namespace HBE::Application::GUI::PropertyNodes {
-    using namespace HBE::Core;
+    
 
     struct Bool {
         static bool RenderProperty(int &id, std::string_view label, bool &value, bool disabled = false) {

@@ -11,12 +11,9 @@
 #pragma once
 
 #include <HotBeanEngine/core/all_core.hpp>
-#include <map>
-#include <set>
-#include <unordered_map>
 
 namespace HBE::Default::Utilities {
-    using namespace HBE::Core;
+    using HBE::Core::EntityID;
 
     /**
      * @brief Manages hierarchical relationships between entities

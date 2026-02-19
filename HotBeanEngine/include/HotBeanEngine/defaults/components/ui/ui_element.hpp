@@ -13,13 +13,11 @@
 #include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-
     /**
      * @brief Base UI element component
      * Keeps track of the type of UI element to group similar components together for one system to handle.
      */
-    struct UIElement : public IComponent, public IMemberChanged {
+    struct UIElement : public HBE::Core::IComponent, public HBE::Core::IMemberChanged {
         enum class UIType {
             Empty, // Placeholder if UI element is not setup correctly
             Text,

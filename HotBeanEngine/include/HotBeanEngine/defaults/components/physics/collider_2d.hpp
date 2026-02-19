@@ -17,8 +17,9 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-    using namespace HBE::Application::GUI;
+    using HBE::Application::GUI::PropertyNodes::Bool;
+    using HBE::Application::GUI::PropertyNodes::Enum;
+    using HBE::Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief 2D collision shape component
@@ -26,7 +27,7 @@ namespace HBE::Default::Components {
      * Defines collision boundaries for physics bodies.
      * Integrates with Box2D shape system.
      */
-    struct Collider2D : public IComponent, public IPropertyRenderable {
+    struct Collider2D : public HBE::Core::IComponent, public HBE::Application::GUI::IPropertyRenderable {
         enum class ColliderShape { Box, Circle };
 
         ColliderShape m_shape = ColliderShape::Box;
@@ -48,10 +49,10 @@ namespace HBE::Default::Components {
         }
 
         void RenderProperties(int &id) override {
-            PropertyNodes::Enum::RenderProperty<ColliderShape>(
+            Enum::RenderProperty<ColliderShape>(
                 id, "Shape", m_shape, {{ColliderShape::Box, "Box"}, {ColliderShape::Circle, "Circle"}});
-            PropertyNodes::Vec2::RenderProperty(id, "Size", m_size);
-            PropertyNodes::Bool::RenderProperty(id, "Is Trigger", m_is_trigger);
+            Vec2::RenderProperty(id, "Size", m_size);
+            Bool::RenderProperty(id, "Is Trigger", m_is_trigger);
         }
     };
 } // namespace HBE::Default::Components

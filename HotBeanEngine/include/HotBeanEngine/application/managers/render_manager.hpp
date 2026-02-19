@@ -9,15 +9,16 @@
  */
 #pragma once
 
+#include <unordered_set>
+#include <map>
+#include <set>
+
 #include <HotBeanEngine/application/managers/entity_lifecycle_listener.hpp>
 #include <HotBeanEngine/application/managers/camera_manager.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
-#include <unordered_set>
 
 namespace HBE::Application::Managers {
-    using namespace HBE::Core;
-
     class RenderManager : public IEntityLifecycleListener {
     private:
         std::shared_ptr<CameraManager> m_camera_manager;
@@ -37,13 +38,13 @@ namespace HBE::Application::Managers {
          * @brief Called when a component is added to an entity.
          * @param entity The entity ID that gained a component.
          */
-        void OnComponentAdded(EntityID entity);
+        void OnComponentAdded(HBE::Core::EntityID entity);
 
         /**
          * @brief Called when a component is removed from an entity.
          * @param entity The entity ID that lost a component.
          */
-        void OnComponentRemoved(EntityID entity);
+        void OnComponentRemoved(HBE::Core::EntityID entity);
         /**
          * @brief Destructor. Cleans up all SDL_Texture layers.
          */

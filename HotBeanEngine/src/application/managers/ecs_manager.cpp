@@ -17,6 +17,7 @@
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
 namespace HBE::Application::Managers {
+    using namespace HBE::Core;
     ECSManager::ECSManager(std::shared_ptr<LoggingManager> logging_manager) : m_logging_manager(logging_manager) {
         m_entity_manager = std::make_unique<EntityManager>(logging_manager);
         m_component_manager = std::make_shared<ComponentManager>(logging_manager);

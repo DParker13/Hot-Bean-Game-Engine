@@ -19,16 +19,17 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-    using namespace HBE::Application::GUI;
-
+    using HBE::Application::GUI::PropertyNodes::Bool;
+    using HBE::Application::GUI::PropertyNodes::Float;
+    using HBE::Application::GUI::PropertyNodes::Vec2;
+    
     /**
      * @brief Camera component for 2D scene rendering
      *
      * Controls viewport and layer visibility.
      * Supports multiple camera system with priority-based rendering.
      */
-    struct Camera : public IComponent, public IPropertyRenderable {
+    struct Camera : public HBE::Core::IComponent, public HBE::Application::GUI::IPropertyRenderable {
         bool m_active = true;
         float m_zoom = 1.0f;              ///< Camera zoom level (1.0 = normal, >1.0 = zoomed in, <1.0 = zoomed out)
         std::bitset<16> m_layer_mask = 0; ///< Layer visibility mask (16 layers, bitset for each layer's visibility)
@@ -68,13 +69,13 @@ namespace HBE::Default::Components {
         }
 
         void RenderProperties(int &id) override {
-            PropertyNodes::Bool::RenderProperty(id, "Active", m_active);
-            PropertyNodes::Float::RenderProperty(id, "Zoom", m_zoom, 0.0f);
+            Bool::RenderProperty(id, "Active", m_active);
+            Float::RenderProperty(id, "Zoom", m_zoom, 0.0f);
 
             ImGui::Separator();
             ImGui::Text("Viewport");
-            PropertyNodes::Vec2::RenderProperty(id, "Position", m_viewport_position, {0.0f, 0.0f}, {1.0f, 1.0f});
-            PropertyNodes::Vec2::RenderProperty(id, "Size", m_viewport_size, {0.0f, 0.0f}, {1.0f, 1.0f});
+            Vec2::RenderProperty(id, "Position", m_viewport_position, {0.0f, 0.0f}, {1.0f, 1.0f});
+            Vec2::RenderProperty(id, "Size", m_viewport_size, {0.0f, 0.0f}, {1.0f, 1.0f});
         }
     };
 } // namespace HBE::Default::Components

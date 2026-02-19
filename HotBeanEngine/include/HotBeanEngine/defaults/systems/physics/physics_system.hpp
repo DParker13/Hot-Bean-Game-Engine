@@ -18,8 +18,9 @@
 #include <HotBeanEngine/defaults/components/physics/rigidbody.hpp>
 
 namespace HBE::Default::Systems {
-    using namespace HBE::Core;
-    using namespace HBE::Default::Components;
+    using HBE::Core::EntityID;
+    using HBE::Default::Components::Transform2D;
+    using HBE::Default::Components::RigidBody;
 
     /**
      * @brief Integrates Box2D physics simulation
@@ -27,7 +28,7 @@ namespace HBE::Default::Systems {
      * Manages physics world and rigid body updates.
      * Synchronizes physics state with entity transforms.
      */
-    class PhysicsSystem : public ISystem {
+    class PhysicsSystem : public HBE::Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D, RigidBody);
         DEFINE_NAME("Physics System")

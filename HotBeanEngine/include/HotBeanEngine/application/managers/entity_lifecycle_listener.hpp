@@ -15,9 +15,9 @@
 namespace HBE::Application::Managers {
     /**
      * @brief Interface for listening to entity lifecycle events.
-     * 
+     *
      * Implement this interface to receive notifications when entities gain or lose components.
-     * Register with SystemManager via RegisterEntityListener.
+     * Register with ECSManager via RegisterEntityListener.
      */
     class IEntityLifecycleListener {
     public:

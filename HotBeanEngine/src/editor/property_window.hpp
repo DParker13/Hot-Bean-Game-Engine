@@ -17,8 +17,6 @@
 #include <HotBeanEngine/editor/iwindow.hpp>
 
 namespace HBE::Application::GUI {
-    using namespace HBE::Core;
-
     /**
      * @class PropertyWindow
      * @brief Window for editing entity component properties.

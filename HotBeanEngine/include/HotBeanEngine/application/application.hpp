@@ -25,8 +25,7 @@
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
 
 namespace HBE::Application {
-    using namespace HBE::Core;
-    using namespace HBE::Application::Managers;
+    using HBE::Core::LoggingType;
 
     /**
      * @brief Main application class that manages the game loop and core engine systems

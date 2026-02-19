@@ -14,8 +14,8 @@
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 
 namespace HBE::Default::Systems {
-    using namespace HBE::Core;
-    using namespace HBE::Default::Components;
+    using HBE::Core::EntityID;
+    using HBE::Default::Components::Transform2D;
 
     /**
      * @brief Updates entity transforms and hierarchy
@@ -23,7 +23,7 @@ namespace HBE::Default::Systems {
      * Computes world-space transforms from local transforms.
      * Handles parent-child transformation propagation.
      */
-    class TransformSystem : public ISystem {
+    class TransformSystem : public HBE::Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D);
         DEFINE_NAME("Transform System")

@@ -11,16 +11,14 @@
 
 #pragma once
 
-#include <map>
-#include <tuple>
-#include <utility>
-
 #include <HotBeanEngine/application/managers/component_manager.hpp>
-#include <HotBeanEngine/application/managers/entity_lifecycle_listener.hpp>
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using namespace HBE::Core;
+    using HBE::Core::EntityID;
+    using HBE::Core::Signature;
+    using HBE::Core::ISystem;
+    using HBE::Core::GameLoopState;
 
     /**
      * @brief Manages systems that manipulate component data.

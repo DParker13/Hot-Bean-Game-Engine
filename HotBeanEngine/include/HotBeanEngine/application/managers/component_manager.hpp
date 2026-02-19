@@ -15,7 +15,17 @@
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using namespace HBE::Core;
+    using HBE::Core::ComponentID;
+    using HBE::Core::EntityID;
+    using HBE::Core::IComponent;
+    using HBE::Core::ISparseSet;
+    using HBE::Core::Signature;
+    using HBE::Core::SparseSet;
+    using HBE::Core::MAX_COMPONENTS;
+    using HBE::Core::MAX_ENTITIES;
+    using HBE::Core::ComponentNotRegisteredException;
+    using HBE::Core::ComponentNameNotDefinedException;
+    using HBE::Core::MaxNumberOfComponentsRegisteredException;
 
     /**
      * @brief Manages component registration, addition, removal, and retrieval.

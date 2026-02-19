@@ -2,6 +2,7 @@
 
 #include "game/example_game.hpp"
 #include <HotBeanEngine/editor/editor_gui.hpp>
+#include <HotBeanEngine/defaults/components/default_component_factory.hpp>
 
 /**
  * The main function of the program.
@@ -14,7 +15,7 @@
 int main(int argc, char *argv[]) {
     std::string config_path = (std::filesystem::current_path().parent_path() / "Game" / "assets" / "config.yaml").string();
     std::shared_ptr<HBE::Application::IComponentFactory> component_factory =
-        std::make_shared<HBE::Default::DefaultComponentFactory>();
+        std::make_shared<HBE::Default::Components::DefaultComponentFactory>();
 
     std::unique_ptr<HBE::Application::GUI::IEditorGUI> editor_gui =
         std::make_unique<HBE::Application::GUI::EditorGUI>();

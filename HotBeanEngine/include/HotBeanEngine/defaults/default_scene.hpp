@@ -13,8 +13,6 @@
 #include <HotBeanEngine/application/application.hpp>
 
 namespace HBE::Default {
-    using namespace HBE::Application;
-
     /**
      * @brief Default scene implementation with standard setup
      *

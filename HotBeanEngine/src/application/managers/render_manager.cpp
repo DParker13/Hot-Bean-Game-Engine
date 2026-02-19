@@ -36,7 +36,7 @@ namespace HBE::Application::Managers {
      * @brief Called when a component is added to an entity.
      * @param entity The entity ID that gained a component.
      */
-    void RenderManager::OnComponentAdded(EntityID entity) {
+    void RenderManager::OnComponentAdded(HBE::Core::EntityID entity) {
         if (g_ecs.HasComponent<Texture>(entity) && g_ecs.HasComponent<Transform2D>(entity)) {
             m_renderable_entities.insert(entity);
         }
@@ -46,7 +46,7 @@ namespace HBE::Application::Managers {
      * @brief Called when a component is removed from an entity.
      * @param entity The entity ID that lost a component.
      */
-    void RenderManager::OnComponentRemoved(EntityID entity) {
+    void RenderManager::OnComponentRemoved(HBE::Core::EntityID entity) {
         m_renderable_entities.erase(entity);
     }
 

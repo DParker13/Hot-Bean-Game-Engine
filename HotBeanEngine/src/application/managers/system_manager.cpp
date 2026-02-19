@@ -11,6 +11,7 @@
 #include <HotBeanEngine/application/managers/system_manager.hpp>
 
 namespace HBE::Application::Managers {
+    using namespace HBE::Core;
 
     SystemManager::~SystemManager() {
         for (auto &[name, system] : m_systems) {

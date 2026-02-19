@@ -13,15 +13,13 @@
 #include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-
     /**
      * @brief Audio source component for sound playback
      *
      * Manages audio clip playback and volume control.
      * Integrates with SDL_mixer for audio output.
      */
-    struct AudioSource : public IComponent {
+    struct AudioSource : public HBE::Core::IComponent {
         /**
          * The path to the audio file.
          */

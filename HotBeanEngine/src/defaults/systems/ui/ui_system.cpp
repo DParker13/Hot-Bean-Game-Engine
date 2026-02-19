@@ -13,6 +13,9 @@
 #include <HotBeanEngine/defaults/systems/ui/ui_system.hpp>
 
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
+    using namespace HBE::Default::Components;
+
     UISystem::~UISystem() {
         TTF_CloseFont(m_font); // This causes a segmentation fault on exit for some reason
         m_font = nullptr;

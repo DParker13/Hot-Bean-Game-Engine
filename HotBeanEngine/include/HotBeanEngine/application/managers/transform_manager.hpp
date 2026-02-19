@@ -14,7 +14,7 @@
 #include <HotBeanEngine/defaults/utilities/scene_graph.hpp>
 
 namespace HBE::Application::Managers {
-    using namespace HBE::Default::Utilities;
+    using HBE::Default::Utilities::SceneGraph;
 
     class TransformManager {
     private:

@@ -14,12 +14,12 @@
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Application;
-
+    using HBE::Core::EntityID;
+    
     /**
      * @brief Factory for registering and creating default engine components
      */
-    class DefaultComponentFactory : public IComponentFactory {
+    class DefaultComponentFactory : public HBE::Application::IComponentFactory {
     public:
         void RegisterComponents() override;
         void CreateComponentFromYAML(const std::string &component_name, YAML::Node node, EntityID parent_entity,

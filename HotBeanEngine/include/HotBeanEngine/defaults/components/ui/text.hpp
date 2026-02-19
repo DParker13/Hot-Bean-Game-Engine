@@ -22,10 +22,12 @@
 #include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-    using namespace HBE::Application::GUI;
+    using HBE::Application::GUI::PropertyNodes::Color;
+    using HBE::Application::GUI::PropertyNodes::Enum;
+    using HBE::Application::GUI::PropertyNodes::Int;
+    using HBE::Application::GUI::PropertyNodes::String;
 
-    struct Text : public UIElement, public IPropertyRenderable {
+    struct Text : public UIElement, public HBE::Application::GUI::IPropertyRenderable {
         TTF_Font *m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.
         SDL_Color m_foreground_color = {255, 255, 255, 255}; ///< The color of the text.
         SDL_Color m_background_color = {0, 0, 0, 255};       ///< The background color of the text.
@@ -69,8 +71,8 @@ namespace HBE::Default::Components {
             if (!m_text.empty()) {
                 out << YAML::Key << "text" << YAML::Value << m_text;
             }
-            out << YAML::Key << "color" << YAML::Value << m_foreground_color;
-            out << YAML::Key << "color" << YAML::Value << m_background_color;
+            out << YAML::Key << "foreground_color" << YAML::Value << m_foreground_color;
+            out << YAML::Key << "background_color" << YAML::Value << m_background_color;
             out << YAML::Key << "size" << YAML::Value << m_size;
             out << YAML::Key << "style" << YAML::Value << m_style;
             out << YAML::Key << "wrapping_width" << YAML::Value << m_wrapping_width;
@@ -79,18 +81,17 @@ namespace HBE::Default::Components {
         void RenderProperties(int &id) override {
             bool changed = false;
 
-            changed |= PropertyNodes::String::RenderProperty(id, "Text", m_text);
-            changed |= PropertyNodes::Color::RenderProperty(id, "Foreground Color", m_foreground_color);
-            changed |= PropertyNodes::Color::RenderProperty(id, "Background Color", m_background_color);
-            changed |= PropertyNodes::Enum::RenderProperty(id, "Font Style", m_style,
-                                                           {{TTF_STYLE_NORMAL, "Normal"},
-                                                            {TTF_STYLE_BOLD, "Bold"},
-                                                            {TTF_STYLE_ITALIC, "Italic"},
-                                                            {TTF_STYLE_UNDERLINE, "Underline"},
-                                                            {TTF_STYLE_STRIKETHROUGH, "Strikethrough"}});
-            changed |= PropertyNodes::Int::RenderProperty(id, "Font Size", reinterpret_cast<int &>(m_size));
-            changed |=
-                PropertyNodes::Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int &>(m_wrapping_width));
+            changed |= String::RenderProperty(id, "Text", m_text);
+            changed |= Color::RenderProperty(id, "Foreground Color", m_foreground_color);
+            changed |= Color::RenderProperty(id, "Background Color", m_background_color);
+            changed |= Enum::RenderProperty(id, "Font Style", m_style,
+                                           {{TTF_STYLE_NORMAL, "Normal"},
+                                            {TTF_STYLE_BOLD, "Bold"},
+                                            {TTF_STYLE_ITALIC, "Italic"},
+                                            {TTF_STYLE_UNDERLINE, "Underline"},
+                                            {TTF_STYLE_STRIKETHROUGH, "Strikethrough"}});
+            changed |= Int::RenderProperty(id, "Font Size", reinterpret_cast<int &>(m_size));
+            changed |= Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int &>(m_wrapping_width));
 
             // Mark texture as dirty if any property changed
             if (changed) {

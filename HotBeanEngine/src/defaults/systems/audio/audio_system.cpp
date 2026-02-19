@@ -12,6 +12,7 @@
 #include <HotBeanEngine/defaults/systems/audio/audio_system.hpp>
 
 namespace HBE::Default::Systems {
+    using namespace HBE::Core;
 
     AudioSystem::AudioSystem() {
         m_mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);

@@ -19,8 +19,6 @@
 #include <HotBeanEngine/editor/iwindow.hpp>
 
 namespace HBE::Application::GUI {
-    using namespace HBE::Default::Components;
-
     /**
      * @brief Manages ImGui-based editor interface
      *

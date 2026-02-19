@@ -16,6 +16,7 @@
 // #include "../systems/audio_system.hpp"
 
 namespace Scenes {
+    using namespace HBE::Core;
     using namespace HBE::Default::Components;
 
     void ExampleScene::SetupScene() {

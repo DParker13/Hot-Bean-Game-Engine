@@ -12,20 +12,16 @@
 
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
-
 #include <HotBeanEngine/editor/property_nodes/bool.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-    using namespace HBE::Application::GUI;
-
     /**
      * @brief Input controller component for player input handling
      *
      * Maps input actions to entity behavior.
      * Supports keyboard, mouse, and gamepad input.
      */
-    struct Controller : public IComponent, public IPropertyRenderable {
+    struct Controller : public HBE::Core::IComponent, public HBE::Application::GUI::IPropertyRenderable {
         bool controllable = true;
 
         DEFINE_NAME("Controller");
@@ -42,7 +38,7 @@ namespace HBE::Default::Components {
         }
 
         void RenderProperties(int &id) override {
-            PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
+            HBE::Application::GUI::PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
         }
     };
 } // namespace HBE::Default::Components

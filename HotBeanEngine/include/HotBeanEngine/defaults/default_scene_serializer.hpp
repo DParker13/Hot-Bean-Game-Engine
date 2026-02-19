@@ -16,13 +16,13 @@
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
 namespace HBE::Default {
-    using namespace HBE::Application;
-    using namespace HBE::Default::Components;
+    using HBE::Core::EntityID;
+    using HBE::Application::IComponentFactory;
 
     /**
      * @brief Default scene serializer implementation using YAML
      */
-    class DefaultSceneSerializer : public ISerializer {
+    class DefaultSceneSerializer : public HBE::Core::ISerializer {
     private:
         std::unordered_map<EntityID, std::vector<EntityID>> m_parent_entity_map;
         std::shared_ptr<IComponentFactory> m_component_factory;

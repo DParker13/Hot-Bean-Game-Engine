@@ -12,7 +12,7 @@
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
 namespace HBE::Application {
-    using namespace HBE::Core;
+    using HBE::Core::EntityID;
 
     /**
      * @brief Interface for creating and registering components.
@@ -31,7 +31,7 @@ namespace HBE::Application {
 
         template <typename T, typename... Args>
         void AddComponent(EntityID entity, YAML::Node node, const Args &...args) {
-            static_assert(std::is_base_of_v<IComponent, T> && "T must inherit from Component");
+            static_assert(std::is_base_of_v<HBE::Core::IComponent, T> && "T must inherit from IComponent");
 
             m_ecs_manager->AddComponent<T>(entity, T(args...));
             m_ecs_manager->GetComponent<T>(entity).Deserialize(node);

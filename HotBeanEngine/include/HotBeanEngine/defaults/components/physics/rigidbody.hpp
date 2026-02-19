@@ -21,8 +21,9 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-    using namespace HBE::Application::GUI;
+    using HBE::Application::GUI::PropertyNodes::Enum;
+    using HBE::Application::GUI::PropertyNodes::Float;
+    using HBE::Application::GUI::PropertyNodes::Int;
 
     /**
      * @brief Physics body component for 2D dynamics
@@ -30,7 +31,7 @@ namespace HBE::Default::Components {
      * Integrates with Box2D physics engine.
      * Handles mass, velocity, and collision response.
      */
-    class RigidBody : public IComponent, public IPropertyRenderable {
+    class RigidBody : public HBE::Core::IComponent, public HBE::Application::GUI::IPropertyRenderable {
     public:
         float m_mass = 1.0f;
         b2BodyType m_type = b2BodyType::b2_kinematicBody;
@@ -52,12 +53,12 @@ namespace HBE::Default::Components {
         }
 
         void RenderProperties(int &id) override {
-            PropertyNodes::Int::RenderProperty(id, "ID", m_body_id.index1, INT_MIN, INT_MAX, true);
-            PropertyNodes::Float::RenderProperty(id, "Mass", m_mass, 0.0f);
-            PropertyNodes::Enum::RenderProperty<b2BodyType>(id, "Type", m_type,
-                                                            {{b2BodyType::b2_staticBody, "Static"},
-                                                             {b2BodyType::b2_kinematicBody, "Kinematic"},
-                                                             {b2BodyType::b2_dynamicBody, "Dynamic"}});
+            Int::RenderProperty(id, "ID", m_body_id.index1, INT_MIN, INT_MAX, true);
+            Float::RenderProperty(id, "Mass", m_mass, 0.0f);
+            Enum::RenderProperty<b2BodyType>(id, "Type", m_type,
+                                             {{b2BodyType::b2_staticBody, "Static"},
+                                              {b2BodyType::b2_kinematicBody, "Kinematic"},
+                                              {b2BodyType::b2_dynamicBody, "Dynamic"}});
         }
     };
 } // namespace HBE::Default::Components

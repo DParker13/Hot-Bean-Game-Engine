@@ -12,18 +12,14 @@
 
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
-
 #include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
-    using namespace HBE::Core;
-    using namespace HBE::Application::GUI;
-
     /**
      * @brief Name component for identifying entities
      * Stores a human-readable name for an entity.
      */
-    struct Name : public IComponent, public IPropertyRenderable {
+    struct Name : public HBE::Core::IComponent, public HBE::Application::GUI::IPropertyRenderable {
         std::string m_name = "";
 
         DEFINE_NAME("Name");
@@ -37,6 +33,6 @@ namespace HBE::Default::Components {
             }
         }
 
-        void RenderProperties(int &id) override { PropertyNodes::String::RenderProperty(id, "Name", m_name, true); }
+        void RenderProperties(int &id) override { HBE::Application::GUI::PropertyNodes::String::RenderProperty(id, "Name", m_name, true); }
     };
 } // namespace HBE::Default::Components

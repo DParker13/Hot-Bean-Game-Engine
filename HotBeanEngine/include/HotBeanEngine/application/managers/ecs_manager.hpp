@@ -1,5 +1,5 @@
 /**
- * @file ecs_manager.h
+ * @file ecs_manager.hpp
  * @author Daniel Parker
  * @brief Manages all ECS managers (entities, components, and systems).
  *
@@ -22,64 +22,45 @@
 #include <HotBeanEngine/application/managers/system_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using namespace HBE::Core;
-
+    using HBE::Core::EntityID;
+    using HBE::Core::ComponentID;
+    using HBE::Core::Signature;
+    using HBE::Core::IArchetype;
+    
     /**
-     * @brief Cordinates between entity, component, and system managers.
+     * @brief Coordinates between entity, component, and system managers.
      */
     class ECSManager {
     private:
         std::unique_ptr<EntityManager> m_entity_manager;
         std::shared_ptr<ComponentManager> m_component_manager;
         std::unique_ptr<SystemManager> m_system_manager;
-
-        // Listeners for entity lifecycle events
         std::vector<IEntityLifecycleListener *> m_entity_listeners;
 
     public:
         std::shared_ptr<LoggingManager> m_logging_manager;
 
+        // ============================================================================
+        // Constructor / Destructor
+        // ============================================================================
+
         ECSManager(std::shared_ptr<LoggingManager> logging_manager);
         ~ECSManager() = default;
 
+        // ============================================================================
+        // Entity Management
+        // ============================================================================
+
         EntityID CreateEntity();
         void DestroyEntity(EntityID entity);
-
-        /**
-         * @brief Destroy every entity and clear component/system mappings.
-         */
         void DestroyAllEntities();
-
-        /**
-         * @brief Remove all components attached to an entity without destroying it.
-         * @param entity Entity identifier.
-         */
-        void RemoveAllComponents(EntityID entity);
-
-        /**
-         * @brief Get all component instances attached to an entity.
-         * @param entity Entity identifier.
-         * @return Vector of component pointers.
-         */
-        std::vector<IComponent *> GetAllComponents(EntityID entity);
-
-        /**
-         * @brief Number of currently alive entities.
-         */
         EntityID EntityCount() const;
-
-        /**
-         * @brief Get every active entity ID.
-         */
         std::vector<EntityID> GetAllEntities();
 
-        /**
-         * Registers a component type with the ComponentManager and assigns it a ComponentID id.
-         *
-         * @tparam T The type of component to be registered.
-         * @return The ComponentID id associated with the given component type.
-         * @throws assertion failure if the maximum number of component types has been reached.
-         */
+        // ============================================================================
+        // Component Management - Registration
+        // ============================================================================
+
         template <typename T>
         ComponentID RegisterComponentID() {
             return m_component_manager->RegisterComponentID<T>();
@@ -92,9 +73,20 @@ namespace HBE::Application::Managers {
 
         void UnregisterComponentID(std::string component_name);
 
+        template <typename T>
+        bool IsComponentRegistered() const {
+            return m_component_manager->IsComponentRegistered<T>();
+        }
+
+        bool IsComponentRegistered(std::string component_name) const;
+        bool IsComponentRegistered(ComponentID component_id) const;
+
+        // ============================================================================
+        // Component Management - Add / Remove / Access
+        // ============================================================================
+
         /**
-         * @brief Adds a component of type T to an entity. Registers the component type if it's not already registered.
-         *
+         * @brief Adds a component of type T to an entity. Registers if not already registered.
          * @tparam T Component type
          * @param entity EntityID to add component to
          */
@@ -107,8 +99,7 @@ namespace HBE::Application::Managers {
         }
 
         /**
-         * @brief Adds a component of type T to an entity. Registers the component type if it's not already registered.
-         *
+         * @brief Adds a component of type T to an entity. Registers if not already registered.
          * @tparam T Component type
          * @param entity EntityID to add component to
          * @param component Component to add
@@ -122,10 +113,9 @@ namespace HBE::Application::Managers {
         }
 
         /**
-         * Removes a component of type T from an entity.
-         *
-         * @param entity The ID of the entity to remove the component from.
-         * @throws assertion failure if the entity ID is out of range.
+         * @brief Removes a component of type T from an entity.
+         * @tparam T Component type
+         * @param entity EntityID to remove component from
          */
         template <typename T>
         void RemoveComponent(EntityID entity) {
@@ -135,9 +125,10 @@ namespace HBE::Application::Managers {
             NotifyComponentRemoved(entity);
         }
 
+        void RemoveAllComponents(EntityID entity);
+
         /**
          * @brief Get the Component object
-         *
          * @tparam T The type of component
          * @param entity EntityID to get component from
          * @return T& Reference to the component
@@ -147,24 +138,15 @@ namespace HBE::Application::Managers {
             return m_component_manager->GetComponentData<T>(entity);
         }
 
-        /**
-         * @brief Get the Component Type id
-         *
-         * @tparam T The type of component
-         * @return ComponentID The ComponentID id
-         */
-        template <typename T>
-        ComponentID GetComponentID() {
-            return m_component_manager->GetComponentID<T>();
-        }
+        std::vector<IComponent *> GetAllComponents(EntityID entity);
+
+        // ============================================================================
+        // Component Management - Query / Lookup
+        // ============================================================================
 
         /**
          * @brief Get all Entities that have all specified component types.
-         * @warning USE THIS SPARINGLY! This function iterates over all entities and checks their signatures, which can
-         * be expensive with a large number of entities. It is recommended to use Systems to manage entity groups
-         * instead of calling this function frequently. Or you can subscribe to entity lifecycle events and maintain
-         * your own sets of entities with specific component combinations.
-         *
+         * @warning USE THIS SPARINGLY! Use Systems instead for better performance.
          * @tparam Components
          * @return std::set<EntityID>
          */
@@ -181,7 +163,6 @@ namespace HBE::Application::Managers {
 
         /**
          * @brief Checks if an entity has a component of a specific type
-         *
          * @tparam T Component type
          * @param entity EntityID to check
          * @return True if the entity has the component, false otherwise
@@ -191,72 +172,28 @@ namespace HBE::Application::Managers {
             return m_component_manager->HasComponent<T>(entity);
         }
 
-        /**
-         * @brief Checks if an entity has a component of a specific type
-         *
-         * @param entity EntityID to check
-         * @param compoenent_name The name of the component
-         * @return true
-         * @return false
-         */
         bool HasComponent(EntityID entity, std::string component_name) const;
-
-        /**
-         * @brief Checks if an entity has a component of a specific type
-         *
-         * @param entity EntityID to check
-         * @param component_id The type of the component
-         * @return True if the entity has the component, false otherwise
-         */
         bool HasComponent(EntityID entity, ComponentID component_id) const;
 
         /**
-         * Retrieves the Component Name associated with the given component type.
-         *
-         * @param component_id The component type to retrieve the name for.
-         * @return The name associated with the given component type, or an empty string if the component is not
-         * registered.
-         */
-        std::string GetComponentName(ComponentID component_id) const;
-
-        /**
-         * @brief Get the Component Type object
-         *
-         * @param component_name The name of the component
+         * @brief Get the Component Type id
+         * @tparam T The type of component
          * @return ComponentID The ComponentID id
          */
-        ComponentID GetComponentID(std::string component_name) const;
-
-        /**
-         * @brief Checks if a component is registered
-         *
-         * @param component_id The type of the component
-         * @return True if the component is registered
-         */
         template <typename T>
-        bool IsComponentRegistered() const {
-            return m_component_manager->IsComponentRegistered<T>();
-        };
+        ComponentID GetComponentID() {
+            return m_component_manager->GetComponentID<T>();
+        }
 
-        /**
-         * @brief Checks if a component is registered
-         *
-         * @param component_name The name of the component
-         * @return True if the component is registered
-         */
-        bool IsComponentRegistered(std::string component_name) const;
+        ComponentID GetComponentID(std::string component_name) const;
+        std::string GetComponentName(ComponentID component_id) const;
 
-        /**
-         * @brief Checks if a component is registered
-         *
-         * @param component_id The type of the component
-         * @return True if the component is registered
-         */
-        bool IsComponentRegistered(ComponentID component_id) const;
+        // ============================================================================
+        // System Management - Registration / Unregistration
+        // ============================================================================
 
         /**
          * @brief Registers a system to the ECS manager
-         *
          * @tparam T System type
          * @tparam Args Types of parameters
          * @param params System parameters
@@ -266,13 +203,11 @@ namespace HBE::Application::Managers {
         T &RegisterSystem(Args &&...params) {
             T &system = m_system_manager->RegisterSystem<T, Args...>(std::forward<Args>(params)...);
             system.SetSignature();
-
             return system;
         }
 
         /**
          * @brief Registers a system to the ECS manager
-         *
          * @tparam T System type
          * @return T& Reference to the registered system
          */
@@ -280,13 +215,11 @@ namespace HBE::Application::Managers {
         T &RegisterSystem() {
             T &system = m_system_manager->RegisterSystem<T>();
             system.SetSignature();
-
             return system;
         }
 
         /**
          * @brief Unregisters a system of type T
-         *
          * @tparam T The type of system to unregister
          */
         template <typename T>
@@ -297,20 +230,16 @@ namespace HBE::Application::Managers {
         void UnregisterSystem(ISystem *system);
 
         template <typename T>
-        Signature &GetSignature() {
-            return m_system_manager->GetSignature<T>();
-        }
-
-        const Signature &GetSignature(EntityID entity) const;
-
-        template <typename T>
         bool IsSystemRegistered() {
             return m_system_manager->IsSystemRegistered<T>();
         }
 
+        // ============================================================================
+        // System Management - Signature / Access
+        // ============================================================================
+
         /**
          * @brief Get the System object
-         *
          * @tparam T The type of system
          * @return T* Pointer to the system
          */
@@ -319,9 +248,15 @@ namespace HBE::Application::Managers {
             return m_system_manager->GetSystem<T>();
         }
 
+        template <typename T>
+        Signature &GetSignature() {
+            return m_system_manager->GetSignature<T>();
+        }
+
+        const Signature &GetSignature(EntityID entity) const;
+
         /**
          * @brief Set the Signature of a System using Archetypes
-         *
          * @tparam S System type
          * @param archetype Archetype to set signature with
          */
@@ -348,7 +283,6 @@ namespace HBE::Application::Managers {
 
         /**
          * @brief Set the Signature of a System using Components
-         *
          * @tparam S System type
          * @tparam Cs Component types
          */
@@ -363,6 +297,29 @@ namespace HBE::Application::Managers {
                 LOG_CORE(LoggingType::ERROR, "Runtime error: Failed to set System signature");
             }
         }
+
+        std::vector<ISystem *> GetAllSystems();
+
+        // ============================================================================
+        // Game Loop / Iteration
+        // ============================================================================
+
+        /**
+         * @brief Iterates over each system and calls specific game loop methods
+         * @param state The game loop state
+         */
+        void IterateSystems(GameLoopState state);
+
+        /**
+         * @brief Iterates over each system and calls specific game loop event methods
+         * @param event SDL event
+         * @param state The game loop state
+         */
+        void IterateSystems(SDL_Event &event, GameLoopState state);
+
+        // ============================================================================
+        // Entity Lifecycle Listeners
+        // ============================================================================
 
         /**
          * @brief Register a listener to receive entity lifecycle notifications.
@@ -381,26 +338,5 @@ namespace HBE::Application::Managers {
          * @param entity The entity ID that was removed.
          */
         void NotifyComponentRemoved(EntityID entity);
-
-        /**
-         * @brief Iterates over each system and calls specific game loop methods
-         *
-         * @param state The game loop state
-         */
-        void IterateSystems(GameLoopState state);
-
-        /**
-         * @brief Iterates over each system and calls specific game loop event methods
-         *
-         * @param event SDL event
-         * @param state The game loop state
-         */
-        void IterateSystems(SDL_Event &event, GameLoopState state);
-
-        /**
-         * @brief Get all systems
-         * @return std::vector<ISystem*> Vector of all systems
-         */
-        std::vector<ISystem *> GetAllSystems();
     };
 } // namespace HBE::Application::Managers
