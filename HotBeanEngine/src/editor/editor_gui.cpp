@@ -22,7 +22,7 @@
 
 namespace HBE::Application::GUI {
     using namespace HBE::Default::Components;
-    
+
     EditorGUI::EditorGUI() {
         // Create windows
         std::shared_ptr<PropertyWindow> property_window = std::make_shared<PropertyWindow>();
@@ -77,7 +77,7 @@ namespace HBE::Application::GUI {
 
     /// @brief Renders the editor GUI
     void EditorGUI::OnRender() {
-        //RenderCameraViewports();
+        // RenderCameraViewports();
         RenderImGui();
     }
 

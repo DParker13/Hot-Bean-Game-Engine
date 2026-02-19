@@ -8,7 +8,7 @@ namespace HBE::Application::Managers {
     using HBE::Default::Components::Camera;
     using HBE::Default::Components::Texture;
     using HBE::Default::Components::Transform2D;
-    
+
     /**
      * @class CameraManager
      * @brief Manages cameras within the application.
@@ -28,12 +28,9 @@ namespace HBE::Application::Managers {
         float GetZoom(const Camera &camera);
         SDL_FRect GetViewport(const Camera &camera);
         glm::vec2 GetViewportCenter(const Camera &camera);
-        glm::vec2 CalculateScreenPosition(const Camera &camera,
-                                          const Transform2D &camera_transform,
+        glm::vec2 CalculateScreenPosition(const Camera &camera, const Transform2D &camera_transform,
                                           const Transform2D &entity_transform);
-        bool IsCulled(const Camera &camera,
-                      const Transform2D &camera_transform,
-                      const Transform2D &entity_transform,
+        bool IsCulled(const Camera &camera, const Transform2D &camera_transform, const Transform2D &entity_transform,
                       const Texture &texture);
     };
 } // namespace HBE::Application::Managers

@@ -15,7 +15,6 @@
 #include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::GUI::PropertyNodes {
-    
 
     struct Vec2 {
         static bool RenderProperty(int &id, std::string_view label, glm::vec2 &values,

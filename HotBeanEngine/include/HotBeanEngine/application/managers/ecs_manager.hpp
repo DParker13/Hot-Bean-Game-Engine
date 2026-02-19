@@ -22,11 +22,11 @@
 #include <HotBeanEngine/application/managers/system_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using HBE::Core::EntityID;
     using HBE::Core::ComponentID;
-    using HBE::Core::Signature;
+    using HBE::Core::EntityID;
     using HBE::Core::IArchetype;
-    
+    using HBE::Core::Signature;
+
     /**
      * @brief Coordinates between entity, component, and system managers.
      */

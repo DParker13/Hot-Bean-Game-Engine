@@ -21,8 +21,6 @@
 #include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
-    
-    
 
     struct Slider : public UIElement, public IPropertyRenderable {
         TTF_Font *m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.

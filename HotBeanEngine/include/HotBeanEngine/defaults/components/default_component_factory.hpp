@@ -15,7 +15,7 @@
 
 namespace HBE::Default::Components {
     using HBE::Core::EntityID;
-    
+
     /**
      * @brief Factory for registering and creating default engine components
      */

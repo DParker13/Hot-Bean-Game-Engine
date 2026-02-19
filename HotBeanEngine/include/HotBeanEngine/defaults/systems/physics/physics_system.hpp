@@ -19,8 +19,8 @@
 
 namespace HBE::Default::Systems {
     using HBE::Core::EntityID;
-    using HBE::Default::Components::Transform2D;
     using HBE::Default::Components::RigidBody;
+    using HBE::Default::Components::Transform2D;
 
     /**
      * @brief Integrates Box2D physics simulation

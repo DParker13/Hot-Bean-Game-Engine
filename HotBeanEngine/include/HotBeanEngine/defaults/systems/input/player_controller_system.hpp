@@ -16,8 +16,8 @@
 
 namespace HBE::Default::Systems {
     using HBE::Core::EntityID;
-    using HBE::Default::Components::Transform2D;
     using HBE::Default::Components::Controller;
+    using HBE::Default::Components::Transform2D;
     /**
      * @brief System for player input to control entities.
      */

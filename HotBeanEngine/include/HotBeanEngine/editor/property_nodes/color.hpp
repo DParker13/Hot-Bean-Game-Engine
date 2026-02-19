@@ -15,7 +15,6 @@
 #include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Application::GUI::PropertyNodes {
-    
 
     struct Color {
         static bool RenderProperty(int &id, std::string_view label, SDL_Color &value, bool disabled = false) {

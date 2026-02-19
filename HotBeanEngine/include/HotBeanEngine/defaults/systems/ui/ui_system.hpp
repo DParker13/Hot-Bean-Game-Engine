@@ -22,10 +22,10 @@
 
 namespace HBE::Default::Systems {
     using HBE::Core::EntityID;
-    using HBE::Default::Components::Transform2D;
     using HBE::Default::Components::Texture;
+    using HBE::Default::Components::Transform2D;
     using HBE::Default::Components::UIElement;
-    
+
     /**
      * @brief Manages UI elements (Buttons, Checkboxes, etc).
      * Renders element to their texture and handles user interaction.

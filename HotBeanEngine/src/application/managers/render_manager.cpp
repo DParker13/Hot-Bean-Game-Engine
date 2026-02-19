@@ -46,15 +46,13 @@ namespace HBE::Application::Managers {
      * @brief Called when a component is removed from an entity.
      * @param entity The entity ID that lost a component.
      */
-    void RenderManager::OnComponentRemoved(HBE::Core::EntityID entity) {
-        m_renderable_entities.erase(entity);
-    }
+    void RenderManager::OnComponentRemoved(HBE::Core::EntityID entity) { m_renderable_entities.erase(entity); }
 
     /**
      * @brief Render each entity to its respective texture layer for each camera, then combine all layers on the screen.
      *
-     * Iterates over cached renderable entities and all active cameras, rendering each entity to the appropriate layer texture.
-     * Finally, all layers are rendered to the screen in order.
+     * Iterates over cached renderable entities and all active cameras, rendering each entity to the appropriate layer
+     * texture. Finally, all layers are rendered to the screen in order.
      */
     void RenderManager::OnRender() {
         if (g_app.GetLoopManager().IsState(ApplicationState::Playing)) {

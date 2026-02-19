@@ -22,7 +22,7 @@ namespace HBE::Default::Components {
     using HBE::Application::GUI::PropertyNodes::Bool;
     using HBE::Application::GUI::PropertyNodes::Float;
     using HBE::Application::GUI::PropertyNodes::Vec2;
-    
+
     /**
      * @brief Camera component for 2D scene rendering
      *

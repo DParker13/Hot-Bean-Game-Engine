@@ -49,8 +49,8 @@ namespace HBE::Default::Components {
         }
 
         void RenderProperties(int &id) override {
-            Enum::RenderProperty<ColliderShape>(
-                id, "Shape", m_shape, {{ColliderShape::Box, "Box"}, {ColliderShape::Circle, "Circle"}});
+            Enum::RenderProperty<ColliderShape>(id, "Shape", m_shape,
+                                                {{ColliderShape::Box, "Box"}, {ColliderShape::Circle, "Circle"}});
             Vec2::RenderProperty(id, "Size", m_size);
             Bool::RenderProperty(id, "Is Trigger", m_is_trigger);
         }

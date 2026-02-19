@@ -9,12 +9,12 @@
  */
 #pragma once
 
-#include <unordered_set>
 #include <map>
 #include <set>
+#include <unordered_set>
 
-#include <HotBeanEngine/application/managers/entity_lifecycle_listener.hpp>
 #include <HotBeanEngine/application/managers/camera_manager.hpp>
+#include <HotBeanEngine/application/managers/entity_lifecycle_listener.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 

@@ -15,7 +15,7 @@
 
 namespace HBE::Application::Managers {
     using HBE::Core::Scene;
-    
+
     /**
      * @brief Manages game scenes and scene transitions.
      * Handles scene loading, unloading, and switching.

@@ -15,7 +15,7 @@
 namespace HBE::Application {
     using namespace HBE::Core;
     using namespace HBE::Application::Managers;
-    
+
     Application::Application(const std::string &config_path, std::shared_ptr<IComponentFactory> component_factory,
                              std::unique_ptr<GUI::IEditorGUI> editor_gui)
         : m_component_factory(component_factory), m_editor_gui(std::move(editor_gui)) {
@@ -100,7 +100,7 @@ namespace HBE::Application {
         m_camera_manager = std::make_shared<CameraManager>();
         m_render_manager = std::make_shared<RenderManager>(m_camera_manager);
         m_transform_manager = std::make_shared<TransformManager>();
-        
+
         // Register render manager as entity lifecycle listener with ECS manager
         m_ecs_manager->RegisterEntityListener(m_render_manager.get());
     }

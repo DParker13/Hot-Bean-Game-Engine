@@ -17,9 +17,9 @@
 
 namespace HBE::Default::Systems {
     using HBE::Core::EntityID;
-    using HBE::Default::Components::Transform2D;
-    using HBE::Default::Components::Texture;
     using HBE::Default::Components::Shape;
+    using HBE::Default::Components::Texture;
+    using HBE::Default::Components::Transform2D;
 
     // Forward declaration
     class CameraSystem;

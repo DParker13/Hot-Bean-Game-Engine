@@ -13,7 +13,6 @@
 #include <HotBeanEngine/application/application.hpp>
 
 namespace HBE::Default::Systems {
-    
 
     /**
      * @brief Manages audio playback for entities

@@ -85,11 +85,11 @@ namespace HBE::Default::Components {
             changed |= Color::RenderProperty(id, "Foreground Color", m_foreground_color);
             changed |= Color::RenderProperty(id, "Background Color", m_background_color);
             changed |= Enum::RenderProperty(id, "Font Style", m_style,
-                                           {{TTF_STYLE_NORMAL, "Normal"},
-                                            {TTF_STYLE_BOLD, "Bold"},
-                                            {TTF_STYLE_ITALIC, "Italic"},
-                                            {TTF_STYLE_UNDERLINE, "Underline"},
-                                            {TTF_STYLE_STRIKETHROUGH, "Strikethrough"}});
+                                            {{TTF_STYLE_NORMAL, "Normal"},
+                                             {TTF_STYLE_BOLD, "Bold"},
+                                             {TTF_STYLE_ITALIC, "Italic"},
+                                             {TTF_STYLE_UNDERLINE, "Underline"},
+                                             {TTF_STYLE_STRIKETHROUGH, "Strikethrough"}});
             changed |= Int::RenderProperty(id, "Font Size", reinterpret_cast<int &>(m_size));
             changed |= Int::RenderProperty(id, "Wrapping Width", reinterpret_cast<int &>(m_wrapping_width));
 

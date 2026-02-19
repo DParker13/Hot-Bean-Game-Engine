@@ -16,8 +16,8 @@
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
 namespace HBE::Default {
-    using HBE::Core::EntityID;
     using HBE::Application::IComponentFactory;
+    using HBE::Core::EntityID;
 
     /**
      * @brief Default scene serializer implementation using YAML

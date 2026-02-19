@@ -33,6 +33,8 @@ namespace HBE::Default::Components {
             }
         }
 
-        void RenderProperties(int &id) override { HBE::Application::GUI::PropertyNodes::String::RenderProperty(id, "Name", m_name, true); }
+        void RenderProperties(int &id) override {
+            HBE::Application::GUI::PropertyNodes::String::RenderProperty(id, "Name", m_name, true);
+        }
     };
 } // namespace HBE::Default::Components

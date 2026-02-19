@@ -13,7 +13,7 @@
 namespace HBE::Default {
     using namespace HBE::Core;
     using namespace HBE::Default::Components;
-    
+
     void DefaultSceneSerializer::Serialize(std::string_view filepath) {
         assert(!filepath.empty() && "Current filepath is empty.");
 

@@ -13,7 +13,7 @@
 
 namespace HBE::Application::GUI {
     using namespace HBE::Core;
-    
+
     void EntityWindow::RenderWindow() {
         ImGui::Begin(m_name.c_str(), &m_open);
 

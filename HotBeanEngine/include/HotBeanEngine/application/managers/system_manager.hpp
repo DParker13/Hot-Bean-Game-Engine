@@ -16,9 +16,9 @@
 
 namespace HBE::Application::Managers {
     using HBE::Core::EntityID;
-    using HBE::Core::Signature;
-    using HBE::Core::ISystem;
     using HBE::Core::GameLoopState;
+    using HBE::Core::ISystem;
+    using HBE::Core::Signature;
 
     /**
      * @brief Manages systems that manipulate component data.
@@ -338,6 +338,5 @@ namespace HBE::Application::Managers {
         }
 
         std::string_view GetSystemName(ISystem *system) const;
-
     };
 } // namespace HBE::Application::Managers

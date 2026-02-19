@@ -18,8 +18,8 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using HBE::Application::GUI::PropertyNodes::Int;
     using HBE::Application::GUI::PropertyNodes::Float;
+    using HBE::Application::GUI::PropertyNodes::Int;
     using HBE::Application::GUI::PropertyNodes::Vec2;
 
     /**
@@ -28,7 +28,9 @@ namespace HBE::Default::Components {
      * Tracks local and world-space transformations.
      * Supports hierarchical parent-child relationships.
      */
-    struct Transform2D : public HBE::Core::IComponent, public HBE::Core::IMemberChanged, public HBE::Application::GUI::IPropertyRenderable {
+    struct Transform2D : public HBE::Core::IComponent,
+                         public HBE::Core::IMemberChanged,
+                         public HBE::Application::GUI::IPropertyRenderable {
         Uint8 m_layer = 0;
         Sint64 m_parent = -1;
 
