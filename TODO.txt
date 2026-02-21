@@ -1,29 +1,21 @@
 High Priority
-- Create concept of Game systems and Scene Systems?
-- Make RenderManager into RenderService where it is used as a staging area and then the RenderSystem is the one actually in charge of presenting the changes to screen.
-- Create TransformManager to wrap TransformSystem so it can be used by the editor
 - Create AudioManager
-- Create OnInit() in IGameLoop. OnStart will only be called when the application is started/playing,
+    + Fix audio to work with start/stop of the application
+- Create OnInit() in IGameLoop.
+    + OnStart will only be called when the application is started/playing
+    + OnInit will be called when a system is registered
 so it can be called multiple times in editor mode
-- Add single camera in editor mode
-    + Add visible viewport for camera entities in editor mode
-    + Disable/Modify clipping in editor mode
-    + Add events to handle input and entity selection/manipulation in editor mode
-    + Add modes to game_loop_manager (Rename this to application_state_manager?)
-    + Make input system more generic to be used in editor_gui and in-game
-- Create Editor System
-    + Integrate ImGUI for interactable debug menu!
+- Add save button to editor
+    + Save scene to yaml file
+    + Somehow save scene hpp and cpp files?
+        ~ Have the scene 
+- Add create scene button to editor
 - Finish default systems!!
     + Rendering system
         ~ Fix culling for multicamera
         ~ Add scaling based on camera
-    + Collision System
-        ~ Separate from Physics System
     + Physics System
         ~ Add more shapes
-        ~ Separate into Collision System
-    + Input System
-        ~ Think of way to make key functions configurable
     + UI System
         ~ Add buttons
         ~ Add textboxes
@@ -59,8 +51,6 @@ so it can be called multiple times in editor mode
     + Create game layer
 
 Medium Priority
-- Can modify components in realtime without recompiling
-    + Add debugging capabilities to select an entity by clicking and a menu will popup with each component
 - Create basic ui library
 - Add animation system
 - Add ability to register systems to its own thread

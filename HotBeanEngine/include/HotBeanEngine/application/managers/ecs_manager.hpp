@@ -16,8 +16,8 @@
 
 #pragma once
 
+#include <HotBeanEngine/application/managers/component_listener.hpp>
 #include <HotBeanEngine/application/managers/component_manager.hpp>
-#include <HotBeanEngine/application/managers/entity_lifecycle_listener.hpp>
 #include <HotBeanEngine/application/managers/entity_manager.hpp>
 #include <HotBeanEngine/application/managers/system_manager.hpp>
 
@@ -35,7 +35,7 @@ namespace HBE::Application::Managers {
         std::unique_ptr<EntityManager> m_entity_manager;
         std::shared_ptr<ComponentManager> m_component_manager;
         std::unique_ptr<SystemManager> m_system_manager;
-        std::vector<IEntityLifecycleListener *> m_entity_listeners;
+        std::vector<ComponentListener *> m_component_listeners;
 
     public:
         std::shared_ptr<LoggingManager> m_logging_manager;
@@ -95,7 +95,7 @@ namespace HBE::Application::Managers {
             ComponentID component_id = m_component_manager->AddComponent<T>(entity);
             Signature signature = m_entity_manager->SetSignature(entity, component_id);
             m_system_manager->EntitySignatureChanged(entity, signature);
-            NotifyComponentAdded(entity);
+            NotifyComponentAdded(component_id, entity);
         }
 
         /**
@@ -109,7 +109,7 @@ namespace HBE::Application::Managers {
             ComponentID component_id = m_component_manager->AddComponent<T>(entity, component);
             Signature signature = m_entity_manager->SetSignature(entity, component_id);
             m_system_manager->EntitySignatureChanged(entity, signature);
-            NotifyComponentAdded(entity);
+            NotifyComponentAdded(component_id, entity);
         }
 
         /**
@@ -318,25 +318,58 @@ namespace HBE::Application::Managers {
         void IterateSystems(SDL_Event &event, GameLoopState state);
 
         // ============================================================================
-        // Entity Lifecycle Listeners
+        // Component Listeners
         // ============================================================================
 
         /**
-         * @brief Register a listener to receive entity lifecycle notifications.
+         * @brief Register a listener to receive component change notifications.
          * @param listener The listener to register.
          */
-        void RegisterEntityListener(IEntityLifecycleListener *listener);
+        void RegisterComponentListener(ComponentListener *listener);
 
         /**
          * @brief Notify all listeners that a component was added to an entity.
          * @param entity The entity ID that was added.
          */
-        void NotifyComponentAdded(EntityID entity);
+        void NotifyComponentAdded(ComponentID component_id, EntityID entity) {
+            for (ComponentListener *listener : m_component_listeners) {
+                const auto &listened_components = listener->GetListenedComponents();
+                if (listened_components.count(component_id)) {
+                    // Check if entity now has all components the listener is interested in
+                    bool has_all_components = true;
+                    for (ComponentID id : listened_components) {
+                        if (!HasComponent(entity, id)) {
+                            has_all_components = false;
+                            break;
+                        }
+                    }
+                    if (has_all_components) {
+                        listener->OnComponentAdded(m_component_manager->GetComponent(entity, component_id), entity);
+                    }
+                }
+            }
+        }
 
         /**
          * @brief Notify all listeners that a component was removed from an entity.
          * @param entity The entity ID that was removed.
          */
-        void NotifyComponentRemoved(EntityID entity);
+        void NotifyComponentRemoved(EntityID entity) {
+            for (ComponentListener *listener : m_component_listeners) {
+                const auto &listened_components = listener->GetListenedComponents();
+                // Check if entity still has all components the listener is interested in
+                bool has_all_components = true;
+                for (ComponentID id : listened_components) {
+                    if (!HasComponent(entity, id)) {
+                        has_all_components = false;
+                        break;
+                    }
+                }
+                // Only notify if entity no longer has all required components
+                if (!has_all_components) {
+                    listener->OnComponentRemoved(entity);
+                }
+            }
+        }
     };
 } // namespace HBE::Application::Managers

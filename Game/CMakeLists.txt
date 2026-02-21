@@ -12,7 +12,6 @@ message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}'")
 add_executable(${PROJECT_NAME} src/main.cpp)
 
 # Add subdirectories for project modules
-add_subdirectory(src/systems)
 add_subdirectory(src/scenes)
 add_subdirectory(src/game)
 

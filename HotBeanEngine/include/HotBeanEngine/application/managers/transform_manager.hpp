@@ -11,18 +11,33 @@
 
 #pragma once
 
+#include <HotBeanEngine/application/managers/component_listener.hpp>
+#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/defaults/utilities/scene_graph.hpp>
 
 namespace HBE::Application::Managers {
     using HBE::Default::Utilities::SceneGraph;
 
-    class TransformManager {
+    class TransformManager : public ComponentListener {
     private:
         SceneGraph m_scene_graph;
 
     public:
-        TransformManager() : m_scene_graph(SceneGraph()) {};
+        TransformManager();
         ~TransformManager() = default;
+
+        /**
+         * @brief Called when a Transform2D component is added to an entity.
+         * @param entity The entity that gained a Transform2D component.
+         */
+        void OnComponentAdded(HBE::Core::IComponent *component, HBE::Core::EntityID entity) override;
+
+        /**
+         * @brief Called when a Transform2D component is removed from an entity.
+         * Cleans up the entity from the scene graph.
+         * @param entity The entity that lost a Transform2D component.
+         */
+        void OnComponentRemoved(HBE::Core::EntityID entity) override;
 
         void OnUpdate();
         void PropagateTransforms(Transform2D &transform, const Transform2D *parent_transform);

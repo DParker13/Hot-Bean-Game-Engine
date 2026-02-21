@@ -5,6 +5,11 @@ namespace HBE::Application::Managers {
     using HBE::Default::Components::Texture;
     using HBE::Default::Components::Transform2D;
 
+    RenderManager::RenderManager(std::shared_ptr<CameraManager> camera_manager) : m_camera_manager(camera_manager) {
+        // Listen for changes to Texture and Transform2D components to track renderable entities
+        ListenForComponents({g_ecs.GetComponentID<Texture>(), g_ecs.GetComponentID<Transform2D>()});
+    }
+
     /**
      * @brief Destructor. Cleans up all SDL_Texture layers.
      */
@@ -33,29 +38,13 @@ namespace HBE::Application::Managers {
     }
 
     /**
-     * @brief Called when a component is added to an entity.
-     * @param entity The entity ID that gained a component.
-     */
-    void RenderManager::OnComponentAdded(HBE::Core::EntityID entity) {
-        if (g_ecs.HasComponent<Texture>(entity) && g_ecs.HasComponent<Transform2D>(entity)) {
-            m_renderable_entities.insert(entity);
-        }
-    }
-
-    /**
-     * @brief Called when a component is removed from an entity.
-     * @param entity The entity ID that lost a component.
-     */
-    void RenderManager::OnComponentRemoved(HBE::Core::EntityID entity) { m_renderable_entities.erase(entity); }
-
-    /**
      * @brief Render each entity to its respective texture layer for each camera, then combine all layers on the screen.
      *
      * Iterates over cached renderable entities and all active cameras, rendering each entity to the appropriate layer
      * texture. Finally, all layers are rendered to the screen in order.
      */
     void RenderManager::OnRender() {
-        if (g_app.GetLoopManager().IsState(ApplicationState::Playing)) {
+        if (g_app.GetStateManager().IsState(ApplicationState::Playing)) {
             for (EntityID camera_entity : m_camera_manager->GetAllActiveCameras()) {
                 auto &camera = g_ecs.GetComponent<Camera>(camera_entity);
                 auto &camera_transform = g_ecs.GetComponent<Transform2D>(camera_entity);
@@ -97,6 +86,25 @@ namespace HBE::Application::Managers {
             SDL_RenderClear(renderer);
         }
     }
+
+    std::map<int, SDL_Texture *> RenderManager::GetAllLayers() const { return m_layers; }
+
+    /**
+     * @brief Called when a tracked component (Transform2D or Texture) is added to an entity.
+     * If entity has both required components, it's added to the renderable cache.
+     * @param component Pointer to the component that was added.
+     * @param entity The entity ID that gained a component.
+     */
+    void RenderManager::OnComponentAdded(HBE::Core::IComponent *component, HBE::Core::EntityID entity) {
+        m_renderable_entities.insert(entity);
+    }
+
+    /**
+     * @brief Called when a tracked component is removed from an entity.
+     * Removes entity from renderable cache.
+     * @param entity The entity ID that lost a component.
+     */
+    void RenderManager::OnComponentRemoved(HBE::Core::EntityID entity) { m_renderable_entities.erase(entity); }
 
     /**
      * @brief Creates a texture layer for the entity's layer if it doesn't already exist.

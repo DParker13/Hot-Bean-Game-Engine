@@ -8,7 +8,7 @@ namespace HBE::Application::Managers {
         int screen_width, screen_height;
         SDL_GetRenderOutputSize(g_app.GetRenderer(), &screen_width, &screen_height);
 
-        if (g_app.GetLoopManager().IsState(ApplicationState::Playing)) {
+        if (g_app.GetStateManager().IsState(ApplicationState::Playing)) {
             return SDL_FRect{camera.m_viewport_position.x * screen_width, camera.m_viewport_position.y * screen_height,
                              camera.m_viewport_size.x * screen_width, camera.m_viewport_size.y * screen_height};
         }

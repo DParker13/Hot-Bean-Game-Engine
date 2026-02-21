@@ -1,17 +1,17 @@
 /**
- * @file game_loop_manager.cpp
+ * @file application_state_manager.cpp
  * @author Daniel Parker (DParker13)
- * @brief Implementation of game loop state control.
+ * @brief Implementation of application state control.
  * @version 0.1
  * @date 2025-12-09
  *
  * @copyright Copyright (c) 2025
  */
 
-#include <HotBeanEngine/application/managers/game_loop_manager.hpp>
+#include <HotBeanEngine/application/managers/application_state_manager.hpp>
 
 namespace HBE::Application::Managers {
-    void GameLoopManager::UpdateGameLoopState() {
+    void ApplicationStateManager::UpdateGameLoopState() {
         ApplicationState previous_state = m_state;
         m_state = m_queued_state;
 

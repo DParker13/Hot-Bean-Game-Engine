@@ -10,10 +10,7 @@
  */
 
 #include "example_scene.hpp"
-
 #include <random>
-
-// #include "../systems/audio_system.hpp"
 
 namespace Scenes {
     using namespace HBE::Core;
@@ -104,9 +101,5 @@ namespace Scenes {
         }
     }
 
-    void ExampleScene::SetupSystems() {
-        DefaultScene::SetupSystems();
-
-        // g_ecs.RegisterSystem<Systems::CustomAudioSystem>();
-    }
+    void ExampleScene::SetupSystems() { DefaultScene::SetupSystems(); }
 } // namespace Scenes

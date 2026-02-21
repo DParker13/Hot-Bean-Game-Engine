@@ -10,7 +10,6 @@
  */
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/systems/rendering/transform_system.hpp>
 #include <HotBeanEngine/editor/editor_gui.hpp>
 
 #include "console_window.hpp"

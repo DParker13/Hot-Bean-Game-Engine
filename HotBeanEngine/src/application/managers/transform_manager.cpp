@@ -2,10 +2,24 @@
 #include <HotBeanEngine/application/managers/transform_manager.hpp>
 
 namespace HBE::Application::Managers {
+    TransformManager::TransformManager() : m_scene_graph(SceneGraph()) {
+        ListenForComponents({g_ecs.GetComponentID<Transform2D>()});
+    }
+
+    void TransformManager::OnComponentAdded(HBE::Core::IComponent *component, HBE::Core::EntityID entity) {
+        auto *transform = static_cast<Transform2D *>(component);
+        m_scene_graph.AddEntity(entity, transform->m_parent);
+    }
+
+    void TransformManager::OnComponentRemoved(HBE::Core::EntityID entity) {
+        // When a Transform2D is removed, remove the entity from the scene graph
+        m_scene_graph.RemoveEntity(entity);
+    }
+
     void TransformManager::OnUpdate() {
 
         // If not playing, also propagate transforms for editor camera to ensure it moves properly in the editor
-        if (!g_app.GetLoopManager().IsState(ApplicationState::Playing)) {
+        if (!g_app.GetStateManager().IsState(ApplicationState::Playing)) {
             PropagateTransforms(g_app.GetEditorGUI().GetEditorCameraTransform(), nullptr);
         }
 

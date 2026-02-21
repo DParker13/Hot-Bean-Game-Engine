@@ -21,14 +21,10 @@ namespace HBE::Default {
 
         // Input
         g_ecs.RegisterSystem<PlayerControllerSystem>();
-        g_ecs.RegisterSystem<AudioSystem>();
 
         // Physics
         g_ecs.RegisterSystem<PhysicsSystem>();
         g_ecs.RegisterSystem<CollisionSystem>();
-
-        // Transform and Camera
-        g_ecs.RegisterSystem<TransformSystem>();
 
         // Rendering
         g_ecs.RegisterSystem<ShapeSystem>();

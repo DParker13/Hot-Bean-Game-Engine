@@ -10,7 +10,6 @@
 #pragma once
 
 #include <HotBeanEngine/HotBeanEngine_Defaults.hpp>
-#include <HotBeanEngine/defaults/default_scene_serializer.hpp>
 
 namespace Scenes {
     /**

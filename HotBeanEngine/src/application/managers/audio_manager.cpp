@@ -1,25 +1,25 @@
 /**
- * @file audio_system.cpp
+ * @file audio_manager.cpp
  * @author Daniel Parker
- * @brief System for managing audio playback using SDL_mixer.
+ * @brief Manager for audio playback using SDL_mixer.
  * @version 0.1
- * @date 2025-01-03
+ * @date 2026-02-18
  *
- * @copyright Copyright (c) 2025
+ * @copyright Copyright (c) 2026
  */
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/systems/audio/audio_system.hpp>
+#include <HotBeanEngine/application/managers/audio_manager.hpp>
 
-namespace HBE::Default::Systems {
+namespace HBE::Application::Managers {
     using namespace HBE::Core;
 
-    AudioSystem::AudioSystem() {
+    AudioManager::AudioManager() {
         m_mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
         m_track_one = MIX_CreateTrack(m_mixer);
     }
 
-    AudioSystem::~AudioSystem() { MIX_DestroyMixer(m_mixer); }
+    AudioManager::~AudioManager() { MIX_DestroyMixer(m_mixer); }
 
     /**
      * Loads a music sample from the given file path.
@@ -27,7 +27,7 @@ namespace HBE::Default::Systems {
      *
      * @param music_file_path the path to the music file
      */
-    void AudioSystem::LoadMusic(std::string music_file_path) {
+    void AudioManager::LoadMusic(std::string music_file_path) {
         // load sample.wav in to sample
 
         MIX_Audio *audio = MIX_LoadAudio(m_mixer, music_file_path.data(), false);
@@ -48,7 +48,7 @@ namespace HBE::Default::Systems {
      * @param numLoops the number of loops to play. A value of -1 means the music will play
      *                 until stopped manually.
      */
-    void AudioSystem::PlayMusic(int numLoops) {
+    void AudioManager::PlayMusic(int numLoops) {
         if (!MIX_TrackPlaying(m_track_one)) {
             if (!MIX_PlayTrack(m_track_one, numLoops)) {
                 LOG(LoggingType::ERROR, std::string(SDL_GetError()));
@@ -63,5 +63,5 @@ namespace HBE::Default::Systems {
      *
      * @param volume the volume value
      */
-    void AudioSystem::SetVolume(Uint32 volume) {}
-} // namespace HBE::Default::Systems
+    void AudioManager::SetVolume(Uint32 volume) {}
+} // namespace HBE::Application::Managers

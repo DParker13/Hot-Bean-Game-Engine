@@ -197,21 +197,9 @@ namespace HBE::Application::Managers {
      */
     const Signature &ECSManager::GetSignature(EntityID entity) const { return m_entity_manager->GetSignature(entity); }
 
-    void ECSManager::RegisterEntityListener(IEntityLifecycleListener *listener) {
+    void ECSManager::RegisterComponentListener(ComponentListener *listener) {
         if (listener) {
-            m_entity_listeners.push_back(listener);
-        }
-    }
-
-    void ECSManager::NotifyComponentAdded(EntityID entity) {
-        for (auto listener : m_entity_listeners) {
-            listener->OnComponentAdded(entity);
-        }
-    }
-
-    void ECSManager::NotifyComponentRemoved(EntityID entity) {
-        for (auto listener : m_entity_listeners) {
-            listener->OnComponentRemoved(entity);
+            m_component_listeners.push_back(listener);
         }
     }
 

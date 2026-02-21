@@ -14,12 +14,12 @@
 #include <unordered_set>
 
 #include <HotBeanEngine/application/managers/camera_manager.hpp>
-#include <HotBeanEngine/application/managers/entity_lifecycle_listener.hpp>
+#include <HotBeanEngine/application/managers/component_listener.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 
 namespace HBE::Application::Managers {
-    class RenderManager : public IEntityLifecycleListener {
+    class RenderManager : public ComponentListener {
     private:
         std::shared_ptr<CameraManager> m_camera_manager;
         /**
@@ -32,19 +32,8 @@ namespace HBE::Application::Managers {
         std::set<EntityID> m_renderable_entities;
 
     public:
-        RenderManager(std::shared_ptr<CameraManager> camera_manager) : m_camera_manager(camera_manager) {};
+        RenderManager(std::shared_ptr<CameraManager> camera_manager);
 
-        /**
-         * @brief Called when a component is added to an entity.
-         * @param entity The entity ID that gained a component.
-         */
-        void OnComponentAdded(HBE::Core::EntityID entity);
-
-        /**
-         * @brief Called when a component is removed from an entity.
-         * @param entity The entity ID that lost a component.
-         */
-        void OnComponentRemoved(HBE::Core::EntityID entity);
         /**
          * @brief Destructor. Cleans up all SDL_Texture layers.
          */
@@ -70,7 +59,19 @@ namespace HBE::Application::Managers {
          * @brief Get a copy of all current layer textures.
          * @return Map of layer indices to SDL_Texture pointers.
          */
-        std::map<int, SDL_Texture *> GetAllLayers() const { return m_layers; }
+        std::map<int, SDL_Texture *> GetAllLayers() const;
+
+        /**
+         * @brief Called when a component is added to an entity.
+         * @param entity The entity ID that gained a component.
+         */
+        void OnComponentAdded(HBE::Core::IComponent *component, HBE::Core::EntityID entity) override;
+
+        /**
+         * @brief Called when a component is removed from an entity.
+         * @param entity The entity ID that lost a component.
+         */
+        void OnComponentRemoved(HBE::Core::EntityID entity) override;
 
     private:
         /**

@@ -59,7 +59,7 @@ HotBeanEngine/
 - **SystemManager**: Registers, orders, and dispatches systems
 - **ECSManager**: Coordinates between entity, component, and system managers
 - **SceneManager**: Manages scene loading and switching
-- **GameLoopManager**: Controls game loop state (Playing, Paused, Stopped)
+- **ApplicationStateManager**: Controls application state (Playing, Paused, Stopped)
 - **LoggingManager**: Application-wide logging with file and console output
 
 ### Component System

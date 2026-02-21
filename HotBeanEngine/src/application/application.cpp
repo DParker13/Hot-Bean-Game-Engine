@@ -50,6 +50,9 @@ namespace HBE::Application {
         InitSDLTTF();
         InitSDLMixer();
 
+        // Register component listeners for OnComponentAdded and OnComponentRemoved events
+        RegisterComponentListeners();
+
         // Ensure we always have an editor GUI instance (Noop by default)
         if (!m_editor_gui) {
             m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
@@ -62,7 +65,6 @@ namespace HBE::Application {
         s_instance = nullptr;
     }
 
-    /// @brief Sets up the renderer and window for the application.
     void Application::SetupRendererAndWindow() {
         // Create new window surface
         if (m_window == nullptr) {
@@ -96,16 +98,12 @@ namespace HBE::Application {
         m_component_factory->SetECSManager(m_ecs_manager);
         m_component_factory->RegisterComponents();
         m_scene_manager = std::make_unique<SceneManager>(m_ecs_manager, m_logging_manager);
-        m_loop_manager = std::make_unique<GameLoopManager>(m_logging_manager);
+        m_loop_manager = std::make_unique<ApplicationStateManager>(m_logging_manager);
         m_camera_manager = std::make_shared<CameraManager>();
         m_render_manager = std::make_shared<RenderManager>(m_camera_manager);
         m_transform_manager = std::make_shared<TransformManager>();
-
-        // Register render manager as entity lifecycle listener with ECS manager
-        m_ecs_manager->RegisterEntityListener(m_render_manager.get());
     }
 
-    /// @brief Initializes the SDL library.
     void Application::InitSDL() {
         // Initialize SDL
         if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
@@ -114,7 +112,6 @@ namespace HBE::Application {
         }
     }
 
-    /// @brief Initializes the SDL_TTF library.
     void Application::InitSDLTTF() {
         // Initialize TTF
         if (!TTF_Init()) {
@@ -124,9 +121,7 @@ namespace HBE::Application {
         }
     }
 
-    /**
-     * @brief Initializes the SDL_Image library.
-     */
+    // Unused: SDL_Image initialization
     // void Application::InitSDLImage() {
     //     // Initialize Image
     //     if (!IMG_Init()) {
@@ -136,7 +131,6 @@ namespace HBE::Application {
     //     }
     // }
 
-    /// @brief Initializes the SDL_Mixer library.
     void Application::InitSDLMixer() {
         if (!MIX_Init()) {
             LOG_CORE(LoggingType::FATAL,
@@ -149,6 +143,11 @@ namespace HBE::Application {
         //     SDL_GetError()); SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Mixer Error", "Failed to open audio
         //     device", m_window); exit(-1);
         // }
+    }
+
+    void Application::RegisterComponentListeners() {
+        m_ecs_manager->RegisterComponentListener(m_render_manager.get());
+        m_ecs_manager->RegisterComponentListener(m_transform_manager.get());
     }
 
     Application &Application::GetInstance() {
@@ -165,19 +164,15 @@ namespace HBE::Application {
 
     SDL_Window *Application::GetWindow() { return m_window; }
 
-    /// @brief Gets the delta time (time elapsed) between frames in seconds.
-    /// @return Delta time in seconds (float).
     float Application::GetDeltaTime() const { return m_delta_time; }
 
-    /// @brief Gets the high resolution delta time (time elapsed) between frames in seconds.
-    /// @return Delta time in seconds (double).
     double Application::GetDeltaTimeHiRes() const { return m_delta_time_hi_res; }
 
     ECSManager &Application::GetECSManager() const { return *m_ecs_manager; }
 
     SceneManager &Application::GetSceneManager() const { return *m_scene_manager; }
 
-    GameLoopManager &Application::GetLoopManager() const { return *m_loop_manager; }
+    ApplicationStateManager &Application::GetStateManager() const { return *m_loop_manager; }
 
     RenderManager &Application::GetRenderManager() const { return *m_render_manager; }
 
@@ -193,8 +188,6 @@ namespace HBE::Application {
 
     GUI::IEditorGUI &Application::GetEditorGUI() { return *m_editor_gui; }
 
-    /// @brief Logs a message to a log file.
-    /// @param message The message to log to the log file
     void Application::Log(LoggingType type, std::string_view message, const char *file, int line,
                           const char *function) {
         m_logging_manager->Log(type, message, file, line, function);
@@ -210,7 +203,6 @@ namespace HBE::Application {
 
     void Application::StopGame() { m_loop_manager->QueueStateChange(ApplicationState::Stopped); }
 
-    /// @brief Starts the main game loop of the application.
     void Application::Start() {
         // If using NoopEditorGUI, automatically start in Playing state
         if (dynamic_cast<GUI::NoopEditorGUI *>(m_editor_gui.get()) != nullptr) {
@@ -284,10 +276,6 @@ namespace HBE::Application {
         }
     }
 
-    /**
-     * @brief Cleans up the SDL resources by destroying the renderer, window, surface,
-     * and m_quitting the SDL library.
-     */
     void Application::CleanUpSDL() {
         SDL_DestroyRenderer(m_renderer);
         SDL_DestroyWindow(m_window);
@@ -305,9 +293,6 @@ namespace HBE::Application {
         SDL_Quit();
     }
 
-    /**
-     * @brief Gets the high resolution time in seconds since the application started.
-     */
     double Application::GetHiResTime() const {
         static Uint64 start = SDL_GetPerformanceCounter();
         Uint64 now = SDL_GetPerformanceCounter();
@@ -315,9 +300,6 @@ namespace HBE::Application {
         return static_cast<double>(now - start) / static_cast<double>(freq);
     }
 
-    /**
-     * @brief Updates the delta time (time elapsed) between frames in seconds.
-     */
     void Application::UpdateDeltaTime() {
         Uint64 current_time = SDL_GetTicks();
         m_delta_time = static_cast<float>(current_time - m_previous_frame_time) / 1000.0f;
@@ -330,9 +312,6 @@ namespace HBE::Application {
         m_previous_frame_time = current_time;
     }
 
-    /**
-     * @brief Updates the high resolution delta time (time elapsed) between frames in seconds.
-     */
     void Application::UpdateDeltaTimeHiRes() {
         double current_time = GetHiResTime();
         m_delta_time_hi_res = current_time - m_previous_frame_time_hi_res;
@@ -344,9 +323,6 @@ namespace HBE::Application {
         m_previous_frame_time_hi_res = current_time;
     }
 
-    /**
-     * @brief Updates the fixed delta time for fixed timestep updates.
-     */
     void Application::PhysicsLoop() {
         m_accumulator += GetDeltaTimeHiRes();
 
@@ -366,29 +342,17 @@ namespace HBE::Application {
         // State renderState = m_currentState * alpha + m_previousState * (1.0 - alpha);
     }
 
-    /**
-     * @brief Initializes the application systems and iterates through the
-     * systems in the system manager, calling their OnStart methods.
-     */
     void Application::OnStart() {
         // This is also called when a scene is loaded. (Should this just be removed?)
         m_ecs_manager->IterateSystems(GameLoopState::OnStart);
     }
 
-    /**
-     * @brief Calls the OnEvent method of each system in the system manager.
-     */
     void Application::OnPreEvent() {
         if (m_loop_manager->IsState(ApplicationState::Playing)) {
             m_ecs_manager->IterateSystems(GameLoopState::OnPreEvent);
         }
     }
 
-    /**
-     * @brief Calls the OnEvent method of each system in the system manager.
-     *
-     * @param event The SDL event to be handled.
-     */
     void Application::OnEvent(SDL_Event &event) {
         m_input_event_listener->OnEvent(event);
 
@@ -400,11 +364,6 @@ namespace HBE::Application {
         m_editor_gui->OnEvent(event);
     }
 
-    /**
-     * @brief Calls the OnWindowResize method of each system in the system manager.
-     *
-     * @param event The SDL event to be handled.
-     */
     void Application::OnWindowResize(SDL_Event &event) {
         m_ecs_manager->IterateSystems(event, GameLoopState::OnWindowResize);
 
@@ -412,9 +371,6 @@ namespace HBE::Application {
         m_editor_gui->OnWindowResize(event);
     }
 
-    /**
-     * @brief Calls the OnUpdate method of each system in the system manager.
-     */
     void Application::OnUpdate() {
         m_transform_manager->OnUpdate();
 
@@ -427,9 +383,6 @@ namespace HBE::Application {
         }
     }
 
-    /**
-     * @brief Renders all systems within the application by invoking their OnRender method.
-     */
     void Application::OnRender() {
         m_ecs_manager->IterateSystems(GameLoopState::OnRender);
 
@@ -437,9 +390,6 @@ namespace HBE::Application {
         m_editor_gui->OnRender();
     }
 
-    /**
-     * @brief Calls the OnPostRender method of each system in the system manager.
-     */
     void Application::OnPostRender() {
         m_ecs_manager->IterateSystems(GameLoopState::OnPostRender);
 

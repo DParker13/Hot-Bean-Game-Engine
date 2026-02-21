@@ -10,6 +10,7 @@
  */
 
 #include "example_game.hpp"
+#include <HotBeanEngine/defaults/default_scene_serializer.hpp>
 
 namespace Game {
     ExampleGame::ExampleGame(const std::string &config_path,
