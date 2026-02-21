@@ -1,5 +1,3 @@
-enable_testing()
-
 add_executable(HotBeanEngine_Managers_Test
     ecs_manager_test.cpp
     component_manager_test.cpp

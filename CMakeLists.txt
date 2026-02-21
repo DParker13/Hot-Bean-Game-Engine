@@ -4,5 +4,8 @@ project(FullHotBeanEngine LANGUAGES CXX)
 
 set(CMAKE_BUILD_PARALLEL_LEVEL 4)
 
+# Enable testing for CTest
+enable_testing()
+
 add_subdirectory(HotBeanEngine)
 add_subdirectory(Game)

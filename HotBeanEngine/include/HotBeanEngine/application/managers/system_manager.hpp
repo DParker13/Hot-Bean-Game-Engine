@@ -283,22 +283,19 @@ namespace HBE::Application::Managers {
          */
         template <typename Tuple>
         Signature ExtractSignatureFromTuple() {
-            return std::apply(
-                [this](auto... args) {
-                    using Components = std::tuple<decltype(args)...>;
-                    return BuildSignatureFromTypes<Components>(std::index_sequence_for<decltype(args)...>{});
-                },
-                Tuple{});
+            // Simplified version to avoid MSVC Internal Compiler Error
+            // Use index_sequence directly instead of std::apply with lambda
+            return ExtractSignatureFromTupleImpl<Tuple>(std::make_index_sequence<std::tuple_size_v<Tuple>>{});
         }
 
         /**
-         * @brief Helper to build signature from component types
+         * @brief Helper to build signature from component types using index sequence
          * @tparam Tuple std::tuple of component types
          * @tparam Indices Index sequence for unpacking
          * @return Signature with all component IDs set
          */
         template <typename Tuple, std::size_t... Indices>
-        Signature BuildSignatureFromTypes(std::index_sequence<Indices...>) {
+        Signature ExtractSignatureFromTupleImpl(std::index_sequence<Indices...>) {
             return m_component_manager->GetSignature<std::tuple_element_t<Indices, Tuple>...>();
         }
 
