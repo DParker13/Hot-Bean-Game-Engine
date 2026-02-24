@@ -66,8 +66,9 @@ namespace HBE::Application::Managers {
                 }
             }
             // EntityID signature does not match system signature - erase from set
-            else if (system->m_entities.erase(entity) != 0) {
+            else if (system->m_entities.count(entity) > 0) {
                 system->OnEntityRemoved(entity);
+                system->m_entities.erase(entity);
                 entity_removed_from_systems++;
             }
         }

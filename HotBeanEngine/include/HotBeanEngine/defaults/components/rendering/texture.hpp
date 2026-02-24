@@ -18,8 +18,8 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using HBE::Application::GUI::PropertyNodes::TexturePreview;
-    using HBE::Application::GUI::PropertyNodes::Vec2;
+    using Application::GUI::PropertyNodes::TexturePreview;
+    using Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief Texture rendering component

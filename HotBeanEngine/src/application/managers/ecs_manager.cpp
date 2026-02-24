@@ -48,7 +48,12 @@ namespace HBE::Application::Managers {
     /**
      * @brief Destroys all entities and clears component/system mappings.
      */
-    void ECSManager::DestroyAllEntities() { m_entity_manager->DestroyAllEntities(); }
+    void ECSManager::DestroyAllEntities() {
+        for (EntityID entity : GetAllEntities()) {
+            RemoveAllComponents(entity);
+        }
+        m_entity_manager->DestroyAllEntities();
+    }
 
     /**
      * @brief Retrieves all entity IDs in the manager.
@@ -72,6 +77,8 @@ namespace HBE::Application::Managers {
 
         for (size_t i = 0; i < signature.size(); i++) {
             if (signature[i]) {
+                Signature signature = m_entity_manager->SetSignature(entity, (ComponentID)i, false);
+                m_system_manager->EntitySignatureChanged(entity, signature);
                 m_component_manager->RemoveComponent(entity, i);
             }
         }

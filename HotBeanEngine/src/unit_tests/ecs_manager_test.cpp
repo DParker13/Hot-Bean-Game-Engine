@@ -23,9 +23,7 @@ TEST_CASE("ECSManager: Entity Creation and Destruction") {
     std::shared_ptr<LoggingManager> logging_manager = std::make_shared<LoggingManager>();
     ECSManager ecs_manager = ECSManager(logging_manager);
 
-    SECTION("Initialize entity count to 0") { 
-        REQUIRE(ecs_manager.EntityCount() == 0); 
-    }
+    SECTION("Initialize entity count to 0") { REQUIRE(ecs_manager.EntityCount() == 0); }
 
     SECTION("Create single entity") {
         EntityID entity = ecs_manager.CreateEntity();
@@ -37,7 +35,7 @@ TEST_CASE("ECSManager: Entity Creation and Destruction") {
         EntityID e1 = ecs_manager.CreateEntity();
         EntityID e2 = ecs_manager.CreateEntity();
         EntityID e3 = ecs_manager.CreateEntity();
-        
+
         REQUIRE(ecs_manager.EntityCount() == 3);
         REQUIRE(e1 != e2);
         REQUIRE(e2 != e3);
@@ -74,7 +72,7 @@ TEST_CASE("ECSManager: Entity Creation and Destruction") {
         EntityID entity = ecs_manager.CreateEntity();
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity, comp);
-        
+
         ecs_manager.DestroyEntity(entity);
         REQUIRE(ecs_manager.EntityCount() == 0);
     }
@@ -83,7 +81,7 @@ TEST_CASE("ECSManager: Entity Creation and Destruction") {
         ecs_manager.CreateEntity();
         ecs_manager.CreateEntity();
         ecs_manager.CreateEntity();
-        
+
         ecs_manager.DestroyAllEntities();
         REQUIRE(ecs_manager.EntityCount() == 0);
     }
@@ -98,7 +96,7 @@ TEST_CASE("ECSManager: Component Management") {
     SECTION("Add component to entity") {
         TestComponent comp;
         comp.m_value = 42;
-        
+
         ecs_manager.AddComponent<TestComponent>(entity_1, comp);
         REQUIRE(ecs_manager.HasComponent<TestComponent>(entity_1));
     }
@@ -124,32 +122,32 @@ TEST_CASE("ECSManager: Component Management") {
     SECTION("Get component data") {
         TestComponent comp;
         comp.m_value = 99;
-        
+
         ecs_manager.AddComponent<TestComponent>(entity_1, comp);
-        TestComponent& retrieved = ecs_manager.GetComponent<TestComponent>(entity_1);
-        
+        TestComponent &retrieved = ecs_manager.GetComponent<TestComponent>(entity_1);
+
         REQUIRE(retrieved.m_value == 99);
     }
 
     SECTION("Modify component data") {
         TestComponent comp;
         comp.m_value = 10;
-        
+
         ecs_manager.AddComponent<TestComponent>(entity_1, comp);
-        TestComponent& retrieved = ecs_manager.GetComponent<TestComponent>(entity_1);
+        TestComponent &retrieved = ecs_manager.GetComponent<TestComponent>(entity_1);
         retrieved.m_value = 50;
-        
-        TestComponent& check = ecs_manager.GetComponent<TestComponent>(entity_1);
+
+        TestComponent &check = ecs_manager.GetComponent<TestComponent>(entity_1);
         REQUIRE(check.m_value == 50);
     }
 
     SECTION("Add multiple component types to same entity") {
         TestComponent comp1;
         TestComponent2 comp2(1.0f, 2.0f);
-        
+
         ecs_manager.AddComponent<TestComponent>(entity_1, comp1);
         ecs_manager.AddComponent<TestComponent2>(entity_1, comp2);
-        
+
         REQUIRE(ecs_manager.HasComponent<TestComponent>(entity_1));
         REQUIRE(ecs_manager.HasComponent<TestComponent2>(entity_1));
     }
@@ -165,9 +163,9 @@ TEST_CASE("ECSManager: Component Removal") {
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity_1, comp);
         ecs_manager.AddComponent<TestComponent>(entity_2, comp);
-        
+
         ecs_manager.RemoveComponent<TestComponent>(entity_1);
-        
+
         REQUIRE_FALSE(ecs_manager.HasComponent<TestComponent>(entity_1));
         REQUIRE(ecs_manager.HasComponent<TestComponent>(entity_2));
     }
@@ -175,26 +173,20 @@ TEST_CASE("ECSManager: Component Removal") {
     SECTION("Remove last component instance throws") {
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity_1, comp);
-        
+
         // When removing the last instance, it unregisters and then tries to get ComponentID
-        REQUIRE_THROWS_AS(
-            ecs_manager.RemoveComponent<TestComponent>(entity_1),
-            ComponentNotRegisteredException
-        );
+        REQUIRE_THROWS_AS(ecs_manager.RemoveComponent<TestComponent>(entity_1), ComponentNotRegisteredException);
     }
 
     SECTION("Remove non-registered component throws") {
-        REQUIRE_THROWS_AS(
-            ecs_manager.RemoveComponent<TestComponent>(entity_1),
-            ComponentNotRegisteredException
-        );
+        REQUIRE_THROWS_AS(ecs_manager.RemoveComponent<TestComponent>(entity_1), ComponentNotRegisteredException);
     }
 
     SECTION("Remove component from same entity twice is safe") {
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity_1, comp);
         ecs_manager.AddComponent<TestComponent>(entity_2, comp);
-        
+
         ecs_manager.RemoveComponent<TestComponent>(entity_1);
         REQUIRE_NOTHROW(ecs_manager.RemoveComponent<TestComponent>(entity_1));
     }
@@ -202,12 +194,12 @@ TEST_CASE("ECSManager: Component Removal") {
     SECTION("Remove all components from entity") {
         TestComponent comp1;
         TestComponent2 comp2;
-        
+
         ecs_manager.AddComponent<TestComponent>(entity_1, comp1);
         ecs_manager.AddComponent<TestComponent2>(entity_1, comp2);
-        
+
         ecs_manager.RemoveAllComponents(entity_1);
-        
+
         REQUIRE_FALSE(ecs_manager.HasComponent<TestComponent>(entity_1));
         REQUIRE_FALSE(ecs_manager.HasComponent<TestComponent2>(entity_1));
     }
@@ -221,18 +213,16 @@ TEST_CASE("ECSManager: Component Registration") {
     SECTION("Component registered after add") {
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity, comp);
-        
+
         REQUIRE(ecs_manager.IsComponentRegistered<TestComponent>());
     }
 
-    SECTION("Component not registered initially") {
-        REQUIRE_FALSE(ecs_manager.IsComponentRegistered<TestComponent>());
-    }
+    SECTION("Component not registered initially") { REQUIRE_FALSE(ecs_manager.IsComponentRegistered<TestComponent>()); }
 
     SECTION("Get component ID after registration") {
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity, comp);
-        
+
         ComponentID id = ecs_manager.GetComponentID<TestComponent>();
         REQUIRE(id >= 0);
         REQUIRE(id < MAX_COMPONENTS);
@@ -241,13 +231,13 @@ TEST_CASE("ECSManager: Component Registration") {
     SECTION("Different component types get different IDs") {
         TestComponent comp1;
         TestComponent2 comp2;
-        
+
         ecs_manager.AddComponent<TestComponent>(entity, comp1);
         ecs_manager.AddComponent<TestComponent2>(entity, comp2);
-        
+
         ComponentID id1 = ecs_manager.GetComponentID<TestComponent>();
         ComponentID id2 = ecs_manager.GetComponentID<TestComponent2>();
-        
+
         REQUIRE(id1 != id2);
     }
 }
@@ -258,33 +248,33 @@ TEST_CASE("ECSManager: System Integration") {
 
     SECTION("Register system") {
         ecs_manager.RegisterSystem<TestSystem>();
-        TestSystem* system = ecs_manager.GetSystem<TestSystem>();
-        
+        TestSystem *system = ecs_manager.GetSystem<TestSystem>();
+
         REQUIRE(system != nullptr);
     }
 
     SECTION("Unregister system") {
         ecs_manager.RegisterSystem<TestSystem>();
         ecs_manager.UnregisterSystem<TestSystem>();
-        
-        TestSystem* system = ecs_manager.GetSystem<TestSystem>();
+
+        TestSystem *system = ecs_manager.GetSystem<TestSystem>();
         REQUIRE(system == nullptr);
     }
 
     SECTION("Set system signature") {
         ecs_manager.RegisterSystem<TestSystem>();
-        
+
         Signature sig;
         EntityID entity = ecs_manager.CreateEntity();
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity, comp);
-        
+
         ComponentID comp_id = ecs_manager.GetComponentID<TestComponent>();
         sig.set(comp_id);
-        
+
         ecs_manager.SetSignature<TestSystem, TestComponent>();
-        
-        TestSystem* system = ecs_manager.GetSystem<TestSystem>();
+
+        TestSystem *system = ecs_manager.GetSystem<TestSystem>();
         REQUIRE(system != nullptr);
         REQUIRE(ecs_manager.GetSignature<TestSystem>() == sig);
     }
@@ -298,26 +288,26 @@ TEST_CASE("ECSManager: Entity-Component Integration") {
         EntityID entity = ecs_manager.CreateEntity();
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity, comp);
-        
+
         EntityID entity2 = ecs_manager.CreateEntity();
         ecs_manager.AddComponent<TestComponent>(entity2, comp);
-        
+
         ecs_manager.DestroyEntity(entity);
-        
+
         REQUIRE(ecs_manager.IsComponentRegistered<TestComponent>());
         REQUIRE(ecs_manager.HasComponent<TestComponent>(entity2));
     }
 
     SECTION("Create entity with multiple components") {
         EntityID entity = ecs_manager.CreateEntity();
-        
+
         TestComponent comp1;
         comp1.m_value = 42;
         TestComponent2 comp2(3.14f, 2.71f);
-        
+
         ecs_manager.AddComponent<TestComponent>(entity, comp1);
         ecs_manager.AddComponent<TestComponent2>(entity, comp2);
-        
+
         REQUIRE(ecs_manager.GetComponent<TestComponent>(entity).m_value == 42);
         REQUIRE(ecs_manager.GetComponent<TestComponent2>(entity).m_x == 3.14f);
         REQUIRE(ecs_manager.GetComponent<TestComponent2>(entity).m_y == 2.71f);
@@ -327,7 +317,7 @@ TEST_CASE("ECSManager: Entity-Component Integration") {
         EntityID first = ecs_manager.CreateEntity();
         REQUIRE(first == 0);
         ecs_manager.DestroyEntity(first);
-        
+
         // Next ID comes from front of queue (ID 1), not recycled ID
         EntityID second = ecs_manager.CreateEntity();
         REQUIRE(second == 1);

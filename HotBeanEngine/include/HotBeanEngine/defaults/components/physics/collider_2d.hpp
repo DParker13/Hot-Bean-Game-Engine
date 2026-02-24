@@ -17,9 +17,9 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using HBE::Application::GUI::PropertyNodes::Bool;
-    using HBE::Application::GUI::PropertyNodes::Enum;
-    using HBE::Application::GUI::PropertyNodes::Vec2;
+    using Application::GUI::PropertyNodes::Bool;
+    using Application::GUI::PropertyNodes::Enum;
+    using Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief 2D collision shape component

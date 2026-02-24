@@ -14,7 +14,7 @@
 
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
-namespace HBE::Application {
+namespace HBE::Application::Listeners {
     /**
      * @brief System for handling user input.
      */
@@ -24,6 +24,8 @@ namespace HBE::Application {
         std::unordered_set<SDL_Keycode> m_keys_pressed;
         std::unordered_set<Uint8> m_mouse_buttons_pressed;
         glm::vec2 m_mouse_position = {0.0f, 0.0f};
+        float m_mouse_wheel = 0.0f;
+        float m_mouse_wheel_delta = 0.0f;
 
     public:
         InputEventListener(std::shared_ptr<HBE::Application::Managers::LoggingManager> logging_manager)
@@ -31,9 +33,12 @@ namespace HBE::Application {
         ~InputEventListener() = default;
 
         void OnEvent(SDL_Event &event);
+        void OnUpdate();
+        
         const std::unordered_set<SDL_Keycode> &GetKeysPressed() const { return m_keys_pressed; }
         const std::unordered_set<Uint8> &GetMouseButtonsPressed() const { return m_mouse_buttons_pressed; }
         const glm::vec2 &GetMousePosition() const { return m_mouse_position; }
+        float GetMouseWheelDelta() const { return m_mouse_wheel_delta; }
 
     protected:
         virtual void OnKeyDown(SDL_Event &event) {};
@@ -41,5 +46,6 @@ namespace HBE::Application {
         virtual void OnMouseButtonDown(SDL_Event &event) {};
         virtual void OnMouseButtonUp(SDL_Event &event) {};
         virtual void OnMouseMove(SDL_Event &event) {};
+        virtual void OnMouseWheel(SDL_Event &event) {};
     };
 } // namespace HBE::Application

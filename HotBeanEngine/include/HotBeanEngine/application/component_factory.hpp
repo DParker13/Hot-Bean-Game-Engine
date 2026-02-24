@@ -12,7 +12,7 @@
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
 namespace HBE::Application {
-    using HBE::Core::EntityID;
+    using Core::EntityID;
 
     /**
      * @brief Interface for creating and registering components.

@@ -21,9 +21,7 @@ constexpr size_t TEST_MAX_ITEMS = 10;
 TEST_CASE("SparseSet: Initialization") {
     SparseSet<TestComponent, TEST_MAX_ITEMS> sparse_set;
 
-    SECTION("Initial size is zero") {
-        REQUIRE(sparse_set.Size() == 0);
-    }
+    SECTION("Initial size is zero") { REQUIRE(sparse_set.Size() == 0); }
 
     SECTION("No elements present initially") {
         for (size_t i = 0; i < TEST_MAX_ITEMS; i++) {
@@ -38,7 +36,7 @@ TEST_CASE("SparseSet: Insertion") {
     SECTION("Insert single element") {
         TestComponent comp;
         comp.m_value = 42;
-        
+
         bool result = sparse_set.Insert(0, comp);
         REQUIRE(result);
         REQUIRE(sparse_set.Size() == 1);
@@ -47,11 +45,11 @@ TEST_CASE("SparseSet: Insertion") {
 
     SECTION("Insert multiple elements") {
         TestComponent comp;
-        
+
         sparse_set.Insert(0, comp);
         sparse_set.Insert(3, comp);
         sparse_set.Insert(7, comp);
-        
+
         REQUIRE(sparse_set.Size() == 3);
         REQUIRE(sparse_set.HasElement(0));
         REQUIRE(sparse_set.HasElement(3));
@@ -69,7 +67,7 @@ TEST_CASE("SparseSet: Insertion") {
     SECTION("Insert at same index twice fails") {
         TestComponent comp;
         sparse_set.Insert(2, comp);
-        
+
         bool result = sparse_set.Insert(2, comp);
         REQUIRE_FALSE(result);
         REQUIRE(sparse_set.Size() == 1);
@@ -95,7 +93,7 @@ TEST_CASE("SparseSet: Insertion") {
         for (size_t i = 0; i < TEST_MAX_ITEMS; i++) {
             sparse_set.Insert(i, comp);
         }
-        
+
         // Can't insert using InsertEmpty when full
         bool result = sparse_set.InsertEmpty(TEST_MAX_ITEMS);
         REQUIRE_FALSE(result);
@@ -109,8 +107,8 @@ TEST_CASE("SparseSet: Element Access") {
         TestComponent comp;
         comp.m_value = 99;
         sparse_set.Insert(3, comp);
-        
-        TestComponent& retrieved = sparse_set.GetElementAsRef(3);
+
+        TestComponent &retrieved = sparse_set.GetElementAsRef(3);
         REQUIRE(retrieved.m_value == 99);
     }
 
@@ -118,10 +116,10 @@ TEST_CASE("SparseSet: Element Access") {
         TestComponent comp;
         comp.m_value = 10;
         sparse_set.Insert(1, comp);
-        
-        TestComponent& retrieved = sparse_set.GetElementAsRef(1);
+
+        TestComponent &retrieved = sparse_set.GetElementAsRef(1);
         retrieved.m_value = 50;
-        
+
         REQUIRE(sparse_set.GetElementAsRef(1).m_value == 50);
     }
 
@@ -129,14 +127,14 @@ TEST_CASE("SparseSet: Element Access") {
         TestComponent comp;
         comp.m_value = 123;
         sparse_set.Insert(5, comp);
-        
-        TestComponent* ptr = sparse_set.GetElement(5);
+
+        TestComponent *ptr = sparse_set.GetElement(5);
         REQUIRE(ptr != nullptr);
         REQUIRE(ptr->m_value == 123);
     }
 
     SECTION("Get non-existent element returns nullptr") {
-        TestComponent* ptr = sparse_set.GetElement(7);
+        TestComponent *ptr = sparse_set.GetElement(7);
         REQUIRE(ptr == nullptr);
     }
 
@@ -144,14 +142,14 @@ TEST_CASE("SparseSet: Element Access") {
         TestComponent comp;
         comp.m_value = 777;
         sparse_set.Insert(2, comp);
-        
+
         REQUIRE(sparse_set[2].m_value == 777);
     }
 
     SECTION("Modify through subscript operator") {
         TestComponent comp;
         sparse_set.Insert(4, comp);
-        
+
         sparse_set[4].m_value = 888;
         REQUIRE(sparse_set[4].m_value == 888);
     }
@@ -163,7 +161,7 @@ TEST_CASE("SparseSet: Element Removal") {
     SECTION("Remove single element") {
         TestComponent comp;
         sparse_set.Insert(3, comp);
-        
+
         bool result = sparse_set.Remove(3);
         REQUIRE(result);
         REQUIRE(sparse_set.Size() == 0);
@@ -175,9 +173,9 @@ TEST_CASE("SparseSet: Element Removal") {
         sparse_set.Insert(0, comp);
         sparse_set.Insert(5, comp);
         sparse_set.Insert(9, comp);
-        
+
         sparse_set.Remove(5);
-        
+
         REQUIRE(sparse_set.Size() == 2);
         REQUIRE(sparse_set.HasElement(0));
         REQUIRE_FALSE(sparse_set.HasElement(5));
@@ -192,10 +190,10 @@ TEST_CASE("SparseSet: Element Removal") {
     SECTION("Remove same element twice fails second time") {
         TestComponent comp;
         sparse_set.Insert(1, comp);
-        
+
         sparse_set.Remove(1);
         bool result = sparse_set.Remove(1);
-        
+
         REQUIRE_FALSE(result);
     }
 
@@ -209,11 +207,11 @@ TEST_CASE("SparseSet: Element Removal") {
         for (size_t i = 0; i < 5; i++) {
             sparse_set.Insert(i, comp);
         }
-        
+
         for (size_t i = 0; i < 5; i++) {
             sparse_set.Remove(i);
         }
-        
+
         REQUIRE(sparse_set.Size() == 0);
         for (size_t i = 0; i < 5; i++) {
             REQUIRE_FALSE(sparse_set.HasElement(i));
@@ -225,10 +223,10 @@ TEST_CASE("SparseSet: Element Removal") {
         comp.m_value = 100;
         sparse_set.Insert(3, comp);
         sparse_set.Remove(3);
-        
+
         comp.m_value = 200;
         sparse_set.Insert(3, comp);
-        
+
         REQUIRE(sparse_set.HasElement(3));
         REQUIRE(sparse_set.GetElementAsRef(3).m_value == 200);
     }
@@ -239,7 +237,7 @@ TEST_CASE("SparseSet: Iteration") {
 
     SECTION("Iterate over empty set") {
         int count = 0;
-        for (const auto& comp : sparse_set) {
+        for (const auto &comp : sparse_set) {
             count++;
         }
         REQUIRE(count == 0);
@@ -250,9 +248,9 @@ TEST_CASE("SparseSet: Iteration") {
         sparse_set.Insert(1, comp);
         sparse_set.Insert(3, comp);
         sparse_set.Insert(7, comp);
-        
+
         int count = 0;
-        for (const auto& elem : sparse_set) {
+        for (const auto &elem : sparse_set) {
             count++;
         }
         REQUIRE(count == 3);
@@ -261,16 +259,16 @@ TEST_CASE("SparseSet: Iteration") {
     SECTION("Modify elements during iteration") {
         TestComponent comp;
         comp.m_value = 0;
-        
+
         sparse_set.Insert(0, comp);
         sparse_set.Insert(1, comp);
         sparse_set.Insert(2, comp);
-        
-        for (auto& elem : sparse_set) {
+
+        for (auto &elem : sparse_set) {
             elem.m_value = 100;
         }
-        
-        for (const auto& elem : sparse_set) {
+
+        for (const auto &elem : sparse_set) {
             REQUIRE(elem.m_value == 100);
         }
     }
@@ -279,10 +277,10 @@ TEST_CASE("SparseSet: Iteration") {
         TestComponent comp;
         comp.m_value = 42;
         sparse_set.Insert(5, comp);
-        
-        const auto& const_set = sparse_set;
+
+        const auto &const_set = sparse_set;
         int count = 0;
-        for (const auto& elem : const_set) {
+        for (const auto &elem : const_set) {
             REQUIRE(elem.m_value == 42);
             count++;
         }
@@ -293,10 +291,10 @@ TEST_CASE("SparseSet: Iteration") {
         TestComponent comp;
         sparse_set.Insert(0, comp);
         sparse_set.Insert(5, comp);
-        
+
         auto it = sparse_set.begin();
         auto end = sparse_set.end();
-        
+
         int count = 0;
         while (it != end) {
             ++it;
@@ -314,9 +312,9 @@ TEST_CASE("SparseSet: Copy and Move") {
         comp.m_value = 555;
         sparse_set.Insert(2, comp);
         sparse_set.Insert(4, comp);
-        
+
         SparseSet<TestComponent, TEST_MAX_ITEMS> copy(sparse_set);
-        
+
         REQUIRE(copy.Size() == 2);
         REQUIRE(copy.HasElement(2));
         REQUIRE(copy.HasElement(4));
@@ -328,9 +326,9 @@ TEST_CASE("SparseSet: Copy and Move") {
         comp.m_value = 666;
         sparse_set.Insert(1, comp);
         sparse_set.Insert(6, comp);
-        
+
         SparseSet<TestComponent, TEST_MAX_ITEMS> moved(std::move(sparse_set));
-        
+
         REQUIRE(moved.Size() == 2);
         REQUIRE(moved.HasElement(1));
         REQUIRE(moved.HasElement(6));
@@ -345,14 +343,14 @@ TEST_CASE("SparseSet: ISparseSet Interface") {
         TestComponent comp;
         comp.m_value = 999;
         sparse_set.Insert(0, comp);
-        
+
         std::any result = sparse_set.GetElementPtrAsAny(0);
         REQUIRE_FALSE(result.has_value() == false);
-        
-        IComponent* comp_ptr = std::any_cast<IComponent*>(result);
+
+        IComponent *comp_ptr = std::any_cast<IComponent *>(result);
         REQUIRE(comp_ptr != nullptr);
-        
-        TestComponent* typed_ptr = dynamic_cast<TestComponent*>(comp_ptr);
+
+        TestComponent *typed_ptr = dynamic_cast<TestComponent *>(comp_ptr);
         REQUIRE(typed_ptr != nullptr);
         REQUIRE(typed_ptr->m_value == 999);
     }
@@ -366,7 +364,7 @@ TEST_CASE("SparseSet: ISparseSet Interface") {
         TestComponent comp;
         comp.m_value = 111;
         std::any any_comp = comp;
-        
+
         bool result = sparse_set.Insert(3, any_comp);
         REQUIRE(result);
         REQUIRE(sparse_set.HasElement(3));
@@ -379,14 +377,14 @@ TEST_CASE("SparseSet: Edge Cases") {
 
     SECTION("Sparse indices with gaps") {
         TestComponent comp;
-        
+
         sparse_set.Insert(0, comp);
         sparse_set.Insert(9, comp);
-        
+
         REQUIRE(sparse_set.Size() == 2);
         REQUIRE(sparse_set.HasElement(0));
         REQUIRE(sparse_set.HasElement(9));
-        
+
         // Check gaps
         for (size_t i = 1; i < 9; i++) {
             REQUIRE_FALSE(sparse_set.HasElement(i));
@@ -397,26 +395,26 @@ TEST_CASE("SparseSet: Edge Cases") {
         TestComponent comp1, comp2;
         comp1.m_value = 100;
         comp2.m_value = 200;
-        
+
         sparse_set.Insert(5, comp1);
         REQUIRE(sparse_set.GetElementAsRef(5).m_value == 100);
-        
+
         sparse_set.Remove(5);
         sparse_set.Insert(5, comp2);
-        
+
         REQUIRE(sparse_set.GetElementAsRef(5).m_value == 200);
     }
 
     SECTION("Fill and empty repeatedly") {
         TestComponent comp;
-        
+
         for (int iteration = 0; iteration < 3; iteration++) {
             // Fill
             for (size_t i = 0; i < TEST_MAX_ITEMS; i++) {
                 sparse_set.Insert(i, comp);
             }
             REQUIRE(sparse_set.Size() == TEST_MAX_ITEMS);
-            
+
             // Empty
             for (size_t i = 0; i < TEST_MAX_ITEMS; i++) {
                 sparse_set.Remove(i);
@@ -430,11 +428,11 @@ TEST_CASE("SparseSet: Edge Cases") {
         for (size_t i = 0; i < 5; i++) {
             sparse_set.Insert(i, comp);
         }
-        
+
         for (int i = 4; i >= 0; i--) {
             sparse_set.Remove(i);
         }
-        
+
         REQUIRE(sparse_set.Size() == 0);
     }
 }

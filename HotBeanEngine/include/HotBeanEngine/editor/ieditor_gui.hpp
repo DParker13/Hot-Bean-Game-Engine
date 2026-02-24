@@ -4,13 +4,14 @@
  */
 #pragma once
 
+#include <HotBeanEngine/application/listeners/log_listener.hpp>
 #include <HotBeanEngine/core/igame_loop.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/camera.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 
 namespace HBE::Application::GUI {
-    /// @brief Abstract interface for editor GUI. Inherits engine game loop hooks.
-    class IEditorGUI : public HBE::Core::IGameLoop {
+    /// @brief Abstract interface for editor GUI. Inherits engine game loop hooks and log listening.
+    class IEditorGUI : public HBE::Core::IGameLoop, public Listeners::ILogListener {
     private:
         HBE::Default::Components::Camera m_camera;
         HBE::Default::Components::Transform2D m_camera_transform;

@@ -14,10 +14,10 @@
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using HBE::Core::ComponentID;
-    using HBE::Core::EntityID;
-    using HBE::Core::MAX_ENTITIES;
-    using HBE::Core::Signature;
+    using Core::ComponentID;
+    using Core::EntityID;
+    using Core::MAX_ENTITIES;
+    using Core::Signature;
 
     /**
      * @brief Manages entity creation and destruction lifecycle.
@@ -65,18 +65,10 @@ namespace HBE::Application::Managers {
          * @brief Set or clear a bit in an entity signature when a component changes.
          * @param entity Target entity identifier.
          * @param component_id Component bit to toggle.
+         * @param value True to set the bit, false to clear it. Default: true
          * @return Updated signature for the entity.
          */
-        Signature SetSignature(EntityID entity, ComponentID component_id);
-
-        /**
-         * @brief Explicitly set a component bit in the signature.
-         * @param entity Target entity.
-         * @param component_id Component bit index.
-         * @param value True to set the bit, false to clear it.
-         * @return Updated signature.
-         */
-        Signature SetSignature(EntityID entity, ComponentID component_id, bool value);
+        Signature SetSignature(EntityID entity, ComponentID component_id, bool value = true);
 
         /**
          * @brief Retrieve the signature for an entity.

@@ -18,9 +18,9 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using HBE::Application::GUI::PropertyNodes::Float;
-    using HBE::Application::GUI::PropertyNodes::Int;
-    using HBE::Application::GUI::PropertyNodes::Vec2;
+    using Application::GUI::PropertyNodes::Float;
+    using Application::GUI::PropertyNodes::Int;
+    using Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief 2D transform component for position, rotation, and scale

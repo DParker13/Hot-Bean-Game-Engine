@@ -15,10 +15,10 @@
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using HBE::Core::EntityID;
-    using HBE::Core::GameLoopState;
-    using HBE::Core::ISystem;
-    using HBE::Core::Signature;
+    using Core::EntityID;
+    using Core::GameLoopState;
+    using Core::ISystem;
+    using Core::Signature;
 
     /**
      * @brief Manages systems that manipulate component data.

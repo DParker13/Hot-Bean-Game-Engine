@@ -21,17 +21,17 @@ namespace HBE::Application::GUI {
     }
 
     void LayerWindow::RenderWindow() {
-        ImGui::Begin(m_name.c_str(), &m_open);
-
-        int id = 0;
-        for (auto &layer : g_app.GetRenderManager().GetAllLayers()) {
-            glm::vec2 layer_size;
-            SDL_GetTextureSize(layer.second, &layer_size.x, &layer_size.y);
-            ImGui::BeginGroup();
-            if (ImGui::MenuItem(std::to_string(layer.first).data())) {
-                LayerSelected(layer);
+        if (ImGui::Begin(m_name.c_str(), &m_open)) {
+            int id = 0;
+            for (auto &layer : g_app.GetRenderManager().GetAllLayers()) {
+                glm::vec2 layer_size;
+                SDL_GetTextureSize(layer.second, &layer_size.x, &layer_size.y);
+                ImGui::BeginGroup();
+                if (ImGui::MenuItem(std::to_string(layer.first).data())) {
+                    LayerSelected(layer);
+                }
+                ImGui::EndGroup();
             }
-            ImGui::EndGroup();
         }
 
         ImGui::End();

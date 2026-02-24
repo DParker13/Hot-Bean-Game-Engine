@@ -5,9 +5,9 @@
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 
 namespace HBE::Application::Managers {
-    using HBE::Default::Components::Camera;
-    using HBE::Default::Components::Texture;
-    using HBE::Default::Components::Transform2D;
+    using Default::Components::Camera;
+    using Default::Components::Texture;
+    using Default::Components::Transform2D;
 
     /**
      * @class CameraManager

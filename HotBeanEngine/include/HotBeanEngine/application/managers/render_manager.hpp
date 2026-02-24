@@ -13,13 +13,13 @@
 #include <set>
 #include <unordered_set>
 
+#include <HotBeanEngine/application/listeners/component_listener.hpp>
 #include <HotBeanEngine/application/managers/camera_manager.hpp>
-#include <HotBeanEngine/application/managers/component_listener.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 
 namespace HBE::Application::Managers {
-    class RenderManager : public ComponentListener {
+    class RenderManager : public Listeners::ComponentListener {
     private:
         std::shared_ptr<CameraManager> m_camera_manager;
         /**

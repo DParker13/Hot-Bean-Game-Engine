@@ -14,7 +14,7 @@
 #include <HotBeanEngine/defaults/components/default_components.hpp>
 
 namespace HBE::Default::Components {
-    using HBE::Core::EntityID;
+    using Core::EntityID;
 
     /**
      * @brief Factory for registering and creating default engine components

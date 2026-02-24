@@ -87,6 +87,13 @@ namespace HBE::Application::Managers {
             *out_stream << final_message.str() << std::endl;
         }
 
+        // Notify listeners
+        for (ILogListener *listener : m_listeners) {
+            if (listener) {
+                listener->OnLog(type, final_message.str());
+            }
+        }
+
         LogToFile(type, final_message);
     }
 
@@ -129,5 +136,15 @@ namespace HBE::Application::Managers {
             m_log_path = "logs/HotBeanEngine.log"; // default to a local logs directory
 #endif
         }
+    }
+
+    void LoggingManager::RegisterListener(ILogListener *listener) {
+        if (listener && std::find(m_listeners.begin(), m_listeners.end(), listener) == m_listeners.end()) {
+            m_listeners.push_back(listener);
+        }
+    }
+
+    void LoggingManager::UnregisterListener(ILogListener *listener) {
+        m_listeners.erase(std::remove(m_listeners.begin(), m_listeners.end(), listener), m_listeners.end());
     }
 } // namespace HBE::Application::Managers

@@ -18,9 +18,9 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using HBE::Application::GUI::PropertyNodes::Bool;
-    using HBE::Application::GUI::PropertyNodes::Color;
-    using HBE::Application::GUI::PropertyNodes::Vec2;
+    using Application::GUI::PropertyNodes::Bool;
+    using Application::GUI::PropertyNodes::Color;
+    using Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief Primitive shape rendering component

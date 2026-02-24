@@ -13,7 +13,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include <HotBeanEngine/application/component_factory.hpp>
-#include <HotBeanEngine/application/input_event_listener.hpp>
+#include <HotBeanEngine/application/listeners/input_event_listener.hpp>
 #include <HotBeanEngine/application/macros.hpp>
 #include <HotBeanEngine/application/managers/application_state_manager.hpp>
 #include <HotBeanEngine/application/managers/audio_manager.hpp>
@@ -25,7 +25,7 @@
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
 
 namespace HBE::Application {
-    using HBE::Core::LoggingType;
+    using Core::LoggingType;
 
     /**
      * @brief Main application class that manages the game loop and core engine systems
@@ -59,7 +59,7 @@ namespace HBE::Application {
         SDL_Renderer *m_renderer = nullptr;                                ///< SDL renderer instance
         SDL_Window *m_window = nullptr;                                    ///< SDL window instance
         std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;           ///< Editor GUI interface
-        std::unique_ptr<InputEventListener> m_input_event_listener;        ///< Handles input events
+        std::unique_ptr<Listeners::InputEventListener> m_input_event_listener;        ///< Handles input events
 
     public:
         bool m_quit = false; ///< Flag to quit the application
@@ -189,13 +189,13 @@ namespace HBE::Application {
          * @brief Access the input event listener.
          * @return Reference to the input event listener.
          */
-        InputEventListener &GetInputEventListener();
+        Listeners::InputEventListener &GetInputEventListener();
 
         /**
          * @brief Access the input event listener (const version).
          * @return Const reference to the input event listener.
          */
-        const InputEventListener &GetInputEventListener() const;
+        const Listeners::InputEventListener &GetInputEventListener() const;
 
         /**
          * @brief Access the editor GUI.

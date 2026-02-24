@@ -2,8 +2,8 @@
 #include <HotBeanEngine/application/managers/render_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using HBE::Default::Components::Texture;
-    using HBE::Default::Components::Transform2D;
+    using Default::Components::Texture;
+    using Default::Components::Transform2D;
 
     RenderManager::RenderManager(std::shared_ptr<CameraManager> camera_manager) : m_camera_manager(camera_manager) {
         // Listen for changes to Texture and Transform2D components to track renderable entities

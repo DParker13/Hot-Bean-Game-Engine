@@ -124,33 +124,8 @@ namespace HBE::Application::Managers {
      * Sets the signature for a given entity.
      *
      * @param entity The ID of the entity to set the signature for.
-     * @param component_id The signature to be set for the entity.
-     * @return The signature of the entity.
-     * @throw std::out_of_range if the entity ID is out of range.
-     */
-    Signature EntityManager::SetSignature(EntityID entity, ComponentID component_id) {
-        if (entity < 0 || entity >= MAX_ENTITIES) {
-            std::out_of_range ex = std::out_of_range("Entity out of range.");
-            LOG_CORE(LoggingType::ERROR, ex.what());
-            throw ex;
-        }
-
-        // Set the signature for the given entity
-        m_signatures[entity].set(component_id);
-
-        LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(entity) +
-                                         "\""
-                                         " signature set \"" +
-                                         m_signatures[entity].to_string() + "\"");
-
-        return m_signatures[entity];
-    }
-
-    /**
-     * Sets the signature for a given entity.
-     *
-     * @param entity The ID of the entity to set the signature for.
-     * @param component_id The signature to be set for the entity.
+     * @param component_id The component ID to set in the signature.
+     * @param value Whether to set (true) or unset (false) the component bit. Default: true
      * @return The signature of the entity.
      * @throw std::out_of_range if the entity ID is out of range.
      */

@@ -14,7 +14,7 @@
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using HBE::Core::Scene;
+    using Core::Scene;
 
     /**
      * @brief Manages game scenes and scene transitions.

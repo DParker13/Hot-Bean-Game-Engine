@@ -13,7 +13,7 @@
 #include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Default::Utilities {
-    using HBE::Core::EntityID;
+    using Core::EntityID;
 
     /**
      * @brief Manages hierarchical relationships between entities

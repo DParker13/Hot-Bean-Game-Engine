@@ -15,9 +15,9 @@
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 
 namespace HBE::Default::Systems {
-    using HBE::Core::EntityID;
-    using HBE::Default::Components::Controller;
-    using HBE::Default::Components::Transform2D;
+    using Core::EntityID;
+    using Default::Components::Controller;
+    using Default::Components::Transform2D;
     /**
      * @brief System for player input to control entities.
      */

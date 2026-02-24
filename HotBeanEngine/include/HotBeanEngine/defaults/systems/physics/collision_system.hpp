@@ -15,10 +15,10 @@
 #include <HotBeanEngine/defaults/components/physics/rigidbody.hpp>
 
 namespace HBE::Default::Systems {
-    using HBE::Core::EntityID;
-    using HBE::Default::Components::Collider2D;
-    using HBE::Default::Components::RigidBody;
-    using HBE::Default::Components::Transform2D;
+    using Core::EntityID;
+    using Default::Components::Collider2D;
+    using Default::Components::RigidBody;
+    using Default::Components::Transform2D;
 
     /**
      * @brief System for 2D collision detection.

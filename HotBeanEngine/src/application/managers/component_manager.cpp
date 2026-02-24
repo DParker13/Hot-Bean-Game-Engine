@@ -118,14 +118,6 @@ namespace HBE::Application::Managers {
 
         // Removes entity from component sparse set
         sparse_set->Remove(entity);
-
-        // If the last component is removed, the component array must be destroyed and unregistered
-        if (sparse_set->Size() == 0) {
-            m_component_id_to_name.erase(component_id);
-            m_component_name_to_type.erase(component_name);
-            m_component_name_to_data.erase(component_name);
-            m_registered_components--;
-        }
     }
 
     /**

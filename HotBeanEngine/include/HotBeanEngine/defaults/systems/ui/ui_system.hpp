@@ -21,10 +21,10 @@
 #include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
 
 namespace HBE::Default::Systems {
-    using HBE::Core::EntityID;
-    using HBE::Default::Components::Texture;
-    using HBE::Default::Components::Transform2D;
-    using HBE::Default::Components::UIElement;
+    using Core::EntityID;
+    using Default::Components::Texture;
+    using Default::Components::Transform2D;
+    using Default::Components::UIElement;
 
     /**
      * @brief Manages UI elements (Buttons, Checkboxes, etc).

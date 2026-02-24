@@ -61,6 +61,15 @@ namespace HBE::Application::GUI {
         ImGui::StyleColorsDark();
     }
 
+    void EditorGUI::OnLog(HBE::Core::LoggingType level, std::string_view message) {
+        // Forward log messages to windows that need them
+        for (auto &window : m_windows) {
+            if (auto *console_window = dynamic_cast<ConsoleWindow *>(window.get())) {
+                console_window->OnLog(level, message);
+            }
+        }
+    }
+
     /// @brief Handles window resize events for the editor GUI
     /// @param event The SDL event to handle
     void EditorGUI::OnWindowResize(SDL_Event &event) {
@@ -154,8 +163,10 @@ namespace HBE::Application::GUI {
 
     void EditorGUI::MoveCamera(float speed) {
         Transform2D &editor_camera_transform = g_app.GetEditorGUI().GetEditorCameraTransform();
+        Camera &editor_camera = g_app.GetEditorGUI().GetEditorCamera();
         auto keys_pressed = g_app.GetInputEventListener().GetKeysPressed();
 
+        // Keyboard input
         if (keys_pressed.size() > 0) {
             float distance = speed * g_app.GetDeltaTime();
 
@@ -174,6 +185,40 @@ namespace HBE::Application::GUI {
             if (keys_pressed.find(SDLK_DOWN) != keys_pressed.end()) {
                 editor_camera_transform.m_local_position.y += distance;
             }
+        }
+
+        // Mouse drag input
+        auto mouse_position = g_app.GetInputEventListener().GetMousePosition();
+        auto mouse_buttons = g_app.GetInputEventListener().GetMouseButtonsPressed();
+        
+        bool left_button_pressed = mouse_buttons.find(SDL_BUTTON_LEFT) != mouse_buttons.end();
+        
+        if (left_button_pressed) {
+            if (!m_is_dragging) {
+                // Start dragging
+                m_is_dragging = true;
+                m_last_mouse_position = mouse_position;
+            } else {
+                // Continue dragging - calculate delta and move camera
+                glm::vec2 delta = mouse_position - m_last_mouse_position;
+                editor_camera_transform.m_local_position.x -= delta.x;
+                editor_camera_transform.m_local_position.y -= delta.y;
+                m_last_mouse_position = mouse_position;
+            }
+        } else {
+            // Stop dragging
+            m_is_dragging = false;
+        }
+
+        // Mouse wheel zoom
+        float wheel_delta = g_app.GetInputEventListener().GetMouseWheelDelta();
+        if (wheel_delta != 0.0f) {
+            const float zoom_speed = 0.1f;
+            float zoom_factor = 1.0f + (wheel_delta * zoom_speed);
+            editor_camera.m_zoom *= zoom_factor;
+            
+            // Clamp zoom to reasonable bounds
+            editor_camera.m_zoom = std::max(0.1f, std::min(10.0f, editor_camera.m_zoom));
         }
     }
 } // namespace HBE::Application::GUI

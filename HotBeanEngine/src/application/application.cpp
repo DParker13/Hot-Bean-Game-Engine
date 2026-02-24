@@ -42,7 +42,7 @@ namespace HBE::Application {
         }
 
         // Initialize input event listener
-        m_input_event_listener = std::make_unique<InputEventListener>(m_logging_manager);
+        m_input_event_listener = std::make_unique<Listeners::InputEventListener>(m_logging_manager);
 
         // Initialize application parts
         InitManagers();
@@ -58,6 +58,7 @@ namespace HBE::Application {
             m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
         }
         m_editor_gui->InitEditorGUI();
+        m_logging_manager->RegisterListener(m_editor_gui.get());
     }
 
     Application::~Application() {
@@ -182,9 +183,9 @@ namespace HBE::Application {
 
     std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
 
-    InputEventListener &Application::GetInputEventListener() { return *m_input_event_listener; }
+    Listeners::InputEventListener &Application::GetInputEventListener() { return *m_input_event_listener; }
 
-    const InputEventListener &Application::GetInputEventListener() const { return *m_input_event_listener; }
+    const Listeners::InputEventListener &Application::GetInputEventListener() const { return *m_input_event_listener; }
 
     GUI::IEditorGUI &Application::GetEditorGUI() { return *m_editor_gui; }
 
@@ -381,6 +382,8 @@ namespace HBE::Application {
         else {
             m_editor_gui->OnUpdate();
         }
+
+        m_input_event_listener->OnUpdate();
     }
 
     void Application::OnRender() {

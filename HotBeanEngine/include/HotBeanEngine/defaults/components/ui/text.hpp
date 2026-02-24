@@ -22,10 +22,10 @@
 #include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
-    using HBE::Application::GUI::PropertyNodes::Color;
-    using HBE::Application::GUI::PropertyNodes::Enum;
-    using HBE::Application::GUI::PropertyNodes::Int;
-    using HBE::Application::GUI::PropertyNodes::String;
+    using Application::GUI::PropertyNodes::Color;
+    using Application::GUI::PropertyNodes::Enum;
+    using Application::GUI::PropertyNodes::Int;
+    using Application::GUI::PropertyNodes::String;
 
     struct Text : public UIElement, public HBE::Application::GUI::IPropertyRenderable {
         TTF_Font *m_font = nullptr; ///< Pointer to the TTF font object. Can be null if the font has not been loaded.

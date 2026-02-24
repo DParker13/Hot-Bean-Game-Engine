@@ -16,16 +16,17 @@
 
 #pragma once
 
-#include <HotBeanEngine/application/managers/component_listener.hpp>
+#include <HotBeanEngine/application/listeners/component_listener.hpp>
 #include <HotBeanEngine/application/managers/component_manager.hpp>
 #include <HotBeanEngine/application/managers/entity_manager.hpp>
 #include <HotBeanEngine/application/managers/system_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using HBE::Core::ComponentID;
-    using HBE::Core::EntityID;
-    using HBE::Core::IArchetype;
-    using HBE::Core::Signature;
+    using Core::ComponentID;
+    using Core::EntityID;
+    using Core::IArchetype;
+    using Core::Signature;
+    using Listeners::ComponentListener;
 
     /**
      * @brief Coordinates between entity, component, and system managers.
@@ -35,7 +36,7 @@ namespace HBE::Application::Managers {
         std::unique_ptr<EntityManager> m_entity_manager;
         std::shared_ptr<ComponentManager> m_component_manager;
         std::unique_ptr<SystemManager> m_system_manager;
-        std::vector<ComponentListener *> m_component_listeners;
+        std::vector<Listeners::ComponentListener *> m_component_listeners;
 
     public:
         std::shared_ptr<LoggingManager> m_logging_manager;
@@ -119,9 +120,9 @@ namespace HBE::Application::Managers {
          */
         template <typename T>
         void RemoveComponent(EntityID entity) {
+            Signature signature = m_entity_manager->SetSignature(entity, GetComponentID<T>(), false);
+            m_system_manager->EntitySignatureChanged(GetComponentID<T>(), entity, signature);
             m_component_manager->RemoveComponent<T>(entity);
-            Signature signature = m_entity_manager->SetSignature(entity, GetComponentID<T>());
-            m_system_manager->EntitySignatureChanged(entity, signature);
             NotifyComponentRemoved(entity);
         }
 

@@ -15,22 +15,26 @@ namespace HBE::Application::GUI {
     using namespace HBE::Core;
 
     void EntityWindow::RenderWindow() {
-        ImGui::Begin(m_name.c_str(), &m_open);
+        if (ImGui::Begin(m_name.c_str(), &m_open)) {
+            int id = 0;
+            for (auto &system : g_ecs.GetAllSystems()) {
+                ImGui::BeginGroup();
+                if (ImGui::CollapsingHeader(system->GetName().data(), ImGuiTreeNodeFlags_Framed)) {
+                    for (auto &entity : system->m_entities) {
+                        std::string entity_label = "Entity " + std::to_string(entity);
+                        ImGui::PushID(id); // Ensure unique ID for each entity menu item
 
-        for (auto &system : g_ecs.GetAllSystems()) {
-            ImGui::BeginGroup();
-            if (ImGui::CollapsingHeader(system->GetName().data(), ImGuiTreeNodeFlags_Framed)) {
-                for (auto &entity : system->m_entities) {
-                    std::string entity_label = "Entity " + std::to_string(entity);
-
-                    if (ImGui::MenuItem(entity_label.c_str())) {
-                        EntitySelected(entity);
+                        if (ImGui::MenuItem(entity_label.c_str())) {
+                            EntitySelected(entity);
+                        }
+                        
+                        ImGui::PopID();
+                        id++;
                     }
                 }
+                ImGui::EndGroup();
             }
-            ImGui::EndGroup();
         }
-
         ImGui::End();
     }
 

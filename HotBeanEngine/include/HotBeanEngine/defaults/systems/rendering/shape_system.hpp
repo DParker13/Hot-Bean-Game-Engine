@@ -16,10 +16,10 @@
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 
 namespace HBE::Default::Systems {
-    using HBE::Core::EntityID;
-    using HBE::Default::Components::Shape;
-    using HBE::Default::Components::Texture;
-    using HBE::Default::Components::Transform2D;
+    using Core::EntityID;
+    using Default::Components::Shape;
+    using Default::Components::Texture;
+    using Default::Components::Transform2D;
 
     // Forward declaration
     class CameraSystem;

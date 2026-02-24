@@ -13,7 +13,7 @@
 #include <HotBeanEngine/core/all_core.hpp>
 #include <unordered_set>
 
-namespace HBE::Application::Managers {
+namespace HBE::Application::Listeners {
     /**
      * @brief Base class for listening to component changes on entities.
      *
