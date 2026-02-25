@@ -31,7 +31,7 @@ namespace HBE::Default::Components {
      * Integrates with Box2D physics engine.
      * Handles mass, velocity, and collision response.
      */
-    class RigidBody : public HBE::Core::IComponent, public HBE::Application::GUI::IPropertyRenderable {
+    class RigidBody : public Core::IComponent, public Application::GUI::IPropertyRenderable {
     public:
         float m_mass = 1.0f;
         b2BodyType m_type = b2BodyType::b2_kinematicBody;

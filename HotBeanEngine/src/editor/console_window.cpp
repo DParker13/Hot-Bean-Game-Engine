@@ -13,6 +13,8 @@
 #include <imgui_internal.h>
 
 namespace HBE::Application::GUI {
+    using namespace Core;
+
     ConsoleWindow::ConsoleWindow() : IWindow("Console") {}
 
     void ConsoleWindow::RenderWindow() {
@@ -53,7 +55,7 @@ namespace HBE::Application::GUI {
             int currentLevel = static_cast<int>(m_loggingLevelFilter);
             ImGui::SetNextItemWidth(ImGui::CalcTextSize("WARNING").x + ImGui::GetStyle().FramePadding.x * 8);
             if (ImGui::Combo("##LoggingLevel", &currentLevel, logLevelNames, IM_ARRAYSIZE(logLevelNames))) {
-                m_loggingLevelFilter = static_cast<HBE::Core::LoggingType>(currentLevel);
+                m_loggingLevelFilter = static_cast<LoggingType>(currentLevel);
             }
 
             ImGui::Separator();
@@ -80,7 +82,7 @@ namespace HBE::Application::GUI {
         ImGui::End();
     }
 
-    void ConsoleWindow::OnLog(HBE::Core::LoggingType level, std::string_view message) {
+    void ConsoleWindow::OnLog(LoggingType level, std::string_view message) {
         m_logBuffer.push_back({level, std::string(message)});
         m_shouldScrollToBottom = true;
 

@@ -22,15 +22,15 @@
 
 namespace HBE::Default::Systems {
     using Core::EntityID;
-    using Default::Components::Texture;
-    using Default::Components::Transform2D;
-    using Default::Components::UIElement;
+    using Components::Texture;
+    using Components::Transform2D;
+    using Components::UIElement;
 
     /**
      * @brief Manages UI elements (Buttons, Checkboxes, etc).
      * Renders element to their texture and handles user interaction.
      */
-    class UISystem : public HBE::Core::ISystem {
+    class UISystem : public Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D, Texture, UIElement);
         DEFINE_NAME("UI System")

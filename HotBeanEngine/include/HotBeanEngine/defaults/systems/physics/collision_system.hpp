@@ -16,14 +16,14 @@
 
 namespace HBE::Default::Systems {
     using Core::EntityID;
-    using Default::Components::Collider2D;
-    using Default::Components::RigidBody;
-    using Default::Components::Transform2D;
+    using Components::Collider2D;
+    using Components::RigidBody;
+    using Components::Transform2D;
 
     /**
      * @brief System for 2D collision detection.
      */
-    class CollisionSystem : public HBE::Core::ISystem {
+    class CollisionSystem : public Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D, RigidBody, Collider2D);
         DEFINE_NAME("Collision System")

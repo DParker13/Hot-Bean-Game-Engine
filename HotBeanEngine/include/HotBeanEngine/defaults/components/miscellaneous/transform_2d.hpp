@@ -28,9 +28,9 @@ namespace HBE::Default::Components {
      * Tracks local and world-space transformations.
      * Supports hierarchical parent-child relationships.
      */
-    struct Transform2D : public HBE::Core::IComponent,
-                         public HBE::Core::IMemberChanged,
-                         public HBE::Application::GUI::IPropertyRenderable {
+    struct Transform2D : public Core::IComponent,
+                         public Core::IMemberChanged,
+                         public Application::GUI::IPropertyRenderable {
         Uint8 m_layer = 0;
         Sint64 m_parent = -1;
 
@@ -47,7 +47,7 @@ namespace HBE::Default::Components {
         DEFINE_NAME("Transform2D");
         Transform2D() = default;
         Transform2D(glm::vec2 position) : m_world_position(position) {}
-        Transform2D(HBE::Core::EntityID parent_entity) : m_parent(parent_entity) {}
+        Transform2D(Core::EntityID parent_entity) : m_parent(parent_entity) {}
 
         void Serialize(YAML::Emitter &out) const override {
             out << YAML::Key << "layer" << YAML::Value << (int)m_layer;

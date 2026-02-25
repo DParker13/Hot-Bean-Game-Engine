@@ -12,7 +12,7 @@
 #include <HotBeanEngine/application/managers/audio_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using namespace HBE::Core;
+    using namespace Core;
 
     AudioManager::AudioManager() {
         m_mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);

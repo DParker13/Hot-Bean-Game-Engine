@@ -17,7 +17,7 @@ namespace HBE::Default::Components {
      * @brief Base UI element component
      * Keeps track of the type of UI element to group similar components together for one system to handle.
      */
-    struct UIElement : public HBE::Core::IComponent, public HBE::Core::IMemberChanged {
+    struct UIElement : public Core::IComponent, public Core::IMemberChanged {
         enum class UIType {
             Empty, // Placeholder if UI element is not setup correctly
             Text,

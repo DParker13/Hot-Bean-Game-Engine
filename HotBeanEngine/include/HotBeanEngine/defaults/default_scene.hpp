@@ -19,9 +19,9 @@ namespace HBE::Default {
      * Provides basic scene configuration and system initialization.
      * Serves as template for custom scene implementations.
      */
-    class DefaultScene : public HBE::Core::Scene {
+    class DefaultScene : public Core::Scene {
     public:
-        DefaultScene(std::string name, std::string path, std::shared_ptr<HBE::Core::ISerializer> serializer)
+        DefaultScene(std::string name, std::string path, std::shared_ptr<Core::ISerializer> serializer)
             : Scene(name, path, serializer) {}
 
         /**

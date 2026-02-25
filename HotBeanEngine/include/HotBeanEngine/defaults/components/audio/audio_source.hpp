@@ -19,7 +19,7 @@ namespace HBE::Default::Components {
      * Manages audio clip playback and volume control.
      * Integrates with SDL_mixer for audio output.
      */
-    struct AudioSource : public HBE::Core::IComponent {
+    struct AudioSource : public Core::IComponent {
         /**
          * The path to the audio file.
          */

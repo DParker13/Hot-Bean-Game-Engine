@@ -13,7 +13,7 @@ namespace HBE::Application::GUI {
         ~NoopEditorGUI() override = default;
 
         void InitEditorGUI() override {}
-        void OnLog(HBE::Core::LoggingType /*level*/, std::string_view /*message*/) override {}
+        void OnLog(Core::LoggingType /*level*/, std::string_view /*message*/) override {}
 
         void OnStart() override {}
         void OnPreEvent() override {}

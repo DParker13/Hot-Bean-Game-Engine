@@ -17,9 +17,9 @@
 
 namespace HBE::Default::Systems {
     using Core::EntityID;
-    using Default::Components::Shape;
-    using Default::Components::Texture;
-    using Default::Components::Transform2D;
+    using Components::Shape;
+    using Components::Texture;
+    using Components::Transform2D;
 
     // Forward declaration
     class CameraSystem;
@@ -30,7 +30,7 @@ namespace HBE::Default::Systems {
      * Draws rectangles, circles, and lines to screen.
      * Processes entities with Transform2D and Shape components.
      */
-    class ShapeSystem : public HBE::Core::ISystem {
+    class ShapeSystem : public Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D, Texture, Shape);
         DEFINE_NAME("Shape System")

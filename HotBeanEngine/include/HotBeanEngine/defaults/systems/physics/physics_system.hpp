@@ -19,8 +19,8 @@
 
 namespace HBE::Default::Systems {
     using Core::EntityID;
-    using Default::Components::RigidBody;
-    using Default::Components::Transform2D;
+    using Components::RigidBody;
+    using Components::Transform2D;
 
     /**
      * @brief Integrates Box2D physics simulation
@@ -28,7 +28,7 @@ namespace HBE::Default::Systems {
      * Manages physics world and rigid body updates.
      * Synchronizes physics state with entity transforms.
      */
-    class PhysicsSystem : public HBE::Core::ISystem {
+    class PhysicsSystem : public Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D, RigidBody);
         DEFINE_NAME("Physics System")

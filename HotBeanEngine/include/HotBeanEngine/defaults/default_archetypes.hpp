@@ -15,13 +15,13 @@
 
 namespace HBE::Default::Archetypes {
     using Application::Archetype;
-    using Default::Components::Camera;
-    using Default::Components::Controller;
-    using Default::Components::Shape;
-    using Default::Components::Text;
-    using Default::Components::Texture;
-    using Default::Components::Transform2D;
-    using Default::Components::UIElement;
+    using Components::Camera;
+    using Components::Controller;
+    using Components::Shape;
+    using Components::Text;
+    using Components::Texture;
+    using Components::Transform2D;
+    using Components::UIElement;
 
     using PlayerArchetype = Archetype<Transform2D, Controller, Texture>;
     using CameraArchetype = Archetype<Transform2D, Camera>;

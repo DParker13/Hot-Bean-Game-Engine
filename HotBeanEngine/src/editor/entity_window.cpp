@@ -12,7 +12,7 @@
 #include "entity_window.hpp"
 
 namespace HBE::Application::GUI {
-    using namespace HBE::Core;
+    using namespace Core;
 
     void EntityWindow::RenderWindow() {
         if (ImGui::Begin(m_name.c_str(), &m_open)) {

@@ -20,15 +20,14 @@ namespace HBE::Application::Listeners {
      */
     class InputEventListener {
     private:
-        std::shared_ptr<HBE::Application::Managers::LoggingManager> m_logging_manager;
+        std::shared_ptr<Managers::LoggingManager> m_logging_manager;
         std::unordered_set<SDL_Keycode> m_keys_pressed;
         std::unordered_set<Uint8> m_mouse_buttons_pressed;
         glm::vec2 m_mouse_position = {0.0f, 0.0f};
-        float m_mouse_wheel = 0.0f;
         float m_mouse_wheel_delta = 0.0f;
 
     public:
-        InputEventListener(std::shared_ptr<HBE::Application::Managers::LoggingManager> logging_manager)
+        InputEventListener(std::shared_ptr<Managers::LoggingManager> logging_manager)
             : m_logging_manager(logging_manager) {};
         ~InputEventListener() = default;
 

@@ -2,16 +2,18 @@
 #include <HotBeanEngine/application/managers/transform_manager.hpp>
 
 namespace HBE::Application::Managers {
+    using namespace Core;
+
     TransformManager::TransformManager() : m_scene_graph(SceneGraph()) {
         ListenForComponents({g_ecs.GetComponentID<Transform2D>()});
     }
 
-    void TransformManager::OnComponentAdded(HBE::Core::IComponent *component, HBE::Core::EntityID entity) {
+    void TransformManager::OnComponentAdded(IComponent *component, EntityID entity) {
         auto *transform = static_cast<Transform2D *>(component);
         m_scene_graph.AddEntity(entity, transform->m_parent);
     }
 
-    void TransformManager::OnComponentRemoved(HBE::Core::EntityID entity) {
+    void TransformManager::OnComponentRemoved(EntityID entity) {
         // When a Transform2D is removed, remove the entity from the scene graph
         m_scene_graph.RemoveEntity(entity);
     }

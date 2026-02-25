@@ -27,7 +27,7 @@ namespace HBE::Default::Components {
      * Defines collision boundaries for physics bodies.
      * Integrates with Box2D shape system.
      */
-    struct Collider2D : public HBE::Core::IComponent, public HBE::Application::GUI::IPropertyRenderable {
+    struct Collider2D : public Core::IComponent, public Application::GUI::IPropertyRenderable {
         enum class ColliderShape { Box, Circle };
 
         ColliderShape m_shape = ColliderShape::Box;

@@ -2,8 +2,8 @@
 #include <HotBeanEngine/application/managers/render_manager.hpp>
 
 namespace HBE::Application::Managers {
-    using Default::Components::Texture;
-    using Default::Components::Transform2D;
+    using namespace Core;
+    using namespace Default::Components;
 
     RenderManager::RenderManager(std::shared_ptr<CameraManager> camera_manager) : m_camera_manager(camera_manager) {
         // Listen for changes to Texture and Transform2D components to track renderable entities
@@ -95,7 +95,7 @@ namespace HBE::Application::Managers {
      * @param component Pointer to the component that was added.
      * @param entity The entity ID that gained a component.
      */
-    void RenderManager::OnComponentAdded(HBE::Core::IComponent *component, HBE::Core::EntityID entity) {
+    void RenderManager::OnComponentAdded(Core::IComponent *component, Core::EntityID entity) {
         m_renderable_entities.insert(entity);
     }
 
@@ -104,7 +104,7 @@ namespace HBE::Application::Managers {
      * Removes entity from renderable cache.
      * @param entity The entity ID that lost a component.
      */
-    void RenderManager::OnComponentRemoved(HBE::Core::EntityID entity) { m_renderable_entities.erase(entity); }
+    void RenderManager::OnComponentRemoved(Core::EntityID entity) { m_renderable_entities.erase(entity); }
 
     /**
      * @brief Creates a texture layer for the entity's layer if it doesn't already exist.

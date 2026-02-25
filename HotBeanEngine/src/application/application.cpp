@@ -13,8 +13,9 @@
 #include <HotBeanEngine/editor/noop_editor_gui.hpp>
 
 namespace HBE::Application {
-    using namespace HBE::Core;
-    using namespace HBE::Application::Managers;
+    using namespace Core;
+    using namespace Managers;
+    using namespace Listeners;
 
     Application::Application(const std::string &config_path, std::shared_ptr<IComponentFactory> component_factory,
                              std::unique_ptr<GUI::IEditorGUI> editor_gui)
@@ -183,9 +184,9 @@ namespace HBE::Application {
 
     std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
 
-    Listeners::InputEventListener &Application::GetInputEventListener() { return *m_input_event_listener; }
+    InputEventListener &Application::GetInputEventListener() { return *m_input_event_listener; }
 
-    const Listeners::InputEventListener &Application::GetInputEventListener() const { return *m_input_event_listener; }
+    const InputEventListener &Application::GetInputEventListener() const { return *m_input_event_listener; }
 
     GUI::IEditorGUI &Application::GetEditorGUI() { return *m_editor_gui; }
 

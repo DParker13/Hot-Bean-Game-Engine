@@ -20,7 +20,8 @@
 #include "property_window.hpp"
 
 namespace HBE::Application::GUI {
-    using namespace HBE::Default::Components;
+    using namespace Core;
+    using namespace Default::Components;
 
     EditorGUI::EditorGUI() {
         // Create windows
@@ -61,7 +62,7 @@ namespace HBE::Application::GUI {
         ImGui::StyleColorsDark();
     }
 
-    void EditorGUI::OnLog(HBE::Core::LoggingType level, std::string_view message) {
+    void EditorGUI::OnLog(LoggingType level, std::string_view message) {
         // Forward log messages to windows that need them
         for (auto &window : m_windows) {
             if (auto *console_window = dynamic_cast<ConsoleWindow *>(window.get())) {

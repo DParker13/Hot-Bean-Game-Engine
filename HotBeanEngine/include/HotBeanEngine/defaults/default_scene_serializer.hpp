@@ -22,7 +22,7 @@ namespace HBE::Default {
     /**
      * @brief Default scene serializer implementation using YAML
      */
-    class DefaultSceneSerializer : public HBE::Core::ISerializer {
+    class DefaultSceneSerializer : public Core::ISerializer {
     private:
         std::unordered_map<EntityID, std::vector<EntityID>> m_parent_entity_map;
         std::shared_ptr<IComponentFactory> m_component_factory;

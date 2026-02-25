@@ -65,20 +65,20 @@ namespace HBE::Application::Managers {
          * @brief Called when a component is added to an entity.
          * @param entity The entity ID that gained a component.
          */
-        void OnComponentAdded(HBE::Core::IComponent *component, HBE::Core::EntityID entity) override;
+        void OnComponentAdded(Core::IComponent *component, Core::EntityID entity) override;
 
         /**
          * @brief Called when a component is removed from an entity.
          * @param entity The entity ID that lost a component.
          */
-        void OnComponentRemoved(HBE::Core::EntityID entity) override;
+        void OnComponentRemoved(Core::EntityID entity) override;
 
     private:
         /**
          * @brief Creates a texture layer for the entity's layer if it doesn't already exist.
          * @param transform Entity transform component.
          */
-        void CreateLayerTextureForEntity(const HBE::Default::Components::Transform2D &transform);
+        void CreateLayerTextureForEntity(const Default::Components::Transform2D &transform);
 
         /**
          * @brief Renders an entity's texture to its assigned layer.
@@ -87,10 +87,10 @@ namespace HBE::Application::Managers {
          * @param entity_transform Entity transform component.
          * @param texture Entity texture component.
          */
-        void RenderTextureToLayer(const HBE::Default::Components::Camera &camera,
-                                  const HBE::Default::Components::Transform2D &camera_transform,
-                                  const HBE::Default::Components::Transform2D &entity_transform,
-                                  const HBE::Default::Components::Texture &texture);
+        void RenderTextureToLayer(const Default::Components::Camera &camera,
+                                  const Default::Components::Transform2D &camera_transform,
+                                  const Default::Components::Transform2D &entity_transform,
+                                  const Default::Components::Texture &texture);
 
         /**
          * @brief Renders all layer textures to the screen in order.
@@ -105,9 +105,9 @@ namespace HBE::Application::Managers {
          * @param texture Entity texture component.
          * @return Screen-space position.
          */
-        glm::vec2 CalculateFinalPosition(const HBE::Default::Components::Camera &camera,
-                                         const HBE::Default::Components::Transform2D &camera_transform,
-                                         const HBE::Default::Components::Transform2D &entity_transform,
-                                         const HBE::Default::Components::Texture &texture);
+        glm::vec2 CalculateFinalPosition(const Default::Components::Camera &camera,
+                                         const Default::Components::Transform2D &camera_transform,
+                                         const Default::Components::Transform2D &entity_transform,
+                                         const Default::Components::Texture &texture);
     };
 } // namespace HBE::Application::Managers

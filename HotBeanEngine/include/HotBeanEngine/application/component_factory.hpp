@@ -31,7 +31,7 @@ namespace HBE::Application {
 
         template <typename T, typename... Args>
         void AddComponent(EntityID entity, YAML::Node node, const Args &...args) {
-            static_assert(std::is_base_of_v<HBE::Core::IComponent, T> && "T must inherit from IComponent");
+            static_assert(std::is_base_of_v<Core::IComponent, T> && "T must inherit from IComponent");
 
             m_ecs_manager->AddComponent<T>(entity, T(args...));
             m_ecs_manager->GetComponent<T>(entity).Deserialize(node);

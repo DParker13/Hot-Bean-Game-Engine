@@ -12,8 +12,8 @@
 #include <HotBeanEngine/defaults/systems/default_systems.hpp>
 
 namespace HBE::Default {
-    using namespace HBE::Application;
-    using namespace HBE::Default::Systems;
+    using namespace Application;
+    using namespace Systems;
 
     void DefaultScene::SetupSystems() {
         std::filesystem::path font_path =

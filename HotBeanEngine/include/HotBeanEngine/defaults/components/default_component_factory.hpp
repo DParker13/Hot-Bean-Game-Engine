@@ -19,7 +19,7 @@ namespace HBE::Default::Components {
     /**
      * @brief Factory for registering and creating default engine components
      */
-    class DefaultComponentFactory : public HBE::Application::IComponentFactory {
+    class DefaultComponentFactory : public Application::IComponentFactory {
     public:
         void RegisterComponents() override;
         void CreateComponentFromYAML(const std::string &component_name, YAML::Node node, EntityID parent_entity,

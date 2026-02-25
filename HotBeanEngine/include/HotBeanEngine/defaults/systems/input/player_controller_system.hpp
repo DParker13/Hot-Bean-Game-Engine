@@ -16,12 +16,12 @@
 
 namespace HBE::Default::Systems {
     using Core::EntityID;
-    using Default::Components::Controller;
-    using Default::Components::Transform2D;
+    using Components::Controller;
+    using Components::Transform2D;
     /**
      * @brief System for player input to control entities.
      */
-    class PlayerControllerSystem : public HBE::Core::ISystem {
+    class PlayerControllerSystem : public Core::ISystem {
     public:
         REQUIRES_COMPONENTS(Transform2D, Controller);
         DEFINE_NAME("Player Controller System")

@@ -40,7 +40,7 @@ namespace HBE::Application::GUI {
         ~EditorGUI();
 
         void InitEditorGUI();
-        void OnLog(HBE::Core::LoggingType level, std::string_view message) override;
+        void OnLog(Core::LoggingType level, std::string_view message) override;
 
         virtual void OnStart() {};
         virtual void OnPreEvent() {};

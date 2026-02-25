@@ -13,8 +13,8 @@
 #include <HotBeanEngine/defaults/systems/ui/ui_system.hpp>
 
 namespace HBE::Default::Systems {
-    using namespace HBE::Core;
-    using namespace HBE::Default::Components;
+    using namespace Core;
+    using namespace Components;
 
     UISystem::~UISystem() {
         TTF_CloseFont(m_font); // This causes a segmentation fault on exit for some reason

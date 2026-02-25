@@ -19,7 +19,7 @@ namespace HBE::Default::Components {
      * @brief Name component for identifying entities
      * Stores a human-readable name for an entity.
      */
-    struct Name : public HBE::Core::IComponent, public HBE::Application::GUI::IPropertyRenderable {
+    struct Name : public Core::IComponent, public Application::GUI::IPropertyRenderable {
         std::string m_name = "";
 
         DEFINE_NAME("Name");
@@ -34,7 +34,7 @@ namespace HBE::Default::Components {
         }
 
         void RenderProperties(int &id) override {
-            HBE::Application::GUI::PropertyNodes::String::RenderProperty(id, "Name", m_name, true);
+            Application::GUI::PropertyNodes::String::RenderProperty(id, "Name", m_name, true);
         }
     };
 } // namespace HBE::Default::Components

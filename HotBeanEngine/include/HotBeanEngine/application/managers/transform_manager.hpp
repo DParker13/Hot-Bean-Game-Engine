@@ -30,14 +30,14 @@ namespace HBE::Application::Managers {
          * @brief Called when a Transform2D component is added to an entity.
          * @param entity The entity that gained a Transform2D component.
          */
-        void OnComponentAdded(HBE::Core::IComponent *component, HBE::Core::EntityID entity) override;
+        void OnComponentAdded(Core::IComponent *component, Core::EntityID entity) override;
 
         /**
          * @brief Called when a Transform2D component is removed from an entity.
          * Cleans up the entity from the scene graph.
          * @param entity The entity that lost a Transform2D component.
          */
-        void OnComponentRemoved(HBE::Core::EntityID entity) override;
+        void OnComponentRemoved(Core::EntityID entity) override;
 
         void OnUpdate();
         void PropagateTransforms(Transform2D &transform, const Transform2D *parent_transform);
