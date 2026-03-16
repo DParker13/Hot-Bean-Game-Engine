@@ -191,22 +191,24 @@ namespace HBE::Application::GUI {
         // Mouse drag input
         auto mouse_position = g_app.GetInputEventListener().GetMousePosition();
         auto mouse_buttons = g_app.GetInputEventListener().GetMouseButtonsPressed();
-        
+
         bool left_button_pressed = mouse_buttons.find(SDL_BUTTON_LEFT) != mouse_buttons.end();
-        
+
         if (left_button_pressed) {
             if (!m_is_dragging) {
                 // Start dragging
                 m_is_dragging = true;
                 m_last_mouse_position = mouse_position;
-            } else {
+            }
+            else {
                 // Continue dragging - calculate delta and move camera
                 glm::vec2 delta = mouse_position - m_last_mouse_position;
                 editor_camera_transform.m_local_position.x -= delta.x;
                 editor_camera_transform.m_local_position.y -= delta.y;
                 m_last_mouse_position = mouse_position;
             }
-        } else {
+        }
+        else {
             // Stop dragging
             m_is_dragging = false;
         }
@@ -217,7 +219,7 @@ namespace HBE::Application::GUI {
             const float zoom_speed = 0.1f;
             float zoom_factor = 1.0f + (wheel_delta * zoom_speed);
             editor_camera.m_zoom *= zoom_factor;
-            
+
             // Clamp zoom to reasonable bounds
             editor_camera.m_zoom = std::max(0.1f, std::min(10.0f, editor_camera.m_zoom));
         }

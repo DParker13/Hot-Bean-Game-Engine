@@ -121,7 +121,7 @@ namespace HBE::Application::Managers {
         template <typename T>
         void RemoveComponent(EntityID entity) {
             Signature signature = m_entity_manager->SetSignature(entity, GetComponentID<T>(), false);
-            m_system_manager->EntitySignatureChanged(GetComponentID<T>(), entity, signature);
+            m_system_manager->EntitySignatureChanged(entity, signature);
             m_component_manager->RemoveComponent<T>(entity);
             NotifyComponentRemoved(entity);
         }
@@ -203,7 +203,6 @@ namespace HBE::Application::Managers {
         template <typename T, typename... Args>
         T &RegisterSystem(Args &&...params) {
             T &system = m_system_manager->RegisterSystem<T, Args...>(std::forward<Args>(params)...);
-            system.SetSignature();
             return system;
         }
 
@@ -215,7 +214,6 @@ namespace HBE::Application::Managers {
         template <typename T>
         T &RegisterSystem() {
             T &system = m_system_manager->RegisterSystem<T>();
-            system.SetSignature();
             return system;
         }
 
@@ -228,7 +226,7 @@ namespace HBE::Application::Managers {
             m_system_manager->UnregisterSystem<T>();
         }
 
-        void UnregisterSystem(ISystem *system);
+        void UnregisterSystem(SystemBase *system);
 
         template <typename T>
         bool IsSystemRegistered() {
@@ -299,7 +297,7 @@ namespace HBE::Application::Managers {
             }
         }
 
-        std::vector<ISystem *> GetAllSystems();
+        std::vector<SystemBase *> GetAllSystems();
 
         // ============================================================================
         // Game Loop / Iteration

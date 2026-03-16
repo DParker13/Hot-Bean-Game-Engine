@@ -17,7 +17,7 @@ namespace HBE::Default::Components {
      * @brief Base UI element component
      * Keeps track of the type of UI element to group similar components together for one system to handle.
      */
-    struct UIElement : public Core::IComponent, public Core::IMemberChanged {
+    struct UIElement : public Core::IComponent, public Core::DirtyFlag {
         enum class UIType {
             Empty, // Placeholder if UI element is not setup correctly
             Text,
@@ -36,12 +36,7 @@ namespace HBE::Default::Components {
         UIElement() = default;
         virtual ~UIElement() = default;
 
-        virtual void Serialize(YAML::Emitter &out) const { out << YAML::Key << "type" << YAML::Value << (int)m_type; }
-        virtual void Deserialize(YAML::Node &node) {
-            if (node["type"])
-                m_type = (UIType)node["type"].as<int>();
-
-            MarkDirty();
-        }
+        virtual void Serialize(YAML::Emitter &out) const;
+        virtual void Deserialize(YAML::Node &node);
     };
 } // namespace HBE::Default::Components

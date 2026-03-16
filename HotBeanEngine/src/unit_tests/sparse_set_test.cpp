@@ -12,7 +12,7 @@
 #include <catch2/catch_all.hpp>
 
 #include "test_component.hpp"
-#include <HotBeanEngine/core/isparse_set.hpp>
+#include <HotBeanEngine/core/sparse_set.hpp>
 
 using namespace HBE::Core;
 

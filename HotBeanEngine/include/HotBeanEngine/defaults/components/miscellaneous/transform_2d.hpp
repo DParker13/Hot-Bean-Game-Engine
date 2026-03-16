@@ -13,14 +13,7 @@
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor/property_nodes/float.hpp>
-#include <HotBeanEngine/editor/property_nodes/int.hpp>
-#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
-
 namespace HBE::Default::Components {
-    using Application::GUI::PropertyNodes::Float;
-    using Application::GUI::PropertyNodes::Int;
-    using Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief 2D transform component for position, rotation, and scale
@@ -28,9 +21,7 @@ namespace HBE::Default::Components {
      * Tracks local and world-space transformations.
      * Supports hierarchical parent-child relationships.
      */
-    struct Transform2D : public Core::IComponent,
-                         public Core::IMemberChanged,
-                         public Application::GUI::IPropertyRenderable {
+    struct Transform2D : public Core::IComponent, public Core::DirtyFlag, public Application::GUI::IPropertyRenderable {
         Uint8 m_layer = 0;
         Sint64 m_parent = -1;
 
@@ -49,58 +40,8 @@ namespace HBE::Default::Components {
         Transform2D(glm::vec2 position) : m_world_position(position) {}
         Transform2D(Core::EntityID parent_entity) : m_parent(parent_entity) {}
 
-        void Serialize(YAML::Emitter &out) const override {
-            out << YAML::Key << "layer" << YAML::Value << (int)m_layer;
-            out << YAML::Key << "parent" << YAML::Value << (int)m_parent;
-            out << YAML::Key << "local_position" << YAML::Value << m_local_position;
-            out << YAML::Key << "local_rotation" << YAML::Value << m_local_rotation;
-            out << YAML::Key << "local_scale" << YAML::Value << m_local_scale;
-            out << YAML::Key << "world_position" << YAML::Value << m_world_position;
-            out << YAML::Key << "world_rotation" << YAML::Value << m_world_rotation;
-            out << YAML::Key << "world_scale" << YAML::Value << m_world_scale;
-        }
-
-        void Deserialize(YAML::Node &node) override {
-            if (node["layer"].IsDefined())
-                m_layer = node["layer"].as<Uint8>();
-
-            if (node["m_parent"].IsDefined())
-                m_parent = node["m_parent"].as<Uint8>();
-
-            if (node["local_position"].IsDefined())
-                m_local_position = node["local_position"].as<glm::vec2>();
-
-            if (node["local_rotation"].IsDefined())
-                m_local_rotation = node["local_rotation"].as<float>();
-
-            if (node["local_scale"].IsDefined())
-                m_local_scale = node["local_scale"].as<glm::vec2>();
-
-            if (node["world_position"].IsDefined())
-                m_world_position = node["world_position"].as<glm::vec2>();
-
-            if (node["world_rotation"].IsDefined())
-                m_world_rotation = node["world_rotation"].as<float>();
-
-            if (node["world_scale"].IsDefined())
-                m_world_scale = node["world_scale"].as<glm::vec2>();
-
-            MarkDirty();
-        }
-
-        void RenderProperties(int &id) override {
-            bool changed = false;
-
-            changed |= Int::RenderProperty(id, "Layer", reinterpret_cast<int &>(m_layer));
-            changed |= Int::RenderProperty(id, "Parent", reinterpret_cast<int &>(m_parent), -1);
-            ImGui::Separator();
-            changed |= Vec2::RenderProperty(id, "Local Position", m_local_position);
-            changed |= Float::RenderProperty(id, "Local Rotation", m_local_rotation);
-            changed |= Vec2::RenderProperty(id, "Local Scale", m_local_scale);
-
-            if (changed) {
-                MarkDirty();
-            }
-        }
+        void Serialize(YAML::Emitter &out) const override;
+        void Deserialize(YAML::Node &node) override;
+        void RenderProperties(int &id);
     };
 } // namespace HBE::Default::Components

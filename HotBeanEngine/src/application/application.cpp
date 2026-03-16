@@ -104,6 +104,7 @@ namespace HBE::Application {
         m_camera_manager = std::make_shared<CameraManager>();
         m_render_manager = std::make_shared<RenderManager>(m_camera_manager);
         m_transform_manager = std::make_shared<TransformManager>();
+        m_event_manager = std::make_shared<EventManager>();
     }
 
     void Application::InitSDL() {
@@ -181,6 +182,8 @@ namespace HBE::Application {
     CameraManager &Application::GetCameraManager() const { return *m_camera_manager; }
 
     TransformManager &Application::GetTransformManager() const { return *m_transform_manager; }
+
+    EventManager &Application::GetEventManager() const { return *m_event_manager; }
 
     std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
 
@@ -398,5 +401,8 @@ namespace HBE::Application {
         m_ecs_manager->IterateSystems(GameLoopState::OnPostRender);
 
         m_render_manager->OnPostRender();
+
+        // Dispatch all queued events at the end of the frame
+        m_event_manager->DispatchAll();
     }
 } // namespace HBE::Application

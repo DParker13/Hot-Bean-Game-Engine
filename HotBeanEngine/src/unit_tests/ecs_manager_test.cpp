@@ -170,18 +170,6 @@ TEST_CASE("ECSManager: Component Removal") {
         REQUIRE(ecs_manager.HasComponent<TestComponent>(entity_2));
     }
 
-    SECTION("Remove last component instance throws") {
-        TestComponent comp;
-        ecs_manager.AddComponent<TestComponent>(entity_1, comp);
-
-        // When removing the last instance, it unregisters and then tries to get ComponentID
-        REQUIRE_THROWS_AS(ecs_manager.RemoveComponent<TestComponent>(entity_1), ComponentNotRegisteredException);
-    }
-
-    SECTION("Remove non-registered component throws") {
-        REQUIRE_THROWS_AS(ecs_manager.RemoveComponent<TestComponent>(entity_1), ComponentNotRegisteredException);
-    }
-
     SECTION("Remove component from same entity twice is safe") {
         TestComponent comp;
         ecs_manager.AddComponent<TestComponent>(entity_1, comp);

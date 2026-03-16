@@ -2,10 +2,9 @@
 
 #include <HotBeanEngine/application/application.hpp>
 
-struct TestSystem2 : public HBE::Core::ISystem {
+struct TestSystem2 : public HBE::Core::GameSystem<> {
     DEFINE_NAME("TestSystem2");
     TestSystem2() = default;
-    void SetSignature() override {}
 
     bool on_start_called = false;
     bool on_update_called = false;

@@ -10,16 +10,16 @@
 
 #pragma once
 
-#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/core/system.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/defaults/components/rendering/shape.hpp>
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
 
 namespace HBE::Default::Systems {
-    using Core::EntityID;
     using Components::Shape;
     using Components::Texture;
     using Components::Transform2D;
+    using Core::EntityID;
 
     // Forward declaration
     class CameraSystem;
@@ -30,9 +30,8 @@ namespace HBE::Default::Systems {
      * Draws rectangles, circles, and lines to screen.
      * Processes entities with Transform2D and Shape components.
      */
-    class ShapeSystem : public Core::ISystem {
+    class ShapeSystem : public Core::GameSystem<Transform2D, Texture, Shape> {
     public:
-        REQUIRES_COMPONENTS(Transform2D, Texture, Shape);
         DEFINE_NAME("Shape System")
 
     public:

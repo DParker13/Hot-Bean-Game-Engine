@@ -25,9 +25,31 @@ namespace HBE::Default {
             : Scene(name, path, serializer) {}
 
         /**
-         * @brief Initializes the default systems needed for basic game functionality.
-         * The order each system is initialized is important! That is the order they are then called.
+         * @brief Initializes systems for the scene.
+         *
+         * Registers engine default systems first, then allows the game scene
+         * to append additional systems through SetupCustomSystems().
          */
-        void SetupSystems();
+        void SetupSystems() override;
+
+    protected:
+        /**
+         * @brief Controls whether engine default systems should be registered.
+         */
+        virtual bool IncludeDefaultSystems() const { return true; }
+
+        /**
+         * @brief Hook for game scenes to register scene-specific systems.
+         */
+        virtual void SetupCustomSystems() {}
+
+    private:
+        /**
+         * @brief Registers engine-provided default systems.
+         *
+         * The order each system is initialized is important because this is
+         * the order they are called during iteration.
+         */
+        void SetupDefaultSystems();
     };
 } // namespace HBE::Default

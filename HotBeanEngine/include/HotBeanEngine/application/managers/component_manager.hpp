@@ -269,7 +269,7 @@ namespace HBE::Application::Managers {
          * @param component_name The name of the component
          * @return ComponentID The ComponentID associated with the given component name
          */
-        ComponentID GetComponentID(std::string component_name);
+        ComponentID GetComponentID(std::string_view component_name);
 
         /**
          * @brief Checks if an entity has a component of type T

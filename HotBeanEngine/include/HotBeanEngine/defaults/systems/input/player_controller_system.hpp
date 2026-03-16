@@ -10,20 +10,19 @@
 
 #pragma once
 
-#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/core/system.hpp>
 #include <HotBeanEngine/defaults/components/input/controller.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 
 namespace HBE::Default::Systems {
-    using Core::EntityID;
     using Components::Controller;
     using Components::Transform2D;
+    using Core::EntityID;
     /**
      * @brief System for player input to control entities.
      */
-    class PlayerControllerSystem : public Core::ISystem {
+    class PlayerControllerSystem : public Core::GameSystem<Transform2D, Controller> {
     public:
-        REQUIRES_COMPONENTS(Transform2D, Controller);
         DEFINE_NAME("Player Controller System")
 
         PlayerControllerSystem() = default;

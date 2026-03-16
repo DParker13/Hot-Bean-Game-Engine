@@ -5,8 +5,10 @@ add_library(HotBeanEngine_Defaults STATIC
     utilities/scene_graph.cpp
 )
 
+add_subdirectory(components)
 add_subdirectory(systems)
 
 target_link_libraries(HotBeanEngine_Defaults PUBLIC
     HotBeanEngine_Systems
+    HotBeanEngine_Components
 )

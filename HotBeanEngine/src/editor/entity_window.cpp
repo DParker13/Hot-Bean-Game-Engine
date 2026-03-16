@@ -27,7 +27,7 @@ namespace HBE::Application::GUI {
                         if (ImGui::MenuItem(entity_label.c_str())) {
                             EntitySelected(entity);
                         }
-                        
+
                         ImGui::PopID();
                         id++;
                     }

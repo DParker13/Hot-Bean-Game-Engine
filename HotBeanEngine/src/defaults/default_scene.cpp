@@ -16,6 +16,14 @@ namespace HBE::Default {
     using namespace Systems;
 
     void DefaultScene::SetupSystems() {
+        if (IncludeDefaultSystems()) {
+            SetupDefaultSystems();
+        }
+
+        SetupCustomSystems();
+    }
+
+    void DefaultScene::SetupDefaultSystems() {
         std::filesystem::path font_path =
             std::filesystem::current_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
 
@@ -29,5 +37,5 @@ namespace HBE::Default {
         // Rendering
         g_ecs.RegisterSystem<ShapeSystem>();
         g_ecs.RegisterSystem<UISystem, std::string>(font_path.string());
-    };
+    }
 } // namespace HBE::Default

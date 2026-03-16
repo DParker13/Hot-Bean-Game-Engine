@@ -13,14 +13,7 @@
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor/property_nodes/bool.hpp>
-#include <HotBeanEngine/editor/property_nodes/color.hpp>
-#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
-
 namespace HBE::Default::Components {
-    using Application::GUI::PropertyNodes::Bool;
-    using Application::GUI::PropertyNodes::Color;
-    using Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief Primitive shape rendering component
@@ -28,9 +21,7 @@ namespace HBE::Default::Components {
      * Renders basic geometric shapes (rectangles, circles, lines).
      * Supports filled and outlined rendering modes.
      */
-    struct Shape : public Core::IComponent,
-                   public Core::IMemberChanged,
-                   public Application::GUI::IPropertyRenderable {
+    struct Shape : public Core::IComponent, public Core::DirtyFlag, public Application::GUI::IPropertyRenderable {
         enum class ShapeType { Box };
 
         ShapeType m_type = ShapeType::Box;
@@ -41,26 +32,8 @@ namespace HBE::Default::Components {
         DEFINE_NAME("Shape");
         Shape() = default;
 
-        void Serialize(YAML::Emitter &out) const override {
-            out << YAML::Key << "size" << YAML::Value << m_size;
-            out << YAML::Key << "color" << YAML::Value << m_color;
-        }
-
-        void Deserialize(YAML::Node &node) override {
-            m_size = node["size"].as<glm::vec2>();
-            m_color = node["color"].as<SDL_Color>();
-        }
-
-        void RenderProperties(int &id) override {
-            bool changed = false;
-
-            changed |= Bool::RenderProperty(id, "Filled", m_filled);
-            changed |= Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f});
-            changed |= Color::RenderProperty(id, "Color", m_color);
-
-            if (changed) {
-                MarkDirty();
-            }
-        }
+        void Serialize(YAML::Emitter &out) const override;
+        void Deserialize(YAML::Node &node) override;
+        void RenderProperties(int &id);
     };
 } // namespace HBE::Default::Components

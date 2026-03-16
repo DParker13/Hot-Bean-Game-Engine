@@ -15,8 +15,8 @@ namespace HBE::Core {
     public:
         ComponentNotRegisteredException() : std::runtime_error("Component not registered") {}
 
-        ComponentNotRegisteredException(const std::string &component_name)
-            : std::runtime_error("Component not registered: " + component_name) {}
+        ComponentNotRegisteredException(std::string_view component_name)
+            : std::runtime_error(std::string("Component not registered: ") + std::string(component_name)) {}
     };
 
     class ComponentNameNotDefinedException : public std::runtime_error {
@@ -32,7 +32,7 @@ namespace HBE::Core {
 
     class SystemNotRegisteredException : public std::runtime_error {
     public:
-        SystemNotRegisteredException(const std::string &system_name)
-            : std::runtime_error("System not registered: " + system_name) {}
+        SystemNotRegisteredException(std::string_view system_name)
+            : std::runtime_error(std::string("System not registered: ") + std::string(system_name)) {}
     };
 } // namespace HBE::Core

@@ -33,7 +33,7 @@ namespace HBE::Application::Listeners {
 
         void OnEvent(SDL_Event &event);
         void OnUpdate();
-        
+
         const std::unordered_set<SDL_Keycode> &GetKeysPressed() const { return m_keys_pressed; }
         const std::unordered_set<Uint8> &GetMouseButtonsPressed() const { return m_mouse_buttons_pressed; }
         const glm::vec2 &GetMousePosition() const { return m_mouse_position; }
@@ -47,4 +47,4 @@ namespace HBE::Application::Listeners {
         virtual void OnMouseMove(SDL_Event &event) {};
         virtual void OnMouseWheel(SDL_Event &event) {};
     };
-} // namespace HBE::Application
+} // namespace HBE::Application::Listeners

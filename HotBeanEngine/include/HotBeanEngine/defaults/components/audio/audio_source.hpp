@@ -28,8 +28,7 @@ namespace HBE::Default::Components {
         DEFINE_NAME("AudioSource");
         AudioSource() = default;
 
-        void Serialize(YAML::Emitter &out) const override { out << YAML::Key << "path" << YAML::Value << path; }
-
-        void Deserialize(YAML::Node &node) override { path = node["path"].as<std::string>(); }
+        void Serialize(YAML::Emitter &out) const override;
+        void Deserialize(YAML::Node &node) override;
     };
 } // namespace HBE::Default::Components

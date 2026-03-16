@@ -13,13 +13,7 @@
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor/property_nodes/bool.hpp>
-#include <HotBeanEngine/editor/property_nodes/texture_preview.hpp>
-#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
-
 namespace HBE::Default::Components {
-    using Application::GUI::PropertyNodes::TexturePreview;
-    using Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief Texture rendering component
@@ -27,30 +21,16 @@ namespace HBE::Default::Components {
      * Stores texture data and rendering properties.
      * Supports sprite rendering with source rectangles.
      */
-    struct Texture : public Core::IComponent,
-                     public Core::IMemberChanged,
-                     public Application::GUI::IPropertyRenderable {
+    struct Texture : public Core::IComponent, public Core::DirtyFlag, public Application::GUI::IPropertyRenderable {
         SDL_Texture *m_texture =
             nullptr; ///< A pointer to the SDL texture object. Can be null if the texture has not been loaded.
         glm::vec2 m_size = {0, 0}; ///< Size of the texture in pixels.
 
         DEFINE_NAME("Texture");
         Texture() = default;
+        ~Texture();
 
-        ~Texture() {
-            if (m_texture) {
-                SDL_DestroyTexture(m_texture);
-            }
-        }
-
-        void Serialize(YAML::Emitter &out) const override { out << YAML::Key << "size" << YAML::Value << m_size; }
-
-        void RenderProperties(int &id) override {
-            if (Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f})) {
-                MarkDirty();
-            }
-
-            TexturePreview::RenderProperty(id, "Texture Preview", m_texture);
-        }
+        void Serialize(YAML::Emitter &out) const override;
+        void RenderProperties(int &id);
     };
 } // namespace HBE::Default::Components

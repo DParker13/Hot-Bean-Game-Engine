@@ -30,4 +30,4 @@ namespace HBE::Application::Listeners {
          */
         virtual void OnLog(Core::LoggingType level, std::string_view message) = 0;
     };
-} // namespace HBE::Application
+} // namespace HBE::Application::Listeners

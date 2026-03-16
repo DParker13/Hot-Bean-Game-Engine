@@ -18,7 +18,7 @@
 
 namespace HBE::Application::Managers {
     using namespace Core;
-    
+
     ECSManager::ECSManager(std::shared_ptr<LoggingManager> logging_manager) : m_logging_manager(logging_manager) {
         m_entity_manager = std::make_unique<EntityManager>(logging_manager);
         m_component_manager = std::make_shared<ComponentManager>(logging_manager);
@@ -123,7 +123,7 @@ namespace HBE::Application::Managers {
         }
 
         // Update all system signatures to remove this component
-        for (ISystem *system : GetAllSystems()) {
+        for (SystemBase *system : GetAllSystems()) {
             Signature system_signature = m_system_manager->GetSignature(system);
             if (system_signature[component_id]) {
                 system_signature[component_id] = false;
@@ -195,7 +195,7 @@ namespace HBE::Application::Managers {
         return m_component_manager->IsComponentRegistered(component_id);
     }
 
-    void ECSManager::UnregisterSystem(ISystem *system) { m_system_manager->UnregisterSystem(system); }
+    void ECSManager::UnregisterSystem(SystemBase *system) { m_system_manager->UnregisterSystem(system); }
 
     /**
      * @brief Gets the component signature for an entity.
@@ -228,5 +228,5 @@ namespace HBE::Application::Managers {
         m_system_manager->IterateSystems(event, state);
     }
 
-    std::vector<ISystem *> ECSManager::GetAllSystems() { return m_system_manager->GetAllSystems(); }
+    std::vector<SystemBase *> ECSManager::GetAllSystems() { return m_system_manager->GetAllSystems(); }
 } // namespace HBE::Application::Managers

@@ -18,10 +18,14 @@ namespace HBE::Default::Components {
         m_ecs_manager->RegisterComponentID<Components::Controller>();
         m_ecs_manager->RegisterComponentID<Components::RigidBody>();
         m_ecs_manager->RegisterComponentID<Components::Shape>();
+        m_ecs_manager->RegisterComponentID<Components::Button>();
+        m_ecs_manager->RegisterComponentID<Components::Checkbox>();
+        m_ecs_manager->RegisterComponentID<Components::Slider>();
         m_ecs_manager->RegisterComponentID<Components::Text>();
         m_ecs_manager->RegisterComponentID<Components::Texture>();
         m_ecs_manager->RegisterComponentID<Components::Transform2D>();
         m_ecs_manager->RegisterComponentID<Components::UIElement>();
+        m_ecs_manager->RegisterComponentID<Components::UIRect>();
     }
 
     /**
@@ -60,11 +64,23 @@ namespace HBE::Default::Components {
             else if (component_name == "Texture") {
                 AddComponent<Components::Texture>(entity, node);
             }
+            else if (component_name == "Button") {
+                AddComponent<Components::Button>(entity, node);
+            }
+            else if (component_name == "Checkbox") {
+                AddComponent<Components::Checkbox>(entity, node);
+            }
+            else if (component_name == "Slider") {
+                AddComponent<Components::Slider>(entity, node);
+            }
             else if (component_name == "Transform2D") {
                 AddComponent<Components::Transform2D, EntityID>(entity, node, parent_entity);
             }
             else if (component_name == "UIElement") {
                 AddComponent<Components::UIElement>(entity, node);
+            }
+            else if (component_name == "UIRect") {
+                AddComponent<Components::UIRect>(entity, node);
             }
             else if (component_name == "Shape") {
                 AddComponent<Components::Shape>(entity, node);

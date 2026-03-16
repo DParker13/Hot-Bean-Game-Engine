@@ -1,7 +1,7 @@
 /**
- * @file ifield_changed.hpp
+ * @file dirty_flag.hpp
  * @author Daniel Parker (DParker13)
- * @brief Interface for components that track field changes.
+ * @brief Base class for components to track when their data has changed and needs to be reprocessed.
  * @version 0.1
  * @date 2025-11-02
  *
@@ -11,8 +11,8 @@
 #pragma once
 
 namespace HBE::Core {
-    /// @brief Interface for objects used to track member changes.
-    class IMemberChanged {
+    /// @brief Base class for components to track when their data has changed and needs to be reprocessed.
+    class DirtyFlag {
     private:
         bool m_dirty = true; // Initialize as dirty so new components get processed
 

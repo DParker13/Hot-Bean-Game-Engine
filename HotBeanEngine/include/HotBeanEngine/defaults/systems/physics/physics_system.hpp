@@ -13,14 +13,14 @@
 #include <box2d/box2d.h>
 #include <glm/glm.hpp>
 
-#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/core/system.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/defaults/components/physics/rigidbody.hpp>
 
 namespace HBE::Default::Systems {
-    using Core::EntityID;
     using Components::RigidBody;
     using Components::Transform2D;
+    using Core::EntityID;
 
     /**
      * @brief Integrates Box2D physics simulation
@@ -28,9 +28,8 @@ namespace HBE::Default::Systems {
      * Manages physics world and rigid body updates.
      * Synchronizes physics state with entity transforms.
      */
-    class PhysicsSystem : public Core::ISystem {
+    class PhysicsSystem : public Core::GameSystem<Transform2D, RigidBody> {
     public:
-        REQUIRES_COMPONENTS(Transform2D, RigidBody);
         DEFINE_NAME("Physics System")
 
     private:

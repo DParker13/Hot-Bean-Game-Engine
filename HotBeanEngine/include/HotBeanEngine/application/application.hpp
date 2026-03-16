@@ -19,6 +19,7 @@
 #include <HotBeanEngine/application/managers/audio_manager.hpp>
 #include <HotBeanEngine/application/managers/camera_manager.hpp>
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
+#include <HotBeanEngine/application/managers/event_manager.hpp>
 #include <HotBeanEngine/application/managers/render_manager.hpp>
 #include <HotBeanEngine/application/managers/scene_manager.hpp>
 #include <HotBeanEngine/application/managers/transform_manager.hpp>
@@ -55,11 +56,12 @@ namespace HBE::Application {
         std::shared_ptr<Managers::CameraManager> m_camera_manager;         ///< Manages camera system
         std::shared_ptr<Managers::TransformManager> m_transform_manager;   ///< Manages transform hierarchy
         std::shared_ptr<Managers::AudioManager> m_audio_manager;           ///< Manages audio playback
+        std::shared_ptr<Managers::EventManager> m_event_manager;           ///< Manages event distribution and dispatch
         std::shared_ptr<IComponentFactory> m_component_factory;            ///< Factory for component creation
         SDL_Renderer *m_renderer = nullptr;                                ///< SDL renderer instance
         SDL_Window *m_window = nullptr;                                    ///< SDL window instance
         std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;           ///< Editor GUI interface
-        std::unique_ptr<Listeners::InputEventListener> m_input_event_listener;        ///< Handles input events
+        std::unique_ptr<Listeners::InputEventListener> m_input_event_listener; ///< Handles input events
 
     public:
         bool m_quit = false; ///< Flag to quit the application
@@ -178,6 +180,12 @@ namespace HBE::Application {
          * @return Reference to the audio manager.
          */
         Managers::AudioManager &GetAudioManager() const;
+
+        /**
+         * @brief Access the event manager.
+         * @return Reference to the event manager.
+         */
+        Managers::EventManager &GetEventManager() const;
 
         /**
          * @brief Access the component factory.

@@ -17,9 +17,6 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Default::Components {
-    using Application::GUI::PropertyNodes::Bool;
-    using Application::GUI::PropertyNodes::Enum;
-    using Application::GUI::PropertyNodes::Vec2;
 
     /**
      * @brief 2D collision shape component
@@ -38,21 +35,8 @@ namespace HBE::Default::Components {
         Collider2D() = default;
         Collider2D(ColliderShape shape) : m_shape(shape) {}
 
-        void Serialize(YAML::Emitter &out) const override {
-            out << YAML::Key << "bounding_box" << YAML::Value << m_size;
-            out << YAML::Key << "is_trigger" << YAML::Value << m_is_trigger;
-        }
-
-        void Deserialize(YAML::Node &node) override {
-            m_size = node["bounding_box"].as<glm::vec2>();
-            m_is_trigger = node["is_trigger"].as<bool>();
-        }
-
-        void RenderProperties(int &id) override {
-            Enum::RenderProperty<ColliderShape>(id, "Shape", m_shape,
-                                                {{ColliderShape::Box, "Box"}, {ColliderShape::Circle, "Circle"}});
-            Vec2::RenderProperty(id, "Size", m_size);
-            Bool::RenderProperty(id, "Is Trigger", m_is_trigger);
-        }
+        void Serialize(YAML::Emitter &out) const override;
+        void Deserialize(YAML::Node &node) override;
+        void RenderProperties(int &id);
     };
 } // namespace HBE::Default::Components

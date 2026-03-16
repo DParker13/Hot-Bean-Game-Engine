@@ -17,8 +17,8 @@
 namespace HBE::Application::Managers {
     using Core::EntityID;
     using Core::GameLoopState;
-    using Core::ISystem;
     using Core::Signature;
+    using Core::SystemBase;
 
     /**
      * @brief Manages systems that manipulate component data.
@@ -34,8 +34,8 @@ namespace HBE::Application::Managers {
         std::unordered_map<std::string, Signature> m_signatures;
 
         // Map from system type name to a system pointer
-        std::map<std::string, ISystem *> m_systems;
-        std::vector<ISystem *> m_systems_ordered;
+        std::map<std::string, SystemBase *> m_systems;
+        std::vector<SystemBase *> m_systems_ordered;
 
     public:
         SystemManager(std::shared_ptr<ComponentManager> component_manager,
@@ -56,7 +56,7 @@ namespace HBE::Application::Managers {
          */
         template <typename T, typename... Args>
         T &RegisterSystem(Args &&...params) {
-            static_assert(std::is_base_of_v<ISystem, T>, "T must inherit from ISystem");
+            static_assert(std::is_base_of_v<SystemBase, T>, "T must inherit from SystemBase");
 
             std::string system_name = std::string(GetSystemName<T>());
             LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + system_name + "\"");
@@ -69,7 +69,11 @@ namespace HBE::Application::Managers {
             T *system = new T(std::forward<Args>(params)...);
 
             // Extract and set the system signature from RequiredComponents
-            m_signatures.insert({system_name, ExtractSignature<T>()});
+            Signature signature;
+            for (auto component_name : system->GetRequiredComponents()) {
+                signature |= (1 << m_component_manager->GetComponentID(component_name));
+            }
+            m_signatures.insert({system_name, signature});
 
             // Create a pointer to the system and return it so it can be used externally
             m_systems.insert({system_name, system});
@@ -86,7 +90,7 @@ namespace HBE::Application::Managers {
          */
         template <typename T>
         T &RegisterSystem() {
-            static_assert(std::is_base_of_v<ISystem, T>, "T must inherit from ISystem");
+            static_assert(std::is_base_of_v<SystemBase, T>, "T must inherit from SystemBase");
 
             std::string system_name = std::string(GetSystemName<T>());
             LOG_CORE(LoggingType::DEBUG, "Creating and registering System \"" + system_name + "\"");
@@ -99,7 +103,11 @@ namespace HBE::Application::Managers {
             T *system = new T();
 
             // Extract and set the system signature from RequiredComponents
-            m_signatures.insert({system_name, ExtractSignature<T>()});
+            Signature signature;
+            for (auto component_name : system->GetRequiredComponents()) {
+                signature |= (1 << m_component_manager->GetComponentID(component_name));
+            }
+            m_signatures.insert({system_name, signature});
 
             // Create a pointer to the system and return it so it can be used externally
             m_systems.insert({system_name, system});
@@ -137,7 +145,7 @@ namespace HBE::Application::Managers {
             delete system;
         }
 
-        void UnregisterSystem(ISystem *system);
+        void UnregisterSystem(SystemBase *system);
 
         template <typename T>
         bool IsSystemRegistered() {
@@ -169,7 +177,7 @@ namespace HBE::Application::Managers {
             m_signatures.insert({system_name, signature});
         }
 
-        void SetSignature(ISystem *system, Signature signature);
+        void SetSignature(SystemBase *system, Signature signature);
 
         /**
          * @brief Get the Signature of a System type T
@@ -188,7 +196,7 @@ namespace HBE::Application::Managers {
             return m_signatures[std::string(GetSystemName<T>())];
         }
 
-        Signature &GetSignature(ISystem *system);
+        Signature &GetSignature(SystemBase *system);
 
         /**
          * @brief Get the System
@@ -245,59 +253,10 @@ namespace HBE::Application::Managers {
          * @brief Retrieve all registered systems in execution order.
          * @return Vector of system pointers.
          */
-        std::vector<ISystem *> GetAllSystems();
+        std::vector<SystemBase *> GetAllSystems();
 
     private:
-        bool IsSystemRegistered(ISystem *system);
-
-        /**
-         * @brief Type trait to detect if a type has RequiredComponents member
-         */
-        template <typename T, typename = void>
-        struct has_required_components : std::false_type {};
-
-        template <typename T>
-        struct has_required_components<T, std::void_t<typename T::RequiredComponents>> : std::true_type {};
-
-        /**
-         * @brief Helper to extract signature from a system's RequiredComponents type alias
-         * @tparam T System type
-         * @return Signature built from the system's required components
-         */
-        template <typename T>
-        Signature ExtractSignature() {
-            // Check if system has RequiredComponents type alias
-            if constexpr (has_required_components<T>::value) {
-                return ExtractSignatureFromTuple<typename T::RequiredComponents>();
-            }
-            else {
-                // Empty signature for systems with no components
-                return Signature{};
-            }
-        }
-
-        /**
-         * @brief Helper to unpack tuple and build signature
-         * @tparam Tuple std::tuple of component types
-         * @return Signature with all component IDs set
-         */
-        template <typename Tuple>
-        Signature ExtractSignatureFromTuple() {
-            // Simplified version to avoid MSVC Internal Compiler Error
-            // Use index_sequence directly instead of std::apply with lambda
-            return ExtractSignatureFromTupleImpl<Tuple>(std::make_index_sequence<std::tuple_size_v<Tuple>>{});
-        }
-
-        /**
-         * @brief Helper to build signature from component types using index sequence
-         * @tparam Tuple std::tuple of component types
-         * @tparam Indices Index sequence for unpacking
-         * @return Signature with all component IDs set
-         */
-        template <typename Tuple, std::size_t... Indices>
-        Signature ExtractSignatureFromTupleImpl(std::index_sequence<Indices...>) {
-            return m_component_manager->GetSignature<std::tuple_element_t<Indices, Tuple>...>();
-        }
+        bool IsSystemRegistered(SystemBase *system);
 
         template <typename T>
         void RemoveSignature() {
@@ -313,7 +272,7 @@ namespace HBE::Application::Managers {
             m_signatures.erase(system_name);
         }
 
-        void RemoveSignature(ISystem *system);
+        void RemoveSignature(SystemBase *system);
 
         /**
          * @brief Retrieves the name of the component
@@ -324,7 +283,7 @@ namespace HBE::Application::Managers {
          */
         template <typename T>
         std::string_view GetSystemName() const {
-            static_assert(std::is_base_of_v<ISystem, T>, "T must inherit from ISystem");
+            static_assert(std::is_base_of_v<SystemBase, T>, "T must inherit from SystemBase");
             static_assert(has_static_get_name<T>::value, "T must have a StaticGetName() function");
 
             if (T::StaticGetName().empty()) {
@@ -334,6 +293,6 @@ namespace HBE::Application::Managers {
             return T::StaticGetName();
         }
 
-        std::string_view GetSystemName(ISystem *system) const;
+        std::string_view GetSystemName(SystemBase *system) const;
     };
 } // namespace HBE::Application::Managers

@@ -12,19 +12,19 @@
 
 #include <HotBeanEngine/core/component.hpp>
 #include <HotBeanEngine/core/config.hpp>
+#include <HotBeanEngine/core/dirty_flag.hpp>
 #include <HotBeanEngine/core/entity.hpp>
 #include <HotBeanEngine/core/exceptions.hpp>
 #include <HotBeanEngine/core/iarchetype.hpp>
 #include <HotBeanEngine/core/igame_loop.hpp>
-#include <HotBeanEngine/core/imember_changed.hpp>
 #include <HotBeanEngine/core/iname.hpp>
-#include <HotBeanEngine/core/isparse_set.hpp>
-#include <HotBeanEngine/core/isystem.hpp>
 #include <HotBeanEngine/core/logging_type.hpp>
 #include <HotBeanEngine/core/octree_2d.hpp>
 #include <HotBeanEngine/core/octree_2d_node.hpp>
 #include <HotBeanEngine/core/scene.hpp>
 #include <HotBeanEngine/core/serializer.hpp>
 #include <HotBeanEngine/core/signature.hpp>
+#include <HotBeanEngine/core/sparse_set.hpp>
+#include <HotBeanEngine/core/system.hpp>
 #include <HotBeanEngine/core/type_traits.hpp>
 #include <HotBeanEngine/core/yaml_extensions.hpp>

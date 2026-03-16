@@ -1,10 +1,8 @@
 High Priority
-- Create AudioManager
-    + Fix audio to work with start/stop of the application
+- Fix audio to work with start/stop of the application
 - Create OnInit() in IGameLoop.
     + OnStart will only be called when the application is started/playing
-    + OnInit will be called when a system is registered
-so it can be called multiple times in editor mode
+    + OnInit will be called when a system is registered so it can be called multiple times in editor mode
 - Add save button to editor
     + Save scene to yaml file
     + Somehow save scene hpp and cpp files?

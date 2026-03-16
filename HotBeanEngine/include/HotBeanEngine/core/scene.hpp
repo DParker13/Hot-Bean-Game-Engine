@@ -37,5 +37,7 @@ namespace HBE::Core {
          * @brief Initializes the systems needed for this scene in the system manager.
          */
         virtual void SetupSystems() = 0;
+
+        virtual void CleanupScene() {};
     };
 } // namespace HBE::Core

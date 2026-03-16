@@ -27,18 +27,8 @@ namespace HBE::Default::Components {
         DEFINE_NAME("Controller");
         Controller() = default;
 
-        void Serialize(YAML::Emitter &out) const override {
-            out << YAML::Key << "controllable" << YAML::Value << controllable;
-        }
-
-        void Deserialize(YAML::Node &node) override {
-            if (node["controllable"]) {
-                controllable = node["controllable"].as<bool>();
-            }
-        }
-
-        void RenderProperties(int &id) override {
-            Application::GUI::PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
-        }
+        void Serialize(YAML::Emitter &out) const override;
+        void Deserialize(YAML::Node &node) override;
+        void RenderProperties(int &id);
     };
 } // namespace HBE::Default::Components

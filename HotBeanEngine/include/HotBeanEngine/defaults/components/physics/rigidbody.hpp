@@ -15,15 +15,7 @@
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
-#include <HotBeanEngine/editor/property_nodes/enum.hpp>
-#include <HotBeanEngine/editor/property_nodes/float.hpp>
-#include <HotBeanEngine/editor/property_nodes/int.hpp>
-#include <HotBeanEngine/editor/property_nodes/vec2.hpp>
-
 namespace HBE::Default::Components {
-    using Application::GUI::PropertyNodes::Enum;
-    using Application::GUI::PropertyNodes::Float;
-    using Application::GUI::PropertyNodes::Int;
 
     /**
      * @brief Physics body component for 2D dynamics
@@ -40,25 +32,8 @@ namespace HBE::Default::Components {
         DEFINE_NAME("RigidBody");
         RigidBody() = default;
 
-        void Serialize(YAML::Emitter &out) const override {
-            out << YAML::Key << "mass" << YAML::Value << m_mass;
-            out << YAML::Key << "type" << YAML::Value << (int)m_type;
-        }
-
-        void Deserialize(YAML::Node &node) override {
-            if (node["mass"])
-                m_mass = node["mass"].as<float>();
-            if (node["type"])
-                m_type = (b2BodyType)node["type"].as<int>();
-        }
-
-        void RenderProperties(int &id) override {
-            Int::RenderProperty(id, "ID", m_body_id.index1, INT_MIN, INT_MAX, true);
-            Float::RenderProperty(id, "Mass", m_mass, 0.0f);
-            Enum::RenderProperty<b2BodyType>(id, "Type", m_type,
-                                             {{b2BodyType::b2_staticBody, "Static"},
-                                              {b2BodyType::b2_kinematicBody, "Kinematic"},
-                                              {b2BodyType::b2_dynamicBody, "Dynamic"}});
-        }
+        void Serialize(YAML::Emitter &out) const override;
+        void Deserialize(YAML::Node &node) override;
+        void RenderProperties(int &id);
     };
 } // namespace HBE::Default::Components

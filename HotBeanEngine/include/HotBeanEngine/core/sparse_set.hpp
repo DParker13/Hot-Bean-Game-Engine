@@ -1,5 +1,5 @@
 /**
- * @file isparse_set.hpp
+ * @file sparse_set.hpp
  * @author Daniel Parker (DParker13)
  * @brief Sparse set data structure.
  *

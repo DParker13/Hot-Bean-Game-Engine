@@ -28,7 +28,7 @@ namespace HBE::Application::GUI {
     class EditorGUI : public IEditorGUI {
     private:
         std::vector<std::shared_ptr<IWindow>> m_windows;
-        
+
         // Camera drag tracking
         bool m_is_dragging = false;
         glm::vec2 m_last_mouse_position = {0.0f, 0.0f};

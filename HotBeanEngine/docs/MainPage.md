@@ -64,7 +64,7 @@ HotBeanEngine/
 
 ### Component System
 All components derive from `IComponent` and optionally implement:
-- `IMemberChanged`: For notifying changes to component members
+- `DirtyFlag`: For notifying changes to component members
 - `IPropertyRenderable`: For editing properties in the editor
 - `IName`: For identifying components by name
 
@@ -123,7 +123,7 @@ public:
 ```cpp
 #include <HotBeanEngine/core/isystem.hpp>
 
-class CustomSystem : public HBE::Core::ISystem {
+class CustomSystem : public HBE::Core::System {
 public:    
     void OnUpdate() override {
         // System logic here

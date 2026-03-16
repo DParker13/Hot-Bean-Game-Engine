@@ -55,14 +55,14 @@ namespace HBE::Application::Managers {
      * @return ComponentID The ComponentID associated with the given component name
      * @throw ComponentNotRegisteredException
      */
-    ComponentID ComponentManager::GetComponentID(std::string component_name) {
-        if (!IsComponentRegistered(component_name)) {
+    ComponentID ComponentManager::GetComponentID(std::string_view component_name) {
+        if (!IsComponentRegistered(std::string(component_name))) {
             auto ex = ComponentNotRegisteredException(component_name);
             LOG_CORE(LoggingType::ERROR, ex.what());
             throw ex;
         }
 
-        return m_component_name_to_type[component_name];
+        return m_component_name_to_type[std::string(component_name)];
     }
 
     /**

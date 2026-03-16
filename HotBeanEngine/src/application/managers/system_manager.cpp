@@ -144,7 +144,7 @@ namespace HBE::Application::Managers {
         }
     }
 
-    void SystemManager::UnregisterSystem(ISystem *system) {
+    void SystemManager::UnregisterSystem(SystemBase *system) {
         if (!system) {
             return;
         }
@@ -162,7 +162,7 @@ namespace HBE::Application::Managers {
         m_systems.erase(std::string(system->GetName()));
     }
 
-    bool SystemManager::IsSystemRegistered(ISystem *system) {
+    bool SystemManager::IsSystemRegistered(SystemBase *system) {
         if (!system) {
             return false;
         }
@@ -170,7 +170,7 @@ namespace HBE::Application::Managers {
         return m_systems.find(std::string(system->GetName())) != m_systems.end();
     }
 
-    void SystemManager::RemoveSignature(ISystem *system) {
+    void SystemManager::RemoveSignature(SystemBase *system) {
         if (!system) {
             return;
         }
@@ -185,9 +185,9 @@ namespace HBE::Application::Managers {
         m_signatures.erase(std::string(system->GetName()));
     }
 
-    std::vector<ISystem *> SystemManager::GetAllSystems() { return m_systems_ordered; }
+    std::vector<SystemBase *> SystemManager::GetAllSystems() { return m_systems_ordered; }
 
-    std::string_view SystemManager::GetSystemName(ISystem *system) const {
+    std::string_view SystemManager::GetSystemName(SystemBase *system) const {
         if (!system) {
             return "System Doesn't Exist";
         }
@@ -195,7 +195,7 @@ namespace HBE::Application::Managers {
         return system->GetName();
     }
 
-    void SystemManager::SetSignature(ISystem *system, Signature signature) {
+    void SystemManager::SetSignature(SystemBase *system, Signature signature) {
         if (!system) {
             LOG_CORE(LoggingType::WARNING, "System pointer is null");
             return;
@@ -217,7 +217,7 @@ namespace HBE::Application::Managers {
         m_signatures.insert({system_name, signature});
     }
 
-    Signature &SystemManager::GetSignature(ISystem *system) {
+    Signature &SystemManager::GetSignature(SystemBase *system) {
         assert(system != nullptr && "System pointer is null");
         assert(IsSystemRegistered(system) && "System is not registered");
 

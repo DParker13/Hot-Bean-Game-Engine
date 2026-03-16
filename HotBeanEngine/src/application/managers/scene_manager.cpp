@@ -63,11 +63,13 @@ namespace HBE::Application::Managers {
             // Attempt to serialize scene to file
             if (save_to_file && m_current_scene->m_serializer) {
                 m_current_scene->m_serializer->Serialize(m_current_scene->m_scene_path);
+                LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
             }
 
-            m_ecs_manager->DestroyAllEntities();
+            // Call scene cleanup before destroying entities to allow systems to release resources
+            m_current_scene->CleanupScene();
 
-            LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
+            m_ecs_manager->DestroyAllEntities();
         } catch (const YAML::Exception &e) {
             LOG_CORE(LoggingType::ERROR, "Error serializing to YAML file: " + (std::string)e.what());
         }

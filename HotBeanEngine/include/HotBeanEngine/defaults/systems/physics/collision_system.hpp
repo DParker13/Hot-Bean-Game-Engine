@@ -9,23 +9,22 @@
  */
 #pragma once
 
-#include <HotBeanEngine/core/isystem.hpp>
+#include <HotBeanEngine/core/system.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/defaults/components/physics/collider_2d.hpp>
 #include <HotBeanEngine/defaults/components/physics/rigidbody.hpp>
 
 namespace HBE::Default::Systems {
-    using Core::EntityID;
     using Components::Collider2D;
     using Components::RigidBody;
     using Components::Transform2D;
+    using Core::EntityID;
 
     /**
      * @brief System for 2D collision detection.
      */
-    class CollisionSystem : public Core::ISystem {
+    class CollisionSystem : public Core::GameSystem<Transform2D, RigidBody, Collider2D> {
     public:
-        REQUIRES_COMPONENTS(Transform2D, RigidBody, Collider2D);
         DEFINE_NAME("Collision System")
 
         CollisionSystem() = default;

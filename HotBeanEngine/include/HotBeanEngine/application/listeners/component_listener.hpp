@@ -36,9 +36,7 @@ namespace HBE::Application::Listeners {
             m_listened_components = component_ids;
         }
 
-        const std::unordered_set<Core::ComponentID> &GetListenedComponents() const {
-            return m_listened_components;
-        }
+        const std::unordered_set<Core::ComponentID> &GetListenedComponents() const { return m_listened_components; }
 
         /**
          * @brief Called when an entity's component signature changes to match the listener's interest.
@@ -52,4 +50,4 @@ namespace HBE::Application::Listeners {
          */
         virtual void OnComponentRemoved(Core::EntityID entity) = 0;
     };
-} // namespace HBE::Application::Managers
+} // namespace HBE::Application::Listeners

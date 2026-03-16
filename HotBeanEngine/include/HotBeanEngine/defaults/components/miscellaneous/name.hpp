@@ -12,7 +12,6 @@
 
 #include <HotBeanEngine/core/all_core.hpp>
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
-#include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Default::Components {
     /**
@@ -25,16 +24,8 @@ namespace HBE::Default::Components {
         DEFINE_NAME("Name");
         Name() = default;
 
-        void Serialize(YAML::Emitter &out) const override { out << YAML::Key << "name" << YAML::Value << m_name; }
-
-        void Deserialize(YAML::Node &node) override {
-            if (node["name"]) {
-                m_name = node["name"].as<std::string>();
-            }
-        }
-
-        void RenderProperties(int &id) override {
-            Application::GUI::PropertyNodes::String::RenderProperty(id, "Name", m_name, true);
-        }
+        void Serialize(YAML::Emitter &out) const override;
+        void Deserialize(YAML::Node &node) override;
+        void RenderProperties(int &id);
     };
 } // namespace HBE::Default::Components

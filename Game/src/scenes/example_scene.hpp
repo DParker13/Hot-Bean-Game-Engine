@@ -20,13 +20,20 @@ namespace Scenes {
      * and rendering systems. Demonstrates best practices for scene initialization
      * and entity/component configuration.
      */
-    struct ExampleScene : public HBE::Default::DefaultScene {
+    class ExampleScene : public HBE::Default::DefaultScene {
+    private:
+        std::vector<HBE::Application::Managers::SubscriptionHandle> m_event_subscription_handles;
+
+    public:
         ExampleScene(std::string path, std::shared_ptr<HBE::Core::ISerializer> serializer)
             : DefaultScene("ExampleScene", path, serializer) {}
 
         ~ExampleScene() = default;
 
-        void SetupSystems() override;
         void SetupScene() override;
+        void CleanupScene() override;
+
+    protected:
+        void SetupCustomSystems() override;
     };
 } // namespace Scenes
