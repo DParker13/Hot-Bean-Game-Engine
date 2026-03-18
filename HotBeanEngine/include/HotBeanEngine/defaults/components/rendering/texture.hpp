@@ -31,6 +31,6 @@ namespace HBE::Default::Components {
         ~Texture();
 
         void Serialize(YAML::Emitter &out) const override;
-        void RenderProperties(int &id);
+        void RenderProperties(int &id) override;
     };
 } // namespace HBE::Default::Components

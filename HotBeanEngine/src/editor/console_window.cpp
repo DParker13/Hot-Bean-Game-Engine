@@ -74,9 +74,8 @@ namespace HBE::Application::GUI {
                         ImGui::SetScrollHereY(1.0f);
                         m_shouldScrollToBottom = false;
                     }
-
-                    ImGui::EndChild();
                 }
+                ImGui::EndChild();
             }
         }
         ImGui::End();

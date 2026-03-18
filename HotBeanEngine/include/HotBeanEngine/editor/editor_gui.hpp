@@ -39,16 +39,16 @@ namespace HBE::Application::GUI {
         EditorGUI();
         ~EditorGUI();
 
-        void InitEditorGUI();
+        void InitEditorGUI() override;
         void OnLog(Core::LoggingType level, std::string_view message) override;
 
-        virtual void OnStart() {};
-        virtual void OnPreEvent() {};
-        virtual void OnEvent(SDL_Event &event);
-        virtual void OnWindowResize(SDL_Event &event);
-        virtual void OnUpdate();
-        virtual void OnRender();
-        virtual void OnPostRender() {};
+        virtual void OnStart() override {};
+        virtual void OnPreEvent() override {};
+        virtual void OnEvent(SDL_Event &event) override;
+        virtual void OnWindowResize(SDL_Event &event) override;
+        virtual void OnUpdate() override;
+        virtual void OnRender() override;
+        virtual void OnPostRender() override {};
 
     protected:
         virtual void RenderImGui();

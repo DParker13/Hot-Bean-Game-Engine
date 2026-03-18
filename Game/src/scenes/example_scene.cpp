@@ -109,39 +109,45 @@ namespace Scenes {
         Transform2D button_transform;
         button_transform.m_local_position = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
         button_transform.m_layer = 10;
-        Button button;
+        Interactive interactive;
         Texture button_texture;
         button_texture.m_size = {200.0f, 50.0f};
         Name button_name;
         button_name.m_name = "Test Button";
-        Text text;
-        text.m_text = "Hello World!";
-        text.m_size = 24;
-        UIElement ui_element;
-        ui_element.m_type = UIElement::UIType::Button;
+        Text button_text;
+        button_text.m_text = "Hello World!";
+        button_text.m_size = 24;
         g_ecs.AddComponent<Transform2D>(button_entity, button_transform);
-        g_ecs.AddComponent<Button>(button_entity, button);
+        g_ecs.AddComponent<Interactive>(button_entity, interactive);
         g_ecs.AddComponent<Texture>(button_entity, button_texture);
         g_ecs.AddComponent<Name>(button_entity, button_name);
-        g_ecs.AddComponent<Text>(button_entity, text);
-        g_ecs.AddComponent<UIElement>(button_entity, ui_element);
+        g_ecs.AddComponent<Text>(button_entity, button_text);
 
         m_event_subscription_handles.push_back(
-            g_app.GetEventManager().Subscribe<ButtonEnterEvent>([button_entity](const ButtonEnterEvent &evt) {
+            g_app.GetEventManager().Subscribe<OnEnterEvent>([button_entity](const OnEnterEvent &evt) {
                 if (evt.entity_id == button_entity) {
                     LOG(LoggingType::INFO, "Test Button entered!");
+                    auto &text = g_ecs.GetComponent<Text>(button_entity);
+                    text.m_background_color = {255, 255, 255, 255};
+                    text.MarkDirty();
                 }
             }));
         m_event_subscription_handles.push_back(
-            g_app.GetEventManager().Subscribe<ButtonExitEvent>([button_entity](const ButtonExitEvent &evt) {
+            g_app.GetEventManager().Subscribe<OnExitEvent>([button_entity](const OnExitEvent &evt) {
                 if (evt.entity_id == button_entity) {
                     LOG(LoggingType::INFO, "Test Button exited!");
+                    auto &text = g_ecs.GetComponent<Text>(button_entity);
+                    text.m_background_color = {0, 0, 0, 255};
+                    text.MarkDirty();
                 }
             }));
         m_event_subscription_handles.push_back(
-            g_app.GetEventManager().Subscribe<ButtonClickEvent>([button_entity](const ButtonClickEvent &evt) {
+            g_app.GetEventManager().Subscribe<OnClickEvent>([button_entity](const OnClickEvent &evt) {
                 if (evt.entity_id == button_entity) {
                     LOG(LoggingType::INFO, "Test Button clicked!");
+                    auto &text = g_ecs.GetComponent<Text>(button_entity);
+                    text.m_background_color = {255, 0, 0, 255};
+                    text.MarkDirty();
                 }
             }));
     }

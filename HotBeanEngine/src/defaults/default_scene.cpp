@@ -36,6 +36,7 @@ namespace HBE::Default {
 
         // Rendering
         g_ecs.RegisterSystem<ShapeSystem>();
-        g_ecs.RegisterSystem<UISystem, std::string>(font_path.string());
+        g_ecs.RegisterSystem<TextSystem, std::string>(font_path.string());
+        g_ecs.RegisterSystem<InteractSystem>();
     }
 } // namespace HBE::Default

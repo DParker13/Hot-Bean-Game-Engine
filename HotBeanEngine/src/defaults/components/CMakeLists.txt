@@ -8,11 +8,10 @@ add_library(HotBeanEngine_Components STATIC
     physics/rigidbody.cpp
     rendering/shape.cpp
     rendering/texture.cpp
-    ui/button.cpp
     ui/checkbox.cpp
+    ui/interactive.cpp
     ui/slider.cpp
     ui/text.cpp
-    ui/ui_element.cpp
     ui/ui_rect.cpp
 )
 

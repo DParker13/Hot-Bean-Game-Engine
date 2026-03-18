@@ -3,7 +3,8 @@ add_library(HotBeanEngine_Systems STATIC
     physics/collision_system.cpp
     physics/physics_system.cpp
     rendering/shape_system.cpp
-    ui/ui_system.cpp
+    ui/interact_system.cpp
+    ui/text_system.cpp
 )
 
 target_include_directories(HotBeanEngine_Systems PUBLIC

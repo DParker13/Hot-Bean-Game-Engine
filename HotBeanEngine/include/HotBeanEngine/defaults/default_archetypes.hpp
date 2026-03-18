@@ -21,14 +21,9 @@ namespace HBE::Default::Archetypes {
     using Components::Text;
     using Components::Texture;
     using Components::Transform2D;
-    using Components::UIElement;
 
     using PlayerArchetype = Archetype<Transform2D, Controller, Texture>;
     using CameraArchetype = Archetype<Transform2D, Camera>;
     using TextureArchetype = Archetype<Transform2D, Texture>;
     using ShapeArchetype = Archetype<Transform2D, Texture, Shape>;
-
-    // --- UI ---
-    using UIElementArchetype = Archetype<Transform2D, Texture, UIElement>;
-    using TextArchetype = Archetype<Transform2D, Text, Texture, UIElement>;
 } // namespace HBE::Default::Archetypes

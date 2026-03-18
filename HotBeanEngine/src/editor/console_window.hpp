@@ -9,7 +9,7 @@
  */
 #pragma once
 
-#include <HotBeanEngine/application/listeners/log_listener.hpp>
+#include <HotBeanEngine/application/listeners/ilog_listener.hpp>
 #include <HotBeanEngine/editor/iwindow.hpp>
 #include <deque>
 #include <imgui.h>

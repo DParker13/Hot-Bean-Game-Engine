@@ -88,7 +88,7 @@ namespace HBE::Application::Managers {
         }
 
         // Notify listeners
-        for (ILogListener *listener : m_listeners) {
+        for (ILogListener *listener : m_log_listeners) {
             if (listener) {
                 listener->OnLog(type, final_message.str());
             }
@@ -138,13 +138,14 @@ namespace HBE::Application::Managers {
         }
     }
 
-    void LoggingManager::RegisterListener(ILogListener *listener) {
-        if (listener && std::find(m_listeners.begin(), m_listeners.end(), listener) == m_listeners.end()) {
-            m_listeners.push_back(listener);
+    void LoggingManager::RegisterLogListener(ILogListener *listener) {
+        if (listener && std::find(m_log_listeners.begin(), m_log_listeners.end(), listener) == m_log_listeners.end()) {
+            m_log_listeners.push_back(listener);
         }
     }
 
-    void LoggingManager::UnregisterListener(ILogListener *listener) {
-        m_listeners.erase(std::remove(m_listeners.begin(), m_listeners.end(), listener), m_listeners.end());
+    void LoggingManager::UnregisterLogListener(ILogListener *listener) {
+        m_log_listeners.erase(std::remove(m_log_listeners.begin(), m_log_listeners.end(), listener),
+                              m_log_listeners.end());
     }
 } // namespace HBE::Application::Managers

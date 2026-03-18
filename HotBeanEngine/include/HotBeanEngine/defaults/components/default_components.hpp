@@ -19,9 +19,8 @@
 #include <HotBeanEngine/defaults/components/physics/rigidbody.hpp>
 #include <HotBeanEngine/defaults/components/rendering/shape.hpp>
 #include <HotBeanEngine/defaults/components/rendering/texture.hpp>
-#include <HotBeanEngine/defaults/components/ui/button.hpp>
 #include <HotBeanEngine/defaults/components/ui/checkbox.hpp>
+#include <HotBeanEngine/defaults/components/ui/interactive.hpp>
 #include <HotBeanEngine/defaults/components/ui/slider.hpp>
 #include <HotBeanEngine/defaults/components/ui/text.hpp>
-#include <HotBeanEngine/defaults/components/ui/ui_element.hpp>
 #include <HotBeanEngine/defaults/components/ui/ui_rect.hpp>

@@ -59,7 +59,7 @@ namespace HBE::Application {
             m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
         }
         m_editor_gui->InitEditorGUI();
-        m_logging_manager->RegisterListener(m_editor_gui.get());
+        m_logging_manager->RegisterLogListener(m_editor_gui.get());
     }
 
     Application::~Application() {

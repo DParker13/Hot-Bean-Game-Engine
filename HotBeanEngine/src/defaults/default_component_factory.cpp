@@ -12,20 +12,19 @@
 
 namespace HBE::Default::Components {
     void DefaultComponentFactory::RegisterComponents() {
-        m_ecs_manager->RegisterComponentID<Components::AudioSource>();
-        m_ecs_manager->RegisterComponentID<Components::Camera>();
-        m_ecs_manager->RegisterComponentID<Components::Collider2D>();
-        m_ecs_manager->RegisterComponentID<Components::Controller>();
-        m_ecs_manager->RegisterComponentID<Components::RigidBody>();
-        m_ecs_manager->RegisterComponentID<Components::Shape>();
-        m_ecs_manager->RegisterComponentID<Components::Button>();
-        m_ecs_manager->RegisterComponentID<Components::Checkbox>();
-        m_ecs_manager->RegisterComponentID<Components::Slider>();
-        m_ecs_manager->RegisterComponentID<Components::Text>();
-        m_ecs_manager->RegisterComponentID<Components::Texture>();
-        m_ecs_manager->RegisterComponentID<Components::Transform2D>();
-        m_ecs_manager->RegisterComponentID<Components::UIElement>();
-        m_ecs_manager->RegisterComponentID<Components::UIRect>();
+        m_ecs_manager->RegisterComponentID<AudioSource>();
+        m_ecs_manager->RegisterComponentID<Camera>();
+        m_ecs_manager->RegisterComponentID<Collider2D>();
+        m_ecs_manager->RegisterComponentID<Controller>();
+        m_ecs_manager->RegisterComponentID<RigidBody>();
+        m_ecs_manager->RegisterComponentID<Shape>();
+        m_ecs_manager->RegisterComponentID<Interactive>();
+        m_ecs_manager->RegisterComponentID<Checkbox>();
+        m_ecs_manager->RegisterComponentID<Slider>();
+        m_ecs_manager->RegisterComponentID<Text>();
+        m_ecs_manager->RegisterComponentID<Texture>();
+        m_ecs_manager->RegisterComponentID<Transform2D>();
+        m_ecs_manager->RegisterComponentID<UIRect>();
     }
 
     /**
@@ -41,49 +40,46 @@ namespace HBE::Default::Components {
                                                           EntityID parent_entity, EntityID entity) {
         if (m_ecs_manager->IsComponentRegistered(component_name)) {
             if (component_name == "AudioSource") {
-                AddComponent<Components::AudioSource>(entity, node);
+                AddComponent<AudioSource>(entity, node);
             }
             else if (component_name == "Camera") {
-                AddComponent<Components::Camera>(entity, node);
+                AddComponent<Camera>(entity, node);
             }
             else if (component_name == "Collider2D") {
-                AddComponent<Components::Collider2D>(entity, node);
+                AddComponent<Collider2D>(entity, node);
             }
             else if (component_name == "Controller") {
-                AddComponent<Components::Controller>(entity, node);
+                AddComponent<Controller>(entity, node);
             }
             else if (component_name == "RigidBody") {
-                AddComponent<Components::RigidBody>(entity, node);
+                AddComponent<RigidBody>(entity, node);
             }
             else if (component_name == "Shape") {
-                AddComponent<Components::Shape>(entity, node);
+                AddComponent<Shape>(entity, node);
             }
             else if (component_name == "Text") {
-                AddComponent<Components::Text>(entity, node);
+                AddComponent<Text>(entity, node);
             }
             else if (component_name == "Texture") {
-                AddComponent<Components::Texture>(entity, node);
+                AddComponent<Texture>(entity, node);
             }
-            else if (component_name == "Button") {
-                AddComponent<Components::Button>(entity, node);
+            else if (component_name == "Interactive") {
+                AddComponent<Interactive>(entity, node);
             }
             else if (component_name == "Checkbox") {
-                AddComponent<Components::Checkbox>(entity, node);
+                AddComponent<Checkbox>(entity, node);
             }
             else if (component_name == "Slider") {
-                AddComponent<Components::Slider>(entity, node);
+                AddComponent<Slider>(entity, node);
             }
             else if (component_name == "Transform2D") {
-                AddComponent<Components::Transform2D, EntityID>(entity, node, parent_entity);
-            }
-            else if (component_name == "UIElement") {
-                AddComponent<Components::UIElement>(entity, node);
+                AddComponent<Transform2D, EntityID>(entity, node, parent_entity);
             }
             else if (component_name == "UIRect") {
-                AddComponent<Components::UIRect>(entity, node);
+                AddComponent<UIRect>(entity, node);
             }
             else if (component_name == "Shape") {
-                AddComponent<Components::Shape>(entity, node);
+                AddComponent<Shape>(entity, node);
             }
         }
         else {

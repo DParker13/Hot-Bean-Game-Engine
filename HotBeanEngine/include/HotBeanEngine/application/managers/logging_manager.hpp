@@ -15,7 +15,7 @@
 #include <iomanip>
 #include <sstream>
 
-#include <HotBeanEngine/application/listeners/log_listener.hpp>
+#include <HotBeanEngine/application/listeners/ilog_listener.hpp>
 #include <HotBeanEngine/core/all_core.hpp>
 
 // I don't like this approach, but it works for now
@@ -37,7 +37,7 @@ namespace HBE::Application::Managers {
         std::string m_log_path;
         LoggingType m_log_level = LoggingType::ERROR;
         bool m_log_to_console = false;
-        std::vector<ILogListener *> m_listeners;
+        std::vector<ILogListener *> m_log_listeners;
 
         // Used for unit testing to avoid logging messages
         bool m_testing;
@@ -51,8 +51,8 @@ namespace HBE::Application::Managers {
         void SetLogPath(std::string_view log_path);
         LoggingType GetLoggingLevel();
         void SetLoggingLevel(LoggingType level);
-        void RegisterListener(ILogListener *listener);
-        void UnregisterListener(ILogListener *listener);
+        void RegisterLogListener(ILogListener *listener);
+        void UnregisterLogListener(ILogListener *listener);
 
     private:
         void SetupDefaultLoggingPath();

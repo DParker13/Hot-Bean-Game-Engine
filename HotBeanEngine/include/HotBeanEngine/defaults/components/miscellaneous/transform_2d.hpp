@@ -42,6 +42,6 @@ namespace HBE::Default::Components {
 
         void Serialize(YAML::Emitter &out) const override;
         void Deserialize(YAML::Node &node) override;
-        void RenderProperties(int &id);
+        void RenderProperties(int &id) override;
     };
 } // namespace HBE::Default::Components

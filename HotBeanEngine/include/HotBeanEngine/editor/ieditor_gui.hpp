@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <HotBeanEngine/application/listeners/log_listener.hpp>
+#include <HotBeanEngine/application/listeners/ilog_listener.hpp>
 #include <HotBeanEngine/core/igame_loop.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/camera.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
@@ -19,8 +19,8 @@ namespace HBE::Application::GUI {
     public:
         virtual ~IEditorGUI() = default;
 
+        Default::Components::Camera &GetEditorCamera() { return m_camera; }
+        Default::Components::Transform2D &GetEditorCameraTransform() { return m_camera_transform; }
         virtual void InitEditorGUI() = 0;
-        virtual Default::Components::Camera &GetEditorCamera() { return m_camera; }
-        virtual Default::Components::Transform2D &GetEditorCameraTransform() { return m_camera_transform; }
     };
 } // namespace HBE::Application::GUI

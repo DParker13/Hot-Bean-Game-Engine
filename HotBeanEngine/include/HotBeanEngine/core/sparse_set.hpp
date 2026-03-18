@@ -94,7 +94,7 @@ namespace HBE::Core {
          * @brief Adds an element sequentially to the set
          * @param value Value to add
          */
-        bool Add(std::any value) {
+        bool Add(std::any value) override {
             // Check if the set is full
             if (m_size >= MAX_ITEMS) {
                 return false;

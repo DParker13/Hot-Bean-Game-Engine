@@ -48,9 +48,9 @@ namespace HBE::Application::Managers {
      * ```
      * EventSubsBase (abstract)
      *     ↓
-     * EventSubs<ButtonEnterEvent> (concrete)
+     * EventSubs<OnEnterEvent> (concrete)
      *     ↓
-     * stores vector<function<void(const ButtonEnterEvent&)>>
+     * stores vector<function<void(const OnEnterEvent&)>>
      * ```
      *
      * This design enables:
@@ -67,14 +67,14 @@ namespace HBE::Application::Managers {
      *
      * @code
      *   // 1. Subscribe to an event (typically in OnStart or setup)
-     *   g_app.GetEventManager().Subscribe<ButtonEnterEvent>(
-     *       [](const ButtonEnterEvent& evt) {
+     *   g_app.GetEventManager().Subscribe<OnEnterEvent>(
+     *       [](const OnEnterEvent& evt) {
      *           LOG(LoggingType::INFO, "Button hovered: " + std::to_string(evt.entity_id));
      *       }
      *   );
      *
      *   // 2. Emit an event during frame update
-     *   g_app.GetEventManager().Emit(ButtonEnterEvent{entity_id});
+     *   g_app.GetEventManager().Emit(OnEnterEvent{entity_id});
      *
      *   // 3. Dispatch queued events (called automatically in Application::OnPostRender)
      *   g_app.GetEventManager().DispatchAll();
@@ -84,9 +84,9 @@ namespace HBE::Application::Managers {
      * Not thread-safe. All subscription and emission must occur on the main game thread.
      * All dispatch occurs at frame end (OnPostRender), ensuring single-threaded event handling.
      *
-     * @see ButtonEnterEvent
-     * @see ButtonExitEvent
-     * @see ButtonClickEvent
+     * @see OnEnterEvent
+     * @see OnExitEvent
+     * @see OnClickEvent
      */
     class EventManager {
     private:
@@ -95,7 +95,7 @@ namespace HBE::Application::Managers {
          * @brief Abstract base for type-erased event subscriber containers.
          *
          * Uses virtual dispatch to invoke listeners regardless of the actual EventType.
-         * This allows storing EventSubs<ButtonEnterEvent>, EventSubs<ButtonClickEvent>, etc.,
+         * This allows storing EventSubs<OnEnterEvent>, EventSubs<OnClickEvent>, etc.,
          * in a single unordered_map without knowing their concrete types.
          *
          * @note Only used internally for type erasure; not meant for direct use.
@@ -125,15 +125,15 @@ namespace HBE::Application::Managers {
          * @struct EventSubs<EventType>
          * @brief Template specialization storing listeners for a specific event type.
          *
-         * Each specialization (e.g., EventSubs<ButtonEnterEvent>) holds a vector of
+         * Each specialization (e.g., EventSubs<OnEnterEvent>) holds a vector of
          * callbacks that expect that specific event type. When dispatched, it invokes
          * each callback with the properly-typed event object.
          *
-         * @tparam EventType The concrete event struct (e.g., ButtonEnterEvent)
+         * @tparam EventType The concrete event struct (e.g., OnEnterEvent)
          *
          * @example
-         * EventSubs<ButtonEnterEvent> stores:
-         *   map<uint64_t, function<void(const ButtonEnterEvent&)>>
+         * EventSubs<OnEnterEvent> stores:
+         *   map<uint64_t, function<void(const OnEnterEvent&)>>
          *
          * So subscribers can be:
          *   - Lambda captures
@@ -236,8 +236,8 @@ namespace HBE::Application::Managers {
          *
          * @example
          * @code
-         *   auto handle = g_app.GetEventManager().Subscribe<ButtonEnterEvent>(
-         *       [](const ButtonEnterEvent& evt) {
+         *   auto handle = g_app.GetEventManager().Subscribe<OnEnterEvent>(
+         *       [](const OnEnterEvent& evt) {
          *           std::cout << "Button " << evt.entity_id << " hovered! \n";
          *       }
          *   );
@@ -285,7 +285,7 @@ namespace HBE::Application::Managers {
          * @code
          *   // In UISystem::OnUpdateButton()
          *   if (button_just_entered_hover) {
-         *       g_app.GetEventManager().Emit(ButtonEnterEvent{entity_id});
+         *       g_app.GetEventManager().Emit(OnEnterEvent{entity_id});
          *   }
          * @endcode
          *
@@ -376,8 +376,8 @@ namespace HBE::Application::Managers {
          *
          * @example
          * @code
-         *   auto handle = g_app.GetEventManager().Subscribe<ButtonEnterEvent>(
-         *       [](const ButtonEnterEvent& evt) { }
+         *   auto handle = g_app.GetEventManager().Subscribe<OnEnterEvent>(
+         *       [](const OnEnterEvent& evt) { }
          *   );
          *
          *   // Later, stop listening to this event (type determined automatically)
@@ -421,7 +421,7 @@ namespace HBE::Application::Managers {
          *
          * @example
          * @code
-         *   if (g_app.GetEventManager().IsSubscriptionActive<ButtonEnterEvent>(handle)) {
+         *   if (g_app.GetEventManager().IsSubscriptionActive<OnEnterEvent>(handle)) {
          *       // Subscription is still active
          *   }
          * @endcode

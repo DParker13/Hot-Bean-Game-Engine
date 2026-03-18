@@ -19,7 +19,7 @@ namespace HBE::Application::Events {
      * @struct ButtonHoverEnterEvent
      * @brief Emitted when mouse enters a button's bounds.
      */
-    struct ButtonEnterEvent {
+    struct OnEnterEvent {
         EntityID entity_id;
     };
 
@@ -27,15 +27,15 @@ namespace HBE::Application::Events {
      * @struct ButtonHoverExitEvent
      * @brief Emitted when mouse exits a button's bounds.
      */
-    struct ButtonExitEvent {
+    struct OnExitEvent {
         EntityID entity_id;
     };
 
     /**
-     * @struct ButtonClickEvent
+     * @struct OnClickEvent
      * @brief Emitted when a button is clicked.
      */
-    struct ButtonClickEvent {
+    struct OnClickEvent {
         EntityID entity_id;
     };
 } // namespace HBE::Application::Events

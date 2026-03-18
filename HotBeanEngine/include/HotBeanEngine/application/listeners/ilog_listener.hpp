@@ -1,5 +1,5 @@
 /**
- * @file log_listener.hpp
+ * @file ilog_listener.hpp
  * @author Daniel Parker (DParker13)
  * @brief Interface for objects that need to track log messages.
  * @version 0.1
@@ -15,9 +15,9 @@
 
 namespace HBE::Application::Listeners {
     /**
-     * @brief Base class for listening to log messages.
+     * @brief Interface for listening to log messages.
      *
-     * Implement this base class to receive notifications when log messages are generated.
+     * Implement this interface to receive notifications when log messages are generated.
      * Register with LoggingManager via RegisterLogListener.
      */
     class ILogListener {

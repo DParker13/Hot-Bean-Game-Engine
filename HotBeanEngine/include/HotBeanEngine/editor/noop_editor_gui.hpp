@@ -10,17 +10,17 @@ namespace HBE::Application::GUI {
     class NoopEditorGUI : public IEditorGUI {
     public:
         NoopEditorGUI() = default;
-        ~NoopEditorGUI() override = default;
+        ~NoopEditorGUI() = default;
 
-        void InitEditorGUI() override {}
-        void OnLog(Core::LoggingType /*level*/, std::string_view /*message*/) override {}
+        void InitEditorGUI() {}
+        void OnLog(Core::LoggingType /*level*/, std::string_view /*message*/) {}
 
-        void OnStart() override {}
-        void OnPreEvent() override {}
-        void OnEvent(SDL_Event & /*event*/) override {}
-        void OnWindowResize(SDL_Event & /*event*/) override {}
-        void OnUpdate() override {}
-        void OnRender() override {}
-        void OnPostRender() override {}
+        void OnStart() {}
+        void OnPreEvent() {}
+        void OnEvent(SDL_Event & /*event*/) {}
+        void OnWindowResize(SDL_Event & /*event*/) {}
+        void OnUpdate() {}
+        void OnRender() {}
+        void OnPostRender() {}
     };
 } // namespace HBE::Application::GUI

@@ -14,4 +14,5 @@
 #include "physics/collision_system.hpp"
 #include "physics/physics_system.hpp"
 #include "rendering/shape_system.hpp"
-#include "ui/ui_system.hpp"
+#include "ui/interact_system.hpp"
+#include "ui/text_system.hpp"
