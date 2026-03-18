@@ -2,4 +2,4 @@
 
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/application/archetype.hpp>
-#include <HotBeanEngine/application/events/button_events.hpp>
+#include <HotBeanEngine/application/events/interactive_events.hpp>
