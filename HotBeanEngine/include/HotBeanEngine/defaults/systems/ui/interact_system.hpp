@@ -10,11 +10,6 @@
 
 #pragma once
 
-#include <unordered_set>
-
-#include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
-
 #include <HotBeanEngine/application/events/interactive_events.hpp>
 #include <HotBeanEngine/core/system.hpp>
 #include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>

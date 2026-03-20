@@ -139,6 +139,11 @@ namespace HBE::Application::Managers {
             return m_component_manager->GetComponentData<T>(entity);
         }
 
+        template <typename T>
+        T *TryGetComponent(EntityID entity) noexcept {
+            return m_component_manager->TryGetComponentData<T>(entity);
+        }
+
         std::vector<IComponent *> GetAllComponents(EntityID entity);
 
         // ============================================================================

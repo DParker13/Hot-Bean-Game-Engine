@@ -44,9 +44,9 @@ namespace HBE::Application::Managers {
         // Maps Component Object Type name to ComponentID id
         std::unordered_map<std::string, ComponentID> m_component_name_to_type;
 
-        // Maps Component Object Type name to sparse set of component data
-        // ComponentID names are the keys, sparse set of component data is the value
-        std::unordered_map<std::string, std::shared_ptr<ISparseSet>> m_component_name_to_data;
+        // Vector indexed by ComponentID storing sparse set of component data
+        // Direct O(1) access eliminates hash lookup overhead
+        std::vector<std::shared_ptr<ISparseSet>> m_component_id_to_data;
 
     public:
         ComponentManager(std::shared_ptr<LoggingManager> logging_manager);
@@ -103,8 +103,13 @@ namespace HBE::Application::Managers {
             // Maps ComponentID to an id
             m_component_name_to_type[component_name] = component_id;
 
-            // Create new sparse set for component data
-            m_component_name_to_data[component_name] = std::make_shared<SparseSet<T, MAX_ENTITIES>>();
+            // Ensure vector capacity for direct O(1) access
+            if (m_component_id_to_data.size() <= component_id) {
+                m_component_id_to_data.resize(component_id + 1);
+            }
+
+            // Create new sparse set for component data indexed by ComponentID
+            m_component_id_to_data[component_id] = std::make_shared<SparseSet<T, MAX_ENTITIES>>();
 
             m_registered_components++;
 
@@ -225,8 +230,10 @@ namespace HBE::Application::Managers {
                 LOG_CORE(LoggingType::DEBUG,
                          "\tAll \"" + component_name + "\" Components removed... Destroying Component Array");
 
+                ComponentID component_id = m_component_name_to_type[component_name];
+                m_component_id_to_name.erase(component_id);
                 m_component_name_to_type.erase(component_name);
-                m_component_name_to_data.erase(component_name);
+                m_component_id_to_data[component_id] = nullptr;
                 m_registered_components--;
             }
         }
@@ -241,6 +248,17 @@ namespace HBE::Application::Managers {
         template <typename T>
         T &GetComponentData(EntityID entity) {
             return GetComponentSet<T>()->GetElementAsRef(entity);
+        }
+
+        template <typename T>
+        T *TryGetComponentData(EntityID entity) noexcept {
+            auto sparse_set = TryGetComponentSet<T>();
+
+            if (!sparse_set) {
+                return nullptr;
+            }
+
+            return sparse_set->GetElement(entity);
         }
 
         /**
@@ -280,11 +298,7 @@ namespace HBE::Application::Managers {
          */
         template <typename T>
         bool HasComponent(EntityID entity) const {
-            try {
-                return GetComponentSet<T>()->HasElement(entity);
-            } catch (const ComponentNotRegisteredException &) {
-                return false;
-            }
+            return GetComponentSet<T>()->HasElement(entity);
         }
 
         template <typename... Ts>
@@ -323,7 +337,7 @@ namespace HBE::Application::Managers {
 
         template <typename T>
         bool IsComponentRegistered() const {
-            return m_component_name_to_type.find(std::string(GetComponentName<T>())) != m_component_name_to_type.end();
+            return IsComponentRegistered(std::string(GetComponentName<T>()));
         }
 
     private:
@@ -336,14 +350,28 @@ namespace HBE::Application::Managers {
          */
         template <typename T>
         std::shared_ptr<SparseSet<T, MAX_ENTITIES>> GetComponentSet() const {
-            if (!IsComponentRegistered<T>()) {
-                auto ex = ComponentNotRegisteredException(std::string(GetComponentName<T>()));
+            const std::string component_name = std::string(GetComponentName<T>());
+
+            if (!IsComponentRegistered(component_name)) {
+                auto ex = ComponentNotRegisteredException(component_name);
                 LOG_CORE(LoggingType::ERROR, ex.what());
                 throw ex;
             }
 
-            return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(
-                m_component_name_to_data.at(std::string(GetComponentName<T>())));
+            ComponentID component_id = m_component_name_to_type.find(component_name)->second;
+            return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(m_component_id_to_data[component_id]);
+        }
+
+        template <typename T>
+        std::shared_ptr<SparseSet<T, MAX_ENTITIES>> TryGetComponentSet() noexcept {
+            const std::string component_name = std::string(GetComponentName<T>());
+
+            if (!IsComponentRegistered(component_name)) {
+                return nullptr;
+            }
+
+            ComponentID component_id = m_component_name_to_type.find(component_name)->second;
+            return std::static_pointer_cast<SparseSet<T, MAX_ENTITIES>>(m_component_id_to_data[component_id]);
         }
 
         /**

@@ -110,6 +110,8 @@ namespace HBE::Application::Managers {
             case GameLoopState::OnPostRender:
                 system->OnPostRender();
                 break;
+            default:
+                break;
             }
         }
     }
@@ -120,6 +122,8 @@ namespace HBE::Application::Managers {
             switch (state) {
             case GameLoopState::OnWindowResize:
                 LOG_CORE(LoggingType::DEBUG, "OnWindowResize called");
+                break;
+            default:
                 break;
             }
         }
@@ -132,6 +136,8 @@ namespace HBE::Application::Managers {
             case GameLoopState::OnWindowResize:
                 system->OnWindowResize(event);
                 break;
+            default:
+                break;
             }
         }
 
@@ -139,6 +145,8 @@ namespace HBE::Application::Managers {
             switch (state) {
             case GameLoopState::OnWindowResize:
                 LOG_CORE(LoggingType::DEBUG, "OnWindowResize finished");
+                break;
+            default:
                 break;
             }
         }

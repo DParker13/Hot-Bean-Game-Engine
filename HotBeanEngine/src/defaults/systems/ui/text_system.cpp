@@ -21,7 +21,10 @@ namespace HBE::Default::Systems {
     using namespace Application::Events;
 
     TextSystem::~TextSystem() {
-        TTF_CloseFont(m_font); // This causes a segmentation fault on exit for some reason
+        if (m_font && TTF_WasInit()) {
+            TTF_CloseFont(m_font);
+        }
+
         m_font = nullptr;
     }
 

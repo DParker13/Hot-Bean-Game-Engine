@@ -27,6 +27,8 @@ namespace HBE::Core {
     struct SystemBase : public IGameLoop, public IName {
         std::set<EntityID> m_entities;
 
+        virtual ~SystemBase() = default;
+
         virtual std::string_view GetName() const = 0;
         virtual void OnEntityRemoved(EntityID entity) {};
         virtual void OnEntityAdded(EntityID entity) {};

@@ -63,6 +63,22 @@ namespace HBE::Application {
     }
 
     Application::~Application() {
+        // Ensure scenes/systems are destroyed before SDL subsystems are torn down.
+        if (m_scene_manager && m_scene_manager->GetCurrentScene()) {
+            m_scene_manager->UnloadScene(false);
+        }
+
+        m_scene_manager.reset();
+        m_loop_manager.reset();
+        m_ecs_manager.reset();
+        m_event_manager.reset();
+        m_audio_manager.reset();
+        m_transform_manager.reset();
+        m_camera_manager.reset();
+        m_render_manager.reset();
+        m_input_event_listener.reset();
+        m_editor_gui.reset();
+
         CleanUpSDL();
         s_instance = nullptr;
     }

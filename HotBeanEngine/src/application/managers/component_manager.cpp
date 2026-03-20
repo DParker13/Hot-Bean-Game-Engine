@@ -22,9 +22,10 @@ namespace HBE::Application::Managers {
     void ComponentManager::UnregisterComponentID(std::string component_name) {
         LOG_CORE(LoggingType::DEBUG, "Unregistering Component \"" + component_name + "\"");
 
-        m_component_id_to_name.erase(m_component_name_to_type[component_name]);
+        ComponentID component_id = m_component_name_to_type[component_name];
+        m_component_id_to_name.erase(component_id);
         m_component_name_to_type.erase(component_name);
-        m_component_name_to_data.erase(component_name);
+        m_component_id_to_data[component_id] = nullptr;
 
         m_registered_components--;
 
@@ -71,26 +72,19 @@ namespace HBE::Application::Managers {
      * @param entity EntityID to retrieve component from
      * @param component_id Type of component to retrieve
      * @return Component& Component data
-     * @throws ComponentNotRegisteredException or std::bad_any_cast
      */
     IComponent *ComponentManager::GetComponent(EntityID entity, ComponentID component_id) {
         if (!IsComponentRegistered(component_id)) {
-            auto ex = ComponentNotRegisteredException();
-            LOG_CORE(LoggingType::ERROR, ex.what());
-            throw ex;
+            return nullptr;
         }
 
-        // Resolve component name outside of try so catch can reference it
-        std::string component_name = m_component_id_to_name[component_id];
-
         try {
-            std::shared_ptr<ISparseSet> sparse_set = m_component_name_to_data[component_name];
+            std::shared_ptr<ISparseSet> sparse_set = m_component_id_to_data[component_id];
             return std::any_cast<IComponent *>(sparse_set->GetElementPtrAsAny(entity));
         } catch (const std::bad_any_cast &) {
             LOG_CORE(LoggingType::ERROR, "Failed to cast component for EntityID " + std::to_string(entity) +
-                                             ", Component \"" + component_name + "\" (id " +
-                                             std::to_string(component_id) + ").");
-            throw;
+                                             ", Component ID " + std::to_string(component_id) + ".");
+            return nullptr;
         }
     }
 
@@ -99,17 +93,14 @@ namespace HBE::Application::Managers {
      *
      * @param entity EntityID to remove component from
      * @param component_id Type of component to remove
-     * @throw ComponentNotRegisteredException
      */
     void ComponentManager::RemoveComponent(EntityID entity, ComponentID component_id) {
         if (!IsComponentRegistered(component_id)) {
-            auto ex = ComponentNotRegisteredException();
-            LOG_CORE(LoggingType::ERROR, ex.what());
-            throw ex;
+            LOG_CORE(LoggingType::WARNING, "Component ID " + std::to_string(component_id) + " not registered.");
+            return;
         }
 
-        std::string component_name = m_component_id_to_name[component_id];
-        auto sparse_set = m_component_name_to_data[component_name];
+        auto sparse_set = m_component_id_to_data[component_id];
 
         if (!sparse_set->HasElement(entity)) {
             LOG_CORE(LoggingType::WARNING, "Component not associated with entity");
@@ -128,7 +119,7 @@ namespace HBE::Application::Managers {
      * @return false
      */
     bool ComponentManager::IsComponentRegistered(std::string component_name) const {
-        return m_component_name_to_type.find(component_name) != m_component_name_to_type.end();
+        return m_component_name_to_type.count(component_name) > 0;
     }
 
     /**
@@ -139,7 +130,7 @@ namespace HBE::Application::Managers {
      * @return false
      */
     bool ComponentManager::IsComponentRegistered(ComponentID component_id) const {
-        return m_component_id_to_name.find(component_id) != m_component_id_to_name.end();
+        return m_component_id_to_name.count(component_id) > 0;
     }
 
     /**
@@ -150,7 +141,7 @@ namespace HBE::Application::Managers {
 
         m_component_id_to_name.clear();
         m_component_name_to_type.clear();
-        m_component_name_to_data.clear();
+        m_component_id_to_data.clear();
         m_registered_components = 0;
 
         LOG_CORE(LoggingType::DEBUG, "All components cleared.");

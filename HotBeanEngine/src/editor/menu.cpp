@@ -22,7 +22,7 @@ namespace HBE::Application::GUI {
             // }
             if (ImGui::BeginMenu("Windows")) {
                 for (auto &window : m_windows) {
-                    if (window->m_name.c_str() == "Menu") {
+                    if (window->m_name == "Menu") {
                         continue;
                     }
 
