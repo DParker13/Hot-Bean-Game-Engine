@@ -31,6 +31,7 @@ namespace HBE::Default {
          * to append additional systems through SetupCustomSystems().
          */
         void SetupSystems() override;
+        void SetupScene() override;
 
     protected:
         /**

@@ -12,8 +12,9 @@
 #include "control_bar.hpp"
 
 namespace HBE::Application::GUI {
-    void ControlBar::RenderWindow() {
+    void ControlBar::Render() {
         if (ImGui::BeginMainMenuBar()) {
+            ImGui::BeginDisabled(!g_app.GetSceneManager().GetCurrentScene());
             if (ImGui::Button("Start")) {
                 // Start the game
                 g_app.PlayGame();
@@ -28,6 +29,7 @@ namespace HBE::Application::GUI {
                 // Stop the game
                 g_app.StopGame();
             }
+            ImGui::EndDisabled();
 
             ImGui::EndMainMenuBar();
         }

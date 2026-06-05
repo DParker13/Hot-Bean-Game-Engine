@@ -8,6 +8,7 @@ add_library(imgui STATIC
 	${imgui_SOURCE_DIR}/imgui_demo.cpp
 	${imgui_SOURCE_DIR}/imgui_tables.cpp
 	${imgui_SOURCE_DIR}/imgui_widgets.cpp
+    ${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
 
 	${imgui_SOURCE_DIR}/backends/imgui_impl_sdl3.cpp
 	${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer3.cpp
@@ -22,19 +23,28 @@ target_link_libraries(imgui PUBLIC
 )
 
 add_library(HotBeanEngine_Editor STATIC
-    console_window.cpp
-    console_window.hpp
     control_bar.cpp
     control_bar.hpp
     editor_gui.cpp
-    entity_window.cpp
-    entity_window.hpp
-    layer_window.cpp
-    layer_window.hpp
+    editor_utils.hpp
     menu.cpp
     menu.hpp
-    property_window.cpp
-    property_window.hpp
+    project_manager.cpp
+    project_manager.hpp
+    windows/config_window.cpp
+    windows/config_window.hpp
+    windows/console_window.cpp
+    windows/console_window.hpp
+    windows/entity_window.cpp
+    windows/entity_window.hpp
+    windows/layer_window.cpp
+    windows/layer_window.hpp
+    windows/new_project_window.cpp
+    windows/new_project_window.hpp
+    windows/project_window.cpp
+    windows/project_window.hpp
+    windows/property_window.cpp
+    windows/property_window.hpp
 )
 
 target_link_libraries(HotBeanEngine_Editor PUBLIC

@@ -4,6 +4,8 @@ project(FullHotBeanEngine LANGUAGES CXX)
 
 set(CMAKE_BUILD_PARALLEL_LEVEL 4)
 
+option(HBE_WARNINGS_AS_ERRORS "Treat compiler warnings as errors for project targets" ON)
+
 # Enable testing for CTest
 enable_testing()
 

@@ -23,6 +23,10 @@ namespace HBE::Default {
         SetupCustomSystems();
     }
 
+    void DefaultScene::SetupScene() {
+        // Any scene-specific setup can be done here
+    }
+
     void DefaultScene::SetupDefaultSystems() {
         std::filesystem::path font_path =
             std::filesystem::current_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";

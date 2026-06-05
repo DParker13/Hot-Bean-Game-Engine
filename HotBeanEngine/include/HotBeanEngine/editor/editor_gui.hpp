@@ -19,6 +19,10 @@
 #include <HotBeanEngine/editor/iwindow.hpp>
 
 namespace HBE::Application::GUI {
+    class Menu;
+    class ControlBar;
+    class ProjectManager;
+
     /**
      * @brief Manages ImGui-based editor interface
      *
@@ -27,7 +31,10 @@ namespace HBE::Application::GUI {
      */
     class EditorGUI : public IEditorGUI {
     private:
-        std::vector<std::shared_ptr<IWindow>> m_windows;
+        std::map<std::string, std::shared_ptr<IWindow>> m_windows;
+        std::shared_ptr<ProjectManager> m_project_manager;
+        std::shared_ptr<Menu> m_menu;
+        std::shared_ptr<ControlBar> m_control_bar;
 
         // Camera drag tracking
         bool m_is_dragging = false;
@@ -54,6 +61,8 @@ namespace HBE::Application::GUI {
         virtual void RenderImGui();
         virtual void RenderWindows();
         virtual void SetupDefaultDockingLayout();
+
+    private:
         void MoveCamera(float speed);
     };
 } // namespace HBE::Application::GUI

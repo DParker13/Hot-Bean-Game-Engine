@@ -25,7 +25,7 @@ namespace Scenes {
         int camera_entity = g_ecs.CreateEntity();
 
         Transform2D camera_transform;
-        camera_transform.m_local_position = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
+        camera_transform.m_local_position = {500, 500};
         camera_transform.m_layer = 0;
         Camera camera;
         camera.m_viewport_size = {0.5f, 1.0f};
@@ -39,7 +39,7 @@ namespace Scenes {
         int camera_entity_two = g_ecs.CreateEntity();
 
         Transform2D camera_transform_two;
-        camera_transform_two.m_local_position = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
+        camera_transform_two.m_local_position = {500, 500};
         camera_transform_two.m_layer = 0;
         Camera camera_two;
         camera_two.m_viewport_size = {0.5f, 1.0f};
@@ -54,12 +54,12 @@ namespace Scenes {
         int floor_entity = g_ecs.CreateEntity();
 
         Transform2D floor_transform;
-        floor_transform.m_local_position = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT};
+        floor_transform.m_local_position = {500, 500};
         floor_transform.m_layer = 0;
         RigidBody floor_rigidbody;
         Collider2D floor_collider;
         floor_collider.m_shape = Collider2D::ColliderShape::Box;
-        floor_collider.m_size = {SCREEN_WIDTH, 50.0f};
+        floor_collider.m_size = {1000, 50.0f};
         Shape floor_shape;
         floor_shape.m_size = floor_collider.m_size;
         floor_shape.m_filled = true;
@@ -76,8 +76,8 @@ namespace Scenes {
 
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_real_distribution<> dist_x(0.0f, SCREEN_WIDTH);
-        std::uniform_real_distribution<> dist_y(0.0f, SCREEN_HEIGHT / 2.0f);
+        std::uniform_real_distribution<> dist_x(0.0f, 1000);
+        std::uniform_real_distribution<> dist_y(0.0f, 500);
         std::uniform_real_distribution<> dist_angle(0.0f, 360.0f);
         std::uniform_int_distribution<> dist_size(5, 30);
         std::uniform_int_distribution<> dist_color(0, 255);
@@ -107,7 +107,7 @@ namespace Scenes {
 
         int button_entity = g_ecs.CreateEntity();
         Transform2D button_transform;
-        button_transform.m_local_position = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
+        button_transform.m_local_position = {500, 500};
         button_transform.m_layer = 10;
         Interactive interactive;
         Texture button_texture;

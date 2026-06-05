@@ -21,6 +21,7 @@
 #include <HotBeanEngine/core/logging_type.hpp>
 #include <HotBeanEngine/core/octree_2d.hpp>
 #include <HotBeanEngine/core/octree_2d_node.hpp>
+#include <HotBeanEngine/core/project.hpp>
 #include <HotBeanEngine/core/scene.hpp>
 #include <HotBeanEngine/core/serializer.hpp>
 #include <HotBeanEngine/core/signature.hpp>

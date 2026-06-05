@@ -9,11 +9,10 @@
  */
 #pragma once
 
-#include <imgui.h>
 #include <memory>
-#include <vector>
 
-#include <HotBeanEngine/editor/iwindow.hpp>
+#include "project_manager.hpp"
+#include "windows/new_project_window.hpp"
 
 namespace HBE::Application::GUI {
     /**
@@ -23,14 +22,16 @@ namespace HBE::Application::GUI {
      * Provides window visibility toggles and menu bar functionality.
      * Displays all available editor windows and allows users to show/hide them.
      */
-    class Menu : public IWindow {
+    class Menu {
     private:
-        std::vector<std::shared_ptr<IWindow>> &m_windows;
+        std::map<std::string, std::shared_ptr<IWindow>> &m_windows;
+        std::shared_ptr<ProjectManager> m_project_manager = nullptr;
 
     public:
-        Menu(std::vector<std::shared_ptr<IWindow>> &windows) : IWindow("Menu"), m_windows(windows) {}
+        Menu(std::map<std::string, std::shared_ptr<IWindow>> &windows, std::shared_ptr<ProjectManager> project_manager)
+            : m_windows(windows), m_project_manager(project_manager) {}
         ~Menu() = default;
 
-        virtual void RenderWindow() override;
+        void Render();
     };
 } // namespace HBE::Application::GUI

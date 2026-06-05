@@ -13,7 +13,7 @@
 
 namespace HBE::Application::GUI {
     void PropertyWindow::RenderWindow() {
-        if (ImGui::Begin(m_name.c_str())) {
+        if (ImGui::Begin(m_name.c_str(), &m_open)) {
             int id = 0;
             for (auto &property : m_properties) {
                 if (ImGui::CollapsingHeader(property.first.data(), ImGuiTreeNodeFlags_DefaultOpen)) {

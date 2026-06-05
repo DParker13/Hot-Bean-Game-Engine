@@ -12,13 +12,14 @@
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application::Managers {
+    using namespace Core;
 
-    LoggingManager::LoggingManager(const std::string &log_path, LoggingType level, bool log_to_console)
-        : m_log_path(log_path), m_log_level(level), m_log_to_console(log_to_console), m_testing(false) {
+    LoggingManager::LoggingManager(std::filesystem::path log_directory, LoggingType level, bool log_to_console)
+        : m_log_directory(log_directory), m_log_level(level), m_log_to_console(log_to_console), m_testing(false) {
         SetupDefaultLoggingPath();
 
-        // Create the missing log directories if they don't exist
-        std::filesystem::create_directories(std::filesystem::path(m_log_path).parent_path());
+        // Create the missing log directory if it doesn't exist
+        std::filesystem::create_directories(m_log_directory);
     }
 
     LoggingManager::LoggingManager() : m_testing(true) { SetupDefaultLoggingPath(); }
@@ -100,11 +101,11 @@ namespace HBE::Application::Managers {
     void LoggingManager::LogToFile(const LoggingType type, std::stringstream &final_message) {
         if (!m_log_file.is_open()) {
             // Try to open the log file in append mode
-            m_log_file.open(m_log_path, std::ios_base::app);
+            m_log_file.open(m_log_directory / LOG_FILE_NAME, std::ios_base::app);
 
             // Double check the file is open, otherwise throw an error
             if (!m_log_file.is_open()) {
-                std::cerr << "Failed to open/create log file " << m_log_path << std::endl;
+                std::cerr << "Failed to open/create log file " << m_log_directory << "/" << LOG_FILE_NAME << std::endl;
                 throw std::runtime_error("Failed to open/create log file");
             }
         }
@@ -117,23 +118,33 @@ namespace HBE::Application::Managers {
         }
     }
 
-    void LoggingManager::SetLogPath(std::string_view log_path) { m_log_path = log_path; }
+    void LoggingManager::SetLogDirectory(std::filesystem::path log_directory) {
+        m_log_directory = log_directory;
+
+        LOG_DIRECTORY = m_log_directory;
+        SaveConfig();
+    }
 
     LoggingType LoggingManager::GetLoggingLevel() { return m_log_level; }
 
-    void LoggingManager::SetLoggingLevel(LoggingType level) { m_log_level = level; }
+    void LoggingManager::SetLoggingLevel(LoggingType level) {
+        m_log_level = level;
+
+        LOGGING_LEVEL = m_log_level;
+        SaveConfig();
+    }
 
     void LoggingManager::SetupDefaultLoggingPath() {
-        if (m_log_path.empty()) {
+        if (m_log_directory.empty()) {
 // Determine the log directory based on the operating system and environment
 #ifdef _WIN32
-            m_log_path = "C:\\Windows\\Logs\\HotBeanEngine\\default.log";
+            m_log_directory = "C:\\Windows\\Logs\\HotBeanEngine";
 #elif __linux__
-            m_log_path = "/var/log/HotBeanEngine.log";
+            m_log_directory = "/var/log";
 #elif __APPLE__
-            m_log_path = "/var/log/HotBeanEngine.log";
+            m_log_directory = "/var/log";
 #else
-            m_log_path = "logs/HotBeanEngine.log"; // default to a local logs directory
+            m_log_directory = "logs"; // default to a local logs directory
 #endif
         }
     }

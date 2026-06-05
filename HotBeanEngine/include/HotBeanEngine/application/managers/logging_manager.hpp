@@ -34,7 +34,9 @@ namespace HBE::Application::Managers {
     class LoggingManager {
     private:
         std::ofstream m_log_file;
-        std::string m_log_path;
+        std::filesystem::path m_log_directory;
+        // Controls the minimum log level that will be logged. This is a global filter for all logging, so listeners
+        // will not receive messages below this level.
         LoggingType m_log_level = LoggingType::ERROR;
         bool m_log_to_console = false;
         std::vector<ILogListener *> m_log_listeners;
@@ -43,12 +45,12 @@ namespace HBE::Application::Managers {
         bool m_testing;
 
     public:
-        LoggingManager(const std::string &log_path, LoggingType level, bool log_to_console);
+        LoggingManager(std::filesystem::path log_directory, LoggingType level, bool log_to_console);
         LoggingManager();
         ~LoggingManager();
 
         void Log(const LoggingType type, std::string_view message, const char *file, int line, const char *function);
-        void SetLogPath(std::string_view log_path);
+        void SetLogDirectory(std::filesystem::path log_directory);
         LoggingType GetLoggingLevel();
         void SetLoggingLevel(LoggingType level);
         void RegisterLogListener(ILogListener *listener);

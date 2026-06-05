@@ -13,10 +13,9 @@
 #include <HotBeanEngine/defaults/default_scene_serializer.hpp>
 
 namespace Game {
-    ExampleGame::ExampleGame(const std::string &config_path,
-                             std::shared_ptr<HBE::Application::IComponentFactory> component_factory,
+    ExampleGame::ExampleGame(std::shared_ptr<HBE::Application::IComponentFactory> component_factory,
                              std::unique_ptr<HBE::Application::GUI::IEditorGUI> editor_gui)
-        : Application(config_path, component_factory, std::move(editor_gui)) {}
+        : Application(component_factory, std::move(editor_gui)) {}
 
     void ExampleGame::OnStart() {
         std::filesystem::path test_scene_path = std::filesystem::current_path() / "scenes" / "example_scene.yaml";

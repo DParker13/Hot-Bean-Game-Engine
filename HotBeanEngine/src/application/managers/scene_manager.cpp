@@ -77,9 +77,22 @@ namespace HBE::Application::Managers {
 
     std::shared_ptr<Scene> SceneManager::GetCurrentScene() const { return m_current_scene; }
 
+    bool SceneManager::IsSceneRegistered(std::shared_ptr<Scene> scene) {
+        if (!scene) {
+            LOG_CORE(LoggingType::ERROR, "Scene is null");
+            return false;
+        }
+
+        return IsSceneRegistered(scene->m_name);
+    }
+
+    bool SceneManager::IsSceneRegistered(std::string_view name) { return m_scenes.count(std::string(name)) > 0; }
+
     void SceneManager::RegisterScene(std::shared_ptr<Scene> scene) {
-        assert(scene && "Scene is null.");
-        assert(m_scenes.find(scene->m_name) == m_scenes.end() && "Scene with that name already exists.");
+        if (IsSceneRegistered(scene)) {
+            LOG_CORE(LoggingType::WARNING, "Scene with that name already registered!");
+            return;
+        }
 
         m_scenes.emplace(scene->m_name, scene);
     }

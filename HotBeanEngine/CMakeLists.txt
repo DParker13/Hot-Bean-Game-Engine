@@ -88,6 +88,15 @@ set(SDLIMAGE_AVIF OFF CACHE BOOL "Support loading AVIF images" FORCE)
 # Fetch dependencies
 FetchContent_MakeAvailable(GLM SDL3 SDL3_TTF SDL3_IMAGE SDL3_MIXER YAML_CPP BOX2D IMGUI)
 
+# Apply strict compile mode only to local targets (set after third-party dependencies).
+if(HBE_WARNINGS_AS_ERRORS)
+    if(MSVC)
+        add_compile_options(/WX)
+    else()
+        add_compile_options(-Werror)
+    endif()
+endif()
+
 # Platform-specific settings
 if(WIN32)
     set(HAVE_STRINGS_H 0 CACHE INTERNAL "Windows doesn't have strings.h" FORCE)

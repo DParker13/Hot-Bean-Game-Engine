@@ -9,6 +9,14 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}'")
 
+if(HBE_WARNINGS_AS_ERRORS)
+    if(MSVC)
+        add_compile_options(/WX)
+    else()
+        add_compile_options(-Werror)
+    endif()
+endif()
+
 add_executable(${PROJECT_NAME} src/main.cpp)
 
 # Add subdirectories for project modules
@@ -28,30 +36,7 @@ set(yaml_cpp_BINARY_DIR ${CMAKE_BINARY_DIR}/_deps/yaml_cpp-build)
 file(GLOB_RECURSE SCENE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/scenes/*.yaml")
 
 # Ensure target folders exist
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/assets")
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/scenes")
-
-# Add a post-build command to copy assets and resources
-add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-
-    # Copy the entire assets directory
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_CURRENT_SOURCE_DIR}/assets"
-            "${CMAKE_CURRENT_BINARY_DIR}/assets"
-
-    # Copy config.yaml
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${CMAKE_CURRENT_SOURCE_DIR}/assets/config.yaml"
-            "${CMAKE_CURRENT_BINARY_DIR}/assets/config.yaml"
-
-    # Copy the HotBeanEngine DLL
-    # COMMAND ${CMAKE_COMMAND} -E copy
-    #         "${HotBeanEngine_BINARY_DIR}/libHotBeanEngine.dll"
-    #         "${CMAKE_CURRENT_BINARY_DIR}/libHotBeanEngine.dll"
-
-    COMMENT "Copying assets, config file, DLL, and scenes to binary directory"
-)
 
 # Loop to copy each .yaml file in scenes individually
 foreach(scene_file ${SCENE_FILES})

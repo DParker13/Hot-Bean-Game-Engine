@@ -17,30 +17,24 @@ namespace HBE::Application {
     using namespace Managers;
     using namespace Listeners;
 
-    Application::Application(const std::string &config_path, std::shared_ptr<IComponentFactory> component_factory,
+    Application::Application(std::shared_ptr<IComponentFactory> component_factory,
                              std::unique_ptr<GUI::IEditorGUI> editor_gui)
         : m_component_factory(component_factory), m_editor_gui(std::move(editor_gui)) {
 
         // Setup singleton instance
         s_instance = this;
 
-        bool config_loaded = LoadConfig(config_path) == 0;
+        int config_load_result = LoadConfig();
 
         // Setup logging first to capture any application initialization errors
-        m_logging_manager = std::make_shared<LoggingManager>(LOG_PATH, LOGGING_LEVEL, LOG_TO_CONSOLE);
+        m_logging_manager = std::make_shared<LoggingManager>(LOG_DIRECTORY, LOGGING_LEVEL, LOG_TO_CONSOLE);
+        m_logging_manager->RegisterLogListener(m_editor_gui.get());
+
+        if (config_load_result != 0) {
+            LOG_CORE(LoggingType::WARNING, "Failed to load config file, using defaults.");
+        }
 
         SetupRendererAndWindow();
-
-        if (config_loaded) {
-            LOG_CORE(LoggingType::INFO, "Config file loaded.");
-        }
-        else {
-            LOG_CORE(LoggingType::WARNING, "Failed to load config file at \"" + config_path + "\"");
-            LOG_CORE(LoggingType::INFO, "\tLoading Default config");
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Config Error",
-                                     std::string("Failed to load config file at \"" + config_path + "\"").data(),
-                                     m_window);
-        }
 
         // Initialize input event listener
         m_input_event_listener = std::make_unique<Listeners::InputEventListener>(m_logging_manager);
@@ -59,7 +53,6 @@ namespace HBE::Application {
             m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
         }
         m_editor_gui->InitEditorGUI();
-        m_logging_manager->RegisterLogListener(m_editor_gui.get());
     }
 
     Application::~Application() {
@@ -86,8 +79,7 @@ namespace HBE::Application {
     void Application::SetupRendererAndWindow() {
         // Create new window surface
         if (m_window == nullptr) {
-            SDL_CreateWindowAndRenderer(WINDOW_TITLE.c_str(), SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE,
-                                        &m_window, &m_renderer);
+            SDL_CreateWindowAndRenderer("Hot Bean Engine", 1280, 720, SDL_WINDOW_RESIZABLE, &m_window, &m_renderer);
 
             // Check if window creation was successful
             if (m_window == nullptr) {
@@ -187,17 +179,17 @@ namespace HBE::Application {
 
     double Application::GetDeltaTimeHiRes() const { return m_delta_time_hi_res; }
 
-    ECSManager &Application::GetECSManager() const { return *m_ecs_manager; }
+    ECSManager &Application::GetECSManager() { return *m_ecs_manager; }
 
-    SceneManager &Application::GetSceneManager() const { return *m_scene_manager; }
+    SceneManager &Application::GetSceneManager() { return *m_scene_manager; }
 
-    ApplicationStateManager &Application::GetStateManager() const { return *m_loop_manager; }
+    ApplicationStateManager &Application::GetStateManager() { return *m_loop_manager; }
 
-    RenderManager &Application::GetRenderManager() const { return *m_render_manager; }
+    RenderManager &Application::GetRenderManager() { return *m_render_manager; }
 
     CameraManager &Application::GetCameraManager() const { return *m_camera_manager; }
 
-    TransformManager &Application::GetTransformManager() const { return *m_transform_manager; }
+    TransformManager &Application::GetTransformManager() { return *m_transform_manager; }
 
     EventManager &Application::GetEventManager() const { return *m_event_manager; }
 
@@ -216,7 +208,9 @@ namespace HBE::Application {
 
     void Application::SetLoggingLevel(LoggingType level) { m_logging_manager->SetLoggingLevel(level); }
 
-    void Application::SetLogPath(std::string_view log_path) { m_logging_manager->SetLogPath(log_path); }
+    void Application::SetLogDirectory(std::filesystem::path log_directory) {
+        m_logging_manager->SetLogDirectory(log_directory);
+    }
 
     void Application::PlayGame() { m_loop_manager->QueueStateChange(ApplicationState::Playing); }
 

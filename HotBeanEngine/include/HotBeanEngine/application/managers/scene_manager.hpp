@@ -40,6 +40,8 @@ namespace HBE::Application::Managers {
         void UnloadScene(bool save_to_file);
         std::shared_ptr<Scene> GetCurrentScene() const;
 
+        bool IsSceneRegistered(std::shared_ptr<Scene> scene);
+        bool IsSceneRegistered(std::string_view name);
         void RegisterScene(std::shared_ptr<Scene> scene);
         void RemoveScene(std::string name, bool save_to_file);
         void RemoveScene(std::shared_ptr<Scene> scene, bool save_to_file);

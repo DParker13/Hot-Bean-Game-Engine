@@ -85,7 +85,7 @@ namespace HBE::Application {
          *
          * Initializes SDL, managers, and sets up the application singleton.
          */
-        Application(const std::string &config_path, std::shared_ptr<IComponentFactory> component_factory,
+        Application(std::shared_ptr<IComponentFactory> component_factory,
                     std::unique_ptr<GUI::IEditorGUI> editor_gui = nullptr);
 
         /**
@@ -143,25 +143,25 @@ namespace HBE::Application {
          * @brief Get the ECS manager facade.
          * @return Reference to the ECS manager.
          */
-        Managers::ECSManager &GetECSManager() const;
+        Managers::ECSManager &GetECSManager();
 
         /**
          * @brief Access the scene manager.
          * @return Reference to the scene manager.
          */
-        Managers::SceneManager &GetSceneManager() const;
+        Managers::SceneManager &GetSceneManager();
 
         /**
          * @brief Access the application state manager.
          * @return Reference to the application state manager.
          */
-        Managers::ApplicationStateManager &GetStateManager() const;
+        Managers::ApplicationStateManager &GetStateManager();
 
         /**
          * @brief Access the render manager.
          * @return Reference to the render manager.
          */
-        Managers::RenderManager &GetRenderManager() const;
+        Managers::RenderManager &GetRenderManager();
 
         /**
          * @brief Access the camera manager.
@@ -173,13 +173,13 @@ namespace HBE::Application {
          * @brief Access the transform manager.
          * @return Reference to the transform manager.
          */
-        Managers::TransformManager &GetTransformManager() const;
+        Managers::TransformManager &GetTransformManager();
 
         /**
          * @brief Access the audio manager.
          * @return Reference to the audio manager.
          */
-        Managers::AudioManager &GetAudioManager() const;
+        Managers::AudioManager &GetAudioManager();
 
         /**
          * @brief Access the event manager.
@@ -228,10 +228,10 @@ namespace HBE::Application {
         void SetLoggingLevel(LoggingType level);
 
         /**
-         * @brief Set the path for the log file.
-         * @param log_path The path to the log file.
+         * @brief Set the path for the log directory.
+         * @param log_directory The path to the log directory.
          */
-        void SetLogPath(std::string_view log_path);
+        void SetLogDirectory(std::filesystem::path log_directory);
 
         /**
          * @brief Entry point for the main loop of the application.

@@ -1,5 +1,7 @@
 BasedOnStyle: llvm
 IndentWidth: 4
+IndentPPDirectives: BeforeHash
+PPIndentWidth: 4
 NamespaceIndentation: All
 AccessModifierOffset: -4
 BreakBeforeBraces: Custom
