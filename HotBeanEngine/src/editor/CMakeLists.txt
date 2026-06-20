@@ -18,10 +18,6 @@ target_include_directories(imgui PUBLIC
     ${imgui_SOURCE_DIR}
 )
 
-target_link_libraries(imgui PUBLIC
-    HotBeanEngine_Defaults
-)
-
 add_library(HotBeanEngine_Editor STATIC
     control_bar.cpp
     control_bar.hpp
@@ -45,8 +41,12 @@ add_library(HotBeanEngine_Editor STATIC
     windows/project_window.hpp
     windows/property_window.cpp
     windows/property_window.hpp
+    windows/scene_window.cpp
+    windows/scene_window.hpp
 )
 
 target_link_libraries(HotBeanEngine_Editor PUBLIC
     imgui
+    HotBeanEngine_Systems
+    HotBeanEngine_Components
 )

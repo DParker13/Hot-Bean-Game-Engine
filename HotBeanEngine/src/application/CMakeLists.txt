@@ -8,4 +8,5 @@ add_subdirectory(managers)
 target_link_libraries(HotBeanEngine_Application PUBLIC
     HotBeanEngine_Managers
     HotBeanEngine_Editor
+    HotBeanEngine_Components
 )

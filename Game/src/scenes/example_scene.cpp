@@ -10,11 +10,12 @@
  */
 
 #include "example_scene.hpp"
+#include <HotBeanEngine/components/default_components.hpp>
 #include <random>
 
 namespace Scenes {
     using namespace HBE::Core;
-    using namespace HBE::Default::Components;
+    using namespace HBE::Components;
     using namespace HBE::Application::Events;
 
     void ExampleScene::SetupCustomSystems() {

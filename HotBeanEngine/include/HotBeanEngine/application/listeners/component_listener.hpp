@@ -23,7 +23,7 @@ namespace HBE::Application::Listeners {
     class ComponentListener {
     private:
         std::unordered_set<Core::ComponentID> m_listened_components =
-            {}; ///< Set of component IDs this listener is interested in
+            {}; /// Set of component IDs this listener is interested in
 
     public:
         ~ComponentListener() = default;

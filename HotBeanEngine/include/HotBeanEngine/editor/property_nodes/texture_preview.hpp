@@ -4,7 +4,7 @@
 #include <glm/vec2.hpp>
 #include <imgui.h>
 
-namespace HBE::Application::GUI::PropertyNodes {
+namespace HBE::GUI::PropertyNodes {
     class TexturePreview {
     public:
         static void RenderProperty(int &id, const char *label, SDL_Texture *texture) {
@@ -34,4 +34,4 @@ namespace HBE::Application::GUI::PropertyNodes {
             ImGui::PopID();
         }
     };
-} // namespace HBE::Application::GUI::PropertyNodes
+} // namespace HBE::GUI::PropertyNodes

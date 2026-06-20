@@ -36,6 +36,7 @@ namespace HBE::Core {
     inline bool LOG_TO_CONSOLE = true;                     // Whether to also log messages to the console (true/false)
 
     // Startup project path (can be set in config.yaml)
+    // This stores the last project that was opened or created, and will be loaded on startup.
     inline std::filesystem::path STARTUP_PROJECT_PATH = "";
 
     /**
@@ -47,17 +48,16 @@ namespace HBE::Core {
         YAML::Emitter out;
         out.SetIndent(2);
 
-        // Project
         out << YAML::BeginMap;
+
+        // Project
         out << YAML::Key << "Project" << YAML::Value;
         out << YAML::BeginMap;
-        out << YAML::Key << "startup_path" << YAML::Value << STARTUP_PROJECT_PATH
+        out << YAML::Key << "startup_path" << YAML::Value << YAML::DoubleQuoted << STARTUP_PROJECT_PATH << YAML::Auto
             << YAML::Comment("Path to the project that should be loaded on startup");
-        out << YAML::EndMap;
         out << YAML::EndMap;
 
         // Logging
-        out << YAML::BeginMap;
         out << YAML::Key << "Logging" << YAML::Value;
         out << YAML::BeginMap;
         out << YAML::Key << "directory" << YAML::Value << YAML::DoubleQuoted << LOG_DIRECTORY << YAML::Auto
@@ -66,6 +66,7 @@ namespace HBE::Core {
             << YAML::Comment("DEBUG = 0, INFO, WARNING, ERROR, FATAL = 4");
         out << YAML::Key << "console" << YAML::Value << YAML::TrueFalseBool << LOG_TO_CONSOLE << YAML::Auto;
         out << YAML::EndMap;
+
         out << YAML::EndMap;
 
         // Ensure directory exists

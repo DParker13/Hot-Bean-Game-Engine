@@ -14,7 +14,7 @@
 #include <functional>
 #include <string>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
 
     /**
      * @brief Generic SDL open-file-dialog callback.
@@ -109,4 +109,20 @@ namespace HBE::Application::GUI {
         SDL_ShowSaveFileDialog(OnFileDialogResult, callback, window, filters, numFilters, nullptr);
     }
 
-} // namespace HBE::Application::GUI
+    inline void YesNoCancelDialog(SDL_Window *window, const char *title, const char *message,
+                                  std::function<void(int)> onSelected) {
+        auto *callback = new std::function<void(int)>(std::move(onSelected));
+        SDL_MessageBoxData message_box_data{};
+        message_box_data.numbuttons = 3;
+        message_box_data.buttons = new SDL_MessageBoxButtonData[3]{
+            {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Yes"},
+            {0, 1, "No"},
+            {SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "Cancel"},
+        };
+        message_box_data.title = title;
+        message_box_data.message = message;
+        message_box_data.flags = SDL_MESSAGEBOX_INFORMATION;
+        SDL_ShowMessageBox(&message_box_data, 0);
+    }
+
+} // namespace HBE::GUI

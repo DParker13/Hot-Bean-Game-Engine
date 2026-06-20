@@ -23,7 +23,8 @@ target_include_directories(HotBeanEngine_Managers PUBLIC
 )
 
 target_link_libraries(HotBeanEngine_Managers PUBLIC
-    HotBeanEngine_Defaults
+    HotBeanEngine_Systems
+    HotBeanEngine_Components
     SDL3::SDL3
     SDL3_mixer::SDL3_mixer
     SDL3_image::SDL3_image

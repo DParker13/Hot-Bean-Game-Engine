@@ -14,7 +14,7 @@
 
 #include "../project_manager.hpp"
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     /**
      * @class NewProjectWindow
      * @brief Window for creating a new project.
@@ -33,4 +33,4 @@ namespace HBE::Application::GUI {
 
         void RenderWindow() override;
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

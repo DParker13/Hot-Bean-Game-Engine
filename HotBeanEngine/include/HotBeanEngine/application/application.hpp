@@ -12,7 +12,7 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include <HotBeanEngine/application/component_factory.hpp>
+#include <HotBeanEngine/application/icomponent_factory.hpp>
 #include <HotBeanEngine/application/listeners/input_event_listener.hpp>
 #include <HotBeanEngine/application/macros.hpp>
 #include <HotBeanEngine/application/managers/application_state_manager.hpp>
@@ -35,7 +35,7 @@ namespace HBE::Application {
      * for the Hot Bean Engine. It manages:
      * - Window and renderer initialization/cleanup
      * - Game loop and event handling
-     * - Core managers (ECS, Scene, Logging)
+     * - Core managers (ECS, IScene, Logging)
      * - Editor GUI integration
      * - Physics timing and updates
      *
@@ -44,38 +44,38 @@ namespace HBE::Application {
      */
     class Application : public Core::IGameLoop {
     private:
-        inline static Application *s_instance = nullptr; ///< Singleton instance pointer
-        SDL_Event event;                                 ///< SDL event used for polling in the event loop
+        inline static Application *s_instance = nullptr; /// Singleton instance pointer
+        SDL_Event event;                                 /// SDL event used for polling in the event loop
 
     protected:
-        std::shared_ptr<Managers::ECSManager> m_ecs_manager;               ///< Manages entity-component-system
-        std::shared_ptr<Managers::LoggingManager> m_logging_manager;       ///< Manages application logging
-        std::unique_ptr<Managers::SceneManager> m_scene_manager;           ///< Manages scene loading/switching
-        std::unique_ptr<Managers::ApplicationStateManager> m_loop_manager; ///< Manages application state transitions
-        std::shared_ptr<Managers::RenderManager> m_render_manager;         ///< Manages rendering operations
-        std::shared_ptr<Managers::CameraManager> m_camera_manager;         ///< Manages camera system
-        std::shared_ptr<Managers::TransformManager> m_transform_manager;   ///< Manages transform hierarchy
-        std::shared_ptr<Managers::AudioManager> m_audio_manager;           ///< Manages audio playback
-        std::shared_ptr<Managers::EventManager> m_event_manager;           ///< Manages event distribution and dispatch
-        std::shared_ptr<IComponentFactory> m_component_factory;            ///< Factory for component creation
-        SDL_Renderer *m_renderer = nullptr;                                ///< SDL renderer instance
-        SDL_Window *m_window = nullptr;                                    ///< SDL window instance
-        std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;           ///< Editor GUI interface
-        std::unique_ptr<Listeners::InputEventListener> m_input_event_listener; ///< Handles input events
+        std::shared_ptr<Managers::ECSManager> m_ecs_manager;               /// Manages entity-component-system
+        std::shared_ptr<Managers::LoggingManager> m_logging_manager;       /// Manages application logging
+        std::unique_ptr<Managers::SceneManager> m_scene_manager;           /// Manages scene loading/switching
+        std::unique_ptr<Managers::ApplicationStateManager> m_loop_manager; /// Manages application state transitions
+        std::shared_ptr<Managers::RenderManager> m_render_manager;         /// Manages rendering operations
+        std::shared_ptr<Managers::CameraManager> m_camera_manager;         /// Manages camera system
+        std::shared_ptr<Managers::TransformManager> m_transform_manager;   /// Manages transform hierarchy
+        std::shared_ptr<Managers::AudioManager> m_audio_manager;           /// Manages audio playback
+        std::shared_ptr<Managers::EventManager> m_event_manager;           /// Manages event distribution and dispatch
+        std::shared_ptr<IComponentFactory> m_component_factory;            /// Factory for component creation
+        SDL_Renderer *m_renderer = nullptr;                                /// SDL renderer instance
+        SDL_Window *m_window = nullptr;                                    /// SDL window instance
+        std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;           /// Editor GUI interface
+        std::unique_ptr<Listeners::InputEventListener> m_input_event_listener; /// Handles input events
 
     public:
-        bool m_quit = false; ///< Flag to quit the application
+        bool m_quit = false; /// Flag to quit the application
 
         // Time
-        float m_delta_time = 0.0f;        ///< Time elapsed between frames in seconds
-        Uint64 m_previous_frame_time = 0; ///< Previous frame time
+        float m_delta_time = 0.0f;        /// Time elapsed between frames in seconds
+        Uint64 m_previous_frame_time = 0; /// Previous frame time
 
         // Physics timing
-        double m_physics_sim_time = 0.0;           ///< Time for physics updates
-        const double m_fixed_time_step = 0.01;     ///< Fixed timestep duration in seconds
-        double m_delta_time_hi_res = 0.0;          ///< High resolution delta time between frames in seconds
-        double m_previous_frame_time_hi_res = 0.0; ///< Previous frame time in high resolution
-        double m_accumulator = 0.0;                ///< Accumulator for fixed timestep updates
+        double m_physics_sim_time = 0.0;           /// Time for physics updates
+        const double m_fixed_time_step = 0.01;     /// Fixed timestep duration in seconds
+        double m_delta_time_hi_res = 0.0;          /// High resolution delta time between frames in seconds
+        double m_previous_frame_time_hi_res = 0.0; /// Previous frame time in high resolution
+        double m_accumulator = 0.0;                /// Accumulator for fixed timestep updates
 
         /**
          * @brief Construct the Application instance.
@@ -85,8 +85,7 @@ namespace HBE::Application {
          *
          * Initializes SDL, managers, and sets up the application singleton.
          */
-        Application(std::shared_ptr<IComponentFactory> component_factory,
-                    std::unique_ptr<GUI::IEditorGUI> editor_gui = nullptr);
+        Application(std::shared_ptr<IComponentFactory> component_factory);
 
         /**
          * @brief Destroy the Application instance and clean up resources.
@@ -315,7 +314,7 @@ namespace HBE::Application {
         /// @brief Clean up and destroy SDL resources.
         void CleanUpSDL();
 
-        /// @brief Initialize all core managers (ECS, Scene, State, etc.).
+        /// @brief Initialize all core managers (ECS, IScene, State, etc.).
         void InitManagers();
 
         /// @brief Initialize SDL subsystems.
@@ -326,6 +325,9 @@ namespace HBE::Application {
 
         /// @brief Initialize SDL_Mixer (audio) library.
         void InitSDLMixer();
+
+        /// @brief Initialize ImGUI Editor.
+        void InitEditor();
 
         /// @brief Register component listeners.
         void RegisterComponentListeners();

@@ -15,8 +15,8 @@
 
 #include <HotBeanEngine/application/listeners/component_listener.hpp>
 #include <HotBeanEngine/application/managers/camera_manager.hpp>
-#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
-#include <HotBeanEngine/defaults/components/rendering/texture.hpp>
+#include <HotBeanEngine/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/components/rendering/texture.hpp>
 
 namespace HBE::Application::Managers {
     class RenderManager : public Listeners::ComponentListener {
@@ -78,7 +78,7 @@ namespace HBE::Application::Managers {
          * @brief Creates a texture layer for the entity's layer if it doesn't already exist.
          * @param transform Entity transform component.
          */
-        void CreateLayerTextureForEntity(const Default::Components::Transform2D &transform);
+        void CreateLayerTextureForEntity(const Components::Transform2D &transform);
 
         /**
          * @brief Renders an entity's texture to its assigned layer.
@@ -87,10 +87,8 @@ namespace HBE::Application::Managers {
          * @param entity_transform Entity transform component.
          * @param texture Entity texture component.
          */
-        void RenderTextureToLayer(const Default::Components::Camera &camera,
-                                  const Default::Components::Transform2D &camera_transform,
-                                  const Default::Components::Transform2D &entity_transform,
-                                  const Default::Components::Texture &texture);
+        void RenderTextureToLayer(const Components::Camera &camera, const Components::Transform2D &camera_transform,
+                                  const Components::Transform2D &entity_transform, const Components::Texture &texture);
 
         /**
          * @brief Renders all layer textures to the screen in order.
@@ -105,9 +103,9 @@ namespace HBE::Application::Managers {
          * @param texture Entity texture component.
          * @return Screen-space position.
          */
-        glm::vec2 CalculateFinalPosition(const Default::Components::Camera &camera,
-                                         const Default::Components::Transform2D &camera_transform,
-                                         const Default::Components::Transform2D &entity_transform,
-                                         const Default::Components::Texture &texture);
+        glm::vec2 CalculateFinalPosition(const Components::Camera &camera,
+                                         const Components::Transform2D &camera_transform,
+                                         const Components::Transform2D &entity_transform,
+                                         const Components::Texture &texture);
     };
 } // namespace HBE::Application::Managers

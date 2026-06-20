@@ -11,7 +11,7 @@
 
 #include "control_bar.hpp"
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     void ControlBar::Render() {
         if (ImGui::BeginMainMenuBar()) {
             ImGui::BeginDisabled(!g_app.GetSceneManager().GetCurrentScene());
@@ -34,4 +34,4 @@ namespace HBE::Application::GUI {
             ImGui::EndMainMenuBar();
         }
     }
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

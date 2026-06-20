@@ -12,7 +12,7 @@
 
 #include <HotBeanEngine/core/project.hpp>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     class ProjectManager {
     public:
         Core::Project m_project;
@@ -29,4 +29,4 @@ namespace HBE::Application::GUI {
         void LoadProject();
         void SetupProjectDirectories();
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

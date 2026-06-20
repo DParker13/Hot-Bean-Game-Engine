@@ -14,7 +14,7 @@
 #include <deque>
 #include <imgui.h>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     /**
      * @class ConsoleWindow
      * @brief Debug console window for the editor UI.
@@ -22,7 +22,7 @@ namespace HBE::Application::GUI {
      * Displays debug output and application messages.
      * Provides a centralized location for viewing log messages and diagnostics.
      */
-    class ConsoleWindow : public IWindow, public Listeners::ILogListener {
+    class ConsoleWindow : public IWindow, public Application::Listeners::ILogListener {
     private:
         // Buffer to store log messages with their logging type
         std::deque<std::pair<HBE::Core::LoggingType, std::string>> m_logBuffer;
@@ -42,4 +42,4 @@ namespace HBE::Application::GUI {
         virtual void RenderWindow() override;
         virtual void OnLog(HBE::Core::LoggingType level, std::string_view message) override;
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

@@ -12,11 +12,11 @@
 #pragma once
 
 #include <HotBeanEngine/application/listeners/component_listener.hpp>
-#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
-#include <HotBeanEngine/defaults/utilities/scene_graph.hpp>
+#include <HotBeanEngine/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/utilities/scene_graph.hpp>
 
 namespace HBE::Application::Managers {
-    using Default::Utilities::SceneGraph;
+    using Utilities::SceneGraph;
 
     class TransformManager : public Listeners::ComponentListener {
     private:

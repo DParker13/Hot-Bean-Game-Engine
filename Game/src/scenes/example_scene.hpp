@@ -9,7 +9,7 @@
  */
 #pragma once
 
-#include <HotBeanEngine/HotBeanEngine_Defaults.hpp>
+#include <HotBeanEngine/HotBeanEngine.hpp>
 
 namespace Scenes {
     /**
@@ -20,13 +20,13 @@ namespace Scenes {
      * and rendering systems. Demonstrates best practices for scene initialization
      * and entity/component configuration.
      */
-    class ExampleScene : public HBE::Default::DefaultScene {
+    class ExampleScene : public HBE::Application::Scene {
     private:
         std::vector<HBE::Application::Managers::SubscriptionHandle> m_event_subscription_handles;
 
     public:
         ExampleScene(std::string path, std::shared_ptr<HBE::Core::ISerializer> serializer)
-            : DefaultScene("ExampleScene", path, serializer) {}
+            : Scene("ExampleScene", path, serializer) {}
 
         ~ExampleScene() = default;
 

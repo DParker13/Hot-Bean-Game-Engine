@@ -12,9 +12,10 @@
 #include "../editor_utils.hpp"
 
 #include <SDL3/SDL_dialog.h>
+#include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     void NewProjectWindow::RenderWindow() {
         if (ImGui::Begin(m_name.c_str(), &m_open)) {
             std::string directory = m_new_project.m_directory.string();
@@ -40,4 +41,4 @@ namespace HBE::Application::GUI {
         }
         ImGui::End();
     }
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

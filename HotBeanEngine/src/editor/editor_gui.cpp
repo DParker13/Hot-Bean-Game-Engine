@@ -23,8 +23,9 @@
 #include "windows/layer_window.hpp"
 #include "windows/project_window.hpp"
 #include "windows/property_window.hpp"
+#include "windows/scene_window.hpp"
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     namespace {
         void ApplyTheme() {
             ImGui::StyleColorsDark();
@@ -91,8 +92,9 @@ namespace HBE::Application::GUI {
     } // namespace
 
     using namespace Core;
-    using namespace Default::Components;
+    using namespace Components;
 
+    /// @brief Constructs the EditorGUI, initializing the project manager, menu, control bar, and default windows.
     EditorGUI::EditorGUI() {
         m_project_manager = std::make_shared<ProjectManager>();
         m_menu = std::make_shared<Menu>(m_windows, m_project_manager);
@@ -106,6 +108,7 @@ namespace HBE::Application::GUI {
         std::shared_ptr<LayerWindow> layer_window = std::make_shared<LayerWindow>(property_window);
         std::shared_ptr<ProjectWindow> project_window = std::make_shared<ProjectWindow>(m_project_manager);
         std::shared_ptr<ConfigWindow> config_window = std::make_shared<ConfigWindow>();
+        std::shared_ptr<SceneWindow> scene_window = std::make_shared<SceneWindow>(m_project_manager);
 
         // The order of this stack determines their default docking positions (TODO: Make this configurable)
         m_windows.emplace(entity_window->m_name, entity_window);           // Left 1
@@ -115,18 +118,22 @@ namespace HBE::Application::GUI {
         m_windows.emplace(new_project_window->m_name, new_project_window); // New project dialog (not docked)
         m_windows.emplace(project_window->m_name, project_window);         // Project window (not docked)
         m_windows.emplace(config_window->m_name, config_window);           // Config window (not docked)
+        m_windows.emplace(scene_window->m_name, scene_window);             // IScene window (not docked)
+
+        // If no startup project path is specified, open the new project window by default
+        if (STARTUP_PROJECT_PATH.empty()) {
+            new_project_window->m_open = true;
+        }
     }
 
+    /// @brief Destroys the EditorGUI, shutting down ImGui and cleaning up resources.
     EditorGUI::~EditorGUI() {
         ImGui_ImplSDLRenderer3_Shutdown();
         ImGui_ImplSDL3_Shutdown();
         ImGui::DestroyContext();
     }
 
-    /**
-     * @brief Initializes the editor GUI by setting up ImGui context, creating windows, and applying the theme.
-     * This is called after the application has initialized and is ready to set up the editor interface.
-     */
+    /// @brief Initializes the editor GUI, setting up ImGui context and SDL renderer integration
     void EditorGUI::InitEditorGUI() {
         // Setup ImGui context
         IMGUI_CHECKVERSION();
@@ -142,6 +149,9 @@ namespace HBE::Application::GUI {
         ApplyTheme();
     }
 
+    /// @brief Forwards log messages to relevant editor windows (e.g., console window)
+    /// @param level The logging level of the message (e.g., info, warning, error)
+    /// @param message The log message to be forwarded to the editor windows
     void EditorGUI::OnLog(LoggingType level, std::string_view message) {
         // Forward log messages to windows that need them
         for (auto &[name, window] : m_windows) {
@@ -199,6 +209,8 @@ namespace HBE::Application::GUI {
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), g_app.GetRenderer());
     }
 
+    /// @brief Sets up the default docking layout for the editor GUI using ImGui's docking system.
+    /// TODO: Finish this implementation to create a default docking layout for the editor windows.
     void EditorGUI::SetupDefaultDockingLayout() {
         // ImGuiID dockspace_id = ImGui::GetID("Default Dockspace");
         // ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -221,6 +233,8 @@ namespace HBE::Application::GUI {
         // }
     }
 
+    /// @brief Renders the viewports of all active cameras in the editor GUI, drawing their viewports as rectangles on
+    /// the screen.
     void EditorGUI::RenderCameraViewports() {
         SDL_SetRenderDrawColor(g_app.GetRenderer(), 255, 255, 255, 255);
 
@@ -245,6 +259,8 @@ namespace HBE::Application::GUI {
         }
     }
 
+    /// @brief Moves the editor camera based on keyboard input, mouse dragging, and mouse wheel zoom.
+    /// @param speed The speed at which the camera moves in units per second.
     void EditorGUI::MoveCamera(float speed) {
         Transform2D &editor_camera_transform = g_app.GetEditorGUI().GetEditorCameraTransform();
         Camera &editor_camera = g_app.GetEditorGUI().GetEditorCamera();
@@ -307,4 +323,4 @@ namespace HBE::Application::GUI {
             editor_camera.m_zoom = std::max(0.1f, std::min(10.0f, editor_camera.m_zoom));
         }
     }
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

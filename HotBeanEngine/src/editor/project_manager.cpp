@@ -1,11 +1,13 @@
 #include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/components/component_factory.hpp>
+#include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
 
 #include "editor_utils.hpp"
 #include "project_manager.hpp"
 
 #include <cctype>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     namespace {
         constexpr SDL_DialogFileFilter kProjectFileFilters[] = {
             {"Project Files", "yaml;yml"},
@@ -83,6 +85,50 @@ namespace HBE::Application::GUI {
             if (config["Project"]["directory"]) {
                 m_project.m_directory = config["Project"]["directory"].as<std::string>();
             }
+            if (config["Project"]["serializer"]) {
+                m_project.m_serializer = config["Project"]["serializer"].as<std::string>();
+            }
+
+            // Scenes (list of scene yaml paths)
+            // TODO: This should work with all serializers
+            if (config["Scenes"]) {
+                // Register scenes in the application's scene manager
+                for (const auto &scene_file_node : config["Scenes"]) {
+                    std::string scene_path = scene_file_node["path"].as<std::string>();
+
+                    if (scene_path.empty()) {
+                        LOG(LoggingType::WARNING, "Skipping invalid scene entry in project file with empty path");
+                        continue;
+                    }
+
+                    try {
+                        YAML::Node scene_node = YAML::LoadFile(scene_path);
+
+                        if (!scene_node["Scene"] || !scene_node["Scene"]["name"]) {
+                            LOG(LoggingType::WARNING, "Skipping invalid scene entry in project file: " + scene_path);
+                            continue;
+                        }
+
+                        std::string scene_name = "";
+                        if (scene_node["Scene"]["name"]) {
+                            scene_name = scene_node["Scene"]["name"].as<std::string>();
+                        }
+
+                        if (!scene_name.empty() && !scene_path.empty()) {
+                            std::shared_ptr<IScene> scene = std::make_shared<IScene>(scene_name, scene_path);
+                            g_app.GetSceneManager().RegisterScene(scene);
+                        }
+                    } catch (const YAML::Exception &e) {
+                        LOG(LoggingType::ERROR,
+                            "Failed to load scene file: " + scene_path + " with error: " + std::string(e.what()));
+                        continue;
+                    }
+                }
+            }
+
+            // Update startup project path with newly loaded project
+            STARTUP_PROJECT_PATH = m_project.GetFullPath();
+            SaveConfig();
 
             LOG(LoggingType::INFO,
                 "Successfully loaded project: " + m_project.m_name + "(" + m_project.GetFullPath().string() + ")");
@@ -99,7 +145,6 @@ namespace HBE::Application::GUI {
 
     /**
      * @brief Save the current project data and state to the project file path.
-     *
      * @return int 0 on success, -1 on failure.
      */
     int ProjectManager::SaveProject() {
@@ -109,15 +154,27 @@ namespace HBE::Application::GUI {
             out.SetIndent(2);
 
             out << YAML::BeginMap;
+
+            // Project
             out << YAML::Key << "Project" << YAML::Value;
             out << YAML::BeginMap;
-
-            out << YAML::Key << "name" << YAML::Value << m_project.m_name;
+            out << YAML::Key << "name" << YAML::Value << YAML::DoubleQuoted << m_project.m_name;
             out << YAML::Key << "version" << YAML::Value << m_project.m_version;
             out << YAML::Key << "file" << YAML::Value << m_project.m_file;
             out << YAML::Key << "directory" << YAML::Value << m_project.m_directory;
-
+            out << YAML::Key << "serializer" << YAML::Value << YAML::DoubleQuoted << m_project.m_serializer;
             out << YAML::EndMap;
+
+            // Scenes
+            out << YAML::Key << "Scenes" << YAML::Value;
+            out << YAML::BeginSeq;
+            for (const auto [name, scene] : g_app.GetSceneManager().m_scenes) {
+                out << YAML::BeginMap;
+                out << YAML::Key << "path" << YAML::Value << scene->m_scene_path.string();
+                out << YAML::EndMap;
+            }
+            out << YAML::EndSeq;
+
             out << YAML::EndMap;
 
             std::ofstream file{m_project.GetFullPath().string()};
@@ -172,4 +229,4 @@ namespace HBE::Application::GUI {
 
         return fileName + ".yaml";
     }
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

@@ -12,9 +12,10 @@
 #include "../editor_utils.hpp"
 
 #include <SDL3/SDL_dialog.h>
+#include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     void ProjectWindow::RenderWindow() {
 
         // Load project data when the window is first opened
@@ -49,4 +50,4 @@ namespace HBE::Application::GUI {
         }
         ImGui::End();
     }
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

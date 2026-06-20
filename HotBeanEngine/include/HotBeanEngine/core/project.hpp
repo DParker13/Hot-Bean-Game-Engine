@@ -21,7 +21,8 @@ namespace HBE::Core {
         std::string m_name = "New Project";
         float m_version = VERSION;
         std::string m_file = "new_project.yaml";
-        std::filesystem::path m_directory = "";
+        std::filesystem::path m_directory = std::filesystem::current_path();
+        std::string m_serializer = "yaml";
 
         std::filesystem::path GetFullPath() const { return m_directory / m_file; }
     };

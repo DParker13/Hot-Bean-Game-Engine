@@ -14,7 +14,7 @@
 
 #include "../project_manager.hpp"
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     /**
      * @class ProjectWindow
      * @brief Window for managing a project's settings and properties.
@@ -34,4 +34,4 @@ namespace HBE::Application::GUI {
 
         void RenderWindow() override;
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

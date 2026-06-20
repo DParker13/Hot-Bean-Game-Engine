@@ -18,7 +18,7 @@
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
 #include <HotBeanEngine/editor/iwindow.hpp>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     class Menu;
     class ControlBar;
     class ProjectManager;
@@ -65,4 +65,4 @@ namespace HBE::Application::GUI {
     private:
         void MoveCamera(float speed);
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

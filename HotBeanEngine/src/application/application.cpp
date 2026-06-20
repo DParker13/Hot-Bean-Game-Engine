@@ -10,6 +10,7 @@
  */
 
 #include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/editor/editor_gui.hpp>
 #include <HotBeanEngine/editor/noop_editor_gui.hpp>
 
 namespace HBE::Application {
@@ -17,9 +18,8 @@ namespace HBE::Application {
     using namespace Managers;
     using namespace Listeners;
 
-    Application::Application(std::shared_ptr<IComponentFactory> component_factory,
-                             std::unique_ptr<GUI::IEditorGUI> editor_gui)
-        : m_component_factory(component_factory), m_editor_gui(std::move(editor_gui)) {
+    Application::Application(std::shared_ptr<IComponentFactory> component_factory)
+        : m_component_factory(component_factory) {
 
         // Setup singleton instance
         s_instance = this;
@@ -28,7 +28,6 @@ namespace HBE::Application {
 
         // Setup logging first to capture any application initialization errors
         m_logging_manager = std::make_shared<LoggingManager>(LOG_DIRECTORY, LOGGING_LEVEL, LOG_TO_CONSOLE);
-        m_logging_manager->RegisterLogListener(m_editor_gui.get());
 
         if (config_load_result != 0) {
             LOG_CORE(LoggingType::WARNING, "Failed to load config file, using defaults.");
@@ -39,20 +38,15 @@ namespace HBE::Application {
         // Initialize input event listener
         m_input_event_listener = std::make_unique<Listeners::InputEventListener>(m_logging_manager);
 
-        // Initialize application parts
+        // Initialize application parts and layers
         InitManagers();
         InitSDL();
         InitSDLTTF();
         InitSDLMixer();
+        InitEditor();
 
         // Register component listeners for OnComponentAdded and OnComponentRemoved events
         RegisterComponentListeners();
-
-        // Ensure we always have an editor GUI instance (Noop by default)
-        if (!m_editor_gui) {
-            m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
-        }
-        m_editor_gui->InitEditorGUI();
     }
 
     Application::~Application() {
@@ -161,6 +155,25 @@ namespace HBE::Application {
         m_ecs_manager->RegisterComponentListener(m_transform_manager.get());
     }
 
+    void Application::InitEditor() {
+        // TODO: Link this to a CMake option or config setting to enable/disable the editor GUI
+        // Ensure we always have an editor GUI instance (Noop by default)
+        // if (!m_editor_gui) {
+        //     m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
+        // }
+        // else {
+        //     m_editor_gui = std::unique_ptr<GUI::IEditorGUI>();
+        //     m_logging_manager->RegisterLogListener(m_editor_gui.get());
+        // }
+
+        /* Comment these out when CMake option is added */
+        m_editor_gui = std::make_unique<GUI::EditorGUI>();
+        m_logging_manager->RegisterLogListener(m_editor_gui.get());
+        /* Comment these out when CMake option is added */
+
+        m_editor_gui->InitEditorGUI();
+    }
+
     Application &Application::GetInstance() {
         if (!s_instance) {
             std::cout << "Application::GetInstance() was called before the application was instantiated properly!"
@@ -230,7 +243,7 @@ namespace HBE::Application {
             m_loop_manager->UpdateGameLoopState();
 
             if (m_loop_manager->IsState(ApplicationState::Playing) && m_loop_manager->ShouldReloadScene()) {
-                std::shared_ptr<Scene> current_scene = m_scene_manager->GetCurrentScene();
+                std::shared_ptr<IScene> current_scene = m_scene_manager->GetCurrentScene();
                 m_scene_manager->UnloadScene(false);
                 m_scene_manager->LoadScene(current_scene);
                 m_loop_manager->ClearReloadFlag();

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 project(HotBeanEngine LANGUAGES CXX)
 
 # C++ standard and build type
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
@@ -103,9 +103,12 @@ if(WIN32)
 endif()
 
 # Add subdirectories
-add_subdirectory(src/application)
 add_subdirectory(src/editor)
-add_subdirectory(src/defaults)
+add_subdirectory(src/application)
+add_subdirectory(src/utilities)
+add_subdirectory(src/serializers)
+add_subdirectory(src/components)
+add_subdirectory(src/systems)
 
 # Compiler-specific settings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -114,6 +117,14 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     endif()
     target_link_options(HotBeanEngine_Application PUBLIC -static-libstdc++ -static-libgcc)
 endif()
+
+target_link_libraries(HotBeanEngine_Application PUBLIC
+    HotBeanEngine_Editor
+    HotBeanEngine_Utilities
+    HotBeanEngine_Serializers
+    HotBeanEngine_Components
+    HotBeanEngine_Systems
+)
 
 if(GAME_BUILD_TESTING)
     message(STATUS "${PROJECT_NAME}: Building tests")

@@ -1,7 +1,7 @@
 /**
  * @file scene_manager.cpp
  * @author Daniel Parker (DParker13)
- * @brief Scene manager for handling scene loading and unloading.
+ * @brief IScene manager for handling scene loading and unloading.
  * @version 0.1
  * @date 2025-02-23
  *
@@ -15,10 +15,10 @@ namespace HBE::Application::Managers {
     SceneManager::SceneManager(std::shared_ptr<ECSManager> ecs_manager, std::shared_ptr<LoggingManager> logging_manager)
         : m_ecs_manager(ecs_manager), m_logging_manager(logging_manager) {}
 
-    void SceneManager::LoadScene(std::shared_ptr<Scene> scene) { LoadScene(scene, false); }
+    void SceneManager::LoadScene(std::shared_ptr<IScene> scene) { LoadScene(scene, false); }
 
-    void SceneManager::LoadScene(std::shared_ptr<Scene> scene, bool save_to_file) {
-        assert(scene && "Scene is null.");
+    void SceneManager::LoadScene(std::shared_ptr<IScene> scene, bool save_to_file) {
+        assert(scene && "IScene is null.");
 
         try {
             // Unload current scene if a new one is being loaded
@@ -29,13 +29,13 @@ namespace HBE::Application::Managers {
             m_current_scene = scene;
 
             LOG_CORE(LoggingType::INFO, "Loading scene \"" + m_current_scene->m_name + "\" from file: ");
-            LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
+            LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path.string());
 
             // Attempt to load scene from file
             if (m_current_scene->m_serializer &&
                 !m_current_scene->m_serializer->FileExists(m_current_scene->m_scene_path)) {
-                LOG_CORE(LoggingType::FATAL, "Scene file does not exist: " + m_current_scene->m_scene_path);
-                throw std::runtime_error("Scene file does not exist: " + m_current_scene->m_scene_path);
+                LOG_CORE(LoggingType::FATAL, "Scene file does not exist: " + m_current_scene->m_scene_path.string());
+                throw std::runtime_error("Scene file does not exist: " + m_current_scene->m_scene_path.string());
             }
 
             m_current_scene->SetupSystems();
@@ -58,7 +58,7 @@ namespace HBE::Application::Managers {
 
         try {
             LOG_CORE(LoggingType::INFO, "Unloading scene \"" + m_current_scene->m_name + "\" to file");
-            LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path);
+            LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path.string());
 
             // Attempt to serialize scene to file
             if (save_to_file && m_current_scene->m_serializer) {
@@ -75,9 +75,9 @@ namespace HBE::Application::Managers {
         }
     }
 
-    std::shared_ptr<Scene> SceneManager::GetCurrentScene() const { return m_current_scene; }
+    std::shared_ptr<IScene> SceneManager::GetCurrentScene() const { return m_current_scene; }
 
-    bool SceneManager::IsSceneRegistered(std::shared_ptr<Scene> scene) {
+    bool SceneManager::IsSceneRegistered(std::shared_ptr<IScene> scene) {
         if (!scene) {
             LOG_CORE(LoggingType::ERROR, "Scene is null");
             return false;
@@ -88,7 +88,7 @@ namespace HBE::Application::Managers {
 
     bool SceneManager::IsSceneRegistered(std::string_view name) { return m_scenes.count(std::string(name)) > 0; }
 
-    void SceneManager::RegisterScene(std::shared_ptr<Scene> scene) {
+    void SceneManager::RegisterScene(std::shared_ptr<IScene> scene) {
         if (IsSceneRegistered(scene)) {
             LOG_CORE(LoggingType::WARNING, "Scene with that name already registered!");
             return;
@@ -97,7 +97,16 @@ namespace HBE::Application::Managers {
         m_scenes.emplace(scene->m_name, scene);
     }
 
-    void SceneManager::RemoveScene(std::shared_ptr<Scene> scene, bool save_to_file) {
+    void SceneManager::UnregisterScene(std::shared_ptr<IScene> scene) {
+        if (!IsSceneRegistered(scene)) {
+            LOG_CORE(LoggingType::WARNING, "Scene with that name isn't registered!");
+            return;
+        }
+
+        m_scenes.erase(scene->m_name);
+    }
+
+    void SceneManager::RemoveScene(std::shared_ptr<IScene> scene, bool save_to_file) {
         assert(scene && "Scene is null.");
 
         RemoveScene(scene->m_name, save_to_file);
@@ -113,7 +122,7 @@ namespace HBE::Application::Managers {
         m_scenes.erase(name);
     }
 
-    void SceneManager::SwitchScene(std::shared_ptr<Scene> scene) {
+    void SceneManager::SwitchScene(std::shared_ptr<IScene> scene) {
         assert(scene && "Scene is null.");
 
         SwitchScene(scene->m_name);

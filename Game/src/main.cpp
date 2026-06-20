@@ -1,7 +1,7 @@
 #include <SDL3/SDL_main.h> // only include this one in the source file with main()!
 
 #include "game/example_game.hpp"
-#include <HotBeanEngine/defaults/components/default_component_factory.hpp>
+#include <HotBeanEngine/components/component_factory.hpp>
 #include <HotBeanEngine/editor/editor_gui.hpp>
 
 /**
@@ -14,12 +14,9 @@
  */
 int main(int argc, char *argv[]) {
     std::shared_ptr<HBE::Application::IComponentFactory> component_factory =
-        std::make_shared<HBE::Default::Components::DefaultComponentFactory>();
+        std::make_shared<HBE::Components::ComponentFactory>();
 
-    std::unique_ptr<HBE::Application::GUI::IEditorGUI> editor_gui =
-        std::make_unique<HBE::Application::GUI::EditorGUI>();
-
-    Game::ExampleGame game = Game::ExampleGame(component_factory, std::move(editor_gui));
+    Game::ExampleGame game = Game::ExampleGame(component_factory);
     game.Start();
 
     return 0;

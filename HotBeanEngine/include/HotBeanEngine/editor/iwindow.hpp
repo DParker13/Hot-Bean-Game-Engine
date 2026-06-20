@@ -12,7 +12,7 @@
 
 #include <string>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     class IWindow {
     public:
         bool m_open;
@@ -29,4 +29,4 @@ namespace HBE::Application::GUI {
 
         virtual void RenderWindow() = 0;
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

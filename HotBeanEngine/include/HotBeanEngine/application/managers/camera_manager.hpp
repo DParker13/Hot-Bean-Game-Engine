@@ -1,13 +1,13 @@
 #pragma once
 
-#include <HotBeanEngine/defaults/components/miscellaneous/camera.hpp>
-#include <HotBeanEngine/defaults/components/miscellaneous/transform_2d.hpp>
-#include <HotBeanEngine/defaults/components/rendering/texture.hpp>
+#include <HotBeanEngine/components/miscellaneous/camera.hpp>
+#include <HotBeanEngine/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/components/rendering/texture.hpp>
 
 namespace HBE::Application::Managers {
-    using Default::Components::Camera;
-    using Default::Components::Texture;
-    using Default::Components::Transform2D;
+    using Components::Camera;
+    using Components::Texture;
+    using Components::Transform2D;
 
     /**
      * @class CameraManager
@@ -18,7 +18,7 @@ namespace HBE::Application::Managers {
      */
     class CameraManager {
     private:
-        std::unordered_map<int, SDL_Texture *> m_layers; ///< Map of layer IDs to SDL_Textures
+        std::unordered_map<int, SDL_Texture *> m_layers; /// Map of layer IDs to SDL_Textures
 
     public:
         CameraManager() = default;

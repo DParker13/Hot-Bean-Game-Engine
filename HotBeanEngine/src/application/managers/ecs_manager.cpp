@@ -182,6 +182,11 @@ namespace HBE::Application::Managers {
      * @return true if the component is registered, false otherwise
      */
     bool ECSManager::IsComponentRegistered(std::string component_name) const {
+        if (!m_component_manager) {
+            LOG_CORE(LoggingType::ERROR,
+                     "Component Manager not initialized when checking if component is registered: " + component_name);
+            return false;
+        }
         return m_component_manager->IsComponentRegistered(component_name);
     }
 

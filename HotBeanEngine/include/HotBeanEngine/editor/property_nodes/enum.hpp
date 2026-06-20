@@ -14,7 +14,7 @@
 
 #include <HotBeanEngine/core/all_core.hpp>
 
-namespace HBE::Application::GUI::PropertyNodes {
+namespace HBE::GUI::PropertyNodes {
     struct Enum {
         template <typename EnumType>
         static bool RenderProperty(int &id, std::string_view label, EnumType &value,
@@ -53,4 +53,4 @@ namespace HBE::Application::GUI::PropertyNodes {
             return changed;
         }
     };
-} // namespace HBE::Application::GUI::PropertyNodes
+} // namespace HBE::GUI::PropertyNodes

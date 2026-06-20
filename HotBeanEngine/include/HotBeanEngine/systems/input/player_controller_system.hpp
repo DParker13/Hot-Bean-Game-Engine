@@ -1,0 +1,34 @@
+/**
+ * @file player_controller_system.hpp
+ * @author Daniel Parker (DParker13)
+ * @brief System for player input to control entities.
+ * @version 0.1
+ * @date 2025-03-02
+ *
+ * @copyright Copyright (c) 2025
+ */
+
+#pragma once
+
+#include <HotBeanEngine/components/input/controller.hpp>
+#include <HotBeanEngine/components/miscellaneous/transform_2d.hpp>
+#include <HotBeanEngine/core/system.hpp>
+
+namespace HBE::Systems {
+    using Components::Controller;
+    using Components::Transform2D;
+    using Core::EntityID;
+    /**
+     * @brief System for player input to control entities.
+     */
+    class PlayerControllerSystem : public Core::GameSystem<Transform2D, Controller> {
+    public:
+        DEFINE_NAME("Player Controller System")
+
+        PlayerControllerSystem() = default;
+        ~PlayerControllerSystem() = default;
+
+        void OnUpdate() override;
+        void Move(EntityID entity, float speed);
+    };
+} // namespace HBE::Systems

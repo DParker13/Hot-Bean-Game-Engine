@@ -21,8 +21,7 @@ namespace Game {
      */
     class ExampleGame : public HBE::Application::Application {
     public:
-        ExampleGame(std::shared_ptr<HBE::Application::IComponentFactory> component_factory,
-                    std::unique_ptr<HBE::Application::GUI::IEditorGUI> editor_gui);
+        ExampleGame(std::shared_ptr<HBE::Application::IComponentFactory> component_factory);
         ~ExampleGame() = default;
 
     protected:

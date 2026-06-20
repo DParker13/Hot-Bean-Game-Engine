@@ -14,7 +14,7 @@
 
 #include "../project_manager.hpp"
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     using namespace Core;
 
     /**
@@ -41,4 +41,4 @@ namespace HBE::Application::GUI {
         void LoadConfigFromEnv();
         void SaveConfigToFile();
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

@@ -14,7 +14,7 @@
 #include "project_manager.hpp"
 #include "windows/new_project_window.hpp"
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     /**
      * @class Menu
      * @brief Main menu window for the editor UI.
@@ -34,4 +34,4 @@ namespace HBE::Application::GUI {
 
         void Render();
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

@@ -10,11 +10,9 @@
 
 #pragma once
 
-#include <imgui.h>
-
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     struct IPropertyRenderable {
         virtual ~IPropertyRenderable() = default;
         virtual void RenderProperties(int &id) = 0;
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

@@ -17,9 +17,9 @@ namespace HBE::Application::Managers {
      * @brief Enum representing the state of the application.
      */
     enum class ApplicationState {
-        Stopped, ///< The application is stopped.
-        Playing, ///< The application is playing.
-        Paused   ///< The application is paused.
+        Stopped, /// The application is stopped.
+        Playing, /// The application is playing.
+        Paused   /// The application is paused.
     };
 
     /**

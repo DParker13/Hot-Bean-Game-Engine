@@ -15,7 +15,7 @@
 
 #include "property_window.hpp"
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     /**
      * @class LayerWindow
      * @brief Window for managing and displaying render layers.
@@ -49,4 +49,4 @@ namespace HBE::Application::GUI {
             PropertyNodes::TexturePreview::RenderProperty(id, "Layer Texture", m_texture);
         }
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

@@ -3,7 +3,7 @@
 
 namespace HBE::Application::Managers {
     using namespace Core;
-    using namespace Default::Components;
+    using namespace Components;
 
     RenderManager::RenderManager(std::shared_ptr<CameraManager> camera_manager) : m_camera_manager(camera_manager) {
         // Listen for changes to Texture and Transform2D components to track renderable entities

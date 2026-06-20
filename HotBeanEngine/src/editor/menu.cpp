@@ -10,20 +10,13 @@
  */
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/defaults/default_scene.hpp>
-#include <HotBeanEngine/defaults/default_scene_serializer.hpp>
+#include <HotBeanEngine/application/scene.hpp>
+#include <imgui.h>
 
 #include "editor_utils.hpp"
 #include "menu.hpp"
 
-namespace HBE::Application::GUI {
-    namespace {
-        constexpr SDL_DialogFileFilter kSceneFileFilters[] = {
-            {"Scene Files", "yaml;yml"},
-            {"All Files", "*"},
-        };
-    } // namespace
-
+namespace HBE::GUI {
     void Menu::Render() {
         if (ImGui::BeginMainMenuBar()) {
             if (ImGui::BeginMenu("File")) {
@@ -46,16 +39,7 @@ namespace HBE::Application::GUI {
                     // g_app.SaveScene();
                 }
                 if (ImGui::MenuItem("Load Scene")) {
-                    ShowFileDialog(
-                        g_app.GetWindow(), kSceneFileFilters, static_cast<int>(std::size(kSceneFileFilters)),
-                        [](std::string_view path) {
-                            std::shared_ptr<Core::ISerializer> serializer =
-                                std::make_shared<Default::DefaultSceneSerializer>(g_app.GetComponentFactory());
-                            std::shared_ptr<Core::Scene> scene =
-                                std::make_shared<Default::DefaultScene>("blah", std::string(path), serializer);
-                            g_app.GetSceneManager().RegisterScene(scene);
-                            g_app.GetSceneManager().LoadScene(scene);
-                        });
+                    // g_app.LoadScene();
                 }
                 ImGui::EndMenu();
             }
@@ -70,4 +54,4 @@ namespace HBE::Application::GUI {
             ImGui::EndMainMenuBar();
         }
     }
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

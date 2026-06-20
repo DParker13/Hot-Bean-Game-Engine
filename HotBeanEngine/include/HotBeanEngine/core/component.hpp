@@ -11,8 +11,8 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-#include <yaml-cpp/yaml.h>
 
+#include <HotBeanEngine/core/icomponent_serializer.hpp>
 #include <HotBeanEngine/core/iname.hpp>
 
 namespace HBE::Core {
@@ -26,7 +26,7 @@ namespace HBE::Core {
         virtual ~IComponent() = default;
 
         virtual std::string_view GetName() const = 0;
-        virtual void Serialize(YAML::Emitter &out) const {};
-        virtual void Deserialize(YAML::Node &node) {};
+        virtual void Serialize(IComponentWriter &out) const {};
+        virtual void Deserialize(IComponentReader &in) {};
     };
 } // namespace HBE::Core

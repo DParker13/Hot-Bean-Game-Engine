@@ -14,7 +14,7 @@
 
 #include "property_window.hpp"
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     /**
      * @class EntityWindow
      * @brief Window for browsing and selecting entities.
@@ -32,6 +32,6 @@ namespace HBE::Application::GUI {
         ~EntityWindow() = default;
 
         virtual void RenderWindow() override;
-        void EntitySelected(EntityID entity);
+        void EntitySelected(Core::EntityID entity);
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

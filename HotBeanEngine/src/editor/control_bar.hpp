@@ -12,7 +12,7 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <imgui.h>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     /**
      * @class ControlBar
      * @brief Control bar window for game state management.
@@ -27,4 +27,4 @@ namespace HBE::Application::GUI {
 
         void Render();
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

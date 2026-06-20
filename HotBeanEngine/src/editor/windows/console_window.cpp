@@ -12,7 +12,7 @@
 #include "console_window.hpp"
 #include <imgui_internal.h>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     using namespace Core;
 
     ConsoleWindow::ConsoleWindow() : IWindow("Console") {}
@@ -90,4 +90,4 @@ namespace HBE::Application::GUI {
             m_logBuffer.pop_front();
         }
     }
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

@@ -6,7 +6,7 @@
 
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
 
-namespace HBE::Application::GUI {
+namespace HBE::GUI {
     class NoopEditorGUI : public IEditorGUI {
     public:
         NoopEditorGUI() = default;
@@ -23,4 +23,4 @@ namespace HBE::Application::GUI {
         void OnRender() {}
         void OnPostRender() {}
     };
-} // namespace HBE::Application::GUI
+} // namespace HBE::GUI

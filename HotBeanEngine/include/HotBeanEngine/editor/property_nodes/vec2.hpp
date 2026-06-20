@@ -14,7 +14,7 @@
 
 #include <HotBeanEngine/core/all_core.hpp>
 
-namespace HBE::Application::GUI::PropertyNodes {
+namespace HBE::GUI::PropertyNodes {
 
     struct Vec2 {
         static bool RenderProperty(int &id, std::string_view label, glm::vec2 &values,
@@ -45,4 +45,4 @@ namespace HBE::Application::GUI::PropertyNodes {
             return changed_x || changed_y;
         }
     };
-} // namespace HBE::Application::GUI::PropertyNodes
+} // namespace HBE::GUI::PropertyNodes

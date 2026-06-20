@@ -16,8 +16,8 @@ namespace HBE::Core {
      */
     class ISerializer {
     public:
-        virtual void Serialize(std::string_view filepath) = 0;
-        virtual void Deserialize(std::string_view filepath) = 0;
-        virtual bool FileExists(std::string_view filepath) = 0;
+        virtual void Serialize(std::filesystem::path filepath) = 0;
+        virtual void Deserialize(std::filesystem::path filepath) = 0;
+        virtual bool FileExists(std::filesystem::path filepath) = 0;
     };
 } // namespace HBE::Core

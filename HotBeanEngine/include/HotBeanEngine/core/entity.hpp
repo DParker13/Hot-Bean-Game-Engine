@@ -13,7 +13,7 @@
 #include <SDL3/SDL.h>
 
 namespace HBE::Core {
-    // EntityID is a unsigned 64-bit integer
+    // EntityID is a signed 64-bit integer
     // This is used to identify an entity
-    using EntityID = Uint64;
+    using EntityID = Sint64;
 } // namespace HBE::Core
