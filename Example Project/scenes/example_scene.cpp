@@ -10,7 +10,7 @@
  */
 
 #include "example_scene.hpp"
-#include <HotBeanEngine/components/default_components.hpp>
+#include <HotBeanEngine/components/all_components.hpp>
 #include <random>
 
 namespace Scenes {

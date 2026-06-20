@@ -13,6 +13,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include <HotBeanEngine/application/icomponent_factory.hpp>
+#include <HotBeanEngine/application/isystem_factory.hpp>
 #include <HotBeanEngine/application/listeners/input_event_listener.hpp>
 #include <HotBeanEngine/application/macros.hpp>
 #include <HotBeanEngine/application/managers/application_state_manager.hpp>
@@ -58,6 +59,7 @@ namespace HBE::Application {
         std::shared_ptr<Managers::AudioManager> m_audio_manager;           /// Manages audio playback
         std::shared_ptr<Managers::EventManager> m_event_manager;           /// Manages event distribution and dispatch
         std::shared_ptr<IComponentFactory> m_component_factory;            /// Factory for component creation
+        std::shared_ptr<ISystemFactory> m_system_factory;                  /// Factory for system creation
         SDL_Renderer *m_renderer = nullptr;                                /// SDL renderer instance
         SDL_Window *m_window = nullptr;                                    /// SDL window instance
         std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;           /// Editor GUI interface
@@ -81,11 +83,12 @@ namespace HBE::Application {
          * @brief Construct the Application instance.
          * @param config_path Path to the configuration YAML file.
          * @param component_factory Factory for creating and registering components.
-         * @param editor_gui Optional editor GUI instance (uses NoopEditorGUI if nullptr).
+         * @param system_factory Factory for creating and registering systems.
          *
          * Initializes SDL, managers, and sets up the application singleton.
          */
-        Application(std::shared_ptr<IComponentFactory> component_factory);
+        Application(std::shared_ptr<IComponentFactory> component_factory,
+                    std::shared_ptr<ISystemFactory> system_factory);
 
         /**
          * @brief Destroy the Application instance and clean up resources.
@@ -191,6 +194,12 @@ namespace HBE::Application {
          * @return Shared pointer to the component factory.
          */
         std::shared_ptr<IComponentFactory> GetComponentFactory() const;
+
+        /**
+         * @brief Access the system factory.
+         * @return Shared pointer to the system factory.
+         */
+        std::shared_ptr<ISystemFactory> GetSystemFactory() const;
 
         /**
          * @brief Access the input event listener.

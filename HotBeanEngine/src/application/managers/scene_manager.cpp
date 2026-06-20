@@ -38,8 +38,6 @@ namespace HBE::Application::Managers {
                 throw std::runtime_error("Scene file does not exist: " + m_current_scene->m_scene_path.string());
             }
 
-            m_current_scene->SetupSystems();
-
             if (m_current_scene->m_serializer)
                 m_current_scene->m_serializer->Deserialize(m_current_scene->m_scene_path);
 

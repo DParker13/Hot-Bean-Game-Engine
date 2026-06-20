@@ -107,15 +107,17 @@ if(WIN32)
     set(HAVE_STRINGS_H 0 CACHE INTERNAL "Windows doesn't have strings.h" FORCE)
 endif()
 
+include_directories(${PROJECT_SOURCE_DIR}/HotBeanEngine/include)
+
 # Add subdirectories
-add_subdirectory(src)
+add_subdirectory(HotBeanEngine/src)
 
 # Compiler-specific settings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if(WIN32 AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-        target_link_options(HotBeanEngine_Application PUBLIC -mwindows)
+        target_link_options(HotBeanEngine PUBLIC -mwindows)
     endif()
-    target_link_options(HotBeanEngine_Application PUBLIC -static-libstdc++ -static-libgcc)
+    target_link_options(HotBeanEngine PUBLIC -static-libstdc++ -static-libgcc)
 endif()
 
 if(GAME_BUILD_TESTING)
@@ -127,5 +129,5 @@ if(GAME_BUILD_TESTING)
     )
     FetchContent_MakeAvailable(catch2)
     
-    add_subdirectory(src/unit_tests)
+    add_subdirectory(HotBeanEngine/src/unit_tests)
 endif()

@@ -1,4 +1,5 @@
 add_library(HotBeanEngine_Systems STATIC
+    system_factory.cpp
     input/player_controller_system.cpp
     physics/collision_system.cpp
     physics/physics_system.cpp

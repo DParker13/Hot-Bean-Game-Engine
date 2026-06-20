@@ -24,33 +24,6 @@ namespace HBE::Application {
         Scene(std::string name, std::string path, std::shared_ptr<Core::ISerializer> serializer)
             : IScene(name, path, serializer) {}
 
-        /**
-         * @brief Initializes systems for the scene.
-         *
-         * Registers engine default systems first, then allows the game scene
-         * to append additional systems through SetupCustomSystems().
-         */
-        void SetupSystems() override;
         void SetupScene() override;
-
-    protected:
-        /**
-         * @brief Controls whether engine default systems should be registered.
-         */
-        virtual bool IncludeDefaultSystems() const { return true; }
-
-        /**
-         * @brief Hook for game scenes to register scene-specific systems.
-         */
-        virtual void SetupCustomSystems() {}
-
-    private:
-        /**
-         * @brief Registers engine-provided default systems.
-         *
-         * The order each system is initialized is important because this is
-         * the order they are called during iteration.
-         */
-        void SetupDefaultSystems();
     };
 } // namespace HBE::Application

@@ -18,8 +18,9 @@ namespace HBE::Application {
     using namespace Managers;
     using namespace Listeners;
 
-    Application::Application(std::shared_ptr<IComponentFactory> component_factory)
-        : m_component_factory(component_factory) {
+    Application::Application(std::shared_ptr<IComponentFactory> component_factory,
+                             std::shared_ptr<ISystemFactory> system_factory)
+        : m_component_factory(component_factory), m_system_factory(system_factory) {
 
         // Setup singleton instance
         s_instance = this;
@@ -51,6 +52,7 @@ namespace HBE::Application {
 
     Application::~Application() {
         // Ensure scenes/systems are destroyed before SDL subsystems are torn down.
+        // TODO: In editor mode, this should ask the user if they want to save the current scene before quitting.
         if (m_scene_manager && m_scene_manager->GetCurrentScene()) {
             m_scene_manager->UnloadScene(false);
         }
@@ -101,6 +103,7 @@ namespace HBE::Application {
         m_ecs_manager = std::make_shared<ECSManager>(m_logging_manager);
         m_component_factory->SetECSManager(m_ecs_manager);
         m_component_factory->RegisterComponents();
+        m_system_factory->RegisterSystems();
         m_scene_manager = std::make_unique<SceneManager>(m_ecs_manager, m_logging_manager);
         m_loop_manager = std::make_unique<ApplicationStateManager>(m_logging_manager);
         m_camera_manager = std::make_shared<CameraManager>();
@@ -207,6 +210,8 @@ namespace HBE::Application {
     EventManager &Application::GetEventManager() const { return *m_event_manager; }
 
     std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
+
+    std::shared_ptr<ISystemFactory> Application::GetSystemFactory() const { return m_system_factory; }
 
     InputEventListener &Application::GetInputEventListener() { return *m_input_event_listener; }
 

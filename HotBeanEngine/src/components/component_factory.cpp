@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <HotBeanEngine/components/all_components.hpp>
 #include <HotBeanEngine/components/component_factory.hpp>
-#include <HotBeanEngine/components/default_components.hpp>
 
 namespace HBE::Components {
     using namespace Core;

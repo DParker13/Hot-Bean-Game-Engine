@@ -2,6 +2,7 @@
 
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/components/component_factory.hpp>
+#include <HotBeanEngine/systems/system_factory.hpp>
 
 /**
  * The main function of the program.
@@ -15,7 +16,10 @@ int main(int argc, char *argv[]) {
     std::shared_ptr<HBE::Application::IComponentFactory> component_factory =
         std::make_shared<HBE::Components::ComponentFactory>();
 
-    HBE::Application::Application app = HBE::Application::Application(component_factory);
+    std::shared_ptr<HBE::Application::ISystemFactory> system_factory =
+        std::make_shared<HBE::Application::SystemFactory>();
+
+    HBE::Application::Application app = HBE::Application::Application(component_factory, system_factory);
     app.Start();
 
     return 0;

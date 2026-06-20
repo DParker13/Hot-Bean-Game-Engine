@@ -1,4 +1,5 @@
 add_library(HotBeanEngine_Serializers STATIC
+    yaml/yaml_component_serializer.cpp
     yaml/yaml_scene_serializer.cpp
 )
 

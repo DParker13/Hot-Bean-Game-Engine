@@ -33,11 +33,6 @@ namespace HBE::Core {
         virtual ~IScene() = default;
 
         virtual void SetupScene() {};
-        /**
-         * @brief Initializes the systems needed for this scene in the system manager.
-         */
-        virtual void SetupSystems() {};
-
         virtual void CleanupScene() {};
     };
 } // namespace HBE::Core

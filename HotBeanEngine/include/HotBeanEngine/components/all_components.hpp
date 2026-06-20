@@ -1,5 +1,5 @@
 /**
- * @file default_components.hpp
+ * @file all_components.hpp
  * @author Daniel Parker (DParker13)
  * @brief Includes all default component headers for easy access
  * @version 0.1
