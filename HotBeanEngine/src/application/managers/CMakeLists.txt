@@ -13,7 +13,7 @@ add_library(HotBeanEngine_Managers STATIC
 )
 
 target_include_directories(HotBeanEngine_Managers PUBLIC
-    ${CMAKE_SOURCE_DIR}/HotBeanEngine/include
+    ${PROJECT_SOURCE_DIR}/include
     ${sdl3_SOURCE_DIR}/include
     ${sdl3_mixer_SOURCE_DIR}/include
     ${sdl3_image_SOURCE_DIR}/include
@@ -25,6 +25,7 @@ target_include_directories(HotBeanEngine_Managers PUBLIC
 target_link_libraries(HotBeanEngine_Managers PUBLIC
     HotBeanEngine_Systems
     HotBeanEngine_Components
+    HotBeanEngine_Utilities
     SDL3::SDL3
     SDL3_mixer::SDL3_mixer
     SDL3_image::SDL3_image

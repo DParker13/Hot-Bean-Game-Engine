@@ -49,4 +49,5 @@ target_link_libraries(HotBeanEngine_Editor PUBLIC
     imgui
     HotBeanEngine_Systems
     HotBeanEngine_Components
+    HotBeanEngine_Serializers
 )
