@@ -18,6 +18,10 @@ target_include_directories(imgui PUBLIC
     ${imgui_SOURCE_DIR}
 )
 
+target_link_libraries(imgui PUBLIC
+    SDL3::SDL3
+)
+
 add_library(HotBeanEngine_Editor STATIC
     control_bar.cpp
     control_bar.hpp

@@ -1,5 +1,5 @@
 Currently Working On:
-- Remove game folder
+- Move engine default fonts into build
 - Keep improving serializer
 - Adding list of scene files for a given project that are loaded on application load
 - Consolidating application into a full project instead of treating it like a framework
