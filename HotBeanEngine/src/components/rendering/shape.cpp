@@ -17,12 +17,12 @@
 namespace HBE::Components {
     using namespace GUI::PropertyNodes;
 
-    void Shape::Serialize(Core::IComponentWriter &out) const {
+    void Shape::Serialize(Core::ISerializationWriter &out) const {
         out.Write("size", m_size);
         out.Write("color", m_color);
     }
 
-    void Shape::Deserialize(Core::IComponentReader &in) {
+    void Shape::Deserialize(Core::ISerializationReader &in) {
         m_size = in.ReadVec2("size");
         m_color = in.ReadColor("color");
     }

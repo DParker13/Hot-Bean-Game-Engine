@@ -18,12 +18,12 @@
 namespace HBE::Components {
     using namespace GUI::PropertyNodes;
 
-    void RigidBody::Serialize(Core::IComponentWriter &out) const {
+    void RigidBody::Serialize(Core::ISerializationWriter &out) const {
         out.Write("mass", m_mass);
         out.Write("type", (int)m_type);
     }
 
-    void RigidBody::Deserialize(Core::IComponentReader &in) {
+    void RigidBody::Deserialize(Core::ISerializationReader &in) {
         if (in.Has("mass"))
             m_mass = in.ReadFloat("mass");
         if (in.Has("type"))

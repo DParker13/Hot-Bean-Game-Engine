@@ -19,7 +19,7 @@ namespace HBE::Components {
     class ComponentFactory : public Application::IComponentFactory {
     public:
         void RegisterComponents() override;
-        void CreateComponent(const std::string &component_name, Core::IComponentReader &reader,
+        void CreateComponent(const std::string &component_name, Core::ISerializationReader &reader,
                              Core::EntityID parent_entity, Core::EntityID entity) override;
     };
 } // namespace HBE::Components

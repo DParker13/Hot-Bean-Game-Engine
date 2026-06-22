@@ -16,6 +16,13 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "${CMAKE_BINARY_DIR}/Example Project"
 )
 
+# Copy assets to build directory
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/HotBeanEngine/assets"
+        "${CMAKE_BINARY_DIR}/HotBeanEngine/assets"
+)
+
 target_link_libraries(${PROJECT_NAME} PUBLIC
     HotBeanEngine_Application
 )

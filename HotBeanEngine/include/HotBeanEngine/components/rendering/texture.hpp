@@ -30,7 +30,7 @@ namespace HBE::Components {
         Texture() = default;
         ~Texture();
 
-        void Serialize(Core::IComponentWriter &out) const override;
+        void Serialize(Core::ISerializationWriter &out) const override;
         void RenderProperties(int &id) override;
     };
 } // namespace HBE::Components

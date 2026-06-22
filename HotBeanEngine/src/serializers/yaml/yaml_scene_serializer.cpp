@@ -10,10 +10,11 @@
 
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/components/miscellaneous/transform_2d.hpp>
-#include <HotBeanEngine/serializers/yaml/yaml_component_serializer.hpp>
 #include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
+#include <HotBeanEngine/serializers/yaml/yaml_serialization_reader.hpp>
+#include <HotBeanEngine/serializers/yaml/yaml_serialization_writer.hpp>
 
-namespace HBE::Application {
+namespace HBE::Serializers {
     using namespace Core;
     using namespace Components;
 
@@ -86,7 +87,7 @@ namespace HBE::Application {
 
             // Component data
             out << YAML::BeginMap;
-            Serializers::YamlComponentWriter writer(out);
+            YamlComponentWriter writer(out);
             components[i]->Serialize(writer);
             out << YAML::EndMap;
         }
@@ -145,6 +146,4 @@ namespace HBE::Application {
             DeserializeEntity(entity_node, parent_entity, entity);
         }
     }
-
-    bool YamlSceneSerializer::FileExists(std::filesystem::path filepath) { return std::filesystem::exists(filepath); }
-} // namespace HBE::Application
+} // namespace HBE::Serializers

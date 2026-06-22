@@ -9,7 +9,6 @@
  */
 
 #include <HotBeanEngine/application/scene.hpp>
-#include <HotBeanEngine/systems/all_systems.hpp>
 
 namespace HBE::Application {
     void Scene::SetupScene() {}

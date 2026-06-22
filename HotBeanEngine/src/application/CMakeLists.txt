@@ -1,5 +1,6 @@
 add_library(HotBeanEngine_Application STATIC
     application.cpp
+    scene.cpp
     listeners/input_event_listener.cpp
 )
 

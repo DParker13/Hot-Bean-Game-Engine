@@ -28,7 +28,7 @@ namespace HBE::Components {
         DEFINE_NAME("AudioSource");
         AudioSource() = default;
 
-        void Serialize(Core::IComponentWriter &out) const override;
-        void Deserialize(Core::IComponentReader &in) override;
+        void Serialize(Core::ISerializationWriter &out) const override;
+        void Deserialize(Core::ISerializationReader &in) override;
     };
 } // namespace HBE::Components

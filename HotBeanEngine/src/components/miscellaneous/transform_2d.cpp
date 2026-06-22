@@ -17,7 +17,7 @@
 namespace HBE::Components {
     using namespace GUI::PropertyNodes;
 
-    void Transform2D::Serialize(Core::IComponentWriter &out) const {
+    void Transform2D::Serialize(Core::ISerializationWriter &out) const {
         out.Write("layer", (int)m_layer);
         out.Write("parent", (int)m_parent);
         out.Write("local_position", m_local_position);
@@ -28,7 +28,7 @@ namespace HBE::Components {
         out.Write("world_scale", m_world_scale);
     }
 
-    void Transform2D::Deserialize(Core::IComponentReader &in) {
+    void Transform2D::Deserialize(Core::ISerializationReader &in) {
         if (in.Has("layer"))
             m_layer = (uint8_t)in.ReadInt("layer");
 

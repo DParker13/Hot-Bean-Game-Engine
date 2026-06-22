@@ -35,8 +35,8 @@ namespace HBE::Components {
         Collider2D() = default;
         Collider2D(ColliderShape shape) : m_shape(shape) {}
 
-        void Serialize(Core::IComponentWriter &out) const override;
-        void Deserialize(Core::IComponentReader &in) override;
+        void Serialize(Core::ISerializationWriter &out) const override;
+        void Deserialize(Core::ISerializationReader &in) override;
         void RenderProperties(int &id) override;
     };
 } // namespace HBE::Components

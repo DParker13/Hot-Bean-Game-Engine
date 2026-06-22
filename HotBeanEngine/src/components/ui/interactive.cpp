@@ -11,7 +11,7 @@
 #include <HotBeanEngine/components/ui/interactive.hpp>
 
 namespace HBE::Components {
-    void Interactive::Deserialize(Core::IComponentReader &in) {}
-    void Interactive::Serialize(Core::IComponentWriter &out) const {}
+    void Interactive::Deserialize(Core::ISerializationReader &in) {}
+    void Interactive::Serialize(Core::ISerializationWriter &out) const {}
     void Interactive::RenderProperties(int &id) {}
 } // namespace HBE::Components

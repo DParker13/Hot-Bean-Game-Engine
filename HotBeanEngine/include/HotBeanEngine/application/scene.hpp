@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <HotBeanEngine/core/all_core.hpp>
+#include <HotBeanEngine/core/iscene.hpp>
 
 namespace HBE::Application {
     /**
@@ -21,9 +21,13 @@ namespace HBE::Application {
      */
     class Scene : public Core::IScene {
     public:
-        Scene(std::string name, std::string path, std::shared_ptr<Core::ISerializer> serializer)
-            : IScene(name, path, serializer) {}
+        Scene(std::string name, std::string path) : IScene(name, path) {}
+        virtual ~Scene() = default;
 
-        void SetupScene() override;
+        virtual void SetupScene() override;
+
+        // ISerializable interface
+        virtual void Serialize(Core::ISerializationWriter &out) const override {};
+        virtual void Deserialize(Core::ISerializationReader &in) override {};
     };
 } // namespace HBE::Application

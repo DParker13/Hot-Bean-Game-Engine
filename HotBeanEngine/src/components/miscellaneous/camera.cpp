@@ -17,7 +17,7 @@
 namespace HBE::Components {
     using namespace GUI::PropertyNodes;
 
-    void Camera::Serialize(Core::IComponentWriter &out) const {
+    void Camera::Serialize(Core::ISerializationWriter &out) const {
         out.Write("active", m_active);
         out.Write("zoom", m_zoom);
         out.Write("layer_mask", m_layer_mask.to_string());
@@ -25,7 +25,7 @@ namespace HBE::Components {
         out.Write("viewport_size", m_viewport_size);
     }
 
-    void Camera::Deserialize(Core::IComponentReader &in) {
+    void Camera::Deserialize(Core::ISerializationReader &in) {
         if (in.Has("active")) {
             m_active = in.ReadBool("active");
         }

@@ -39,7 +39,7 @@ namespace HBE::Components {
      * @param parent_entity Parent Entity
      * @param entity Entity
      */
-    void ComponentFactory::CreateComponent(const std::string &component_name, IComponentReader &reader,
+    void ComponentFactory::CreateComponent(const std::string &component_name, ISerializationReader &reader,
                                            EntityID parent_entity, EntityID entity) {
         if (m_ecs_manager->IsComponentRegistered(component_name)) {
             if (component_name == "AudioSource") {

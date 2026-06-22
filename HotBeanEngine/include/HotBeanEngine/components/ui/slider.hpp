@@ -30,8 +30,8 @@ namespace HBE::Components {
         Slider() = default;
         ~Slider() = default;
 
-        void Deserialize(Core::IComponentReader &in) override;
-        void Serialize(Core::IComponentWriter &out) const override;
+        void Deserialize(Core::ISerializationReader &in) override;
+        void Serialize(Core::ISerializationWriter &out) const override;
 
         /**
          * Gets the text of the Text component.

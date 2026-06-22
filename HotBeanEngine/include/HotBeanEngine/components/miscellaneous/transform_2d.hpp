@@ -40,8 +40,8 @@ namespace HBE::Components {
         Transform2D(glm::vec2 position) : m_world_position(position) {}
         Transform2D(Core::EntityID parent_entity) : m_parent(parent_entity) {}
 
-        void Serialize(Core::IComponentWriter &out) const override;
-        void Deserialize(Core::IComponentReader &in) override;
+        void Serialize(Core::ISerializationWriter &out) const override;
+        void Deserialize(Core::ISerializationReader &in) override;
         void RenderProperties(int &id) override;
     };
 } // namespace HBE::Components

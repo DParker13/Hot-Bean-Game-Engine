@@ -15,9 +15,9 @@
 namespace HBE::Components {
     using namespace GUI::PropertyNodes;
 
-    void Name::Serialize(Core::IComponentWriter &out) const { out.Write("name", m_name); }
+    void Name::Serialize(Core::ISerializationWriter &out) const { out.Write("name", m_name); }
 
-    void Name::Deserialize(Core::IComponentReader &in) {
+    void Name::Deserialize(Core::ISerializationReader &in) {
         if (in.Has("name")) {
             m_name = in.ReadString("name");
         }

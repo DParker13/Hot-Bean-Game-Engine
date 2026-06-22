@@ -10,9 +10,10 @@
 
 #pragma once
 
+#include <filesystem>
 #include <memory>
 
-#include <HotBeanEngine/core/serializer.hpp>
+#include <HotBeanEngine/core/iserializable.hpp>
 
 namespace HBE::Core {
     /**
@@ -20,19 +21,18 @@ namespace HBE::Core {
      * Manages scene-specific setup, serialization, and system configuration.
      * Provides lifecycle hooks for scene initialization.
      */
-    struct IScene {
-        std::shared_ptr<ISerializer> m_serializer;
+    struct IScene : public ISerializable {
         std::string m_name;
         std::filesystem::path m_scene_path;
 
         IScene(std::string name, std::filesystem::path scene_path) : m_name(name), m_scene_path(scene_path) {}
-
-        IScene(std::string name, std::filesystem::path scene_path, std::shared_ptr<ISerializer> serializer)
-            : m_name(name), m_scene_path(scene_path), m_serializer(serializer) {}
-
         virtual ~IScene() = default;
 
         virtual void SetupScene() {};
         virtual void CleanupScene() {};
+
+        // ISerializable interface
+        virtual void Serialize(ISerializationWriter &out) const = 0;
+        virtual void Deserialize(ISerializationReader &in) = 0;
     };
 } // namespace HBE::Core

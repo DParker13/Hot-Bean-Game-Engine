@@ -18,7 +18,7 @@
 namespace HBE::Components {
     using namespace GUI::PropertyNodes;
 
-    void Text::Deserialize(Core::IComponentReader &in) {
+    void Text::Deserialize(Core::ISerializationReader &in) {
         if (in.Has("text")) {
             m_text = in.ReadString("text");
         }
@@ -40,7 +40,7 @@ namespace HBE::Components {
         MarkDirty();
     }
 
-    void Text::Serialize(Core::IComponentWriter &out) const {
+    void Text::Serialize(Core::ISerializationWriter &out) const {
         if (!m_text.empty()) {
             out.Write("text", m_text);
         }

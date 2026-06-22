@@ -8,6 +8,7 @@ add_library(HotBeanEngine_Managers STATIC
     logging_manager.cpp
     render_manager.cpp
     scene_manager.cpp
+    serialization_manager.cpp
     system_manager.cpp
     transform_manager.cpp
 )

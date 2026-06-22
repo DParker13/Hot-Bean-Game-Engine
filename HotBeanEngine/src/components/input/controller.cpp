@@ -11,9 +11,9 @@
 #include <HotBeanEngine/components/input/controller.hpp>
 
 namespace HBE::Components {
-    void Controller::Serialize(Core::IComponentWriter &out) const { out.Write("controllable", controllable); }
+    void Controller::Serialize(Core::ISerializationWriter &out) const { out.Write("controllable", controllable); }
 
-    void Controller::Deserialize(Core::IComponentReader &in) {
+    void Controller::Deserialize(Core::ISerializationReader &in) {
         if (in.Has("controllable")) {
             controllable = in.ReadBool("controllable");
         }

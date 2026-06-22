@@ -6,8 +6,8 @@ namespace HBE::Application {
     using namespace Systems;
 
     void SystemFactory::RegisterSystems() {
-        std::filesystem::path font_path =
-            std::filesystem::current_path() / "assets" / "fonts" / "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
+        std::filesystem::path font_path = std::filesystem::current_path().parent_path() / "assets" / "fonts" /
+                                          "LT_Superior_Mono" / "LTSuperiorMono-Regular.ttf";
 
         // Input
         g_ecs.RegisterSystem<PlayerControllerSystem>();

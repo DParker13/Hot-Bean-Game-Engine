@@ -8,12 +8,14 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/application/managers/scene_manager.hpp>
 
 namespace HBE::Application::Managers {
 
-    SceneManager::SceneManager(std::shared_ptr<ECSManager> ecs_manager, std::shared_ptr<LoggingManager> logging_manager)
-        : m_ecs_manager(ecs_manager), m_logging_manager(logging_manager) {}
+    SceneManager::SceneManager(std::shared_ptr<SerializationManager> serialization_manager,
+                               std::shared_ptr<LoggingManager> logging_manager)
+        : m_serialization_manager(serialization_manager), m_logging_manager(logging_manager) {}
 
     void SceneManager::LoadScene(std::shared_ptr<IScene> scene) { LoadScene(scene, false); }
 
@@ -21,6 +23,17 @@ namespace HBE::Application::Managers {
         assert(scene && "IScene is null.");
 
         try {
+            auto serializer = m_serialization_manager->GetSerializer("YamlSceneSerializer");
+            if (!serializer) {
+                LOG_CORE(LoggingType::FATAL, "No serializer found for YamlSceneSerializer");
+                throw std::runtime_error("No serializer found for YamlSceneSerializer");
+            }
+
+            if (!serializer->FileExists(scene->m_scene_path)) {
+                LOG_CORE(LoggingType::FATAL, "Scene file does not exist: " + m_current_scene->m_scene_path.string());
+                throw std::runtime_error("Scene file does not exist: " + m_current_scene->m_scene_path.string());
+            }
+
             // Unload current scene if a new one is being loaded
             if (m_current_scene && m_current_scene != scene) {
                 UnloadScene(save_to_file);
@@ -31,21 +44,15 @@ namespace HBE::Application::Managers {
             LOG_CORE(LoggingType::INFO, "Loading scene \"" + m_current_scene->m_name + "\" from file: ");
             LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path.string());
 
-            // Attempt to load scene from file
-            if (m_current_scene->m_serializer &&
-                !m_current_scene->m_serializer->FileExists(m_current_scene->m_scene_path)) {
-                LOG_CORE(LoggingType::FATAL, "Scene file does not exist: " + m_current_scene->m_scene_path.string());
-                throw std::runtime_error("Scene file does not exist: " + m_current_scene->m_scene_path.string());
-            }
+            // Deserialize scene from file
+            serializer->Deserialize(m_current_scene->m_scene_path);
 
-            if (m_current_scene->m_serializer)
-                m_current_scene->m_serializer->Deserialize(m_current_scene->m_scene_path);
-
-            m_ecs_manager->IterateSystems(GameLoopState::OnStart);
+            g_ecs.IterateSystems(GameLoopState::OnStart);
 
             LOG_CORE(LoggingType::INFO, "Scene loaded.");
         } catch (const YAML::Exception &e) {
             LOG_CORE(LoggingType::ERROR, "Error parsing YAML file: " + (std::string)e.what());
+            throw std::runtime_error("Error parsing YAML file: " + (std::string)e.what());
         }
 
         m_current_scene->SetupScene();
@@ -59,15 +66,17 @@ namespace HBE::Application::Managers {
             LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path.string());
 
             // Attempt to serialize scene to file
-            if (save_to_file && m_current_scene->m_serializer) {
-                m_current_scene->m_serializer->Serialize(m_current_scene->m_scene_path);
-                LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
+            if (save_to_file) {
+                if (auto serializer = m_serialization_manager->GetSerializer("YamlSceneSerializer")) {
+                    serializer->Serialize(m_current_scene->m_scene_path);
+                    LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
+                }
             }
 
             // Call scene cleanup before destroying entities to allow systems to release resources
             m_current_scene->CleanupScene();
 
-            m_ecs_manager->DestroyAllEntities();
+            g_ecs.DestroyAllEntities();
         } catch (const YAML::Exception &e) {
             LOG_CORE(LoggingType::ERROR, "Error serializing to YAML file: " + (std::string)e.what());
         }

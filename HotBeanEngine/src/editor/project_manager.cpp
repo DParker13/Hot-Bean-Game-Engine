@@ -1,6 +1,16 @@
+/**
+ * @file project_manager.cpp
+ * @author Daniel Parker (DParker13)
+ * @brief Manages project creation, loading, and saving for the editor. Handles project file parsing and serialization.
+ * @version 0.1
+ * @date 2026-06-20
+ *
+ * @copyright Copyright (c) 2026
+ *
+ */
+
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/components/component_factory.hpp>
-#include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
+#include <HotBeanEngine/application/scene.hpp>
 
 #include "editor_utils.hpp"
 #include "project_manager.hpp"
@@ -85,9 +95,6 @@ namespace HBE::GUI {
             if (config["Project"]["directory"]) {
                 m_project.m_directory = config["Project"]["directory"].as<std::string>();
             }
-            if (config["Project"]["serializer"]) {
-                m_project.m_serializer = config["Project"]["serializer"].as<std::string>();
-            }
 
             // Scenes (list of scene yaml paths)
             // TODO: This should work with all serializers
@@ -115,7 +122,8 @@ namespace HBE::GUI {
                         }
 
                         if (!scene_name.empty() && !scene_path.empty()) {
-                            std::shared_ptr<IScene> scene = std::make_shared<IScene>(scene_name, scene_path);
+                            std::shared_ptr<IScene> scene =
+                                std::make_shared<Application::Scene>(scene_name, scene_path);
                             g_app.GetSceneManager().RegisterScene(scene);
                         }
                     } catch (const YAML::Exception &e) {
@@ -162,7 +170,6 @@ namespace HBE::GUI {
             out << YAML::Key << "version" << YAML::Value << m_project.m_version;
             out << YAML::Key << "file" << YAML::Value << m_project.m_file;
             out << YAML::Key << "directory" << YAML::Value << m_project.m_directory;
-            out << YAML::Key << "serializer" << YAML::Value << YAML::DoubleQuoted << m_project.m_serializer;
             out << YAML::EndMap;
 
             // Scenes

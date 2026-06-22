@@ -35,6 +35,7 @@ namespace HBE::Core {
     inline LoggingType LOGGING_LEVEL = LoggingType::DEBUG; // Minimum logging level (DEBUG, INFO, WARNING, ERROR, FATAL)
     inline bool LOG_TO_CONSOLE = true;                     // Whether to also log messages to the console (true/false)
 
+    // Project
     // Startup project path (can be set in config.yaml)
     // This stores the last project that was opened or created, and will be loaded on startup.
     inline std::filesystem::path STARTUP_PROJECT_PATH = "";
@@ -55,7 +56,6 @@ namespace HBE::Core {
         out << YAML::BeginMap;
         out << YAML::Key << "startup_path" << YAML::Value << YAML::DoubleQuoted << STARTUP_PROJECT_PATH << YAML::Auto
             << YAML::Comment("Path to the project that should be loaded on startup");
-        out << YAML::EndMap;
 
         // Logging
         out << YAML::Key << "Logging" << YAML::Value;

@@ -18,7 +18,7 @@
 namespace HBE::Components {
     using namespace GUI::PropertyNodes;
 
-    void Checkbox::Deserialize(Core::IComponentReader &in) {
+    void Checkbox::Deserialize(Core::ISerializationReader &in) {
         if (in.Has("text")) {
             m_text = in.ReadString("text");
         }
@@ -39,7 +39,7 @@ namespace HBE::Components {
         }
     }
 
-    void Checkbox::Serialize(Core::IComponentWriter &out) const {
+    void Checkbox::Serialize(Core::ISerializationWriter &out) const {
         if (!m_text.empty()) {
             out.Write("text", m_text);
         }

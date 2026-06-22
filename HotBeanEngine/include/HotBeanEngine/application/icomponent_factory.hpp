@@ -10,7 +10,7 @@
 #pragma once
 
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
-#include <HotBeanEngine/core/icomponent_serializer.hpp>
+#include <HotBeanEngine/core/iserialization_reader.hpp>
 
 namespace HBE::Application {
     using Core::EntityID;
@@ -25,13 +25,13 @@ namespace HBE::Application {
 
     public:
         virtual void RegisterComponents() = 0;
-        virtual void CreateComponent(const std::string &component_name, Core::IComponentReader &reader,
+        virtual void CreateComponent(const std::string &component_name, Core::ISerializationReader &reader,
                                      EntityID parent_entity, EntityID entity) = 0;
 
         void SetECSManager(std::shared_ptr<Managers::ECSManager> ecs_manager) { m_ecs_manager = ecs_manager; }
 
         template <typename T, typename... Args>
-        void AddComponent(EntityID entity, Core::IComponentReader &reader, const Args &...args) {
+        void AddComponent(EntityID entity, Core::ISerializationReader &reader, const Args &...args) {
             static_assert(std::is_base_of_v<Core::IComponent, T> && "T must inherit from IComponent");
 
             m_ecs_manager->AddComponent<T>(entity, T(args...));

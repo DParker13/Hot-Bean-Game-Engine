@@ -14,7 +14,8 @@
 
 #include <HotBeanEngine/application/icomponent_factory.hpp>
 
-namespace HBE::Application {
+namespace HBE::Serializers {
+    using Application::IComponentFactory;
     using Core::EntityID;
 
     /**
@@ -26,12 +27,12 @@ namespace HBE::Application {
         std::shared_ptr<IComponentFactory> m_component_factory;
 
     public:
+        DEFINE_NAME("YamlSceneSerializer");
         YamlSceneSerializer(std::shared_ptr<IComponentFactory> component_factory)
             : m_component_factory(component_factory) {}
 
         void Serialize(std::filesystem::path filepath) override;
         void Deserialize(std::filesystem::path filepath) override;
-        bool FileExists(std::filesystem::path filepath) override;
 
     private:
         void SerializeEntities(YAML::Emitter &out, EntityID parent_entity);
@@ -40,4 +41,4 @@ namespace HBE::Application {
         void DeserializeEntities(const YAML::Node &node, EntityID parent_entity);
         void DeserializeEntity(const YAML::Node &node, EntityID parent_entity, EntityID entity);
     };
-} // namespace HBE::Application
+} // namespace HBE::Serializers

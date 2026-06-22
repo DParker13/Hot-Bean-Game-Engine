@@ -1,9 +1,4 @@
 Currently Working On:
-- Move engine default fonts into build
-- Keep improving serializer
-- Adding list of scene files for a given project that are loaded on application load
-- Consolidating application into a full project instead of treating it like a framework
-    + Remove ExampleGame and have any of the application setup handled in the editor or application directly
 - Need to add a startup scene to the application.
     + When the editor is empty, no scenes are loaded because the project yaml file won't exist.
     + Setting a startup/launch scene for the application on compilation will allow for an entry point to the gameplay/other scenes in a final build.

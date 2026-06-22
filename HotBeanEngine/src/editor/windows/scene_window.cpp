@@ -11,8 +11,7 @@
 
 #include "scene_window.hpp"
 
-#include <HotBeanEngine/components/component_factory.hpp>
-#include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
+#include <HotBeanEngine/application/scene.hpp>
 #include <misc/cpp/imgui_stdlib.h>
 
 #include "../editor_utils.hpp"
@@ -57,7 +56,9 @@ namespace HBE::GUI {
             ImGui::BeginGroup();
             if (ImGui::CollapsingHeader(scene_name.c_str(), ImGuiTreeNodeFlags_Framed)) {
                 std::string path = scene->m_scene_path;
-                if (ImGui::InputText("Scene Path", &path)) {
+                ImGui::Text("Scene Path:");
+                ImGui::SameLine();
+                if (ImGui::InputText("##Scene Path", &path, ImGuiInputTextFlags_ElideLeft)) {
                     scene->m_scene_path = path;
                 }
                 ImGui::SameLine();
@@ -88,15 +89,13 @@ namespace HBE::GUI {
                        [this](std::string_view selected_path) {
                            std::filesystem::path path(selected_path);
                            std::string name = path.stem().string();
-                           auto new_scene = std::make_shared<IScene>(name, path);
-                           new_scene->m_serializer = std::make_shared<Application::YamlSceneSerializer>(
-                               std::make_shared<Components::ComponentFactory>());
+                           auto new_scene = std::make_shared<Application::Scene>(name, path);
                            g_app.GetSceneManager().RegisterScene(new_scene);
                            m_project_manager->SaveProject();
                        });
     }
 
-    void SceneWindow::LoadScene(std::shared_ptr<IScene> scene) { g_app.GetSceneManager().SwitchScene(scene); }
+    void SceneWindow::LoadScene(std::shared_ptr<IScene> scene) { g_app.GetSceneManager().LoadScene(scene); }
 
     void SceneWindow::RemoveScene(std::shared_ptr<IScene> scene) {
         if (g_app.GetSceneManager().GetCurrentScene() == scene) {

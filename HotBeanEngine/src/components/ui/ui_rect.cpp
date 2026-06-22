@@ -44,7 +44,7 @@ namespace HBE::Components {
         return SDL_FRect{screen_pos.x, screen_pos.y, m_size.x, m_size.y};
     }
 
-    void UIRect::Serialize(Core::IComponentWriter &out) const {
+    void UIRect::Serialize(Core::ISerializationWriter &out) const {
         out.Write("position", m_position);
         out.Write("size", m_size);
         out.Write("anchor", (int)m_anchor);
@@ -55,7 +55,7 @@ namespace HBE::Components {
         out.Write("margin_bottom", m_margin_bottom);
     }
 
-    void UIRect::Deserialize(Core::IComponentReader &in) {
+    void UIRect::Deserialize(Core::ISerializationReader &in) {
         if (in.Has("position"))
             m_position = in.ReadVec2("position");
         if (in.Has("size"))

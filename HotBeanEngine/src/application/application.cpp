@@ -12,6 +12,7 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/editor/editor_gui.hpp>
 #include <HotBeanEngine/editor/noop_editor_gui.hpp>
+#include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
 
 namespace HBE::Application {
     using namespace Core;
@@ -101,10 +102,18 @@ namespace HBE::Application {
 
     void Application::InitManagers() {
         m_ecs_manager = std::make_shared<ECSManager>(m_logging_manager);
+
+        // Setup component and system factories
         m_component_factory->SetECSManager(m_ecs_manager);
         m_component_factory->RegisterComponents();
         m_system_factory->RegisterSystems();
-        m_scene_manager = std::make_unique<SceneManager>(m_ecs_manager, m_logging_manager);
+
+        // Initialize the serialization manager and register serializers
+        m_serialization_manager = std::make_shared<SerializationManager>(m_logging_manager);
+        m_serialization_manager->RegisterSerializer(
+            std::make_unique<Serializers::YamlSceneSerializer>(m_component_factory));
+
+        m_scene_manager = std::make_unique<SceneManager>(m_serialization_manager, m_logging_manager);
         m_loop_manager = std::make_unique<ApplicationStateManager>(m_logging_manager);
         m_camera_manager = std::make_shared<CameraManager>();
         m_render_manager = std::make_shared<RenderManager>(m_camera_manager);
@@ -208,6 +217,8 @@ namespace HBE::Application {
     TransformManager &Application::GetTransformManager() { return *m_transform_manager; }
 
     EventManager &Application::GetEventManager() const { return *m_event_manager; }
+
+    SerializationManager &Application::GetSerializationManager() const { return *m_serialization_manager; }
 
     std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
 

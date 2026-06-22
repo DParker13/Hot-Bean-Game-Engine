@@ -31,8 +31,8 @@ namespace HBE::Components {
         Text() = default;
         ~Text() = default;
 
-        void Deserialize(Core::IComponentReader &in) override;
-        void Serialize(Core::IComponentWriter &out) const override;
+        void Deserialize(Core::ISerializationReader &in) override;
+        void Serialize(Core::ISerializationWriter &out) const override;
         void RenderProperties(int &id) override;
     };
 } // namespace HBE::Components

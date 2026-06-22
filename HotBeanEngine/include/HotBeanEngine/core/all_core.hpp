@@ -19,11 +19,14 @@
 #include <HotBeanEngine/core/igame_loop.hpp>
 #include <HotBeanEngine/core/iname.hpp>
 #include <HotBeanEngine/core/iscene.hpp>
+#include <HotBeanEngine/core/iserializable.hpp>
+#include <HotBeanEngine/core/iserialization_reader.hpp>
+#include <HotBeanEngine/core/iserialization_writer.hpp>
+#include <HotBeanEngine/core/iserializer.hpp>
 #include <HotBeanEngine/core/logging_type.hpp>
 #include <HotBeanEngine/core/octree_2d.hpp>
 #include <HotBeanEngine/core/octree_2d_node.hpp>
 #include <HotBeanEngine/core/project.hpp>
-#include <HotBeanEngine/core/serializer.hpp>
 #include <HotBeanEngine/core/signature.hpp>
 #include <HotBeanEngine/core/sparse_set.hpp>
 #include <HotBeanEngine/core/system.hpp>
