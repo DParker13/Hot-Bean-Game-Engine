@@ -298,7 +298,11 @@ namespace HBE::Application::Managers {
          */
         template <typename T>
         bool HasComponent(EntityID entity) const {
-            return GetComponentSet<T>()->HasElement(entity);
+            auto sparse_set = TryGetComponentSet<T>();
+            if (!sparse_set) {
+                return false;
+            }
+            return sparse_set->HasElement(entity);
         }
 
         template <typename... Ts>
@@ -363,7 +367,7 @@ namespace HBE::Application::Managers {
         }
 
         template <typename T>
-        std::shared_ptr<SparseSet<T, MAX_ENTITIES>> TryGetComponentSet() noexcept {
+        std::shared_ptr<SparseSet<T, MAX_ENTITIES>> TryGetComponentSet() const noexcept {
             const std::string component_name = std::string(GetComponentName<T>());
 
             if (!IsComponentRegistered(component_name)) {
