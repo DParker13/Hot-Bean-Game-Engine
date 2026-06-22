@@ -12,11 +12,11 @@
 
 #include <filesystem>
 
-#include <HotBeanEngine/application/icomponent_factory.hpp>
+#include <HotBeanEngine/factories/icomponent_factory.hpp>
 
 namespace HBE::Serializers {
-    using Application::IComponentFactory;
     using Core::EntityID;
+    using Factories::IComponentFactory;
 
     /**
      * @brief Default scene serializer implementation using YAML
@@ -35,9 +35,11 @@ namespace HBE::Serializers {
         void Deserialize(std::filesystem::path filepath) override;
 
     private:
+        void SerializeScene(YAML::Emitter &out);
         void SerializeEntities(YAML::Emitter &out, EntityID parent_entity);
         void SerializeEntity(YAML::Emitter &out, EntityID entity);
         void MapParentEntities();
+        void DeserializeScene(const YAML::Node &node);
         void DeserializeEntities(const YAML::Node &node, EntityID parent_entity);
         void DeserializeEntity(const YAML::Node &node, EntityID parent_entity, EntityID entity);
     };

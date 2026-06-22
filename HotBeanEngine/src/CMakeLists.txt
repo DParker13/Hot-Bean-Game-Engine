@@ -1,11 +1,12 @@
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-add_subdirectory(editor)
 add_subdirectory(application)
-add_subdirectory(utilities)
-add_subdirectory(serializers)
 add_subdirectory(components)
+add_subdirectory(editor)
+add_subdirectory(factories)
+add_subdirectory(serializers)
 add_subdirectory(systems)
+add_subdirectory(utilities)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
@@ -25,4 +26,5 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     HotBeanEngine_Application
+    HotBeanEngine_Factories
 )

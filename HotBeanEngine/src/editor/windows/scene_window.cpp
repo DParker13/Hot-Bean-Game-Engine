@@ -95,7 +95,7 @@ namespace HBE::GUI {
                        });
     }
 
-    void SceneWindow::LoadScene(std::shared_ptr<IScene> scene) { g_app.GetSceneManager().LoadScene(scene); }
+    void SceneWindow::LoadScene(std::shared_ptr<IScene> scene) { g_app.GetSceneManager().LoadScene(scene, true); }
 
     void SceneWindow::RemoveScene(std::shared_ptr<IScene> scene) {
         if (g_app.GetSceneManager().GetCurrentScene() == scene) {

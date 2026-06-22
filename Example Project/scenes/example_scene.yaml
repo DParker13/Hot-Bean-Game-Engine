@@ -1,6 +1,5 @@
 Scene:
     name: "Example Scene"
-    serializer: "yaml"
 Entities:
     - Entity:
         Transform2D:
@@ -21,3 +20,8 @@ Entities:
         Controller:
         Name:
             name: "Camera 2"
+    - Entity:
+        Transform2D:
+            local_position: [500, 500]
+            layer: 0
+        Shape:

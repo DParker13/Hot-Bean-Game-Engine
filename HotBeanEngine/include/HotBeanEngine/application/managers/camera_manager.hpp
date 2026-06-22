@@ -8,6 +8,7 @@ namespace HBE::Application::Managers {
     using Components::Camera;
     using Components::Texture;
     using Components::Transform2D;
+    using Core::EntityID;
 
     /**
      * @class CameraManager

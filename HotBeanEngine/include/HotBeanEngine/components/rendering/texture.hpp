@@ -31,6 +31,7 @@ namespace HBE::Components {
         ~Texture();
 
         void Serialize(Core::ISerializationWriter &out) const override;
+        void Deserialize(Core::ISerializationReader &in) override;
         void RenderProperties(int &id) override;
     };
 } // namespace HBE::Components

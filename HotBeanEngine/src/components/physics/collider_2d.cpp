@@ -19,8 +19,12 @@ namespace HBE::Components {
     }
 
     void Collider2D::Deserialize(Core::ISerializationReader &in) {
-        m_size = in.ReadVec2("bounding_box");
-        m_is_trigger = in.ReadBool("is_trigger");
+        if (in.Has("bounding_box")) {
+            m_size = in.ReadVec2("bounding_box");
+        }
+        if (in.Has("is_trigger")) {
+            m_is_trigger = in.ReadBool("is_trigger");
+        }
     }
 
     void Collider2D::RenderProperties(int &id) {

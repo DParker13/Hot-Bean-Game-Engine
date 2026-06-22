@@ -24,10 +24,12 @@ namespace HBE::Components {
     }
 
     void RigidBody::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("mass"))
+        if (in.Has("mass")) {
             m_mass = in.ReadFloat("mass");
-        if (in.Has("type"))
+        }
+        if (in.Has("type")) {
             m_type = (b2BodyType)in.ReadInt("type");
+        }
     }
 
     void RigidBody::RenderProperties(int &id) {

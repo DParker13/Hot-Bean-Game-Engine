@@ -12,4 +12,8 @@
 
 namespace HBE::Application {
     void Scene::SetupScene() {}
+
+    void Scene::Serialize(Core::ISerializationWriter &out) const { out.Write("Name", m_name); }
+
+    void Scene::Deserialize(Core::ISerializationReader &in) { m_name = in.ReadString("Name"); }
 } // namespace HBE::Application

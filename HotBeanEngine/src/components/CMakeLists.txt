@@ -13,7 +13,6 @@ add_library(HotBeanEngine_Components STATIC
     ui/slider.cpp
     ui/text.cpp
     ui/ui_rect.cpp
-    component_factory.cpp
 )
 
 target_include_directories(HotBeanEngine_Components PUBLIC

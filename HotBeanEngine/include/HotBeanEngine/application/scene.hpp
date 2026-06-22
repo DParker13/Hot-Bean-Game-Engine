@@ -27,7 +27,7 @@ namespace HBE::Application {
         virtual void SetupScene() override;
 
         // ISerializable interface
-        virtual void Serialize(Core::ISerializationWriter &out) const override {};
-        virtual void Deserialize(Core::ISerializationReader &in) override {};
+        virtual void Serialize(Core::ISerializationWriter &out) const override;
+        virtual void Deserialize(Core::ISerializationReader &in) override;
     };
 } // namespace HBE::Application

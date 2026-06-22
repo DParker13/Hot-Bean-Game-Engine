@@ -23,6 +23,8 @@ namespace HBE::Serializers {
 
         YAML::Emitter out = YAML::Emitter();
 
+        SerializeScene(out);
+
         MapParentEntities();
 
         out << YAML::BeginMap;
@@ -31,6 +33,13 @@ namespace HBE::Serializers {
 
         std::ofstream file{filepath};
         file << out.c_str();
+    }
+
+    void YamlSceneSerializer::SerializeScene(YAML::Emitter &out) {
+        out << YAML::Key << "Scene" << YAML::Value << YAML::BeginMap;
+        YamlComponentWriter writer(out);
+        g_app.GetSceneManager().GetCurrentScene()->Serialize(writer);
+        out << YAML::EndMap;
     }
 
     // TODO: Replace this with a better solution. Maybe use the TransformSystem.m_entities member instead
@@ -109,6 +118,11 @@ namespace HBE::Serializers {
         DeserializeEntities(scene, -1);
     }
 
+    void YamlSceneSerializer::DeserializeScene(const YAML::Node &node) {
+        YamlComponentReader reader(node);
+        g_app.GetSceneManager().GetCurrentScene()->Deserialize(reader);
+    }
+
     void YamlSceneSerializer::DeserializeEntity(const YAML::Node &node, EntityID parent_entity, EntityID entity) {
         LOG(LoggingType::INFO, "Loading EntityID \"" + std::to_string(entity) + "\"");
 
@@ -128,11 +142,11 @@ namespace HBE::Serializers {
 
             if (g_ecs.IsComponentRegistered(component_name)) {
                 LOG(LoggingType::INFO, "Loading component: " + component_name);
-                Serializers::YamlComponentReader reader(component);
+                YamlComponentReader reader(component);
                 m_component_factory->CreateComponent(component_name, reader, parent_entity, entity);
             }
             else {
-                LOG(LoggingType::FATAL, "Component " + component_name + " is not registered.");
+                LOG(LoggingType::ERROR, "Component " + component_name + " is not registered.");
             }
         }
     }

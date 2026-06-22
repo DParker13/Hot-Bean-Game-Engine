@@ -12,7 +12,7 @@
 #include <HotBeanEngine/application/managers/ecs_manager.hpp>
 #include <HotBeanEngine/core/iserialization_reader.hpp>
 
-namespace HBE::Application {
+namespace HBE::Factories {
     using Core::EntityID;
 
     /**
@@ -21,14 +21,16 @@ namespace HBE::Application {
      */
     class IComponentFactory {
     protected:
-        std::shared_ptr<Managers::ECSManager> m_ecs_manager;
+        std::shared_ptr<Application::Managers::ECSManager> m_ecs_manager;
 
     public:
         virtual void RegisterComponents() = 0;
         virtual void CreateComponent(const std::string &component_name, Core::ISerializationReader &reader,
                                      EntityID parent_entity, EntityID entity) = 0;
 
-        void SetECSManager(std::shared_ptr<Managers::ECSManager> ecs_manager) { m_ecs_manager = ecs_manager; }
+        void SetECSManager(std::shared_ptr<Application::Managers::ECSManager> ecs_manager) {
+            m_ecs_manager = ecs_manager;
+        }
 
         template <typename T, typename... Args>
         void AddComponent(EntityID entity, Core::ISerializationReader &reader, const Args &...args) {
@@ -38,4 +40,4 @@ namespace HBE::Application {
             m_ecs_manager->GetComponent<T>(entity).Deserialize(reader);
         }
     };
-} // namespace HBE::Application
+} // namespace HBE::Factories

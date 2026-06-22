@@ -10,16 +10,16 @@
 
 #pragma once
 
-#include <HotBeanEngine/application/icomponent_factory.hpp>
+#include <HotBeanEngine/factories/icomponent_factory.hpp>
 
-namespace HBE::Components {
+namespace HBE::Factories {
     /**
      * @brief Factory for registering and creating default engine components
      */
-    class ComponentFactory : public Application::IComponentFactory {
+    class ComponentFactory : public IComponentFactory {
     public:
         void RegisterComponents() override;
         void CreateComponent(const std::string &component_name, Core::ISerializationReader &reader,
                              Core::EntityID parent_entity, Core::EntityID entity) override;
     };
-} // namespace HBE::Components
+} // namespace HBE::Factories

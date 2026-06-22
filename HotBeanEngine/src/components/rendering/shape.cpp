@@ -20,11 +20,19 @@ namespace HBE::Components {
     void Shape::Serialize(Core::ISerializationWriter &out) const {
         out.Write("size", m_size);
         out.Write("color", m_color);
+        out.Write("filled", m_filled);
     }
 
     void Shape::Deserialize(Core::ISerializationReader &in) {
-        m_size = in.ReadVec2("size");
-        m_color = in.ReadColor("color");
+        if (in.Has("size")) {
+            m_size = in.ReadVec2("size");
+        }
+        if (in.Has("color")) {
+            m_color = in.ReadColor("color");
+        }
+        if (in.Has("filled")) {
+            m_filled = in.ReadBool("filled");
+        }
     }
 
     void Shape::RenderProperties(int &id) {

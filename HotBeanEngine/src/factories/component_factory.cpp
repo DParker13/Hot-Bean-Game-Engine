@@ -9,10 +9,11 @@
  */
 
 #include <HotBeanEngine/components/all_components.hpp>
-#include <HotBeanEngine/components/component_factory.hpp>
+#include <HotBeanEngine/factories/component_factory.hpp>
 
-namespace HBE::Components {
+namespace HBE::Factories {
     using namespace Core;
+    using namespace Components;
 
     void ComponentFactory::RegisterComponents() {
         m_ecs_manager->RegisterComponentID<AudioSource>();
@@ -28,6 +29,7 @@ namespace HBE::Components {
         m_ecs_manager->RegisterComponentID<Texture>();
         m_ecs_manager->RegisterComponentID<Transform2D>();
         m_ecs_manager->RegisterComponentID<UIRect>();
+        m_ecs_manager->RegisterComponentID<Name>();
     }
 
     /**
@@ -84,10 +86,13 @@ namespace HBE::Components {
             else if (component_name == "Shape") {
                 AddComponent<Shape>(entity, reader);
             }
+            else if (component_name == "Name") {
+                AddComponent<Name>(entity, reader);
+            }
         }
         else {
             throw std::runtime_error("Component " + component_name +
                                      " is not registered. Cannot create component from serialized data provided.");
         }
     }
-} // namespace HBE::Components
+} // namespace HBE::Factories

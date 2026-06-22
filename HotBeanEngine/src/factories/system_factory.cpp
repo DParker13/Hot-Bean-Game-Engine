@@ -1,8 +1,8 @@
 #include <HotBeanEngine/application/application.hpp>
+#include <HotBeanEngine/factories/system_factory.hpp>
 #include <HotBeanEngine/systems/all_systems.hpp>
-#include <HotBeanEngine/systems/system_factory.hpp>
 
-namespace HBE::Application {
+namespace HBE::Factories {
     using namespace Systems;
 
     void SystemFactory::RegisterSystems() {
@@ -21,4 +21,4 @@ namespace HBE::Application {
         g_ecs.RegisterSystem<TextSystem, std::string>(font_path.string());
         g_ecs.RegisterSystem<InteractSystem>();
     }
-} // namespace HBE::Application
+} // namespace HBE::Factories

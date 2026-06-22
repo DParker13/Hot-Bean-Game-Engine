@@ -18,10 +18,12 @@ namespace HBE::Application {
     using namespace Core;
     using namespace Managers;
     using namespace Listeners;
+    using namespace Factories;
 
     Application::Application(std::shared_ptr<IComponentFactory> component_factory,
-                             std::shared_ptr<ISystemFactory> system_factory)
-        : m_component_factory(component_factory), m_system_factory(system_factory) {
+                             std::shared_ptr<ISystemFactory> system_factory,
+                             std::shared_ptr<ISceneFactory> scene_factory)
+        : m_component_factory(component_factory), m_system_factory(system_factory), m_scene_factory(scene_factory) {
 
         // Setup singleton instance
         s_instance = this;
@@ -107,6 +109,7 @@ namespace HBE::Application {
         m_component_factory->SetECSManager(m_ecs_manager);
         m_component_factory->RegisterComponents();
         m_system_factory->RegisterSystems();
+        m_scene_factory->RegisterScenes();
 
         // Initialize the serialization manager and register serializers
         m_serialization_manager = std::make_shared<SerializationManager>(m_logging_manager);

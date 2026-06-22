@@ -12,8 +12,6 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include <HotBeanEngine/application/icomponent_factory.hpp>
-#include <HotBeanEngine/application/isystem_factory.hpp>
 #include <HotBeanEngine/application/listeners/input_event_listener.hpp>
 #include <HotBeanEngine/application/macros.hpp>
 #include <HotBeanEngine/application/managers/application_state_manager.hpp>
@@ -26,6 +24,9 @@
 #include <HotBeanEngine/application/managers/serialization_manager.hpp>
 #include <HotBeanEngine/application/managers/transform_manager.hpp>
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
+#include <HotBeanEngine/factories/icomponent_factory.hpp>
+#include <HotBeanEngine/factories/iscene_factory.hpp>
+#include <HotBeanEngine/factories/isystem_factory.hpp>
 
 namespace HBE::Application {
     using Core::LoggingType;
@@ -60,12 +61,13 @@ namespace HBE::Application {
         std::shared_ptr<Managers::AudioManager> m_audio_manager;           /// Manages audio playback
         std::shared_ptr<Managers::EventManager> m_event_manager;           /// Manages event distribution and dispatch
         std::shared_ptr<Managers::SerializationManager>
-            m_serialization_manager;                             /// Manages serialization and deserialization of scenes
-        std::shared_ptr<IComponentFactory> m_component_factory;  /// Factory for component creation
-        std::shared_ptr<ISystemFactory> m_system_factory;        /// Factory for system creation
-        SDL_Renderer *m_renderer = nullptr;                      /// SDL renderer instance
-        SDL_Window *m_window = nullptr;                          /// SDL window instance
-        std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr; /// Editor GUI interface
+            m_serialization_manager; /// Manages serialization and deserialization of scenes
+        std::shared_ptr<Factories::IComponentFactory> m_component_factory; /// Factory for component creation
+        std::shared_ptr<Factories::ISystemFactory> m_system_factory;       /// Factory for system creation
+        std::shared_ptr<Factories::ISceneFactory> m_scene_factory; /// Factory for scene creation and registration
+        SDL_Renderer *m_renderer = nullptr;                        /// SDL renderer instance
+        SDL_Window *m_window = nullptr;                            /// SDL window instance
+        std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;   /// Editor GUI interface
         std::unique_ptr<Listeners::InputEventListener> m_input_event_listener; /// Handles input events
 
     public:
@@ -90,8 +92,9 @@ namespace HBE::Application {
          *
          * Initializes SDL, managers, and sets up the application singleton.
          */
-        Application(std::shared_ptr<IComponentFactory> component_factory,
-                    std::shared_ptr<ISystemFactory> system_factory);
+        Application(std::shared_ptr<Factories::IComponentFactory> component_factory,
+                    std::shared_ptr<Factories::ISystemFactory> system_factory,
+                    std::shared_ptr<Factories::ISceneFactory> scene_factory);
 
         /**
          * @brief Destroy the Application instance and clean up resources.
@@ -202,13 +205,19 @@ namespace HBE::Application {
          * @brief Access the component factory.
          * @return Shared pointer to the component factory.
          */
-        std::shared_ptr<IComponentFactory> GetComponentFactory() const;
+        std::shared_ptr<Factories::IComponentFactory> GetComponentFactory() const;
 
         /**
          * @brief Access the system factory.
          * @return Shared pointer to the system factory.
          */
-        std::shared_ptr<ISystemFactory> GetSystemFactory() const;
+        std::shared_ptr<Factories::ISystemFactory> GetSystemFactory() const;
+
+        /**
+         * @brief Access the scene factory.
+         * @return Shared pointer to the scene factory.
+         */
+        std::shared_ptr<Factories::ISceneFactory> GetSceneFactory() const;
 
         /**
          * @brief Access the input event listener.
