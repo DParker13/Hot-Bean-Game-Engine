@@ -54,13 +54,13 @@ namespace HBE::Core {
         // Project
         out << YAML::Key << "Project" << YAML::Value;
         out << YAML::BeginMap;
-        out << YAML::Key << "startup_path" << YAML::Value << YAML::DoubleQuoted << STARTUP_PROJECT_PATH << YAML::Auto
-            << YAML::Comment("Path to the project that should be loaded on startup");
+        out << YAML::Key << "startup_path" << YAML::Value << YAML::DoubleQuoted << STARTUP_PROJECT_PATH.string()
+            << YAML::Auto << YAML::Comment("Path to the project that should be loaded on startup");
 
         // Logging
         out << YAML::Key << "Logging" << YAML::Value;
         out << YAML::BeginMap;
-        out << YAML::Key << "directory" << YAML::Value << YAML::DoubleQuoted << LOG_DIRECTORY << YAML::Auto
+        out << YAML::Key << "directory" << YAML::Value << YAML::DoubleQuoted << LOG_DIRECTORY.string() << YAML::Auto
             << YAML::Comment("Directory where log files will be stored");
         out << YAML::Key << "level" << YAML::Value << static_cast<int>(LOGGING_LEVEL)
             << YAML::Comment("DEBUG = 0, INFO, WARNING, ERROR, FATAL = 4");
@@ -81,7 +81,8 @@ namespace HBE::Core {
             return 0;
         }
         else {
-            std::cerr << "Failed to open config file for writing: " << (CONFIG_DIRECTORY / CONFIG_NAME) << "\n";
+            std::cerr << "Failed to open config file for writing: " << (CONFIG_DIRECTORY / CONFIG_NAME).string()
+                      << "\n";
             return -1;
         }
     }
@@ -93,7 +94,7 @@ namespace HBE::Core {
      */
     inline int LoadConfig() {
         try {
-            YAML::Node config = YAML::LoadFile(CONFIG_DIRECTORY / CONFIG_NAME);
+            YAML::Node config = YAML::LoadFile((CONFIG_DIRECTORY / CONFIG_NAME).string());
 
             // Logging
             if (config["Logging"]["level"]) {

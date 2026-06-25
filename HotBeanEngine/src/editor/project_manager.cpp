@@ -80,7 +80,7 @@ namespace HBE::GUI {
     void ProjectManager::LoadProject(std::filesystem::path const &path) {
         LOG(LoggingType::DEBUG, "Loading project: " + path.string());
         try {
-            YAML::Node config = YAML::LoadFile(path);
+            YAML::Node config = YAML::LoadFile(path.string());
 
             // Project
             if (config["Project"]["name"]) {
