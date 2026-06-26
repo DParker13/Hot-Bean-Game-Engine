@@ -169,7 +169,7 @@ namespace HBE::GUI {
             out << YAML::Key << "name" << YAML::Value << YAML::DoubleQuoted << m_project.m_name;
             out << YAML::Key << "version" << YAML::Value << m_project.m_version;
             out << YAML::Key << "file" << YAML::Value << m_project.m_file;
-            out << YAML::Key << "directory" << YAML::Value << m_project.m_directory;
+            out << YAML::Key << "directory" << YAML::Value << m_project.m_directory.string();
             out << YAML::EndMap;
 
             // Scenes
