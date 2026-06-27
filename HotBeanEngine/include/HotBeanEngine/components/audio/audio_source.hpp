@@ -23,7 +23,7 @@ namespace HBE::Components {
         /**
          * The path to the audio file.
          */
-        std::string path;
+        std::string m_path;
 
         DEFINE_NAME("AudioSource");
         AudioSource() = default;

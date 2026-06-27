@@ -35,7 +35,6 @@ namespace HBE::GUI {
         virtual void RenderWindow() override;
 
         void AddScene();
-        void LoadScene(std::shared_ptr<Core::IScene> scene);
         void RemoveScene(std::shared_ptr<Core::IScene> scene);
 
     private:

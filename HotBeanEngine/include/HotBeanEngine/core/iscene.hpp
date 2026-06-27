@@ -12,6 +12,7 @@
 
 #include <filesystem>
 #include <memory>
+#include <vector>
 
 #include <HotBeanEngine/core/iserializable.hpp>
 
@@ -24,6 +25,7 @@ namespace HBE::Core {
     struct IScene : public ISerializable {
         std::string m_name;
         std::filesystem::path m_scene_path;
+        std::vector<std::filesystem::path> m_scene_file_paths;
 
         IScene(std::string name, std::filesystem::path scene_path) : m_name(name), m_scene_path(scene_path) {}
         virtual ~IScene() = default;

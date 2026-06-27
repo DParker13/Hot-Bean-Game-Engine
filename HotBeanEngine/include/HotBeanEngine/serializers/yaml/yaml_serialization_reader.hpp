@@ -25,12 +25,17 @@ namespace HBE::Serializers {
 
         bool Has(std::string_view key) const override;
 
-        bool ReadBool(std::string_view key) const override;
-        int ReadInt(std::string_view key) const override;
-        float ReadFloat(std::string_view key) const override;
-        std::string ReadString(std::string_view key) const override;
-        uint8_t ReadUint8(std::string_view key) const override;
-        glm::vec2 ReadVec2(std::string_view key) const override;
-        SDL_Color ReadColor(std::string_view key) const override;
+        void Read(std::string_view key, bool &value) const override;
+        void Read(std::string_view key, int &value) const override;
+        void Read(std::string_view key, float &value) const override;
+        void Read(std::string_view key, std::string &value) const override;
+        void Read(std::string_view key, uint8_t &value) const override;
+        void Read(std::string_view key, uint32_t &value) const override;
+        void Read(std::string_view key, int64_t &value) const override;
+        void Read(std::string_view key, glm::vec2 &value) const override;
+        void Read(std::string_view key, SDL_Color &value) const override;
+        void Read(std::string_view key, std::filesystem::path &value) const override;
+        void Read(std::string_view key, std::vector<std::string> &value) const override;
+        void Read(std::string_view key, std::vector<std::filesystem::path> &value) const override;
     };
 } // namespace HBE::Serializers

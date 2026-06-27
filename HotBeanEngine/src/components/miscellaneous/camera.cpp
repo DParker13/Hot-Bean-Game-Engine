@@ -26,21 +26,17 @@ namespace HBE::Components {
     }
 
     void Camera::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("active")) {
-            m_active = in.ReadBool("active");
+        in.Read("active", m_active);
+        in.Read("zoom", m_zoom);
+
+        std::string layer_mask_str;
+        in.Read("layer_mask", layer_mask_str);
+        if (!layer_mask_str.empty()) {
+            m_layer_mask = string_to_bitset(layer_mask_str);
         }
-        if (in.Has("zoom")) {
-            m_zoom = in.ReadFloat("zoom");
-        }
-        if (in.Has("layer_mask")) {
-            m_layer_mask = string_to_bitset(in.ReadString("layer_mask"));
-        }
-        if (in.Has("viewport_position")) {
-            m_viewport_position = in.ReadVec2("viewport_position");
-        }
-        if (in.Has("viewport_size")) {
-            m_viewport_size = in.ReadVec2("viewport_size");
-        }
+
+        in.Read("viewport_position", m_viewport_position);
+        in.Read("viewport_size", m_viewport_size);
     }
 
     void Camera::RenderProperties(int &id) {

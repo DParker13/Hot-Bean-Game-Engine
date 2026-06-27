@@ -11,11 +11,7 @@
 #include <HotBeanEngine/components/audio/audio_source.hpp>
 
 namespace HBE::Components {
-    void AudioSource::Serialize(Core::ISerializationWriter &out) const { out.Write("path", path); }
+    void AudioSource::Serialize(Core::ISerializationWriter &out) const { out.Write("path", m_path); }
 
-    void AudioSource::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("path")) {
-            path = in.ReadString("path");
-        }
-    }
+    void AudioSource::Deserialize(Core::ISerializationReader &in) { in.Read("path", m_path); }
 } // namespace HBE::Components

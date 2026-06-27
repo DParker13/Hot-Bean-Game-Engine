@@ -56,30 +56,14 @@ namespace HBE::Components {
     }
 
     void UIRect::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("position")) {
-            m_position = in.ReadVec2("position");
-        }
-        if (in.Has("size")) {
-            m_size = in.ReadVec2("size");
-        }
-        if (in.Has("anchor")) {
-            m_anchor = (AnchorPreset)in.ReadInt("anchor");
-        }
-        if (in.Has("pivot")) {
-            m_pivot = (PivotPreset)in.ReadInt("pivot");
-        }
-        if (in.Has("margin_left")) {
-            m_margin_left = in.ReadFloat("margin_left");
-        }
-        if (in.Has("margin_right")) {
-            m_margin_right = in.ReadFloat("margin_right");
-        }
-        if (in.Has("margin_top")) {
-            m_margin_top = in.ReadFloat("margin_top");
-        }
-        if (in.Has("margin_bottom")) {
-            m_margin_bottom = in.ReadFloat("margin_bottom");
-        }
+        in.Read("position", m_position);
+        in.Read("size", m_size);
+        in.Read("anchor", (int &)m_anchor);
+        in.Read("pivot", (int &)m_pivot);
+        in.Read("margin_left", m_margin_left);
+        in.Read("margin_right", m_margin_right);
+        in.Read("margin_top", m_margin_top);
+        in.Read("margin_bottom", m_margin_bottom);
         MarkDirty();
     }
 

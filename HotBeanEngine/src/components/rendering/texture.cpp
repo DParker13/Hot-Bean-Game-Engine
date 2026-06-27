@@ -24,11 +24,7 @@ namespace HBE::Components {
 
     void Texture::Serialize(Core::ISerializationWriter &out) const { out.Write("size", m_size); }
 
-    void Texture::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("size")) {
-            m_size = in.ReadVec2("size");
-        }
-    }
+    void Texture::Deserialize(Core::ISerializationReader &in) { in.Read("size", m_size); }
 
     void Texture::RenderProperties(int &id) {
         if (Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f})) {

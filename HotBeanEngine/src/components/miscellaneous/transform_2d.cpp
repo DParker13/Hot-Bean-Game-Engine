@@ -29,29 +29,14 @@ namespace HBE::Components {
     }
 
     void Transform2D::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("layer"))
-            m_layer = (uint8_t)in.ReadInt("layer");
-
-        if (in.Has("m_parent"))
-            m_parent = (uint8_t)in.ReadInt("m_parent");
-
-        if (in.Has("local_position"))
-            m_local_position = in.ReadVec2("local_position");
-
-        if (in.Has("local_rotation"))
-            m_local_rotation = in.ReadFloat("local_rotation");
-
-        if (in.Has("local_scale"))
-            m_local_scale = in.ReadVec2("local_scale");
-
-        if (in.Has("world_position"))
-            m_world_position = in.ReadVec2("world_position");
-
-        if (in.Has("world_rotation"))
-            m_world_rotation = in.ReadFloat("world_rotation");
-
-        if (in.Has("world_scale"))
-            m_world_scale = in.ReadVec2("world_scale");
+        in.Read("layer", m_layer);
+        in.Read("parent", m_parent);
+        in.Read("local_position", m_local_position);
+        in.Read("local_rotation", m_local_rotation);
+        in.Read("local_scale", m_local_scale);
+        in.Read("world_position", m_world_position);
+        in.Read("world_rotation", m_world_rotation);
+        in.Read("world_scale", m_world_scale);
 
         MarkDirty();
     }

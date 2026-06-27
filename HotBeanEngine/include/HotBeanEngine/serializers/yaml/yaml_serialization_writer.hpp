@@ -10,6 +10,9 @@
 
 #pragma once
 
+#include <functional>
+#include <string_view>
+
 #include <yaml-cpp/yaml.h>
 
 #include <HotBeanEngine/core/iserialization_writer.hpp>
@@ -27,8 +30,14 @@ namespace HBE::Serializers {
         void Write(std::string_view key, int value) override;
         void Write(std::string_view key, float value) override;
         void Write(std::string_view key, std::string_view value) override;
+        void Write(std::string_view key, std::string value) override;
         void Write(std::string_view key, uint8_t value) override;
+        void Write(std::string_view key, uint32_t value) override;
+        void Write(std::string_view key, int64_t value) override;
         void Write(std::string_view key, glm::vec2 value) override;
-        void Write(std::string_view key, SDL_Color value) override;
+        void Write(std::string_view key, const SDL_Color &value) override;
+        void Write(std::string_view key, const std::filesystem::path &value) override;
+        void Write(std::string_view key, const std::vector<std::string> &value) override;
+        void Write(std::string_view key, const std::vector<std::filesystem::path> &value) override;
     };
 } // namespace HBE::Serializers

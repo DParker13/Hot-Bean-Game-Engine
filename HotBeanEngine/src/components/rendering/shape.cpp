@@ -24,15 +24,9 @@ namespace HBE::Components {
     }
 
     void Shape::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("size")) {
-            m_size = in.ReadVec2("size");
-        }
-        if (in.Has("color")) {
-            m_color = in.ReadColor("color");
-        }
-        if (in.Has("filled")) {
-            m_filled = in.ReadBool("filled");
-        }
+        in.Read("size", m_size);
+        in.Read("color", m_color);
+        in.Read("filled", m_filled);
     }
 
     void Shape::RenderProperties(int &id) {

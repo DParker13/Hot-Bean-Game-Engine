@@ -12,6 +12,7 @@
 
 #include <bitset>
 #include <cassert>
+#include <filesystem>
 #include <string>
 
 #include <SDL3/SDL.h>
@@ -119,6 +120,23 @@ namespace YAML {
             color.b = node[2].as<int>();
             color.a = node[3].as<int>();
 
+            return true;
+        }
+    };
+
+    template <>
+    struct convert<std::filesystem::path> {
+        static Node encode(const std::filesystem::path &path) {
+            Node node;
+            node = path.string();
+            return node;
+        }
+
+        static bool decode(const Node &node, std::filesystem::path &path) {
+            if (!node.IsScalar()) {
+                return false;
+            }
+            path = node.as<std::string>();
             return true;
         }
     };

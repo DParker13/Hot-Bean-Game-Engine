@@ -55,7 +55,7 @@ namespace HBE::GUI {
 
             ImGui::BeginGroup();
             if (ImGui::CollapsingHeader(scene_name.c_str(), ImGuiTreeNodeFlags_Framed)) {
-                std::string path = scene->m_scene_path;
+                std::string path = scene->m_scene_path.string();
                 ImGui::Text("Scene Path:");
                 ImGui::SameLine();
                 if (ImGui::InputText("##Scene Path", &path, ImGuiInputTextFlags_ElideLeft)) {
@@ -69,7 +69,7 @@ namespace HBE::GUI {
                 }
                 ImGui::Spacing();
                 if (ImGui::Button("Load##")) {
-                    LoadScene(scene);
+                    g_app.GetSceneManager().LoadScene(scene, true);
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Delete##")) {
@@ -94,8 +94,6 @@ namespace HBE::GUI {
                            m_project_manager->SaveProject();
                        });
     }
-
-    void SceneWindow::LoadScene(std::shared_ptr<IScene> scene) { g_app.GetSceneManager().LoadScene(scene, true); }
 
     void SceneWindow::RemoveScene(std::shared_ptr<IScene> scene) {
         if (g_app.GetSceneManager().GetCurrentScene() == scene) {

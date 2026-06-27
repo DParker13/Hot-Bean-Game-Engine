@@ -13,11 +13,7 @@
 namespace HBE::Components {
     void Controller::Serialize(Core::ISerializationWriter &out) const { out.Write("controllable", controllable); }
 
-    void Controller::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("controllable")) {
-            controllable = in.ReadBool("controllable");
-        }
-    }
+    void Controller::Deserialize(Core::ISerializationReader &in) { in.Read("controllable", controllable); }
 
     void Controller::RenderProperties(int &id) {
         GUI::PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);

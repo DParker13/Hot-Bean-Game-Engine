@@ -17,11 +17,7 @@ namespace HBE::Components {
 
     void Name::Serialize(Core::ISerializationWriter &out) const { out.Write("name", m_name); }
 
-    void Name::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("name")) {
-            m_name = in.ReadString("name");
-        }
-    }
+    void Name::Deserialize(Core::ISerializationReader &in) { in.Read("name", m_name); }
 
     void Name::RenderProperties(int &id) { String::RenderProperty(id, "Name", m_name, true); }
 } // namespace HBE::Components

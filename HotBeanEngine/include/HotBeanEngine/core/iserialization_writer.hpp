@@ -11,7 +11,9 @@
 #pragma once
 
 #include <cstdint>
-#include <string_view>
+#include <filesystem>
+#include <string>
+#include <vector>
 
 #include <SDL3/SDL.h>
 #include <glm/vec2.hpp>
@@ -24,8 +26,14 @@ namespace HBE::Core {
         virtual void Write(std::string_view key, int value) = 0;
         virtual void Write(std::string_view key, float value) = 0;
         virtual void Write(std::string_view key, std::string_view value) = 0;
+        virtual void Write(std::string_view key, std::string value) = 0;
         virtual void Write(std::string_view key, uint8_t value) = 0;
+        virtual void Write(std::string_view key, uint32_t value) = 0;
+        virtual void Write(std::string_view key, int64_t value) = 0;
         virtual void Write(std::string_view key, glm::vec2 value) = 0;
-        virtual void Write(std::string_view key, SDL_Color value) = 0;
+        virtual void Write(std::string_view key, const SDL_Color &value) = 0;
+        virtual void Write(std::string_view key, const std::filesystem::path &value) = 0;
+        virtual void Write(std::string_view key, const std::vector<std::string> &value) = 0;
+        virtual void Write(std::string_view key, const std::vector<std::filesystem::path> &value) = 0;
     };
 } // namespace HBE::Core

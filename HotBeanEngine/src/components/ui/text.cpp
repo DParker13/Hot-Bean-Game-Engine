@@ -19,24 +19,12 @@ namespace HBE::Components {
     using namespace GUI::PropertyNodes;
 
     void Text::Deserialize(Core::ISerializationReader &in) {
-        if (in.Has("text")) {
-            m_text = in.ReadString("text");
-        }
-        if (in.Has("foreground_color")) {
-            m_foreground_color = in.ReadColor("foreground_color");
-        }
-        if (in.Has("background_color")) {
-            m_background_color = in.ReadColor("background_color");
-        }
-        if (in.Has("size")) {
-            m_size = in.ReadInt("size");
-        }
-        if (in.Has("style")) {
-            m_style = in.ReadInt("style");
-        }
-        if (in.Has("wrapping_width")) {
-            m_wrapping_width = in.ReadInt("wrapping_width");
-        }
+        in.Read("text", m_text);
+        in.Read("foreground_color", m_foreground_color);
+        in.Read("background_color", m_background_color);
+        in.Read("size", m_size);
+        in.Read("style", m_style);
+        in.Read("wrapping_width", m_wrapping_width);
         MarkDirty();
     }
 
