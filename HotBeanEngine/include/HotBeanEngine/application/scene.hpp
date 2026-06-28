@@ -21,7 +21,7 @@ namespace HBE::Application {
      */
     class Scene : public Core::IScene {
     public:
-        Scene(std::string name, std::string path) : IScene(name, path) {}
+        Scene(std::string name, std::filesystem::path path) : IScene(name, path) {}
         virtual ~Scene() = default;
 
         virtual void SetupScene() override;
