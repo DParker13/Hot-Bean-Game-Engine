@@ -23,9 +23,6 @@ namespace HBE::Application::Managers {
      */
     class SceneManager {
     private:
-        std::shared_ptr<SerializationManager> m_serialization_manager;
-        std::shared_ptr<LoggingManager> m_logging_manager;
-
         /// @brief Current scene
         std::shared_ptr<IScene> m_current_scene;
 
@@ -33,8 +30,7 @@ namespace HBE::Application::Managers {
         /// @brief Map of names to scenes
         std::unordered_map<std::string, std::shared_ptr<IScene>> m_scenes;
 
-        SceneManager(std::shared_ptr<SerializationManager> serialization_manager,
-                     std::shared_ptr<LoggingManager> logging_manager);
+        SceneManager() = default;
         ~SceneManager() = default;
 
         void LoadScene(std::shared_ptr<IScene> scene);

@@ -25,15 +25,15 @@ namespace HBE::GUI {
     class ConsoleWindow : public IWindow, public Application::Listeners::ILogListener {
     private:
         // Buffer to store log messages with their logging type
-        std::deque<std::pair<HBE::Core::LoggingType, std::string>> m_logBuffer;
+        std::deque<std::pair<HBE::Core::LoggingType, std::string>> m_log_buffer;
         // Maximum number of log messages to keep in the buffer
-        size_t m_maxLogBufferSize = 10000;
+        size_t m_max_log_buffer_size = 10000;
         // Flag to scroll to bottom when new log is added
-        bool m_shouldScrollToBottom = false;
+        bool m_should_scroll_to_bottom = false;
         // Flag to enable/disable auto-scroll feature
-        bool m_autoScroll = true;
+        bool m_auto_scroll = true;
         // Minimum logging level to display
-        HBE::Core::LoggingType m_loggingLevelFilter = HBE::Core::LoggingType::DEBUG;
+        HBE::Core::LoggingType m_logging_level_filter = HBE::Core::LoggingType::DEBUG;
 
     public:
         ConsoleWindow();

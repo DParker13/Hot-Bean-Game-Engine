@@ -12,22 +12,26 @@
 #include "control_bar.hpp"
 
 namespace HBE::GUI {
+    using Application::Managers::ApplicationState::Paused;
+    using Application::Managers::ApplicationState::Playing;
+    using Application::Managers::ApplicationState::Stopped;
+
     void ControlBar::Render() {
         if (ImGui::BeginMainMenuBar()) {
             ImGui::BeginDisabled(!g_app.GetSceneManager().GetCurrentScene());
             if (ImGui::Button("Start")) {
                 // Start the game
-                g_app.PlayGame();
+                g_app.GetAppStateManager().QueueStateChange(Playing);
             }
 
             if (ImGui::Button("Pause")) {
                 // Pause the game
-                g_app.PauseGame();
+                g_app.GetAppStateManager().QueueStateChange(Paused);
             }
 
             if (ImGui::Button("Stop")) {
                 // Stop the game
-                g_app.StopGame();
+                g_app.GetAppStateManager().QueueStateChange(Stopped);
             }
             ImGui::EndDisabled();
 

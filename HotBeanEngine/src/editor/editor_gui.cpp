@@ -171,7 +171,19 @@ namespace HBE::GUI {
 
     /// @brief Handles SDL events for the editor GUI
     /// @param event The SDL event to handle
-    void EditorGUI::OnEvent(SDL_Event &event) { ImGui_ImplSDL3_ProcessEvent(&event); }
+    void EditorGUI::OnEvent(SDL_Event &event) {
+        ImGui_ImplSDL3_ProcessEvent(&event);
+
+        // Handle editor events only when the application is paused or stopped to avoid interfering with gameplay
+        if (g_app.GetAppStateManager().GetState() == Application::Managers::ApplicationState::Paused ||
+            g_app.GetAppStateManager().GetState() == Application::Managers::ApplicationState::Stopped) {
+            // Check for Ctrl+s to save the project
+            if (g_app.GetInputEventListener().GetKeysPressed().count(SDLK_LCTRL) > 0 &&
+                g_app.GetInputEventListener().GetKeysPressed().count(SDLK_S) > 0) {
+                m_project_manager->SaveProject();
+            }
+        }
+    }
 
     void EditorGUI::OnUpdate() { MoveCamera(100.0f); }
 

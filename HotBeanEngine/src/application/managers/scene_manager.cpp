@@ -12,25 +12,20 @@
 #include <HotBeanEngine/application/managers/scene_manager.hpp>
 
 namespace HBE::Application::Managers {
-
-    SceneManager::SceneManager(std::shared_ptr<SerializationManager> serialization_manager,
-                               std::shared_ptr<LoggingManager> logging_manager)
-        : m_serialization_manager(serialization_manager), m_logging_manager(logging_manager) {}
-
     void SceneManager::LoadScene(std::shared_ptr<IScene> scene) { LoadScene(scene, false); }
 
     void SceneManager::LoadScene(std::shared_ptr<IScene> scene, bool save_to_file) {
         assert(scene && "IScene is null.");
 
         try {
-            auto serializer = m_serialization_manager->GetSerializer("YamlSceneSerializer");
+            auto serializer = g_app.GetSerializationManager().GetSerializer("YamlSceneSerializer");
             if (!serializer) {
-                LOG_CORE(LoggingType::FATAL, "No serializer found for YamlSceneSerializer");
+                LOG(LoggingType::FATAL, "No serializer found for YamlSceneSerializer");
                 throw std::runtime_error("No serializer found for YamlSceneSerializer");
             }
 
             if (!serializer->FileExists(scene->m_scene_path)) {
-                LOG_CORE(LoggingType::FATAL, "Scene file does not exist: " + m_current_scene->m_scene_path.string());
+                LOG(LoggingType::FATAL, "Scene file does not exist: " + m_current_scene->m_scene_path.string());
                 throw std::runtime_error("Scene file does not exist: " + m_current_scene->m_scene_path.string());
             }
 
@@ -41,17 +36,17 @@ namespace HBE::Application::Managers {
 
             m_current_scene = scene;
 
-            LOG_CORE(LoggingType::INFO, "Loading scene \"" + m_current_scene->m_name + "\" from file: ");
-            LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path.string());
+            LOG(LoggingType::INFO, "Loading scene \"" + m_current_scene->m_name + "\" from file: ");
+            LOG(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path.string());
 
             // Deserialize scene from file
             serializer->Deserialize(m_current_scene->m_scene_path);
 
             g_ecs.IterateSystems(GameLoopState::OnStart);
 
-            LOG_CORE(LoggingType::INFO, "Scene loaded.");
+            LOG(LoggingType::INFO, "Scene loaded.");
         } catch (const YAML::Exception &e) {
-            LOG_CORE(LoggingType::ERROR, "Error parsing YAML file: " + (std::string)e.what());
+            LOG(LoggingType::ERROR, "Error parsing YAML file: " + (std::string)e.what());
             throw std::runtime_error("Error parsing YAML file: " + (std::string)e.what());
         }
 
@@ -62,14 +57,14 @@ namespace HBE::Application::Managers {
         assert(m_current_scene && "Current scene is null.");
 
         try {
-            LOG_CORE(LoggingType::INFO, "Unloading scene \"" + m_current_scene->m_name + "\" to file");
-            LOG_CORE(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path.string());
+            LOG(LoggingType::INFO, "Unloading scene \"" + m_current_scene->m_name + "\" to file");
+            LOG(LoggingType::INFO, "Scene path: " + m_current_scene->m_scene_path.string());
 
             // Attempt to serialize scene to file
             if (save_to_file) {
-                if (auto serializer = m_serialization_manager->GetSerializer("YamlSceneSerializer")) {
+                if (auto serializer = g_app.GetSerializationManager().GetSerializer("YamlSceneSerializer")) {
                     serializer->Serialize(m_current_scene->m_scene_path);
-                    LOG_CORE(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
+                    LOG(LoggingType::INFO, "Scene \"" + m_current_scene->m_name + "\" serialized.");
                 }
             }
 
@@ -78,7 +73,7 @@ namespace HBE::Application::Managers {
 
             g_ecs.DestroyAllEntities();
         } catch (const YAML::Exception &e) {
-            LOG_CORE(LoggingType::ERROR, "Error serializing to YAML file: " + (std::string)e.what());
+            LOG(LoggingType::ERROR, "Error serializing to YAML file: " + (std::string)e.what());
         }
     }
 
@@ -86,7 +81,7 @@ namespace HBE::Application::Managers {
 
     bool SceneManager::IsSceneRegistered(std::shared_ptr<IScene> scene) {
         if (!scene) {
-            LOG_CORE(LoggingType::ERROR, "Scene is null");
+            LOG(LoggingType::ERROR, "Scene is null");
             return false;
         }
 
@@ -97,7 +92,7 @@ namespace HBE::Application::Managers {
 
     void SceneManager::RegisterScene(std::shared_ptr<IScene> scene) {
         if (IsSceneRegistered(scene)) {
-            LOG_CORE(LoggingType::WARNING, "Scene with that name already registered!");
+            LOG(LoggingType::WARNING, "Scene with that name already registered!");
             return;
         }
 
@@ -106,7 +101,7 @@ namespace HBE::Application::Managers {
 
     void SceneManager::UnregisterScene(std::shared_ptr<IScene> scene) {
         if (!IsSceneRegistered(scene)) {
-            LOG_CORE(LoggingType::WARNING, "Scene with that name isn't registered!");
+            LOG(LoggingType::WARNING, "Scene with that name isn't registered!");
             return;
         }
 
@@ -137,7 +132,7 @@ namespace HBE::Application::Managers {
 
     void SceneManager::SwitchScene(std::string name) {
         assert(m_scenes.find(name) != m_scenes.end() && "Scene with that name does not exist.");
-        LOG_CORE(LoggingType::INFO, "Switching to scene: " + name);
+        LOG(LoggingType::INFO, "Switching to scene: " + name);
 
         // Loads the new scene
         LoadScene(m_scenes[name]);

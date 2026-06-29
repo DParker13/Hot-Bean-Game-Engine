@@ -56,6 +56,7 @@ namespace HBE::Core {
         out << YAML::BeginMap;
         out << YAML::Key << "startup_path" << YAML::Value << YAML::DoubleQuoted << STARTUP_PROJECT_PATH.string()
             << YAML::Auto << YAML::Comment("Path to the project that should be loaded on startup");
+        out << YAML::EndMap;
 
         // Logging
         out << YAML::Key << "Logging" << YAML::Value;

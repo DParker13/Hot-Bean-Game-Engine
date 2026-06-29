@@ -10,7 +10,11 @@
 
 #pragma once
 
-#include <HotBeanEngine/application/managers/logging_manager.hpp>
+namespace HBE {
+    namespace Application {
+        class Application;
+    }
+} // namespace HBE
 
 namespace HBE::Application::Managers {
     /**
@@ -34,10 +38,9 @@ namespace HBE::Application::Managers {
         ApplicationState m_state = ApplicationState::Stopped;
         ApplicationState m_queued_state = ApplicationState::Stopped;
         bool m_needs_scene_reload = false;
-        std::shared_ptr<LoggingManager> m_logging_manager;
 
     public:
-        ApplicationStateManager(std::shared_ptr<LoggingManager> logging_manager) : m_logging_manager(logging_manager) {}
+        ApplicationStateManager() = default;
         ~ApplicationStateManager() = default;
 
         /**
@@ -46,7 +49,26 @@ namespace HBE::Application::Managers {
          *
          * @param new_state The new application state
          */
-        void QueueStateChange(ApplicationState new_state) { m_queued_state = new_state; }
+        void QueueStateChange(ApplicationState new_state);
+
+        /// @brief Clears the scene reload flag after reloading is complete.
+        void ClearReloadFlag();
+
+        /**
+         * @brief Gets the previous application state.
+         * @return The previous ApplicationState
+         */
+        ApplicationState GetState() const;
+
+        /**
+         * @brief Checks if the current state matches the given state.
+         * @param state The ApplicationState to check against
+         * @return true if the current state matches, false otherwise
+         */
+        bool IsState(ApplicationState state) const;
+
+    private:
+        friend class HBE::Application::Application;
 
         /**
          * @brief Called at the start of each frame to process state changes.
@@ -60,24 +82,6 @@ namespace HBE::Application::Managers {
          *
          * @return true if scene reload is needed, false otherwise
          */
-        bool ShouldReloadScene() const { return m_needs_scene_reload; }
-
-        /**
-         * @brief Clears the scene reload flag after reloading is complete.
-         */
-        void ClearReloadFlag() { m_needs_scene_reload = false; }
-
-        /**
-         * @brief Gets the previous application state.
-         * @return The previous ApplicationState
-         */
-        ApplicationState GetState() const { return m_state; }
-
-        /**
-         * @brief Checks if the current state matches the given state.
-         * @param state The ApplicationState to check against
-         * @return true if the current state matches, false otherwise
-         */
-        bool IsState(ApplicationState state) const { return m_state == state; }
+        bool ShouldReloadScene() const;
     };
 } // namespace HBE::Application::Managers

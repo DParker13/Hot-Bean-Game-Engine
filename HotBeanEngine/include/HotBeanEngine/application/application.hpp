@@ -96,9 +96,7 @@ namespace HBE::Application {
                     std::shared_ptr<Factories::ISystemFactory> system_factory,
                     std::shared_ptr<Factories::ISceneFactory> scene_factory);
 
-        /**
-         * @brief Destroy the Application instance and clean up resources.
-         */
+        /// @brief Destroy the Application instance and clean up resources.
         ~Application();
 
         /// @brief Copy constructor (deleted - singleton pattern).
@@ -202,6 +200,12 @@ namespace HBE::Application {
         Managers::SerializationManager &GetSerializationManager() const;
 
         /**
+         * @brief Access the logging manager.
+         * @return Reference to the logging manager.
+         */
+        Managers::LoggingManager &GetLoggingManager();
+
+        /**
          * @brief Access the component factory.
          * @return Shared pointer to the component factory.
          */
@@ -259,40 +263,24 @@ namespace HBE::Application {
          */
         void SetLogDirectory(std::filesystem::path log_directory);
 
-        /**
-         * @brief Entry point for the main loop of the application.
-         */
+        /// @brief Entry point for the main loop of the application.
         void Start();
 
         /**
-         * @brief Start/play the game.
-         * Transitions from Stopped or Paused to Playing state.
+         * @brief Get the current application state (Stopped, Playing, Paused).
+         * @return The current application state.
          */
-        void PlayGame();
-
-        /**
-         * @brief Pause the game.
-         * Transitions from Playing to Paused state while keeping the scene rendered.
-         */
-        void PauseGame();
-
-        /**
-         * @brief Stop and reset the game.
-         * Transitions to Stopped state and marks the scene for reload on next play.
-         */
-        void StopGame();
+        Managers::ApplicationStateManager &GetAppStateManager();
 
     protected:
         /**
          * @brief Called once at the start of the application.
-         *
          * Override this to initialize game-specific logic.
          */
         virtual void OnStart();
 
         /**
          * @brief Called before handling events each frame.
-         *
          * Override this for pre-event processing logic.
          */
         virtual void OnPreEvent();
@@ -315,21 +303,18 @@ namespace HBE::Application {
 
         /**
          * @brief Update system and entity game states.
-         *
          * Called every frame to update game logic.
          */
         virtual void OnUpdate();
 
         /**
          * @brief Called to render the scene to the screen.
-         *
          * Override this to add custom rendering logic.
          */
         virtual void OnRender();
 
         /**
          * @brief Called after rendering each frame.
-         *
          * Override this for post-render processing.
          */
         virtual void OnPostRender();

@@ -1,3 +1,4 @@
+#include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/application/managers/serialization_manager.hpp>
 
 namespace HBE::Application::Managers {
@@ -11,7 +12,7 @@ namespace HBE::Application::Managers {
             return std::shared_ptr<Core::ISerializer>(it->second.get(), [](Core::ISerializer *) {});
         }
         else {
-            LOG_CORE(LoggingType::ERROR, "Serializer not found: " + std::string(name));
+            LOG(LoggingType::ERROR, "Serializer not found: " + std::string(name));
             return nullptr;
         }
     }

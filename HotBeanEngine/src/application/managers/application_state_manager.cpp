@@ -8,9 +8,19 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/application/managers/application_state_manager.hpp>
 
 namespace HBE::Application::Managers {
+
+    void ApplicationStateManager::QueueStateChange(ApplicationState new_state) { m_queued_state = new_state; }
+
+    void ApplicationStateManager::ClearReloadFlag() { m_needs_scene_reload = false; }
+
+    ApplicationState ApplicationStateManager::GetState() const { return m_state; }
+
+    bool ApplicationStateManager::IsState(ApplicationState state) const { return m_state == state; }
+
     void ApplicationStateManager::UpdateGameLoopState() {
         ApplicationState previous_state = m_state;
         m_state = m_queued_state;
@@ -29,7 +39,10 @@ namespace HBE::Application::Managers {
                                         : (m_state == ApplicationState::Playing) ? "Playing"
                                                                                  : "Paused";
 
-            LOG_CORE(LoggingType::INFO, "Game state transition: " + previous_state_str + " -> " + new_state_str);
+            LOG(LoggingType::INFO, "Game state transition: " + previous_state_str + " -> " + new_state_str);
         }
     }
+
+    bool ApplicationStateManager::ShouldReloadScene() const { return m_needs_scene_reload; }
+
 } // namespace HBE::Application::Managers

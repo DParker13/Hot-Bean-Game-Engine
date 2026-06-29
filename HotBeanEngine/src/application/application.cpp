@@ -56,8 +56,8 @@ namespace HBE::Application {
     Application::~Application() {
         // Ensure scenes/systems are destroyed before SDL subsystems are torn down.
         // TODO: In editor mode, this should ask the user if they want to save the current scene before quitting.
-        if (m_scene_manager && m_scene_manager->GetCurrentScene()) {
-            m_scene_manager->UnloadScene(false);
+        if (m_scene_manager && GetSceneManager().GetCurrentScene()) {
+            GetSceneManager().UnloadScene(false);
         }
 
         m_scene_manager.reset();
@@ -112,12 +112,12 @@ namespace HBE::Application {
         m_scene_factory->RegisterScenes();
 
         // Initialize the serialization manager and register serializers
-        m_serialization_manager = std::make_shared<SerializationManager>(m_logging_manager);
-        m_serialization_manager->RegisterSerializer(
+        m_serialization_manager = std::make_shared<SerializationManager>();
+        GetSerializationManager().RegisterSerializer(
             std::make_unique<Serializers::YamlSceneSerializer>(m_component_factory));
 
-        m_scene_manager = std::make_unique<SceneManager>(m_serialization_manager, m_logging_manager);
-        m_loop_manager = std::make_unique<ApplicationStateManager>(m_logging_manager);
+        m_scene_manager = std::make_unique<SceneManager>();
+        m_loop_manager = std::make_unique<ApplicationStateManager>();
         m_camera_manager = std::make_shared<CameraManager>();
         m_render_manager = std::make_shared<RenderManager>(m_camera_manager);
         m_transform_manager = std::make_shared<TransformManager>();
@@ -166,8 +166,8 @@ namespace HBE::Application {
     }
 
     void Application::RegisterComponentListeners() {
-        m_ecs_manager->RegisterComponentListener(m_render_manager.get());
-        m_ecs_manager->RegisterComponentListener(m_transform_manager.get());
+        GetECSManager().RegisterComponentListener(&GetRenderManager());
+        GetECSManager().RegisterComponentListener(&GetTransformManager());
     }
 
     void Application::InitEditor() {
@@ -183,7 +183,7 @@ namespace HBE::Application {
 
         /* Comment these out when CMake option is added */
         m_editor_gui = std::make_unique<GUI::EditorGUI>();
-        m_logging_manager->RegisterLogListener(m_editor_gui.get());
+        GetLoggingManager().RegisterLogListener(m_editor_gui.get());
         /* Comment these out when CMake option is added */
 
         m_editor_gui->InitEditorGUI();
@@ -223,6 +223,8 @@ namespace HBE::Application {
 
     SerializationManager &Application::GetSerializationManager() const { return *m_serialization_manager; }
 
+    LoggingManager &Application::GetLoggingManager() { return *m_logging_manager; }
+
     std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
 
     std::shared_ptr<ISystemFactory> Application::GetSystemFactory() const { return m_system_factory; }
@@ -235,37 +237,33 @@ namespace HBE::Application {
 
     void Application::Log(LoggingType type, std::string_view message, const char *file, int line,
                           const char *function) {
-        m_logging_manager->Log(type, message, file, line, function);
+        GetLoggingManager().Log(type, message, file, line, function);
     }
 
-    void Application::SetLoggingLevel(LoggingType level) { m_logging_manager->SetLoggingLevel(level); }
+    void Application::SetLoggingLevel(LoggingType level) { GetLoggingManager().SetLoggingLevel(level); }
 
     void Application::SetLogDirectory(std::filesystem::path log_directory) {
-        m_logging_manager->SetLogDirectory(log_directory);
+        GetLoggingManager().SetLogDirectory(log_directory);
     }
 
-    void Application::PlayGame() { m_loop_manager->QueueStateChange(ApplicationState::Playing); }
-
-    void Application::PauseGame() { m_loop_manager->QueueStateChange(ApplicationState::Paused); }
-
-    void Application::StopGame() { m_loop_manager->QueueStateChange(ApplicationState::Stopped); }
+    ApplicationStateManager &Application::GetAppStateManager() { return *m_loop_manager; }
 
     void Application::Start() {
         // If using NoopEditorGUI, automatically start in Playing state
         if (dynamic_cast<GUI::NoopEditorGUI *>(m_editor_gui.get()) != nullptr) {
-            m_loop_manager->QueueStateChange(ApplicationState::Playing);
+            GetStateManager().QueueStateChange(ApplicationState::Playing);
         }
 
         OnStart();
 
         while (!m_quit) {
-            m_loop_manager->UpdateGameLoopState();
+            GetStateManager().UpdateGameLoopState();
 
-            if (m_loop_manager->IsState(ApplicationState::Playing) && m_loop_manager->ShouldReloadScene()) {
-                std::shared_ptr<IScene> current_scene = m_scene_manager->GetCurrentScene();
-                m_scene_manager->UnloadScene(false);
-                m_scene_manager->LoadScene(current_scene);
-                m_loop_manager->ClearReloadFlag();
+            if (GetStateManager().IsState(ApplicationState::Playing) && GetStateManager().ShouldReloadScene()) {
+                std::shared_ptr<IScene> current_scene = GetSceneManager().GetCurrentScene();
+                GetSceneManager().UnloadScene(false);
+                GetSceneManager().LoadScene(current_scene);
+                GetStateManager().ClearReloadFlag();
             }
 
             UpdateDeltaTime();
@@ -377,7 +375,7 @@ namespace HBE::Application {
         while (m_accumulator >= m_fixed_time_step) {
             // m_previousState = m_currentState;
             //  Advance your simulation here (e.g., physics, ECS fixed update)
-            m_ecs_manager->IterateSystems(GameLoopState::OnFixedUpdate);
+            GetECSManager().IterateSystems(GameLoopState::OnFixedUpdate);
             m_physics_sim_time += m_fixed_time_step; // Advance simulation time tracker
             m_accumulator -= m_fixed_time_step;
         }
@@ -391,12 +389,12 @@ namespace HBE::Application {
 
     void Application::OnStart() {
         // This is also called when a scene is loaded. (Should this just be removed?)
-        m_ecs_manager->IterateSystems(GameLoopState::OnStart);
+        GetECSManager().IterateSystems(GameLoopState::OnStart);
     }
 
     void Application::OnPreEvent() {
-        if (m_loop_manager->IsState(ApplicationState::Playing)) {
-            m_ecs_manager->IterateSystems(GameLoopState::OnPreEvent);
+        if (GetStateManager().IsState(ApplicationState::Playing)) {
+            GetECSManager().IterateSystems(GameLoopState::OnPreEvent);
         }
     }
 
@@ -404,26 +402,26 @@ namespace HBE::Application {
         m_input_event_listener->OnEvent(event);
 
         // Call system OnEvent methods
-        if (m_loop_manager->IsState(ApplicationState::Playing)) {
-            m_ecs_manager->IterateSystems(event, GameLoopState::OnEvent);
+        if (GetStateManager().IsState(ApplicationState::Playing)) {
+            GetECSManager().IterateSystems(event, GameLoopState::OnEvent);
         }
 
         m_editor_gui->OnEvent(event);
     }
 
     void Application::OnWindowResize(SDL_Event &event) {
-        m_ecs_manager->IterateSystems(event, GameLoopState::OnWindowResize);
+        GetECSManager().IterateSystems(event, GameLoopState::OnWindowResize);
 
-        m_render_manager->OnWindowResize(event);
+        GetRenderManager().OnWindowResize(event);
         m_editor_gui->OnWindowResize(event);
     }
 
     void Application::OnUpdate() {
-        m_transform_manager->OnUpdate();
+        GetTransformManager().OnUpdate();
 
-        if (m_loop_manager->IsState(ApplicationState::Playing)) {
+        if (GetStateManager().IsState(ApplicationState::Playing)) {
             PhysicsLoop();
-            m_ecs_manager->IterateSystems(GameLoopState::OnUpdate);
+            GetECSManager().IterateSystems(GameLoopState::OnUpdate);
         }
         else {
             m_editor_gui->OnUpdate();
@@ -433,18 +431,18 @@ namespace HBE::Application {
     }
 
     void Application::OnRender() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnRender);
+        GetECSManager().IterateSystems(GameLoopState::OnRender);
 
-        m_render_manager->OnRender();
+        GetRenderManager().OnRender();
         m_editor_gui->OnRender();
     }
 
     void Application::OnPostRender() {
-        m_ecs_manager->IterateSystems(GameLoopState::OnPostRender);
+        GetECSManager().IterateSystems(GameLoopState::OnPostRender);
 
-        m_render_manager->OnPostRender();
+        GetRenderManager().OnPostRender();
 
         // Dispatch all queued events at the end of the frame
-        m_event_manager->DispatchAll();
+        GetEventManager().DispatchAll();
     }
 } // namespace HBE::Application
