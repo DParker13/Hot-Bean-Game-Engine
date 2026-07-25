@@ -11,10 +11,11 @@
 
 #include <memory>
 
-#include "project_manager.hpp"
+#include "managers/build_manager.hpp"
+#include "managers/project_manager.hpp"
 #include "windows/new_project_window.hpp"
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     /**
      * @class Menu
      * @brief Main menu window for the editor UI.
@@ -25,13 +26,16 @@ namespace HBE::GUI {
     class Menu {
     private:
         std::map<std::string, std::shared_ptr<IWindow>> &m_windows;
-        std::shared_ptr<ProjectManager> m_project_manager = nullptr;
+        std::shared_ptr<Managers::ProjectManager> m_project_manager = nullptr;
+        std::shared_ptr<Managers::BuildManager> m_build_manager = nullptr;
 
     public:
-        Menu(std::map<std::string, std::shared_ptr<IWindow>> &windows, std::shared_ptr<ProjectManager> project_manager)
-            : m_windows(windows), m_project_manager(project_manager) {}
+        Menu(std::map<std::string, std::shared_ptr<IWindow>> &windows,
+             std::shared_ptr<Managers::ProjectManager> project_manager,
+             std::shared_ptr<Managers::BuildManager> build_manager)
+            : m_windows(windows), m_project_manager(project_manager), m_build_manager(build_manager) {}
         ~Menu() = default;
 
         void Render();
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

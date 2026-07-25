@@ -12,7 +12,7 @@
 
 #include <string>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     class IWindow {
     public:
         bool m_open;
@@ -29,4 +29,4 @@ namespace HBE::GUI {
 
         virtual void RenderWindow() = 0;
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

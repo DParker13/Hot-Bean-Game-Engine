@@ -1,5 +1,6 @@
 Scene:
     name: "Example Scene"
+    class: "ExampleScene"
 Entities:
     - Entity:
         Transform2D:

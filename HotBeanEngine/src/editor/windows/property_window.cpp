@@ -11,7 +11,7 @@
 
 #include "property_window.hpp"
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     void PropertyWindow::RenderWindow() {
         if (ImGui::Begin(m_name.c_str(), &m_open)) {
             int id = 0;
@@ -27,4 +27,4 @@ namespace HBE::GUI {
     void PropertyWindow::SetProperties(std::vector<std::pair<std::string, IPropertyRenderable *>> properties) {
         m_properties = properties;
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

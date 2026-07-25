@@ -15,7 +15,7 @@
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     void NewProjectWindow::RenderWindow() {
         if (ImGui::Begin(m_name.c_str(), &m_open)) {
             std::string directory = m_new_project.m_directory.string();
@@ -41,4 +41,4 @@ namespace HBE::GUI {
         }
         ImGui::End();
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

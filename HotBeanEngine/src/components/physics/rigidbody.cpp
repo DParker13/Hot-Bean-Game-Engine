@@ -16,7 +16,7 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Components {
-    using namespace GUI::PropertyNodes;
+    using namespace Editor::PropertyNodes;
 
     void RigidBody::Serialize(Core::ISerializationWriter &out) const {
         out.Write("mass", m_mass);

@@ -21,7 +21,7 @@ namespace HBE::Components {
      * Maps input actions to entity behavior.
      * Supports keyboard, mouse, and gamepad input.
      */
-    struct Controller : public Core::IComponent, public GUI::IPropertyRenderable {
+    struct Controller : public Core::IComponent, public Editor::IPropertyRenderable {
         bool controllable = true;
 
         DEFINE_NAME("Controller");

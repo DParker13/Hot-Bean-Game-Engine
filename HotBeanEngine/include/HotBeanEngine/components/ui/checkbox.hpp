@@ -17,7 +17,7 @@
 
 namespace HBE::Components {
 
-    struct Checkbox : Core::IComponent, public GUI::IPropertyRenderable {
+    struct Checkbox : Core::IComponent, public Editor::IPropertyRenderable {
         TTF_Font *m_font = nullptr; /// Pointer to the TTF font object. Can be null if the font has not been loaded.
         SDL_Color m_foreground_color = {255, 255, 255, 255}; /// The color of the text.
         SDL_Color m_background_color = {0, 0, 0, 255};       /// The background color of the text.

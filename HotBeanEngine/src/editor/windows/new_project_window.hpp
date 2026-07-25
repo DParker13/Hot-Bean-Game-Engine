@@ -12,9 +12,9 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/editor/iwindow.hpp>
 
-#include "../project_manager.hpp"
+#include "../managers/project_manager.hpp"
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     /**
      * @class NewProjectWindow
      * @brief Window for creating a new project.
@@ -23,14 +23,14 @@ namespace HBE::GUI {
      */
     class NewProjectWindow : public IWindow {
     private:
-        std::shared_ptr<ProjectManager> m_project_manager = nullptr;
+        std::shared_ptr<Managers::ProjectManager> m_project_manager = nullptr;
         Core::Project m_new_project;
 
     public:
-        NewProjectWindow(std::shared_ptr<ProjectManager> project_manager)
+        NewProjectWindow(std::shared_ptr<Managers::ProjectManager> project_manager)
             : IWindow("New Project", false, false), m_project_manager(project_manager), m_new_project() {}
         ~NewProjectWindow() = default;
 
         void RenderWindow() override;
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

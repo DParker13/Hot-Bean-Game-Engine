@@ -15,7 +15,7 @@
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     void ProjectWindow::RenderWindow() {
 
         // Load project data when the window is first opened
@@ -50,4 +50,4 @@ namespace HBE::GUI {
         }
         ImGui::End();
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

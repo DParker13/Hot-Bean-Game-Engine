@@ -1,14 +1,18 @@
 Currently Working On:
+- Working on exporting game
 - Need to add a startup scene to the application.
     + When the editor is empty, no scenes are loaded because the project yaml file won't exist.
     + Setting a startup/launch scene for the application on compilation will allow for an entry point to the gameplay/other scenes in a final build.
-
+    + Add button to set scene as startup
+    + Find way to compile scenes into final exported application
 
 High Priority
 - Fix audio to work with start/stop of the application
 - Create OnInit() in IGameLoop.
     + OnStart will only be called when the application is started/playing
     + OnInit will be called when a system is registered so it can be called multiple times in editor mode
+    + Use OnInit() for components instead of constructors
+        ~ When a component is registered all the component constructors are called once. The OnInit() method should be used so they can be called multiple times
 - Add save button to editor
     + Save scene to yaml file
     + Somehow save scene hpp and cpp files?

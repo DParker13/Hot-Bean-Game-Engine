@@ -12,6 +12,7 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/editor/editor_gui.hpp>
 #include <HotBeanEngine/editor/noop_editor_gui.hpp>
+#include <HotBeanEngine/serializers/binary/binary_scene_serializer.hpp>
 #include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
 
 namespace HBE::Application {
@@ -111,13 +112,9 @@ namespace HBE::Application {
         m_system_factory->RegisterSystems();
         m_scene_factory->RegisterScenes();
 
-        // Initialize the serialization manager and register serializers
-        m_serialization_manager = std::make_shared<SerializationManager>();
-        GetSerializationManager().RegisterSerializer(
-            std::make_unique<Serializers::YamlSceneSerializer>(m_component_factory));
-
+        m_serialization_manager = std::make_shared<SerializationManager>(m_component_factory);
         m_scene_manager = std::make_unique<SceneManager>();
-        m_loop_manager = std::make_unique<ApplicationStateManager>();
+        m_loop_manager = std::make_unique<StateManager>();
         m_camera_manager = std::make_shared<CameraManager>();
         m_render_manager = std::make_shared<RenderManager>(m_camera_manager);
         m_transform_manager = std::make_shared<TransformManager>();
@@ -171,20 +168,12 @@ namespace HBE::Application {
     }
 
     void Application::InitEditor() {
-        // TODO: Link this to a CMake option or config setting to enable/disable the editor GUI
-        // Ensure we always have an editor GUI instance (Noop by default)
-        // if (!m_editor_gui) {
-        //     m_editor_gui = std::make_unique<GUI::NoopEditorGUI>();
-        // }
-        // else {
-        //     m_editor_gui = std::unique_ptr<GUI::IEditorGUI>();
-        //     m_logging_manager->RegisterLogListener(m_editor_gui.get());
-        // }
-
-        /* Comment these out when CMake option is added */
-        m_editor_gui = std::make_unique<GUI::EditorGUI>();
+#if HBE_ENABLE_EDITOR_GUI
+        m_editor_gui = std::make_unique<Editor::EditorGUI>();
         GetLoggingManager().RegisterLogListener(m_editor_gui.get());
-        /* Comment these out when CMake option is added */
+#else
+        m_editor_gui = std::make_unique<Editor::NoopEditorGUI>();
+#endif
 
         m_editor_gui->InitEditorGUI();
     }
@@ -211,7 +200,7 @@ namespace HBE::Application {
 
     SceneManager &Application::GetSceneManager() { return *m_scene_manager; }
 
-    ApplicationStateManager &Application::GetStateManager() { return *m_loop_manager; }
+    StateManager &Application::GetStateManager() { return *m_loop_manager; }
 
     RenderManager &Application::GetRenderManager() { return *m_render_manager; }
 
@@ -233,7 +222,7 @@ namespace HBE::Application {
 
     const InputEventListener &Application::GetInputEventListener() const { return *m_input_event_listener; }
 
-    GUI::IEditorGUI &Application::GetEditorGUI() { return *m_editor_gui; }
+    Editor::IEditorGUI &Application::GetEditorGUI() { return *m_editor_gui; }
 
     void Application::Log(LoggingType type, std::string_view message, const char *file, int line,
                           const char *function) {
@@ -246,11 +235,11 @@ namespace HBE::Application {
         GetLoggingManager().SetLogDirectory(log_directory);
     }
 
-    ApplicationStateManager &Application::GetAppStateManager() { return *m_loop_manager; }
+    StateManager &Application::GetAppStateManager() { return *m_loop_manager; }
 
     void Application::Start() {
         // If using NoopEditorGUI, automatically start in Playing state
-        if (dynamic_cast<GUI::NoopEditorGUI *>(m_editor_gui.get()) != nullptr) {
+        if (dynamic_cast<Editor::NoopEditorGUI *>(m_editor_gui.get()) != nullptr) {
             GetStateManager().QueueStateChange(ApplicationState::Playing);
         }
 
@@ -261,8 +250,14 @@ namespace HBE::Application {
 
             if (GetStateManager().IsState(ApplicationState::Playing) && GetStateManager().ShouldReloadScene()) {
                 std::shared_ptr<IScene> current_scene = GetSceneManager().GetCurrentScene();
-                GetSceneManager().UnloadScene(false);
-                GetSceneManager().LoadScene(current_scene);
+                if (!current_scene) {
+                    LOG(LoggingType::WARNING, "No current scene to reload.");
+                }
+                else {
+                    GetSceneManager().UnloadScene(false);
+                    GetSceneManager().LoadScene(current_scene);
+                }
+
                 GetStateManager().ClearReloadFlag();
             }
 

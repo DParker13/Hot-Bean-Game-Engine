@@ -13,7 +13,7 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <imgui_internal.h>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     using namespace Core;
 
     ConsoleWindow::ConsoleWindow() : IWindow("Console") {
@@ -93,4 +93,4 @@ namespace HBE::GUI {
             m_log_buffer.pop_front();
         }
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

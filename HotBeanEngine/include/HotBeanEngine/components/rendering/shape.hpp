@@ -21,7 +21,7 @@ namespace HBE::Components {
      * Renders basic geometric shapes (rectangles, circles, lines).
      * Supports filled and outlined rendering modes.
      */
-    struct Shape : public Core::IComponent, public Core::DirtyFlag, public GUI::IPropertyRenderable {
+    struct Shape : public Core::IComponent, public Core::DirtyFlag, public Editor::IPropertyRenderable {
         enum class ShapeType { Box };
 
         ShapeType m_type = ShapeType::Box;

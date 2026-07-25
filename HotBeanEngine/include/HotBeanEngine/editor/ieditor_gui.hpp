@@ -9,7 +9,7 @@
 #include <HotBeanEngine/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/core/igame_loop.hpp>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     /// @brief Abstract interface for editor GUI. Inherits engine game loop hooks and log listening.
     class IEditorGUI : public Core::IGameLoop, public Application::Listeners::ILogListener {
     private:
@@ -23,4 +23,4 @@ namespace HBE::GUI {
         Components::Transform2D &GetEditorCameraTransform() { return m_camera_transform; }
         virtual void InitEditorGUI() = 0;
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

@@ -15,7 +15,7 @@
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     namespace {
         constexpr SDL_DialogFileFilter kProjectFileFilters[] = {
             {"Project Files", "yaml;yml"},
@@ -98,4 +98,4 @@ namespace HBE::GUI {
 
         SaveConfig();
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

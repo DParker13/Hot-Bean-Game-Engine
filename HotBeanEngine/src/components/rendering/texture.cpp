@@ -14,7 +14,7 @@
 #include <HotBeanEngine/editor/property_nodes/vec2.hpp>
 
 namespace HBE::Components {
-    using namespace GUI::PropertyNodes;
+    using namespace Editor::PropertyNodes;
 
     Texture::~Texture() {
         if (m_texture) {

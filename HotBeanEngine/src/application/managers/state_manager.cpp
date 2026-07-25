@@ -1,5 +1,5 @@
 /**
- * @file application_state_manager.cpp
+ * @file state_manager.cpp
  * @author Daniel Parker (DParker13)
  * @brief Implementation of application state control.
  * @version 0.1
@@ -9,19 +9,19 @@
  */
 
 #include <HotBeanEngine/application/application.hpp>
-#include <HotBeanEngine/application/managers/application_state_manager.hpp>
+#include <HotBeanEngine/application/managers/state_manager.hpp>
 
 namespace HBE::Application::Managers {
 
-    void ApplicationStateManager::QueueStateChange(ApplicationState new_state) { m_queued_state = new_state; }
+    void StateManager::QueueStateChange(ApplicationState new_state) { m_queued_state = new_state; }
 
-    void ApplicationStateManager::ClearReloadFlag() { m_needs_scene_reload = false; }
+    void StateManager::ClearReloadFlag() { m_needs_scene_reload = false; }
 
-    ApplicationState ApplicationStateManager::GetState() const { return m_state; }
+    ApplicationState StateManager::GetState() const { return m_state; }
 
-    bool ApplicationStateManager::IsState(ApplicationState state) const { return m_state == state; }
+    bool StateManager::IsState(ApplicationState state) const { return m_state == state; }
 
-    void ApplicationStateManager::UpdateGameLoopState() {
+    void StateManager::UpdateGameLoopState() {
         ApplicationState previous_state = m_state;
         m_state = m_queued_state;
 
@@ -43,6 +43,6 @@ namespace HBE::Application::Managers {
         }
     }
 
-    bool ApplicationStateManager::ShouldReloadScene() const { return m_needs_scene_reload; }
+    bool StateManager::ShouldReloadScene() const { return m_needs_scene_reload; }
 
 } // namespace HBE::Application::Managers

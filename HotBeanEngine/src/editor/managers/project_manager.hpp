@@ -12,8 +12,11 @@
 
 #include <HotBeanEngine/core/project.hpp>
 
-namespace HBE::GUI {
+namespace HBE::Editor::Managers {
     class ProjectManager {
+    private:
+        std::vector<std::filesystem::path> m_project_files;
+
     public:
         Core::Project m_project;
 
@@ -23,10 +26,11 @@ namespace HBE::GUI {
         void CreateNewProject(const Core::Project &project);
         void OpenProject();
         int SaveProject();
+        std::vector<std::filesystem::path> GetProjectFiles() const { return m_project_files; }
 
     private:
         void LoadProject(const std::filesystem::path &path);
         void LoadProject();
         void SetupProjectDirectories();
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor::Managers

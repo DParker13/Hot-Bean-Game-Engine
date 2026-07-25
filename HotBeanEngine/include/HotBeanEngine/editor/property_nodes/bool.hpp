@@ -13,7 +13,7 @@
 #include <imgui.h>
 #include <string>
 
-namespace HBE::GUI::PropertyNodes {
+namespace HBE::Editor::PropertyNodes {
 
     struct Bool {
         static bool RenderProperty(int &id, std::string_view label, bool &value, bool disabled = false) {
@@ -30,4 +30,4 @@ namespace HBE::GUI::PropertyNodes {
             return changed;
         }
     };
-} // namespace HBE::GUI::PropertyNodes
+} // namespace HBE::Editor::PropertyNodes

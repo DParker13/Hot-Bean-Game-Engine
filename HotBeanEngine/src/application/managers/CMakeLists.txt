@@ -1,5 +1,4 @@
 add_library(HotBeanEngine_Managers STATIC
-    application_state_manager.cpp
     audio_manager.cpp
     camera_manager.cpp
     component_manager.cpp
@@ -9,6 +8,7 @@ add_library(HotBeanEngine_Managers STATIC
     render_manager.cpp
     scene_manager.cpp
     serialization_manager.cpp
+    state_manager.cpp
     system_manager.cpp
     transform_manager.cpp
 )

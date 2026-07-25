@@ -14,15 +14,7 @@
 
 #include <HotBeanEngine/application/listeners/input_event_listener.hpp>
 #include <HotBeanEngine/application/macros.hpp>
-#include <HotBeanEngine/application/managers/application_state_manager.hpp>
-#include <HotBeanEngine/application/managers/audio_manager.hpp>
-#include <HotBeanEngine/application/managers/camera_manager.hpp>
-#include <HotBeanEngine/application/managers/ecs_manager.hpp>
-#include <HotBeanEngine/application/managers/event_manager.hpp>
-#include <HotBeanEngine/application/managers/render_manager.hpp>
-#include <HotBeanEngine/application/managers/scene_manager.hpp>
-#include <HotBeanEngine/application/managers/serialization_manager.hpp>
-#include <HotBeanEngine/application/managers/transform_manager.hpp>
+#include <HotBeanEngine/application/managers/all_managers.hpp>
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
 #include <HotBeanEngine/factories/icomponent_factory.hpp>
 #include <HotBeanEngine/factories/iscene_factory.hpp>
@@ -51,23 +43,23 @@ namespace HBE::Application {
         SDL_Event event;                                 /// SDL event used for polling in the event loop
 
     protected:
-        std::shared_ptr<Managers::ECSManager> m_ecs_manager;               /// Manages entity-component-system
-        std::shared_ptr<Managers::LoggingManager> m_logging_manager;       /// Manages application logging
-        std::unique_ptr<Managers::SceneManager> m_scene_manager;           /// Manages scene loading/switching
-        std::unique_ptr<Managers::ApplicationStateManager> m_loop_manager; /// Manages application state transitions
-        std::shared_ptr<Managers::RenderManager> m_render_manager;         /// Manages rendering operations
-        std::shared_ptr<Managers::CameraManager> m_camera_manager;         /// Manages camera system
-        std::shared_ptr<Managers::TransformManager> m_transform_manager;   /// Manages transform hierarchy
-        std::shared_ptr<Managers::AudioManager> m_audio_manager;           /// Manages audio playback
-        std::shared_ptr<Managers::EventManager> m_event_manager;           /// Manages event distribution and dispatch
+        std::shared_ptr<Managers::ECSManager> m_ecs_manager;             /// Manages entity-component-system
+        std::shared_ptr<Managers::LoggingManager> m_logging_manager;     /// Manages application logging
+        std::unique_ptr<Managers::SceneManager> m_scene_manager;         /// Manages scene loading/switching
+        std::unique_ptr<Managers::StateManager> m_loop_manager;          /// Manages application state transitions
+        std::shared_ptr<Managers::RenderManager> m_render_manager;       /// Manages rendering operations
+        std::shared_ptr<Managers::CameraManager> m_camera_manager;       /// Manages camera system
+        std::shared_ptr<Managers::TransformManager> m_transform_manager; /// Manages transform hierarchy
+        std::shared_ptr<Managers::AudioManager> m_audio_manager;         /// Manages audio playback
+        std::shared_ptr<Managers::EventManager> m_event_manager;         /// Manages event distribution and dispatch
         std::shared_ptr<Managers::SerializationManager>
             m_serialization_manager; /// Manages serialization and deserialization of scenes
         std::shared_ptr<Factories::IComponentFactory> m_component_factory; /// Factory for component creation
         std::shared_ptr<Factories::ISystemFactory> m_system_factory;       /// Factory for system creation
-        std::shared_ptr<Factories::ISceneFactory> m_scene_factory; /// Factory for scene creation and registration
-        SDL_Renderer *m_renderer = nullptr;                        /// SDL renderer instance
-        SDL_Window *m_window = nullptr;                            /// SDL window instance
-        std::unique_ptr<GUI::IEditorGUI> m_editor_gui = nullptr;   /// Editor GUI interface
+        std::shared_ptr<Factories::ISceneFactory> m_scene_factory;  /// Factory for scene creation and registration
+        SDL_Renderer *m_renderer = nullptr;                         /// SDL renderer instance
+        SDL_Window *m_window = nullptr;                             /// SDL window instance
+        std::unique_ptr<Editor::IEditorGUI> m_editor_gui = nullptr; /// Editor GUI interface
         std::unique_ptr<Listeners::InputEventListener> m_input_event_listener; /// Handles input events
 
     public:
@@ -161,7 +153,7 @@ namespace HBE::Application {
          * @brief Access the application state manager.
          * @return Reference to the application state manager.
          */
-        Managers::ApplicationStateManager &GetStateManager();
+        Managers::StateManager &GetStateManager();
 
         /**
          * @brief Access the render manager.
@@ -239,7 +231,7 @@ namespace HBE::Application {
          * @brief Access the editor GUI.
          * @return Reference to the editor GUI interface.
          */
-        GUI::IEditorGUI &GetEditorGUI();
+        Editor::IEditorGUI &GetEditorGUI();
 
         /**
          * @brief Log a message with file, line, and function information.
@@ -270,7 +262,7 @@ namespace HBE::Application {
          * @brief Get the current application state (Stopped, Playing, Paused).
          * @return The current application state.
          */
-        Managers::ApplicationStateManager &GetAppStateManager();
+        Managers::StateManager &GetAppStateManager();
 
     protected:
         /**

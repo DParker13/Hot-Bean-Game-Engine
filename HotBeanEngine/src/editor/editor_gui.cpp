@@ -13,8 +13,9 @@
 #include <HotBeanEngine/editor/editor_gui.hpp>
 
 #include "control_bar.hpp"
+#include "managers/build_manager.hpp"
+#include "managers/project_manager.hpp"
 #include "menu.hpp"
-#include "project_manager.hpp"
 
 // Windows
 #include "windows/config_window.hpp"
@@ -25,7 +26,7 @@
 #include "windows/property_window.hpp"
 #include "windows/scene_window.hpp"
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     namespace {
         void ApplyTheme() {
             ImGui::StyleColorsDark();
@@ -96,8 +97,9 @@ namespace HBE::GUI {
 
     /// @brief Constructs the EditorGUI, initializing the project manager, menu, control bar, and default windows.
     EditorGUI::EditorGUI() {
-        m_project_manager = std::make_shared<ProjectManager>();
-        m_menu = std::make_shared<Menu>(m_windows, m_project_manager);
+        m_project_manager = std::make_shared<Managers::ProjectManager>();
+        m_build_manager = std::make_shared<Managers::BuildManager>(m_project_manager);
+        m_menu = std::make_shared<Menu>(m_windows, m_project_manager, m_build_manager);
         m_control_bar = std::make_shared<ControlBar>();
 
         // Create windows
@@ -335,4 +337,4 @@ namespace HBE::GUI {
             editor_camera.m_zoom = std::max(0.1f, std::min(10.0f, editor_camera.m_zoom));
         }
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

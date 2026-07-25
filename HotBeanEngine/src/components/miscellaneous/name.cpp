@@ -13,7 +13,7 @@
 #include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Components {
-    using namespace GUI::PropertyNodes;
+    using namespace Editor::PropertyNodes;
 
     void Name::Serialize(Core::ISerializationWriter &out) const { out.Write("name", m_name); }
 

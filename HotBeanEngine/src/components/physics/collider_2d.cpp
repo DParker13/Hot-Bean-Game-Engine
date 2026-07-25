@@ -11,7 +11,7 @@
 #include <HotBeanEngine/components/physics/collider_2d.hpp>
 
 namespace HBE::Components {
-    using namespace GUI::PropertyNodes;
+    using namespace Editor::PropertyNodes;
 
     void Collider2D::Serialize(Core::ISerializationWriter &out) const {
         out.Write("bounding_box", m_size);

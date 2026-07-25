@@ -1,0 +1,6 @@
+Project:
+  startup_path: ""  # Path to the project that should be loaded on startup
+Logging:
+  directory: "./logs"  # Directory where log files will be stored
+  level: 0  # DEBUG = 0, INFO, WARNING, ERROR, FATAL = 4
+  console: true

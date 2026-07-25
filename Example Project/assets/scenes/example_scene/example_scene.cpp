@@ -18,10 +18,6 @@ namespace Scenes {
     using namespace HBE::Components;
     using namespace HBE::Application::Events;
 
-    void ExampleScene::SetupCustomSystems() {
-        // Register game-specific scene systems here.
-    }
-
     void ExampleScene::SetupScene() {
         int camera_entity = g_ecs.CreateEntity();
 

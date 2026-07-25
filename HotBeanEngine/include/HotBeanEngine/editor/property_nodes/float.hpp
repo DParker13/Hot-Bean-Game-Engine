@@ -13,7 +13,7 @@
 #include <imgui.h>
 #include <string>
 
-namespace HBE::GUI::PropertyNodes {
+namespace HBE::Editor::PropertyNodes {
     struct Float {
         static bool RenderProperty(int &id, std::string_view label, float &value, float min = -FLT_MAX,
                                    float max = FLT_MAX, bool disabled = false) {
@@ -30,4 +30,4 @@ namespace HBE::GUI::PropertyNodes {
             return changed;
         }
     };
-} // namespace HBE::GUI::PropertyNodes
+} // namespace HBE::Editor::PropertyNodes

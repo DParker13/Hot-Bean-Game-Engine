@@ -16,7 +16,7 @@
 #include <HotBeanEngine/editor/property_nodes/string.hpp>
 
 namespace HBE::Components {
-    using namespace GUI::PropertyNodes;
+    using namespace Editor::PropertyNodes;
 
     void Text::Deserialize(Core::ISerializationReader &in) {
         in.Read("text", m_text);

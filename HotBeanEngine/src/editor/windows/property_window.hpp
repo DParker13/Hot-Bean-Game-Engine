@@ -16,7 +16,7 @@
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 #include <HotBeanEngine/editor/iwindow.hpp>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     /**
      * @class PropertyWindow
      * @brief Window for editing entity component properties.
@@ -35,4 +35,4 @@ namespace HBE::GUI {
         void RenderWindow() override;
         void SetProperties(std::vector<std::pair<std::string, IPropertyRenderable *>> properties);
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

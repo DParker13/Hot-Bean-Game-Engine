@@ -11,7 +11,7 @@
 
 #include "control_bar.hpp"
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     using Application::Managers::ApplicationState::Paused;
     using Application::Managers::ApplicationState::Playing;
     using Application::Managers::ApplicationState::Stopped;
@@ -38,4 +38,4 @@ namespace HBE::GUI {
             ImGui::EndMainMenuBar();
         }
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

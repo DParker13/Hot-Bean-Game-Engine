@@ -16,6 +16,6 @@ namespace HBE::Components {
     void Controller::Deserialize(Core::ISerializationReader &in) { in.Read("controllable", controllable); }
 
     void Controller::RenderProperties(int &id) {
-        GUI::PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
+        Editor::PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);
     }
 } // namespace HBE::Components

@@ -14,7 +14,7 @@
 #include <functional>
 #include <string>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
 
     /**
      * @brief Generic SDL open-file-dialog callback.
@@ -125,4 +125,4 @@ namespace HBE::GUI {
         SDL_ShowMessageBox(&message_box_data, 0);
     }
 
-} // namespace HBE::GUI
+} // namespace HBE::Editor

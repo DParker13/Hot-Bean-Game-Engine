@@ -25,15 +25,11 @@ namespace Scenes {
         std::vector<HBE::Application::Managers::SubscriptionHandle> m_event_subscription_handles;
 
     public:
-        ExampleScene(std::string path, std::shared_ptr<HBE::Core::ISerializable> serializer)
-            : Scene("ExampleScene", path, serializer) {}
+        ExampleScene(std::string path) : Scene("ExampleScene", path) {}
 
         ~ExampleScene() = default;
 
         void SetupScene() override;
         void CleanupScene() override;
-
-    protected:
-        void SetupCustomSystems() override;
     };
 } // namespace Scenes

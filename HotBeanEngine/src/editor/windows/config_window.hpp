@@ -1,7 +1,7 @@
 /**
- * @file new_project_window.hpp
+ * @file config_window.hpp
  * @author Daniel Parker (DParker13)
- * @brief Window for creating a new project.
+ * @brief Window for managing configuration settings.
  * @version 0.1
  * @date 2026-04-13
  *
@@ -12,9 +12,7 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/editor/iwindow.hpp>
 
-#include "../project_manager.hpp"
-
-namespace HBE::GUI {
+namespace HBE::Editor {
     using namespace Core;
 
     /**
@@ -41,4 +39,4 @@ namespace HBE::GUI {
         void LoadConfigFromEnv();
         void SaveConfigToFile();
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

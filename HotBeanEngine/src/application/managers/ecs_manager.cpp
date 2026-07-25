@@ -81,6 +81,7 @@ namespace HBE::Application::Managers {
                 Signature signature = m_entity_manager->SetSignature(entity, (ComponentID)i, false);
                 m_system_manager->EntitySignatureChanged(entity, signature);
                 m_component_manager->RemoveComponent(entity, i);
+                NotifyComponentRemoved(entity);
             }
         }
     }

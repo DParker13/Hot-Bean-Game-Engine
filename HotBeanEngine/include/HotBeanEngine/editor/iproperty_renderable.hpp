@@ -10,9 +10,9 @@
 
 #pragma once
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     struct IPropertyRenderable {
         virtual ~IPropertyRenderable() = default;
         virtual void RenderProperties(int &id) = 0;
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

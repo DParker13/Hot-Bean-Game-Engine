@@ -16,7 +16,7 @@
 #include "editor_utils.hpp"
 #include "menu.hpp"
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     void Menu::Render() {
         if (ImGui::BeginMainMenuBar()) {
             if (ImGui::BeginMenu("File")) {
@@ -51,7 +51,16 @@ namespace HBE::GUI {
                 }
                 ImGui::EndMenu();
             }
+            if (ImGui::BeginMenu("Build")) {
+                if (ImGui::MenuItem("Build Project")) {
+                    m_build_manager->BuildProject();
+                }
+                if (ImGui::MenuItem("Generate Scene Binary")) {
+                    m_build_manager->GenerateSceneBinary();
+                }
+                ImGui::EndMenu();
+            }
             ImGui::EndMainMenuBar();
         }
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

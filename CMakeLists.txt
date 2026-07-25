@@ -75,7 +75,10 @@ FetchContent_Declare(
 )
 
 # Testing settings
-option(GAME_BUILD_TESTING "${PROJECT_NAME}: Build tests" ON)
+set(GAME_BUILD_TESTING ${GAME_BUILD_TESTING} CACHE BOOL "${PROJECT_NAME}: Build tests" FORCE)
+set(HBE_ENABLE_EDITOR_GUI ON CACHE BOOL "${PROJECT_NAME}: Enable editor GUI" FORCE)
+
+message(STATUS "${PROJECT_NAME}: Editor GUI is ${HBE_ENABLE_EDITOR_GUI}")
 
 # Dependency settings
 set(SDL_SHARED OFF CACHE BOOL "Build SDL as a shared library" FORCE)

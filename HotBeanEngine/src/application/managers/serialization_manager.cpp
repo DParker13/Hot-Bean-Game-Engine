@@ -1,7 +1,15 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/application/managers/serialization_manager.hpp>
+#include <HotBeanEngine/serializers/binary/binary_scene_serializer.hpp>
+#include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
 
 namespace HBE::Application::Managers {
+    SerializationManager::SerializationManager(std::shared_ptr<Factories::IComponentFactory> component_factory) {
+        // Register default serializers
+        RegisterSerializer(std::make_unique<Serializers::YamlSceneSerializer>(component_factory));
+        RegisterSerializer(std::make_unique<Serializers::BinarySceneSerializer>(component_factory));
+    }
+
     void SerializationManager::RegisterSerializer(std::unique_ptr<Core::ISerializer> serializer) {
         m_serializers.emplace(serializer->GetName(), std::move(serializer));
     }

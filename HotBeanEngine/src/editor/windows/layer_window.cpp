@@ -12,7 +12,7 @@
 #include "layer_window.hpp"
 #include <HotBeanEngine/application/managers/render_manager.hpp>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     LayerWindow::~LayerWindow() {
         if (m_selected_layer) {
             delete m_selected_layer;
@@ -53,4 +53,4 @@ namespace HBE::GUI {
             LOG(Core::LoggingType::ERROR, "Property window was never setup.");
         }
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

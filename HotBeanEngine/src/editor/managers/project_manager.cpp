@@ -12,12 +12,12 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/application/scene.hpp>
 
-#include "editor_utils.hpp"
+#include "../editor_utils.hpp"
 #include "project_manager.hpp"
 
 #include <cctype>
 
-namespace HBE::GUI {
+namespace HBE::Editor::Managers {
     namespace {
         constexpr SDL_DialogFileFilter kProjectFileFilters[] = {
             {"Project Files", "yaml;yml"},
@@ -121,10 +121,17 @@ namespace HBE::GUI {
                             scene_name = scene_node["Scene"]["name"].as<std::string>();
                         }
 
+                        bool first_scene_loaded = false;
                         if (!scene_name.empty() && !scene_path.empty()) {
                             std::shared_ptr<IScene> scene =
                                 std::make_shared<Application::Scene>(scene_name, scene_path);
                             g_app.GetSceneManager().RegisterScene(scene);
+
+                            // Load the first scene immediately after registration to set it as the active scene
+                            if (!first_scene_loaded) {
+                                g_app.GetSceneManager().LoadScene(scene, false);
+                                first_scene_loaded = true;
+                            }
                         }
                     } catch (const YAML::Exception &e) {
                         LOG(LoggingType::ERROR,
@@ -168,8 +175,8 @@ namespace HBE::GUI {
             out << YAML::BeginMap;
             out << YAML::Key << "name" << YAML::Value << YAML::DoubleQuoted << m_project.m_name;
             out << YAML::Key << "version" << YAML::Value << m_project.m_version;
-            out << YAML::Key << "file" << YAML::Value << m_project.m_file;
-            out << YAML::Key << "directory" << YAML::Value << m_project.m_directory.string();
+            out << YAML::Key << "file" << YAML::Value << YAML::DoubleQuoted << m_project.m_file;
+            out << YAML::Key << "directory" << YAML::Value << YAML::DoubleQuoted << m_project.m_directory.string();
             out << YAML::EndMap;
 
             // Scenes
@@ -177,7 +184,7 @@ namespace HBE::GUI {
             out << YAML::BeginSeq;
             for (const auto [name, scene] : g_app.GetSceneManager().m_scenes) {
                 out << YAML::BeginMap;
-                out << YAML::Key << "path" << YAML::Value << scene->m_scene_path.string();
+                out << YAML::Key << "path" << YAML::Value << YAML::DoubleQuoted << scene->m_scene_path.string();
                 out << YAML::EndMap;
             }
             out << YAML::EndSeq;
@@ -236,4 +243,4 @@ namespace HBE::GUI {
 
         return fileName + ".yaml";
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

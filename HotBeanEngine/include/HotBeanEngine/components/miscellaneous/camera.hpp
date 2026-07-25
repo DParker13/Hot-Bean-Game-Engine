@@ -20,7 +20,7 @@ namespace HBE::Components {
      * Controls viewport and layer visibility.
      * Supports multiple camera system with priority-based rendering.
      */
-    struct Camera : public Core::IComponent, public GUI::IPropertyRenderable {
+    struct Camera : public Core::IComponent, public Editor::IPropertyRenderable {
         bool m_active = true;
         float m_zoom = 1.0f;              /// Camera zoom level (1.0 = normal, >1.0 = zoomed in, <1.0 = zoomed out)
         std::bitset<16> m_layer_mask = 0; /// Layer visibility mask (16 layers, bitset for each layer's visibility)

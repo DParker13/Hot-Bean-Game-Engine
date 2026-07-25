@@ -21,7 +21,7 @@ namespace HBE::Components {
      * Tracks local and world-space transformations.
      * Supports hierarchical parent-child relationships.
      */
-    struct Transform2D : public Core::IComponent, public Core::DirtyFlag, public GUI::IPropertyRenderable {
+    struct Transform2D : public Core::IComponent, public Core::DirtyFlag, public Editor::IPropertyRenderable {
         Uint8 m_layer = 0;
         Sint64 m_parent = -1;
 

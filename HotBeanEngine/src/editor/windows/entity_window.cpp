@@ -11,7 +11,7 @@
 
 #include "entity_window.hpp"
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     using namespace Core;
 
     void EntityWindow::RenderWindow() {
@@ -55,4 +55,4 @@ namespace HBE::GUI {
             LOG(LoggingType::ERROR, "Property window was never setup.");
         }
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

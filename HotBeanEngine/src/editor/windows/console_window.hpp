@@ -14,7 +14,7 @@
 #include <deque>
 #include <imgui.h>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     /**
      * @class ConsoleWindow
      * @brief Debug console window for the editor UI.
@@ -42,4 +42,4 @@ namespace HBE::GUI {
         virtual void RenderWindow() override;
         virtual void OnLog(HBE::Core::LoggingType level, std::string_view message) override;
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

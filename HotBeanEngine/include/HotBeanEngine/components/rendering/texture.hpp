@@ -21,7 +21,7 @@ namespace HBE::Components {
      * Stores texture data and rendering properties.
      * Supports sprite rendering with source rectangles.
      */
-    struct Texture : public Core::IComponent, public Core::DirtyFlag, public GUI::IPropertyRenderable {
+    struct Texture : public Core::IComponent, public Core::DirtyFlag, public Editor::IPropertyRenderable {
         SDL_Texture *m_texture =
             nullptr; /// A pointer to the SDL texture object. Can be null if the texture has not been loaded.
         glm::vec2 m_size = {0, 0}; /// Size of the texture in pixels.

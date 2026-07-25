@@ -18,7 +18,7 @@ namespace HBE::Components {
      * @brief Name component for identifying entities
      * Stores a human-readable name for an entity.
      */
-    struct Name : public Core::IComponent, public GUI::IPropertyRenderable {
+    struct Name : public Core::IComponent, public Editor::IPropertyRenderable {
         std::string m_name = "";
 
         DEFINE_NAME("Name");

@@ -15,9 +15,8 @@
 #include <misc/cpp/imgui_stdlib.h>
 
 #include "../editor_utils.hpp"
-#include "../project_manager.hpp"
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     using namespace Core;
 
     namespace {
@@ -110,4 +109,4 @@ namespace HBE::GUI {
             g_app.GetSceneManager().UnregisterScene(scene);
         }
     }
-} // namespace HBE::GUI
+} // namespace HBE::Editor

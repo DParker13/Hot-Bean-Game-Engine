@@ -1,6 +1,7 @@
 #pragma once
 
 #include <HotBeanEngine/core/all_core.hpp>
+#include <HotBeanEngine/factories/icomponent_factory.hpp>
 
 namespace HBE::Application::Managers {
 
@@ -9,7 +10,7 @@ namespace HBE::Application::Managers {
         std::map<std::string, std::unique_ptr<Core::ISerializer>> m_serializers;
 
     public:
-        SerializationManager() = default;
+        SerializationManager(std::shared_ptr<Factories::IComponentFactory> component_factory);
         ~SerializationManager() = default;
 
         void RegisterSerializer(std::unique_ptr<Core::ISerializer> serializer);

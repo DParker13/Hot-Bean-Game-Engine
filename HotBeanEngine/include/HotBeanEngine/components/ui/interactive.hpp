@@ -14,7 +14,7 @@
 #include <HotBeanEngine/editor/iproperty_renderable.hpp>
 
 namespace HBE::Components {
-    struct Interactive : public Core::IComponent, public GUI::IPropertyRenderable {
+    struct Interactive : public Core::IComponent, public Editor::IPropertyRenderable {
         bool m_mouse_hover = false; /// Whether mouse is currently over the button
 
         DEFINE_NAME("Interactive");

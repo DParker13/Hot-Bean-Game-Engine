@@ -1,7 +1,7 @@
 /**
  * @file scene_window.hpp
  * @author Daniel Parker (DParker13)
- * @brief Window for browsing and selecting entities.
+ * @brief Window for browsing and selecting scenes.
  * @version 0.1
  * @date 2026-06-13
  *
@@ -12,10 +12,10 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <imgui.h>
 
+#include "../managers/project_manager.hpp"
 #include "property_window.hpp"
 
-namespace HBE::GUI {
-    class ProjectManager;
+namespace HBE::Editor {
 
     /**
      * @class SceneWindow
@@ -25,10 +25,10 @@ namespace HBE::GUI {
      */
     class SceneWindow : public IWindow {
     private:
-        std::shared_ptr<ProjectManager> m_project_manager;
+        std::shared_ptr<Managers::ProjectManager> m_project_manager;
 
     public:
-        SceneWindow(std::shared_ptr<ProjectManager> project_manager)
+        SceneWindow(std::shared_ptr<Managers::ProjectManager> project_manager)
             : IWindow("Scenes"), m_project_manager(project_manager) {}
         ~SceneWindow() = default;
 
@@ -40,4 +40,4 @@ namespace HBE::GUI {
     private:
         void RenderSceneList(std::shared_ptr<Core::IScene> current_scene);
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor

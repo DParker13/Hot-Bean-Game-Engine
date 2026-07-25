@@ -29,8 +29,10 @@ add_library(HotBeanEngine_Editor STATIC
     editor_utils.hpp
     menu.cpp
     menu.hpp
-    project_manager.cpp
-    project_manager.hpp
+    managers/project_manager.cpp
+    managers/project_manager.hpp
+    managers/build_manager.cpp
+    managers/build_manager.hpp
     windows/config_window.cpp
     windows/config_window.hpp
     windows/console_window.cpp

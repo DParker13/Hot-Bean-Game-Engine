@@ -36,7 +36,7 @@ namespace HBE::Components {
      *   g_ecs.AddComponent<UIRect>(button_entity, button_rect);
      * @endcode
      */
-    class UIRect : public Core::IComponent, public Core::DirtyFlag, public GUI::IPropertyRenderable {
+    class UIRect : public Core::IComponent, public Core::DirtyFlag, public Editor::IPropertyRenderable {
     public:
         /**
          * @enum AnchorPreset

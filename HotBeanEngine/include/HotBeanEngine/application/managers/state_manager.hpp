@@ -33,15 +33,15 @@ namespace HBE::Application::Managers {
      * a clean interface for starting, pausing, stopping, and resuming the game.
      * It handles scene reloading when transitioning from Stopped to Playing state.
      */
-    class ApplicationStateManager {
+    class StateManager {
     private:
         ApplicationState m_state = ApplicationState::Stopped;
         ApplicationState m_queued_state = ApplicationState::Stopped;
         bool m_needs_scene_reload = false;
 
     public:
-        ApplicationStateManager() = default;
-        ~ApplicationStateManager() = default;
+        StateManager() = default;
+        ~StateManager() = default;
 
         /**
          * @brief Called when transitioning from one state to another.

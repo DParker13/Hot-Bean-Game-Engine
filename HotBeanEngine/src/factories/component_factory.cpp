@@ -89,6 +89,9 @@ namespace HBE::Factories {
             else if (component_name == "Name") {
                 AddComponent<Name>(entity, reader);
             }
+            // else if (component_name == "Script") {
+            //     AddComponent<Script>(entity, reader);
+            // }
         }
         else {
             throw std::runtime_error("Component " + component_name +

@@ -14,7 +14,7 @@
 
 #include <HotBeanEngine/core/all_core.hpp>
 
-namespace HBE::GUI::PropertyNodes {
+namespace HBE::Editor::PropertyNodes {
 
     struct Color {
         static bool RenderProperty(int &id, std::string_view label, SDL_Color &value, bool disabled = false) {
@@ -40,4 +40,4 @@ namespace HBE::GUI::PropertyNodes {
             return changed;
         }
     };
-} // namespace HBE::GUI::PropertyNodes
+} // namespace HBE::Editor::PropertyNodes

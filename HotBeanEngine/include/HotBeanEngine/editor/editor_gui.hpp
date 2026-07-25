@@ -18,10 +18,13 @@
 #include <HotBeanEngine/editor/ieditor_gui.hpp>
 #include <HotBeanEngine/editor/iwindow.hpp>
 
-namespace HBE::GUI {
+namespace HBE::Editor {
     class Menu;
     class ControlBar;
-    class ProjectManager;
+    namespace Managers {
+        class ProjectManager;
+        class BuildManager;
+    } // namespace Managers
 
     /**
      * @brief Manages ImGui-based editor interface
@@ -32,7 +35,8 @@ namespace HBE::GUI {
     class EditorGUI : public IEditorGUI {
     private:
         std::map<std::string, std::shared_ptr<IWindow>> m_windows;
-        std::shared_ptr<ProjectManager> m_project_manager;
+        std::shared_ptr<Managers::ProjectManager> m_project_manager;
+        std::shared_ptr<Managers::BuildManager> m_build_manager;
         std::shared_ptr<Menu> m_menu;
         std::shared_ptr<ControlBar> m_control_bar;
 
@@ -65,4 +69,4 @@ namespace HBE::GUI {
     private:
         void MoveCamera(float speed);
     };
-} // namespace HBE::GUI
+} // namespace HBE::Editor
