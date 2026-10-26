@@ -22,5 +22,6 @@ namespace HBE::Editor {
         Components::Camera &GetEditorCamera() { return m_camera; }
         Components::Transform2D &GetEditorCameraTransform() { return m_camera_transform; }
         virtual void InitEditorGUI() = 0;
+        virtual void OnApplicationReady() = 0;
     };
 } // namespace HBE::Editor

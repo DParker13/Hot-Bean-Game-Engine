@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <filesystem>
 #include <string>
@@ -36,5 +37,22 @@ namespace HBE::Core {
         virtual void Read(std::string_view key, std::filesystem::path &value) const = 0;
         virtual void Read(std::string_view key, std::vector<std::string> &value) const = 0;
         virtual void Read(std::string_view key, std::vector<std::filesystem::path> &value) const = 0;
+        virtual size_t Size() const = 0;
+
+        /// @brief Navigate into a named section. No-op for flat formats.
+        virtual void BeginSection(std::string_view key) {}
+
+        /// @brief Navigate back out of the current section. No-op for flat formats.
+        virtual void EndSection() {}
+
+        /// @brief Get the source file path currently being read, if available.
+        virtual std::filesystem::path GetSourcePath() const { return {}; }
+
+        template <typename EnumT>
+        void ReadEnum(std::string_view key, EnumT &value) const {
+            int raw = static_cast<int>(value);
+            Read(key, raw);
+            value = static_cast<EnumT>(raw);
+        }
     };
 } // namespace HBE::Core

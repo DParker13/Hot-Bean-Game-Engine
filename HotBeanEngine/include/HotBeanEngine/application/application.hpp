@@ -41,6 +41,11 @@ namespace HBE::Application {
     private:
         inline static Application *s_instance = nullptr; /// Singleton instance pointer
         SDL_Event event;                                 /// SDL event used for polling in the event loop
+#if GAME_RELEASE_BUILD
+        bool m_is_release_build = true; /// Flag indicating if the application is a release build
+#else
+        bool m_is_release_build = false; /// Flag indicating if the application is a release build
+#endif
 
     protected:
         std::shared_ptr<Managers::ECSManager> m_ecs_manager;             /// Manages entity-component-system
@@ -111,127 +116,132 @@ namespace HBE::Application {
          * @brief Access the SDL renderer owned by the application.
          * @return SDL_Renderer pointer (owned by Application).
          */
-        SDL_Renderer *GetRenderer();
+        SDL_Renderer *GetRenderer() { return m_renderer; }
 
         /**
          * @brief Access the SDL window owned by the application.
          * @return SDL_Window pointer (owned by Application).
          */
-        SDL_Window *GetWindow();
+        SDL_Window *GetWindow() { return m_window; }
 
         /**
          * @brief Get the float delta time between frames (capped at 0.25s).
          * @return Delta time in seconds as a float.
          */
-        float GetDeltaTime() const;
+        float GetDeltaTime() const { return m_delta_time; }
 
         /**
          * @brief Get the high-resolution delta time between frames (capped at 0.25s).
          * @return Delta time in seconds as a double.
          */
-        double GetDeltaTimeHiRes() const;
+        double GetDeltaTimeHiRes() const { return m_delta_time_hi_res; }
 
         /**
          * @brief Get elapsed time since start using SDL high-resolution timer.
          * @return Elapsed time in seconds.
          */
-        double GetHiResTime() const;
+        double GetHiResTime() const {
+            static Uint64 start = SDL_GetPerformanceCounter();
+            Uint64 now = SDL_GetPerformanceCounter();
+            Uint64 freq = SDL_GetPerformanceFrequency();
+            return static_cast<double>(now - start) / static_cast<double>(freq);
+        }
 
         /**
          * @brief Get the ECS manager facade.
          * @return Reference to the ECS manager.
          */
-        Managers::ECSManager &GetECSManager();
+        Managers::ECSManager &GetECSManager() { return *m_ecs_manager; }
 
         /**
          * @brief Access the scene manager.
          * @return Reference to the scene manager.
          */
-        Managers::SceneManager &GetSceneManager();
+        Managers::SceneManager &GetSceneManager() { return *m_scene_manager; }
 
         /**
          * @brief Access the application state manager.
          * @return Reference to the application state manager.
          */
-        Managers::StateManager &GetStateManager();
+        Managers::StateManager &GetStateManager() { return *m_loop_manager; }
 
         /**
          * @brief Access the render manager.
          * @return Reference to the render manager.
          */
-        Managers::RenderManager &GetRenderManager();
+        Managers::RenderManager &GetRenderManager() { return *m_render_manager; }
 
         /**
          * @brief Access the camera manager.
          * @return Reference to the camera manager.
          */
-        Managers::CameraManager &GetCameraManager() const;
+        Managers::CameraManager &GetCameraManager() const { return *m_camera_manager; }
 
         /**
          * @brief Access the transform manager.
          * @return Reference to the transform manager.
          */
-        Managers::TransformManager &GetTransformManager();
+        Managers::TransformManager &GetTransformManager() { return *m_transform_manager; }
 
         /**
          * @brief Access the audio manager.
          * @return Reference to the audio manager.
          */
-        Managers::AudioManager &GetAudioManager();
+        Managers::AudioManager &GetAudioManager() { return *m_audio_manager; }
 
         /**
          * @brief Access the event manager.
          * @return Reference to the event manager.
          */
-        Managers::EventManager &GetEventManager() const;
+        Managers::EventManager &GetEventManager() const { return *m_event_manager; }
 
         /**
          * @brief Access the serialization manager.
          * @return Reference to the serialization manager.
          */
-        Managers::SerializationManager &GetSerializationManager() const;
+        Managers::SerializationManager &GetSerializationManager() const { return *m_serialization_manager; }
 
         /**
          * @brief Access the logging manager.
          * @return Reference to the logging manager.
          */
-        Managers::LoggingManager &GetLoggingManager();
+        Managers::LoggingManager &GetLoggingManager() { return *m_logging_manager; }
 
         /**
          * @brief Access the component factory.
          * @return Shared pointer to the component factory.
          */
-        std::shared_ptr<Factories::IComponentFactory> GetComponentFactory() const;
+        std::shared_ptr<Factories::IComponentFactory> GetComponentFactory() const { return m_component_factory; }
 
         /**
          * @brief Access the system factory.
          * @return Shared pointer to the system factory.
          */
-        std::shared_ptr<Factories::ISystemFactory> GetSystemFactory() const;
+        std::shared_ptr<Factories::ISystemFactory> GetSystemFactory() const { return m_system_factory; }
 
         /**
          * @brief Access the scene factory.
          * @return Shared pointer to the scene factory.
          */
-        std::shared_ptr<Factories::ISceneFactory> GetSceneFactory() const;
+        std::shared_ptr<Factories::ISceneFactory> GetSceneFactory() const { return m_scene_factory; }
 
         /**
          * @brief Access the input event listener.
          * @return Reference to the input event listener.
          */
-        Listeners::InputEventListener &GetInputEventListener();
+        Listeners::InputEventListener &GetInputEventListener() { return *m_input_event_listener; }
 
         /**
          * @brief Access the input event listener (const version).
          * @return Const reference to the input event listener.
          */
-        const Listeners::InputEventListener &GetInputEventListener() const;
+        const Listeners::InputEventListener &GetInputEventListener() const { return *m_input_event_listener; }
 
         /**
          * @brief Access the editor GUI.
          * @return Reference to the editor GUI interface.
          */
-        Editor::IEditorGUI &GetEditorGUI();
+        Editor::IEditorGUI &GetEditorGUI() { return *m_editor_gui; }
 
         /**
          * @brief Log a message with file, line, and function information.
@@ -255,6 +265,23 @@ namespace HBE::Application {
          */
         void SetLogDirectory(std::filesystem::path log_directory);
 
+        /**
+         * @brief Access the engine config instance.
+         * @return Reference to the global Config instance.
+         */
+        Core::Config &GetConfig() { return g_config; }
+
+        /**
+         * @brief Load engine configuration from config.yaml into g_config.
+         * @return 0 on success, non-zero on failure.
+         */
+        int LoadConfig();
+
+        /**
+         * @brief Save the current g_config to config.yaml.
+         */
+        void SaveConfig();
+
         /// @brief Entry point for the main loop of the application.
         void Start();
 
@@ -262,7 +289,7 @@ namespace HBE::Application {
          * @brief Get the current application state (Stopped, Playing, Paused).
          * @return The current application state.
          */
-        Managers::StateManager &GetAppStateManager();
+        Managers::StateManager &GetAppStateManager() { return *m_loop_manager; }
 
     protected:
         /**

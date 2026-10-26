@@ -13,6 +13,7 @@
 #include <HotBeanEngine/editor/iwindow.hpp>
 #include <deque>
 #include <imgui.h>
+#include <mutex>
 
 namespace HBE::Editor {
     /**
@@ -34,6 +35,7 @@ namespace HBE::Editor {
         bool m_auto_scroll = true;
         // Minimum logging level to display
         HBE::Core::LoggingType m_logging_level_filter = HBE::Core::LoggingType::DEBUG;
+        std::mutex m_log_mutex;
 
     public:
         ConsoleWindow();

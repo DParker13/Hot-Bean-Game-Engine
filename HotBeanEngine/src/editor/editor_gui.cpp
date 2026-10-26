@@ -123,7 +123,7 @@ namespace HBE::Editor {
         m_windows.emplace(scene_window->m_name, scene_window);             // IScene window (not docked)
 
         // If no startup project path is specified, open the new project window by default
-        if (STARTUP_PROJECT_PATH.empty()) {
+        if (g_config.GetStartupProjectPath().empty()) {
             new_project_window->m_open = true;
         }
     }
@@ -151,6 +151,14 @@ namespace HBE::Editor {
         ApplyTheme();
     }
 
+    /// @brief Called when the application is ready, typically used to load the startup project if specified.
+    void EditorGUI::OnApplicationReady() {
+        if (std::filesystem::exists(g_config.GetStartupProjectPath()) &&
+            std::filesystem::is_regular_file(g_config.GetStartupProjectPath())) {
+            m_project_manager->LoadProject(g_config.GetStartupProjectPath());
+        }
+    }
+
     /// @brief Forwards log messages to relevant editor windows (e.g., console window)
     /// @param level The logging level of the message (e.g., info, warning, error)
     /// @param message The log message to be forwarded to the editor windows
@@ -175,6 +183,8 @@ namespace HBE::Editor {
     /// @param event The SDL event to handle
     void EditorGUI::OnEvent(SDL_Event &event) {
         ImGui_ImplSDL3_ProcessEvent(&event);
+
+        m_is_focused = ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow);
 
         // Handle editor events only when the application is paused or stopped to avoid interfering with gameplay
         if (g_app.GetAppStateManager().GetState() == Application::Managers::ApplicationState::Paused ||
@@ -276,6 +286,10 @@ namespace HBE::Editor {
     /// @brief Moves the editor camera based on keyboard input, mouse dragging, and mouse wheel zoom.
     /// @param speed The speed at which the camera moves in units per second.
     void EditorGUI::MoveCamera(float speed) {
+        if (!m_is_focused) {
+            return;
+        }
+
         Transform2D &editor_camera_transform = g_app.GetEditorGUI().GetEditorCameraTransform();
         Camera &editor_camera = g_app.GetEditorGUI().GetEditorCamera();
         auto keys_pressed = g_app.GetInputEventListener().GetKeysPressed();

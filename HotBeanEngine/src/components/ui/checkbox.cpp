@@ -19,15 +19,18 @@ namespace HBE::Components {
     using namespace Editor::PropertyNodes;
 
     void Checkbox::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Checkbox");
         in.Read("text", m_text);
         in.Read("foreground_color", m_foreground_color);
         in.Read("background_color", m_background_color);
         in.Read("size", m_size);
         in.Read("style", m_style);
         in.Read("wrapping_width", m_wrapping_width);
+        in.EndSection();
     }
 
     void Checkbox::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("Checkbox");
         if (!m_text.empty()) {
             out.Write("text", m_text);
         }
@@ -36,6 +39,7 @@ namespace HBE::Components {
         out.Write("size", (int)m_size);
         out.Write("style", (int)m_style);
         out.Write("wrapping_width", (int)m_wrapping_width);
+        out.EndSection();
     }
 
     /**

@@ -1,28 +1,29 @@
 Scene:
-    name: "Example Scene"
-    class: "ExampleScene"
+    Name: "Example Scene"
+
 Entities:
     - Entity:
         Transform2D:
             layer: 1
         Camera:
             zoom: 1
-            viewport_size: [0.5, 1]
+            viewport_size: [0.5, 1.0]
         Controller:
         Name:
             name: "Camera 1"
+
     - Entity:
         Transform2D:
             layer: 1
         Camera:
             zoom: 1
-            viewport_position: [0.5, 0]
-            viewport_size: [0.5, 1]
+            viewport_position: [0.5, 0.0]
+            viewport_size: [0.5, 1.0]
         Controller:
         Name:
             name: "Camera 2"
+            
     - Entity:
         Transform2D:
             local_position: [500, 500]
             layer: 0
-        Shape:

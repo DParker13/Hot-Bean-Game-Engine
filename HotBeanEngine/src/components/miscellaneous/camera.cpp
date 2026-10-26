@@ -18,14 +18,27 @@ namespace HBE::Components {
     using namespace Editor::PropertyNodes;
 
     void Camera::Serialize(Core::ISerializationWriter &out) const {
-        out.Write("active", m_active);
-        out.Write("zoom", m_zoom);
-        out.Write("layer_mask", m_layer_mask.to_string());
-        out.Write("viewport_position", m_viewport_position);
-        out.Write("viewport_size", m_viewport_size);
+        out.BeginSection("Camera");
+        if (!m_active) {
+            out.Write("active", m_active);
+        }
+        if (m_zoom != 1.0f) {
+            out.Write("zoom", m_zoom);
+        }
+        if (m_layer_mask.any()) {
+            out.Write("layer_mask", m_layer_mask.to_string());
+        }
+        if (m_viewport_position != glm::vec2{0.0f, 0.0f}) {
+            out.Write("viewport_position", m_viewport_position);
+        }
+        if (m_viewport_size != glm::vec2{1.0f, 1.0f}) {
+            out.Write("viewport_size", m_viewport_size);
+        }
+        out.EndSection();
     }
 
     void Camera::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Camera");
         in.Read("active", m_active);
         in.Read("zoom", m_zoom);
 
@@ -37,6 +50,7 @@ namespace HBE::Components {
 
         in.Read("viewport_position", m_viewport_position);
         in.Read("viewport_size", m_viewport_size);
+        in.EndSection();
     }
 
     void Camera::RenderProperties(int &id) {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 #include <HotBeanEngine/components/miscellaneous/camera.hpp>
 #include <HotBeanEngine/components/miscellaneous/transform_2d.hpp>
 #include <HotBeanEngine/components/rendering/texture.hpp>

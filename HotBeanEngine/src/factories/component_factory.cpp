@@ -15,6 +15,9 @@ namespace HBE::Factories {
     using namespace Core;
     using namespace Components;
 
+    /**
+     * @brief Registers all default components with the ECS manager (Audio, Camera, Collider2D, etc.)
+     */
     void ComponentFactory::RegisterComponents() {
         m_ecs_manager->RegisterComponentID<AudioSource>();
         m_ecs_manager->RegisterComponentID<Camera>();

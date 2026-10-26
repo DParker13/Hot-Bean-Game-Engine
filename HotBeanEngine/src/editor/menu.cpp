@@ -36,7 +36,7 @@ namespace HBE::Editor {
                     // g_app.NewScene();
                 }
                 if (ImGui::MenuItem("Save Scene")) {
-                    // g_app.SaveScene();
+                    g_app.GetSceneManager().SerializeScene();
                 }
                 if (ImGui::MenuItem("Load Scene")) {
                     // g_app.LoadScene();
@@ -54,9 +54,6 @@ namespace HBE::Editor {
             if (ImGui::BeginMenu("Build")) {
                 if (ImGui::MenuItem("Build Project")) {
                     m_build_manager->BuildProject();
-                }
-                if (ImGui::MenuItem("Generate Scene Binary")) {
-                    m_build_manager->GenerateSceneBinary();
                 }
                 ImGui::EndMenu();
             }

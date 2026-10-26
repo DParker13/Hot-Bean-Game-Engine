@@ -9,6 +9,9 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <algorithm>
+#include <iostream>
+
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
 namespace HBE::Application::Managers {
@@ -32,6 +35,8 @@ namespace HBE::Application::Managers {
 
     void LoggingManager::Log(const LoggingType type, std::string_view message, const char *file, int line,
                              const char *function) {
+        std::lock_guard<std::mutex> lock(m_log_mutex);
+
         if (m_testing || message.empty() || type < m_log_level) {
             return;
         }
@@ -50,20 +55,20 @@ namespace HBE::Application::Managers {
 
         switch (type) {
         case LoggingType::DEBUG:
-            level_tag = "[DEBUG] ";
+            level_tag = "[DEBUG]\t";
             break;
         case LoggingType::INFO:
-            level_tag = "[INFO] ";
+            level_tag = "[INFO]\t";
             break;
         case LoggingType::WARNING:
-            level_tag = "[WARNING] ";
+            level_tag = "[WARNING]\t";
             break;
         case LoggingType::ERROR:
-            level_tag = "[ERROR] ";
+            level_tag = "[ERROR]\t";
             out_stream = &std::cerr;
             break;
         case LoggingType::FATAL:
-            level_tag = "[FATAL] ";
+            level_tag = "[FATAL]\t";
             out_stream = &std::cerr;
             break;
         }
@@ -118,21 +123,11 @@ namespace HBE::Application::Managers {
         }
     }
 
-    void LoggingManager::SetLogDirectory(std::filesystem::path log_directory) {
-        m_log_directory = log_directory;
-
-        LOG_DIRECTORY = m_log_directory;
-        SaveConfig();
-    }
+    void LoggingManager::SetLogDirectory(std::filesystem::path log_directory) { m_log_directory = log_directory; }
 
     LoggingType LoggingManager::GetLoggingLevel() { return m_log_level; }
 
-    void LoggingManager::SetLoggingLevel(LoggingType level) {
-        m_log_level = level;
-
-        LOGGING_LEVEL = m_log_level;
-        SaveConfig();
-    }
+    void LoggingManager::SetLoggingLevel(LoggingType level) { m_log_level = level; }
 
     void LoggingManager::SetupDefaultLoggingPath() {
         if (m_log_directory.empty()) {
@@ -150,12 +145,16 @@ namespace HBE::Application::Managers {
     }
 
     void LoggingManager::RegisterLogListener(ILogListener *listener) {
+        std::lock_guard<std::mutex> lock(m_log_mutex);
+
         if (listener && std::find(m_log_listeners.begin(), m_log_listeners.end(), listener) == m_log_listeners.end()) {
             m_log_listeners.push_back(listener);
         }
     }
 
     void LoggingManager::UnregisterLogListener(ILogListener *listener) {
+        std::lock_guard<std::mutex> lock(m_log_mutex);
+
         m_log_listeners.erase(std::remove(m_log_listeners.begin(), m_log_listeners.end(), listener),
                               m_log_listeners.end());
     }

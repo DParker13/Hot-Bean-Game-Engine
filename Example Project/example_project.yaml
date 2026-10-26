@@ -1,7 +1,6 @@
 Project:
   name: "Example Project"
   version: 0.1
-  file: example_project.yaml
   directory: /home/daniel/Documents/GitHub/Hot-Bean-Game-Engine/Example Project
 Scenes:
-  - path: /home/daniel/Documents/GitHub/Hot-Bean-Game-Engine/Example Project/assets/scenes/example_scene/example_scene.yaml
+    - /home/daniel/Documents/GitHub/Hot-Bean-Game-Engine/Example Project/assets/scenes/example_scene/example_scene.yaml

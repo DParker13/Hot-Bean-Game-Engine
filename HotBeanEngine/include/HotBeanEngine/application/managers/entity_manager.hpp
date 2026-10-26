@@ -10,6 +10,7 @@
 #pragma once
 
 #include <queue>
+#include <unordered_map>
 
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 

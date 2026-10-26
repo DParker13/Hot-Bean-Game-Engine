@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <map>
+
 #include <HotBeanEngine/core/all_core.hpp>
 
 namespace HBE::Utilities {

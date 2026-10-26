@@ -20,16 +20,16 @@ namespace HBE::Editor::Managers {
     public:
         Core::Project m_project;
 
-        ProjectManager();
+        ProjectManager() = default;
         ~ProjectManager() = default;
 
         void CreateNewProject(const Core::Project &project);
         void OpenProject();
-        int SaveProject();
+        void LoadProject(const std::filesystem::path &path);
+        void SaveProject();
         std::vector<std::filesystem::path> GetProjectFiles() const { return m_project_files; }
 
     private:
-        void LoadProject(const std::filesystem::path &path);
         void LoadProject();
         void SetupProjectDirectories();
     };

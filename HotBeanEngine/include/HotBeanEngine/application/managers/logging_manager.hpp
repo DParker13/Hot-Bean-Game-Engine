@@ -13,6 +13,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
+#include <mutex>
 #include <sstream>
 
 #include <HotBeanEngine/application/listeners/ilog_listener.hpp>
@@ -40,6 +41,7 @@ namespace HBE::Application::Managers {
         LoggingType m_log_level = LoggingType::ERROR;
         bool m_log_to_console = false;
         std::vector<ILogListener *> m_log_listeners;
+        std::mutex m_log_mutex;
 
         // Used for unit testing to avoid logging messages
         bool m_testing;

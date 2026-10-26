@@ -29,7 +29,7 @@ namespace HBE::Application::Managers {
 
         m_registered_components--;
 
-        LOG_CORE(LoggingType::DEBUG, "\t" + std::to_string(m_registered_components) + " Registered Components");
+        LOG_CORE(LoggingType::DEBUG, "" + std::to_string(m_registered_components) + " Registered Components");
     }
 
     /**

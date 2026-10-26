@@ -74,11 +74,15 @@ FetchContent_Declare(
     GIT_TAG docking
 )
 
-# Testing settings
-set(GAME_BUILD_TESTING ${GAME_BUILD_TESTING} CACHE BOOL "${PROJECT_NAME}: Build tests" FORCE)
-set(HBE_ENABLE_EDITOR_GUI ON CACHE BOOL "${PROJECT_NAME}: Enable editor GUI" FORCE)
+# Game release build setting (removes editor and modifies the build to be suitable for a release version of the game)
+option(GAME_RELEASE_BUILD "${PROJECT_NAME}: Enable game release build" OFF)
+set(BUILD_DIRECTORY "${CMAKE_BINARY_DIR}" CACHE PATH "Build directory" FORCE)
+set(SCENE_SOURCE_FILES "${CMAKE_SOURCE_DIR}/HotBeanEngine/scenes" CACHE PATH "Scene source files" FORCE)
+set(SCENE_INCLUDE_FILES "${CMAKE_SOURCE_DIR}/HotBeanEngine/scenes" CACHE PATH "Scene include files" FORCE)
+set(EXECUTABLE_NAME "${PROJECT_NAME}" CACHE STRING "Name of the executable")
 
-message(STATUS "${PROJECT_NAME}: Editor GUI is ${HBE_ENABLE_EDITOR_GUI}")
+message(STATUS "${PROJECT_NAME}: GAME_RELEASE_BUILD is ${GAME_RELEASE_BUILD}")
+message(STATUS "${PROJECT_NAME}: EXECUTABLE_NAME is ${EXECUTABLE_NAME}")
 
 # Dependency settings
 set(SDL_SHARED OFF CACHE BOOL "Build SDL as a shared library" FORCE)
@@ -123,7 +127,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_link_options(HotBeanEngine PUBLIC -static-libstdc++ -static-libgcc)
 endif()
 
-if(GAME_BUILD_TESTING)
+if(NOT GAME_RELEASE_BUILD)
     message(STATUS "${PROJECT_NAME}: Building tests")
     FetchContent_Declare(
         catch2

@@ -76,26 +76,22 @@ namespace HBE::Editor {
     }
 
     void ConfigWindow::LoadConfigFromEnv() {
-        LoadConfig();
+        g_app.LoadConfig();
 
         // Project
-        m_startup_project = STARTUP_PROJECT_PATH;
+        m_startup_project = g_config.GetStartupProjectPath();
 
         // Logging
-        m_log_level = LOGGING_LEVEL;
-        m_logging_directory = LOG_DIRECTORY;
-        m_log_to_console = LOG_TO_CONSOLE;
+        m_log_level = g_config.GetLoggingLevel();
+        m_logging_directory = g_config.GetLogDirectory();
+        m_log_to_console = g_config.GetLogToConsole();
     }
 
     void ConfigWindow::SaveConfigToFile() {
-        // Project
-        STARTUP_PROJECT_PATH = m_startup_project;
-
-        // Logging
         g_app.SetLogDirectory(m_logging_directory);
         g_app.SetLoggingLevel(m_log_level);
-        LOG_TO_CONSOLE = m_log_to_console;
-
-        SaveConfig();
+        g_config.SetLogToConsole(m_log_to_console);
+        g_config.SetStartupProjectPath(m_startup_project);
+        g_app.SaveConfig();
     }
 } // namespace HBE::Editor

@@ -1,8 +1,10 @@
 add_library(HotBeanEngine_Serializers STATIC
-    yaml/yaml_scene_serializer.cpp
+    yaml/yaml_entity_serializer.cpp
+    yaml/yaml_serializer.cpp
     yaml/yaml_serialization_reader.cpp
     yaml/yaml_serialization_writer.cpp
-    binary/binary_scene_serializer.cpp
+    binary/binary_serializer.cpp
+    binary/binary_entity_serializer.cpp
     binary/binary_serialization_reader.cpp
     binary/binary_serialization_writer.cpp
 )

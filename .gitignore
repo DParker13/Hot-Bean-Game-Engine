@@ -3,6 +3,7 @@
 .VSCodeCounter
 bin
 build
+build-release
 Testing
 HotBeanEngine/docs/index.html.lnk
 HotBeanEngine/docs/index.html

@@ -22,9 +22,17 @@ namespace HBE::Components {
         }
     }
 
-    void Texture::Serialize(Core::ISerializationWriter &out) const { out.Write("size", m_size); }
+    void Texture::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("Texture");
+        out.Write("size", m_size);
+        out.EndSection();
+    }
 
-    void Texture::Deserialize(Core::ISerializationReader &in) { in.Read("size", m_size); }
+    void Texture::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Texture");
+        in.Read("size", m_size);
+        in.EndSection();
+    }
 
     void Texture::RenderProperties(int &id) {
         if (Vec2::RenderProperty(id, "Size", m_size, {0.0f, 0.0f})) {

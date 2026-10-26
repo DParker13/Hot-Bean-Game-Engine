@@ -19,13 +19,17 @@ namespace HBE::Components {
     using namespace Editor::PropertyNodes;
 
     void RigidBody::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("RigidBody");
         out.Write("mass", m_mass);
         out.Write("type", (int)m_type);
+        out.EndSection();
     }
 
     void RigidBody::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("RigidBody");
         in.Read("mass", m_mass);
         in.Read("type", (int &)m_type);
+        in.EndSection();
     }
 
     void RigidBody::RenderProperties(int &id) {

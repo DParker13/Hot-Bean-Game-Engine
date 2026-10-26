@@ -17,11 +17,24 @@ namespace HBE::Editor {
     using namespace Core;
 
     ConsoleWindow::ConsoleWindow() : IWindow("Console") {
-        m_logging_level_filter = LOGGING_LEVEL; // Set the initial logging level filter to the global logging level
+        m_logging_level_filter =
+            g_config.GetLoggingLevel(); // Set the initial logging level filter to the global logging level
     }
 
     void ConsoleWindow::RenderWindow() {
         if (ImGui::Begin(m_name.c_str(), &m_open)) {
+            std::deque<std::pair<LoggingType, std::string>> log_buffer_snapshot;
+            bool should_scroll_to_bottom = false;
+
+            {
+                std::lock_guard<std::mutex> lock(m_log_mutex);
+                log_buffer_snapshot = m_log_buffer;
+                should_scroll_to_bottom = m_should_scroll_to_bottom;
+                if (m_should_scroll_to_bottom) {
+                    m_should_scroll_to_bottom = false;
+                }
+            }
+
             // Auto-scroll toggle button
             if (ImGui::Button(m_auto_scroll ? "Auto-Scroll: ON" : "Auto-Scroll: OFF")) {
                 m_auto_scroll = !m_auto_scroll;
@@ -32,6 +45,7 @@ namespace HBE::Editor {
             ImGui::SameLine();
 
             if (ImGui::Button("Clear Console")) {
+                std::lock_guard<std::mutex> lock(m_log_mutex);
                 m_log_buffer.clear();
             }
 
@@ -41,7 +55,7 @@ namespace HBE::Editor {
 
             if (ImGui::Button("Copy to Clipboard")) {
                 std::string allLogs;
-                for (const auto &[level, logEntry] : m_log_buffer) {
+                for (const auto &[level, logEntry] : log_buffer_snapshot) {
                     allLogs += logEntry + "\n";
                 }
                 ImGui::SetClipboardText(allLogs.c_str());
@@ -63,9 +77,9 @@ namespace HBE::Editor {
 
             ImGui::Separator();
 
-            if (!m_log_buffer.empty()) {
+            if (!log_buffer_snapshot.empty()) {
                 if (ImGui::BeginChild("LogScrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar)) {
-                    for (const auto &[level, logEntry] : m_log_buffer) {
+                    for (const auto &[level, logEntry] : log_buffer_snapshot) {
                         // Only display logs that meet the minimum level threshold
                         if (level >= m_logging_level_filter) {
                             ImGui::TextWrapped("%s", logEntry.c_str());
@@ -73,9 +87,8 @@ namespace HBE::Editor {
                     }
 
                     // Scroll to bottom if new log was added and auto-scroll is enabled
-                    if (m_should_scroll_to_bottom && m_auto_scroll) {
+                    if (should_scroll_to_bottom && m_auto_scroll) {
                         ImGui::SetScrollHereY(1.0f);
-                        m_should_scroll_to_bottom = false;
                     }
                 }
                 ImGui::EndChild();
@@ -85,6 +98,8 @@ namespace HBE::Editor {
     }
 
     void ConsoleWindow::OnLog(LoggingType level, std::string_view message) {
+        std::lock_guard<std::mutex> lock(m_log_mutex);
+
         m_log_buffer.push_back({level, std::string(message)});
         m_should_scroll_to_bottom = true;
 

@@ -1,3 +1,0 @@
-2026-07-19 21:16:28: [DEBUG]  Initializing EntityManager
-2026-07-19 21:16:28: [INFO]  Initialized 50000 Entities (starting at 0)
-2026-07-19 21:16:28: [ERROR]  [component_manager.hpp:276 GetComponentID()] Component not registered: Texture

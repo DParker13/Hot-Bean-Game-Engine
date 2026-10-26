@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <unordered_map>
+
 #include <HotBeanEngine/core/octree_2d_node.hpp>
 
 namespace HBE::Core {

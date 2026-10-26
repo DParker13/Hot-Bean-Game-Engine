@@ -10,13 +10,11 @@
 #pragma once
 
 #include <filesystem>
-#include <fstream>
-#include <iostream>
 #include <string>
-#include <yaml-cpp/yaml.h>
 
 #include <HotBeanEngine/core/component.hpp>
 #include <HotBeanEngine/core/entity.hpp>
+#include <HotBeanEngine/core/iserializable.hpp>
 #include <HotBeanEngine/core/logging_type.hpp>
 
 namespace HBE::Core {
@@ -31,91 +29,56 @@ namespace HBE::Core {
 
     // Logging
     inline const std::string LOG_FILE_NAME = "HotBeanEngine.log"; // Log file name
-    inline std::filesystem::path LOG_DIRECTORY = "./logs";        // Directory where log files will be stored
-    inline LoggingType LOGGING_LEVEL = LoggingType::DEBUG; // Minimum logging level (DEBUG, INFO, WARNING, ERROR, FATAL)
-    inline bool LOG_TO_CONSOLE = true;                     // Whether to also log messages to the console (true/false)
 
-    // Project
-    // Startup project path (can be set in config.yaml)
-    // This stores the last project that was opened or created, and will be loaded on startup.
-    inline std::filesystem::path STARTUP_PROJECT_PATH = "";
+    class Config : public ISerializable {
+    private:
+        std::filesystem::path m_log_directory = "./logs";
+        LoggingType m_logging_level = LoggingType::DEBUG;
+        bool m_log_to_console = true;
+        std::filesystem::path m_startup_project_path = "";
 
-    /**
-     * @brief Saves the current configuration to a YAML file. This includes logging settings and the startup project
-     * path.
-     * @return Returns 0 on success, -1 on failure.
-     */
-    inline int SaveConfig() {
-        YAML::Emitter out;
-        out.SetIndent(2);
+    public:
+        Config() = default;
 
-        out << YAML::BeginMap;
+        std::filesystem::path GetLogDirectory() const { return m_log_directory; }
+        LoggingType GetLoggingLevel() const { return m_logging_level; }
+        bool GetLogToConsole() const { return m_log_to_console; }
+        std::filesystem::path GetStartupProjectPath() const { return m_startup_project_path; }
 
-        // Project
-        out << YAML::Key << "Project" << YAML::Value;
-        out << YAML::BeginMap;
-        out << YAML::Key << "startup_path" << YAML::Value << YAML::DoubleQuoted << STARTUP_PROJECT_PATH.string()
-            << YAML::Auto << YAML::Comment("Path to the project that should be loaded on startup");
-        out << YAML::EndMap;
+        void SetLogDirectory(std::filesystem::path dir) { m_log_directory = std::move(dir); }
+        void SetLoggingLevel(LoggingType level) { m_logging_level = level; }
+        void SetLogToConsole(bool log_to_console) { m_log_to_console = log_to_console; }
+        void SetStartupProjectPath(std::filesystem::path path) { m_startup_project_path = std::move(path); }
 
-        // Logging
-        out << YAML::Key << "Logging" << YAML::Value;
-        out << YAML::BeginMap;
-        out << YAML::Key << "directory" << YAML::Value << YAML::DoubleQuoted << LOG_DIRECTORY.string() << YAML::Auto
-            << YAML::Comment("Directory where log files will be stored");
-        out << YAML::Key << "level" << YAML::Value << static_cast<int>(LOGGING_LEVEL)
-            << YAML::Comment("DEBUG = 0, INFO, WARNING, ERROR, FATAL = 4");
-        out << YAML::Key << "console" << YAML::Value << YAML::TrueFalseBool << LOG_TO_CONSOLE << YAML::Auto;
-        out << YAML::EndMap;
+        void Serialize(ISerializationWriter &out) const override {
+            out.BeginSection("Project");
+            out.Write("startup_path", m_startup_project_path);
+            out.WriteComment("Path to the project that should be loaded on startup");
+            out.EndSection();
 
-        out << YAML::EndMap;
-
-        // Ensure directory exists
-        if (!CONFIG_DIRECTORY.empty()) {
-            std::filesystem::create_directories(CONFIG_DIRECTORY);
+            out.BeginSection("Logging");
+            out.Write("directory", m_log_directory);
+            out.WriteComment("Directory where log files will be stored");
+            out.WriteEnum("level", m_logging_level);
+            out.WriteComment("DEBUG = 0, INFO, WARNING, ERROR, FATAL = 4");
+            out.Write("console", m_log_to_console);
+            out.WriteComment("Whether to also log messages to the console (true/false)");
+            out.EndSection();
         }
 
-        std::ofstream fout(CONFIG_DIRECTORY / CONFIG_NAME);
-        if (fout.is_open()) {
-            fout << out.c_str();
-            fout.close();
-            return 0;
+        void Deserialize(ISerializationReader &in) override {
+            in.BeginSection("Project");
+            in.Read("startup_path", m_startup_project_path);
+            in.EndSection();
+
+            in.BeginSection("Logging");
+            in.Read("directory", m_log_directory);
+            in.ReadEnum("level", m_logging_level);
+            in.Read("console", m_log_to_console);
+            in.EndSection();
         }
-        else {
-            std::cerr << "Failed to open config file for writing: " << (CONFIG_DIRECTORY / CONFIG_NAME).string()
-                      << "\n";
-            return -1;
-        }
-    }
+    };
 
-    /**
-     * @brief Loads the configuration from a YAML file. If the file does not exist or is invalid, it will create a new
-     * config file with default values.
-     * @return Returns 0 on success, -1 on failure.
-     */
-    inline int LoadConfig() {
-        try {
-            YAML::Node config = YAML::LoadFile((CONFIG_DIRECTORY / CONFIG_NAME).string());
-
-            // Logging
-            if (config["Logging"]["level"]) {
-                LOGGING_LEVEL = static_cast<LoggingType>(config["Logging"]["level"].as<int>());
-            }
-            if (config["Logging"]["directory"]) {
-                LOG_DIRECTORY = config["Logging"]["directory"].as<std::string>();
-            }
-            if (config["Logging"]["console"]) {
-                LOG_TO_CONSOLE = config["Logging"]["console"].as<bool>();
-            }
-
-            // Project
-            if (config["Project"]["startup_path"]) {
-                STARTUP_PROJECT_PATH = config["Project"]["startup_path"].as<std::string>();
-            }
-
-            return 0;
-        } catch (YAML::Exception &) {
-            return SaveConfig();
-        }
-    }
+    /// @brief Global config instance. Access via g_config macro.
+    inline Config g_config{};
 } // namespace HBE::Core

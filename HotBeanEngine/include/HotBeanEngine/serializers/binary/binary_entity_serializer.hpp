@@ -6,7 +6,11 @@
  * Binary format (little-endian):
  *   [4]     magic "HBSC"
  *   [4]     version uint32
- *   [4+N]   scene name string
+ *   [4]     scene field count
+ *   Per scene field:
+ *     [4+N]   key
+ *     [1]     type tag (FieldType)
+ *     [N]     value (varies by type)
  *   [4]     root entity count
  *   Per entity (recursive):
  *     [4]     component count
@@ -34,23 +38,19 @@
 
 #include <HotBeanEngine/core/entity.hpp>
 #include <HotBeanEngine/core/iserializer.hpp>
-#include <HotBeanEngine/factories/icomponent_factory.hpp>
 
 namespace HBE::Serializers {
 
-    class BinarySceneSerializer : public Core::ISerializer {
+    class BinaryEntitySerializer : public Core::ISerializer {
     private:
-        std::shared_ptr<Factories::IComponentFactory> m_component_factory;
         std::unordered_map<Core::EntityID, std::vector<Core::EntityID>> m_parent_entity_map;
+        std::filesystem::path m_deserialize_source_path;
 
     public:
-        DEFINE_NAME("BinarySceneSerializer");
+        BinaryEntitySerializer() = default;
 
-        explicit BinarySceneSerializer(std::shared_ptr<Factories::IComponentFactory> component_factory)
-            : m_component_factory(component_factory) {}
-
-        void Serialize(std::filesystem::path filepath) override;
-        void Deserialize(std::filesystem::path filepath) override;
+        void Serialize(std::filesystem::path filepath, Core::ISerializable &object, bool append = false) override;
+        void Deserialize(std::filesystem::path filepath, Core::ISerializable &object) override;
 
     private:
         void MapParentEntities();

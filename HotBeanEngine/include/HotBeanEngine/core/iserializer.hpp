@@ -13,14 +13,14 @@
 #include <filesystem>
 
 #include <HotBeanEngine/core/iname.hpp>
+#include <HotBeanEngine/core/iserializable.hpp>
 
 namespace HBE::Core {
-    struct ISerializer : public IName {
+    struct ISerializer {
         virtual ~ISerializer() = default;
 
-        virtual std::string_view GetName() const override = 0;
-        virtual void Serialize(std::filesystem::path filepath) = 0;
-        virtual void Deserialize(std::filesystem::path filepath) = 0;
+        virtual void Serialize(std::filesystem::path filepath, Core::ISerializable &object, bool append = false) = 0;
+        virtual void Deserialize(std::filesystem::path filepath, Core::ISerializable &object) = 0;
         virtual bool FileExists(std::filesystem::path filepath) { return std::filesystem::exists(filepath); }
     };
 } // namespace HBE::Core

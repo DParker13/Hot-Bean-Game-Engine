@@ -11,9 +11,19 @@
 #include <HotBeanEngine/components/input/controller.hpp>
 
 namespace HBE::Components {
-    void Controller::Serialize(Core::ISerializationWriter &out) const { out.Write("controllable", controllable); }
+    void Controller::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("Controller");
+        if (controllable) {
+            out.Write("controllable", controllable);
+        }
+        out.EndSection();
+    }
 
-    void Controller::Deserialize(Core::ISerializationReader &in) { in.Read("controllable", controllable); }
+    void Controller::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Controller");
+        in.Read("controllable", controllable);
+        in.EndSection();
+    }
 
     void Controller::RenderProperties(int &id) {
         Editor::PropertyNodes::Bool::RenderProperty(id, "Controllable", controllable);

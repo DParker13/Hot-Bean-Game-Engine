@@ -36,7 +36,7 @@ namespace HBE::Application::Managers {
             erased_entities += static_cast<int>(system->m_entities.erase(entity));
         }
 
-        LOG_CORE(LoggingType::DEBUG, "\tErased EntityID \"" + std::to_string(entity) + "\" from " +
+        LOG_CORE(LoggingType::DEBUG, "Erased EntityID \"" + std::to_string(entity) + "\" from " +
                                          std::to_string(erased_entities) + " Systems");
     }
 
@@ -74,12 +74,12 @@ namespace HBE::Application::Managers {
         }
 
         if (entity_added_to_systems > 0) {
-            LOG_CORE(LoggingType::DEBUG, "\tAdded EntityID \"" + std::to_string(entity) + "\" to " +
+            LOG_CORE(LoggingType::DEBUG, "Added EntityID \"" + std::to_string(entity) + "\" to " +
                                              std::to_string(entity_added_to_systems) + " Systems");
         }
 
         if (entity_removed_from_systems > 0) {
-            LOG_CORE(LoggingType::DEBUG, "\tRemoved EntityID \"" + std::to_string(entity) + "\" from " +
+            LOG_CORE(LoggingType::DEBUG, "Removed EntityID \"" + std::to_string(entity) + "\" from " +
                                              std::to_string(entity_removed_from_systems) + " Systems");
         }
     }

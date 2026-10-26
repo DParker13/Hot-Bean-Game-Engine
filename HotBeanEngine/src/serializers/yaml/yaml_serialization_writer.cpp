@@ -8,56 +8,62 @@
  * @copyright Copyright (c) 2026
  */
 
+#include <fstream>
+
 #include <HotBeanEngine/serializers/yaml/yaml_extensions.hpp>
 #include <HotBeanEngine/serializers/yaml/yaml_serialization_writer.hpp>
 
 namespace HBE::Serializers {
-    void YamlComponentWriter::Write(std::string_view key, bool value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value;
+    void YamlWriter::WriteToFile(const std::filesystem::path &filepath,
+                                 Core::ISerializationWriter::FileWriteMode mode) const {
+        const bool append = mode == Core::ISerializationWriter::FileWriteMode::Append;
+        const bool has_existing_content =
+            append && std::filesystem::exists(filepath) && std::filesystem::file_size(filepath) > 0;
+        std::ios::openmode open_mode = std::ios::out;
+        open_mode |= append ? std::ios::app : std::ios::trunc;
+
+        std::ofstream file{filepath, open_mode};
+        if (!file) {
+            return;
+        }
+        if (has_existing_content) {
+            file << '\n';
+        }
+        file << m_out.c_str();
     }
 
-    void YamlComponentWriter::Write(std::string_view key, int value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value;
+    void YamlWriter::Write(const std::string &key, bool value) { m_out << YAML::Key << key << YAML::Value << value; }
+
+    void YamlWriter::Write(const std::string &key, int value) { m_out << YAML::Key << key << YAML::Value << value; }
+
+    void YamlWriter::Write(const std::string &key, float value) { m_out << YAML::Key << key << YAML::Value << value; }
+
+    void YamlWriter::Write(const std::string &key, const std::string &value) {
+        m_out << YAML::Key << key << YAML::Value << YAML::DoubleQuoted << value;
     }
 
-    void YamlComponentWriter::Write(std::string_view key, float value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value;
+    void YamlWriter::Write(const std::string &key, uint8_t value) { m_out << YAML::Key << key << YAML::Value << value; }
+
+    void YamlWriter::Write(const std::string &key, uint32_t value) {
+        m_out << YAML::Key << key << YAML::Value << value;
     }
 
-    void YamlComponentWriter::Write(std::string_view key, std::string_view value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value.data();
+    void YamlWriter::Write(const std::string &key, int64_t value) { m_out << YAML::Key << key << YAML::Value << value; }
+
+    void YamlWriter::Write(const std::string &key, glm::vec2 value) {
+        m_out << YAML::Key << key << YAML::Value << value;
     }
 
-    void YamlComponentWriter::Write(std::string_view key, std::string value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value.data();
+    void YamlWriter::Write(const std::string &key, const SDL_Color &value) {
+        m_out << YAML::Key << key << YAML::Value << value;
     }
 
-    void YamlComponentWriter::Write(std::string_view key, uint8_t value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value;
+    void YamlWriter::Write(const std::string &key, const std::filesystem::path &value) {
+        m_out << YAML::Key << key << YAML::Value << YAML::DoubleQuoted << value.string();
     }
 
-    void YamlComponentWriter::Write(std::string_view key, uint32_t value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value;
-    }
-
-    void YamlComponentWriter::Write(std::string_view key, int64_t value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value;
-    }
-
-    void YamlComponentWriter::Write(std::string_view key, glm::vec2 value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value;
-    }
-
-    void YamlComponentWriter::Write(std::string_view key, const SDL_Color &value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value;
-    }
-
-    void YamlComponentWriter::Write(std::string_view key, const std::filesystem::path &value) {
-        m_out << YAML::Key << key.data() << YAML::Value << value.string();
-    }
-
-    void YamlComponentWriter::Write(std::string_view key, const std::vector<std::string> &value) {
-        m_out << YAML::Key << key.data() << YAML::Value;
+    void YamlWriter::Write(const std::string &key, const std::vector<std::string> &value) {
+        m_out << YAML::Key << key << YAML::Value;
         m_out << YAML::BeginSeq << YAML::DoubleQuoted;
         for (const auto &item : value) {
             m_out << item;
@@ -65,12 +71,24 @@ namespace HBE::Serializers {
         m_out << YAML::EndSeq;
     }
 
-    void YamlComponentWriter::Write(std::string_view key, const std::vector<std::filesystem::path> &value) {
-        m_out << YAML::Key << key.data() << YAML::Value;
+    void YamlWriter::Write(const std::string &key, const std::vector<std::filesystem::path> &value) {
+        m_out << YAML::Key << key << YAML::Value;
         m_out << YAML::BeginSeq << YAML::DoubleQuoted;
         for (const auto &item : value) {
             m_out << item.string();
         }
         m_out << YAML::EndSeq;
     }
+
+    void YamlWriter::BeginSection(const std::string &key) {
+        m_out << YAML::Key << key << YAML::Value << YAML::BeginMap;
+    }
+
+    void YamlWriter::WriteEmptySection(const std::string &key) {
+        m_out << YAML::Key << key << YAML::Value << YAML::Null;
+    }
+
+    void YamlWriter::EndSection() { m_out << YAML::EndMap; }
+
+    void YamlWriter::WriteComment(const std::string &text) { m_out << YAML::Comment(text); }
 } // namespace HBE::Serializers

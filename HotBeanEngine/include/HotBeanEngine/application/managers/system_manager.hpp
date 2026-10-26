@@ -11,6 +11,10 @@
 
 #pragma once
 
+#include <algorithm>
+#include <map>
+#include <unordered_map>
+
 #include <HotBeanEngine/application/managers/component_manager.hpp>
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
@@ -137,9 +141,10 @@ namespace HBE::Application::Managers {
 
             // TODO: Can this be done better?
             // Remove system from ordered list
-            m_systems_ordered.erase(
-                std::remove(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[system_name]),
-                m_systems_ordered.end());
+            auto it = std::find(m_systems_ordered.begin(), m_systems_ordered.end(), m_systems[system_name]);
+            if (it != m_systems_ordered.end()) {
+                m_systems_ordered.erase(it);
+            }
             m_systems.erase(system_name);
 
             delete system;

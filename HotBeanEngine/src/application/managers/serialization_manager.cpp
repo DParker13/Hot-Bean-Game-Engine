@@ -1,17 +1,43 @@
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/application/managers/serialization_manager.hpp>
-#include <HotBeanEngine/serializers/binary/binary_scene_serializer.hpp>
-#include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
+
+// BINARY
+#if GAME_RELEASE_BUILD
+    #include <HotBeanEngine/serializers/binary/binary_entity_serializer.hpp> // Entity
+    #include <HotBeanEngine/serializers/binary/binary_serializer.hpp>        // Basic
+#else
+    // YAML
+    #include <HotBeanEngine/serializers/yaml/yaml_entity_serializer.hpp> // Entity
+    #include <HotBeanEngine/serializers/yaml/yaml_serializer.hpp>        // Basic
+#endif
 
 namespace HBE::Application::Managers {
-    SerializationManager::SerializationManager(std::shared_ptr<Factories::IComponentFactory> component_factory) {
-        // Register default serializers
-        RegisterSerializer(std::make_unique<Serializers::YamlSceneSerializer>(component_factory));
-        RegisterSerializer(std::make_unique<Serializers::BinarySceneSerializer>(component_factory));
+    using namespace Serializers;
+
+    /**
+     * Register default serializers
+     */
+    SerializationManager::SerializationManager() {
+#if GAME_RELEASE_BUILD
+        // BINARY
+        RegisterSerializer("BasicSerializer", std::make_shared<BinarySerializer>());
+        RegisterSerializer("EntitySerializer", std::make_shared<BinaryEntitySerializer>())
+#else
+        // YAML
+        RegisterSerializer("BasicSerializer", std::make_shared<YamlSerializer>());
+        RegisterSerializer("EntitySerializer", std::make_shared<YamlEntitySerializer>());
+#endif
     }
 
-    void SerializationManager::RegisterSerializer(std::unique_ptr<Core::ISerializer> serializer) {
-        m_serializers.emplace(serializer->GetName(), std::move(serializer));
+    void SerializationManager::RegisterSerializer(std::string_view name,
+                                                  std::shared_ptr<Core::ISerializer> serializer) {
+        m_serializers.emplace(std::string(name), std::move(serializer));
+    }
+
+    void SerializationManager::UnRegisterSerializer(std::string_view name) {
+        if (GetSerializer(name)) {
+            m_serializers.erase(std::string(name));
+        }
     }
 
     std::shared_ptr<Core::ISerializer> SerializationManager::GetSerializer(std::string_view name) const {

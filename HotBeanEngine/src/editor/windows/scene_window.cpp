@@ -68,12 +68,12 @@ namespace HBE::Editor {
                 }
                 ImGui::Spacing();
                 if (ImGui::Button("Load##")) {
-                    g_app.GetSceneManager().LoadScene(scene, true);
+                    g_app.GetSceneManager().LoadScene(scene);
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Delete##")) {
                     if (current_scene == scene) {
-                        g_app.GetSceneManager().UnloadScene(false);
+                        g_app.GetSceneManager().UnloadScene();
                     }
                     g_app.GetSceneManager().UnregisterScene(scene);
                 }
@@ -100,7 +100,10 @@ namespace HBE::Editor {
                               "Would you like to save changes before closing?", [scene](int response) {
                                   // 0 = Yes, 1 = No, 2 = Cancel
                                   if (response < 2) {
-                                      g_app.GetSceneManager().UnloadScene(response == 0);
+                                      if (response == 0) {
+                                          g_app.GetSceneManager().SerializeScene();
+                                      }
+                                      g_app.GetSceneManager().UnloadScene();
                                       g_app.GetSceneManager().UnregisterScene(scene);
                                   }
                               });

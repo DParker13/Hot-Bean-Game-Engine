@@ -1,5 +1,5 @@
 /**
- * @file yaml_scene_serializer.cpp
+ * @file yaml_entity_serializer.cpp
  * @author Daniel Parker (DParker13)
  * @brief YAML-backed implementation of the ISerializer interface.
  * @version 1.0
@@ -10,7 +10,7 @@
 
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/components/miscellaneous/transform_2d.hpp>
-#include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
+#include <HotBeanEngine/serializers/yaml/yaml_entity_serializer.hpp>
 #include <HotBeanEngine/serializers/yaml/yaml_serialization_reader.hpp>
 #include <HotBeanEngine/serializers/yaml/yaml_serialization_writer.hpp>
 
@@ -18,32 +18,32 @@ namespace HBE::Serializers {
     using namespace Core;
     using namespace Components;
 
-    void YamlSceneSerializer::Serialize(std::filesystem::path filepath) {
+    void YamlEntitySerializer::Serialize(std::filesystem::path filepath, Core::ISerializable &object, bool append) {
         assert(!filepath.empty() && "Current filepath is empty.");
 
-        YAML::Emitter out = YAML::Emitter();
+        try {
+            YAML::Emitter out;
+            out.SetIndent(2);
+            YamlWriter writer(out);
 
-        SerializeScene(out);
+            m_parent_entity_map.clear();
+            MapParentEntities();
 
-        MapParentEntities();
+            writer << YAML::BeginMap;
+            SerializeEntities(writer, -1);
+            writer << YAML::EndMap;
 
-        out << YAML::BeginMap;
-        SerializeEntities(out, -1);
-        out << YAML::EndMap;
-
-        std::ofstream file{filepath};
-        file << out.c_str();
+            writer.WriteToFile(filepath, append ? ISerializationWriter::FileWriteMode::Append
+                                                : ISerializationWriter::FileWriteMode::Overwrite);
+        } catch (const std::exception &e) {
+            LOG(Core::LoggingType::ERROR,
+                "Failed to serialize YAML scene: " + filepath.string() + " with error: " + e.what());
+        } catch (...) {
+            LOG(Core::LoggingType::ERROR, "Failed to serialize YAML scene: " + filepath.string());
+        }
     }
 
-    void YamlSceneSerializer::SerializeScene(YAML::Emitter &out) {
-        out << YAML::Key << "Scene" << YAML::Value << YAML::BeginMap;
-        YamlComponentWriter writer(out);
-        g_app.GetSceneManager().GetCurrentScene()->Serialize(writer);
-        out << YAML::EndMap;
-    }
-
-    // TODO: Replace this with a better solution. Maybe use the TransformSystem.m_entities member instead
-    void YamlSceneSerializer::MapParentEntities() {
+    void YamlEntitySerializer::MapParentEntities() {
         for (EntityID entity = 0; entity < g_ecs.EntityCount(); entity++) {
             if (g_ecs.HasComponent<Transform2D>(entity)) {
                 EntityID parent_entity = g_ecs.GetComponent<Transform2D>(entity).m_parent;
@@ -67,7 +67,8 @@ namespace HBE::Serializers {
         }
     }
 
-    void YamlSceneSerializer::SerializeEntities(YAML::Emitter &out, EntityID parent_entity) {
+    // TODO: Replace this with a better solution. Maybe use the TransformSystem.m_entities member instead
+    void YamlEntitySerializer::SerializeEntities(YamlWriter &out, EntityID parent_entity) {
         assert(m_parent_entity_map.find(parent_entity) != m_parent_entity_map.end() && "Parent entity not found.");
 
         out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
@@ -80,7 +81,7 @@ namespace HBE::Serializers {
         out << YAML::EndSeq;
     }
 
-    void YamlSceneSerializer::SerializeEntity(YAML::Emitter &out, EntityID entity) {
+    void YamlEntitySerializer::SerializeEntity(YamlWriter &out, EntityID entity) {
         LOG(LoggingType::INFO, "Serializing EntityID \"" + std::to_string(entity) + "\"");
 
         out << YAML::BeginMap;
@@ -91,14 +92,8 @@ namespace HBE::Serializers {
         for (int i = 0; i < components.size(); i++) {
             LOG(LoggingType::INFO, "Serializing Component \"" + std::string(components[i]->GetName()) + "\"");
 
-            // Component Name first
-            out << YAML::Key << components[i]->GetName() << YAML::Value;
-
-            // Component data
-            out << YAML::BeginMap;
-            YamlComponentWriter writer(out);
+            YamlWriter writer(out);
             components[i]->Serialize(writer);
-            out << YAML::EndMap;
         }
 
         if (m_parent_entity_map.find(entity) != m_parent_entity_map.end()) {
@@ -109,55 +104,53 @@ namespace HBE::Serializers {
         out << YAML::EndMap;
     }
 
-    void YamlSceneSerializer::Deserialize(std::filesystem::path filepath) {
+    void YamlEntitySerializer::Deserialize(std::filesystem::path filepath, Core::ISerializable &object) {
         assert(!filepath.empty() && "Current filepath is empty.");
 
         // Parse the YAML data
         YAML::Node scene = YAML::LoadFile(filepath.string());
 
-        DeserializeEntities(scene, -1);
+        YamlReader reader(scene, filepath);
+        DeserializeEntities(reader, -1);
     }
 
-    void YamlSceneSerializer::DeserializeScene(const YAML::Node &node) {
-        YamlComponentReader reader(node);
-        g_app.GetSceneManager().GetCurrentScene()->Deserialize(reader);
-    }
-
-    void YamlSceneSerializer::DeserializeEntity(const YAML::Node &node, EntityID parent_entity, EntityID entity) {
+    void YamlEntitySerializer::DeserializeEntity(const YamlReader &reader, EntityID parent_entity, EntityID entity) {
         LOG(LoggingType::INFO, "Loading EntityID \"" + std::to_string(entity) + "\"");
 
+        YamlReader component_reader = reader["Entity"];
+
         // Iterate over the components
-        for (const auto &components : node["Entity"]) {
+        for (const auto &components : component_reader) {
             // Get the component type name
             std::string component_name = components.first.as<std::string>();
 
             // Skip the "Entities" nested node, this isn't a component
             if (component_name == "Entities") {
-                DeserializeEntities(components.second, entity);
+                YamlReader entities_reader(components.second, reader.GetSourcePath());
+                DeserializeEntities(entities_reader, entity);
                 continue;
             }
 
             // Get the component data
-            YAML::Node component = components.second;
-
             if (g_ecs.IsComponentRegistered(component_name)) {
                 LOG(LoggingType::INFO, "Loading component: " + component_name);
-                YamlComponentReader reader(component);
-                m_component_factory->CreateComponent(component_name, reader, parent_entity, entity);
+                g_app.GetComponentFactory()->CreateComponent(component_name, component_reader, parent_entity, entity);
             }
             else {
-                LOG(LoggingType::ERROR, "Component " + component_name + " is not registered.");
+                LOG(LoggingType::FATAL, "Component " + component_name + " is not registered.");
             }
         }
     }
 
-    void YamlSceneSerializer::DeserializeEntities(const YAML::Node &node, EntityID parent_entity) {
-        // Iterate over the entities
-        for (const YAML::Node &entity_node : parent_entity != -1 ? node : node["Entities"]) {
+    void YamlEntitySerializer::DeserializeEntities(const YamlReader &reader, EntityID parent_entity) {
+        const YamlReader entities = parent_entity != -1 ? reader : reader["Entities"];
+
+        for (size_t index = 0; index < entities.Size(); ++index) {
+            YamlReader entity_reader = entities[index];
             // Create a new entity
             EntityID entity = g_ecs.CreateEntity();
 
-            DeserializeEntity(entity_node, parent_entity, entity);
+            DeserializeEntity(entity_reader, parent_entity, entity);
         }
     }
 } // namespace HBE::Serializers

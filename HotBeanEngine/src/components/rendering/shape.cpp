@@ -18,15 +18,32 @@ namespace HBE::Components {
     using namespace Editor::PropertyNodes;
 
     void Shape::Serialize(Core::ISerializationWriter &out) const {
-        out.Write("size", m_size);
-        out.Write("color", m_color);
-        out.Write("filled", m_filled);
+        const bool is_default = m_size == glm::vec2{1.0f, 1.0f} && m_color.r == 255 && m_color.g == 255 &&
+                                m_color.b == 255 && m_color.a == 255 && !m_filled;
+        if (is_default) {
+            out.WriteEmptySection("Shape");
+            return;
+        }
+
+        out.BeginSection("Shape");
+        if (m_size != glm::vec2{1.0f, 1.0f}) {
+            out.Write("size", m_size);
+        }
+        if (m_color.r != 255 || m_color.g != 255 || m_color.b != 255 || m_color.a != 255) {
+            out.Write("color", m_color);
+        }
+        if (m_filled) {
+            out.Write("filled", m_filled);
+        }
+        out.EndSection();
     }
 
     void Shape::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Shape");
         in.Read("size", m_size);
         in.Read("color", m_color);
         in.Read("filled", m_filled);
+        in.EndSection();
     }
 
     void Shape::RenderProperties(int &id) {

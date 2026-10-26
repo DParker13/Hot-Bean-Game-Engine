@@ -5,7 +5,7 @@ add_library(HotBeanEngine_Application STATIC
 )
 
 target_compile_definitions(HotBeanEngine_Application PRIVATE
-    HBE_ENABLE_EDITOR_GUI=$<BOOL:${HBE_ENABLE_EDITOR_GUI}>
+    GAME_RELEASE_BUILD=$<BOOL:${GAME_RELEASE_BUILD}>
 )
 
 add_subdirectory(managers)
@@ -17,7 +17,7 @@ target_link_libraries(HotBeanEngine_Application PUBLIC
 )
 
 # TODO: Separate imgui from components to get this working
-# if(HBE_ENABLE_EDITOR_GUI)
+# if(GAME_RELEASE_BUILD)
 #     target_link_libraries(HotBeanEngine_Application PUBLIC
 #         HotBeanEngine_Editor
 #     )

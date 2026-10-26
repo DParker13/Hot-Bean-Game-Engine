@@ -3,7 +3,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 add_subdirectory(application)
 add_subdirectory(components)
 # TODO: Separate imgui from components to get this working
-# if(HBE_ENABLE_EDITOR_GUI)
+# if(GAME_RELEASE_BUILD)
 #     add_subdirectory(editor)
 # endif()
 add_subdirectory(editor)
@@ -13,6 +13,7 @@ add_subdirectory(systems)
 add_subdirectory(utilities)
 
 add_executable(${PROJECT_NAME} main.cpp)
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${EXECUTABLE_NAME}")
 
 # Copy Example Project to build directory
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

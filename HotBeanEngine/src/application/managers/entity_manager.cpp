@@ -72,8 +72,8 @@ namespace HBE::Application::Managers {
         m_living_entity_count++;
 
         LOG_CORE(LoggingType::DEBUG, "Entity \"" + std::to_string(id) + "\" created.");
-        LOG_CORE(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
-        LOG_CORE(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size() - 1));
+        LOG_CORE(LoggingType::DEBUG, "Living Entities: " + std::to_string(m_living_entity_count));
+        LOG_CORE(LoggingType::DEBUG, "Available Entities: " + std::to_string(m_available_entities.size() - 1));
 
         return id;
     }
@@ -105,8 +105,8 @@ namespace HBE::Application::Managers {
         m_living_entity_count--;
 
         LOG_CORE(LoggingType::INFO, "Entity \"" + std::to_string(entity) + "\" destroyed.");
-        LOG_CORE(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
-        LOG_CORE(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
+        LOG_CORE(LoggingType::DEBUG, "Living Entities: " + std::to_string(m_living_entity_count));
+        LOG_CORE(LoggingType::DEBUG, "Available Entities: " + std::to_string(m_available_entities.size()));
     }
 
     void EntityManager::DestroyAllEntities() {
@@ -116,8 +116,8 @@ namespace HBE::Application::Managers {
         InitializeEntities();
 
         LOG_CORE(LoggingType::INFO, "All entities destroyed.");
-        LOG_CORE(LoggingType::DEBUG, "\tLiving Entities: " + std::to_string(m_living_entity_count));
-        LOG_CORE(LoggingType::DEBUG, "\tAvailable Entities: " + std::to_string(m_available_entities.size()));
+        LOG_CORE(LoggingType::DEBUG, "Living Entities: " + std::to_string(m_living_entity_count));
+        LOG_CORE(LoggingType::DEBUG, "Available Entities: " + std::to_string(m_available_entities.size()));
     }
 
     /**

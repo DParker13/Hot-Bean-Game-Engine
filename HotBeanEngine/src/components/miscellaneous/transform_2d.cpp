@@ -18,17 +18,36 @@ namespace HBE::Components {
     using namespace Editor::PropertyNodes;
 
     void Transform2D::Serialize(Core::ISerializationWriter &out) const {
-        out.Write("layer", (int)m_layer);
-        out.Write("parent", (int)m_parent);
-        out.Write("local_position", m_local_position);
-        out.Write("local_rotation", m_local_rotation);
-        out.Write("local_scale", m_local_scale);
-        out.Write("world_position", m_world_position);
-        out.Write("world_rotation", m_world_rotation);
-        out.Write("world_scale", m_world_scale);
+        out.BeginSection("Transform2D");
+        if (m_layer != 0) {
+            out.Write("layer", (int)m_layer);
+        }
+        if (m_parent != -1) {
+            out.Write("parent", (int)m_parent);
+        }
+        if (m_local_position != glm::vec2{0.0f, 0.0f}) {
+            out.Write("local_position", m_local_position);
+        }
+        if (m_local_rotation != 0.0f) {
+            out.Write("local_rotation", m_local_rotation);
+        }
+        if (m_local_scale != glm::vec2{1.0f, 1.0f}) {
+            out.Write("local_scale", m_local_scale);
+        }
+        if (m_world_position != glm::vec2{0.0f, 0.0f}) {
+            out.Write("world_position", m_world_position);
+        }
+        if (m_world_rotation != 0.0f) {
+            out.Write("world_rotation", m_world_rotation);
+        }
+        if (m_world_scale != glm::vec2{1.0f, 1.0f}) {
+            out.Write("world_scale", m_world_scale);
+        }
+        out.EndSection();
     }
 
     void Transform2D::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Transform2D");
         in.Read("layer", m_layer);
         in.Read("parent", m_parent);
         in.Read("local_position", m_local_position);
@@ -37,6 +56,7 @@ namespace HBE::Components {
         in.Read("world_position", m_world_position);
         in.Read("world_rotation", m_world_rotation);
         in.Read("world_scale", m_world_scale);
+        in.EndSection();
 
         MarkDirty();
     }

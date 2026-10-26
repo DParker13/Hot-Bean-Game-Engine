@@ -1,10 +1,7 @@
 Currently Working On:
 - Working on exporting game
 - Need to add a startup scene to the application.
-    + When the editor is empty, no scenes are loaded because the project yaml file won't exist.
-    + Setting a startup/launch scene for the application on compilation will allow for an entry point to the gameplay/other scenes in a final build.
     + Add button to set scene as startup
-    + Find way to compile scenes into final exported application
 
 High Priority
 - Fix audio to work with start/stop of the application
@@ -16,7 +13,8 @@ High Priority
 - Add save button to editor
     + Save scene to yaml file
     + Somehow save scene hpp and cpp files?
-        ~ Have the scene 
+        ~ Create project manager that keeps track of all hpp and cpp files registered to a scene.
+        ~ Call CMake with custom arguments that allow for a final build of the game.
 - Add create scene button to editor
 - Finish default systems!!
     + Rendering system
@@ -41,9 +39,6 @@ High Priority
     + utilize SDL_Error()
     + Create custom errors for easier debugging
     + Remove exceptions
-- Fix copying of files from source to binary directory
-    + Files are only copied once
-    + Any changed files are not copied
 - Create textured sprite class
     + Used SDLImage to load and display images from file
 - Create smarter text system
@@ -54,9 +49,6 @@ High Priority
 - Create better way to register systems in whatever order the user wants
     + Add ability to re-order systems in editor mode
 - Add easy way to multithread each System function
-- Create an Application Layering system?
-    + Move editor system here
-    + Create game layer
 
 Medium Priority
 - Create basic ui library

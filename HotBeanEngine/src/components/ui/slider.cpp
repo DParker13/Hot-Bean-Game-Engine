@@ -19,15 +19,18 @@ namespace HBE::Components {
     using namespace Editor::PropertyNodes;
 
     void Slider::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Slider");
         in.Read("text", m_text);
         in.Read("foreground_color", m_foreground_color);
         in.Read("background_color", m_background_color);
         in.Read("size", m_size);
         in.Read("style", m_style);
         in.Read("wrapping_width", m_wrapping_width);
+        in.EndSection();
     }
 
     void Slider::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("Slider");
         if (!m_text.empty()) {
             out.Write("text", m_text);
         }
@@ -36,6 +39,7 @@ namespace HBE::Components {
         out.Write("size", m_size);
         out.Write("style", m_style);
         out.Write("wrapping_width", m_wrapping_width);
+        out.EndSection();
     }
 
     /**

@@ -27,6 +27,7 @@ namespace HBE::Core {
         std::filesystem::path m_scene_path;
         std::vector<std::filesystem::path> m_scene_file_paths;
 
+        IScene() = default;
         IScene(std::string name, std::filesystem::path scene_path) : m_name(name), m_scene_path(scene_path) {}
         virtual ~IScene() = default;
 

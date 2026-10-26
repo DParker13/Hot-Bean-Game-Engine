@@ -9,13 +9,14 @@
  *
  */
 
+#include <cctype>
+#include <yaml-cpp/yaml.h>
+
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/application/scene.hpp>
 
 #include "../editor_utils.hpp"
 #include "project_manager.hpp"
-
-#include <cctype>
 
 namespace HBE::Editor::Managers {
     namespace {
@@ -27,26 +28,20 @@ namespace HBE::Editor::Managers {
 
     using namespace Core;
 
-    ProjectManager::ProjectManager() : m_project(Project()) {
-        if (!STARTUP_PROJECT_PATH.empty()) {
-            LoadProject(STARTUP_PROJECT_PATH);
-        }
-    }
-
     /**
      * @brief Create a new project at the specified path. This is called after the user selects a path in the new
      * project dialog.
      */
     void ProjectManager::CreateNewProject(const Project &project) {
-        LOG(LoggingType::INFO, "Creating new project at path: " + project.GetFullPath().string());
+        LOG(LoggingType::INFO, "Creating new project at path: " + (project.m_directory / project.m_file_name).string());
         m_project = project;
 
         SetupProjectDirectories();
         SaveProject();
 
         // Update startup project path with newly created project
-        STARTUP_PROJECT_PATH = m_project.GetFullPath();
-        SaveConfig();
+        g_config.SetStartupProjectPath((m_project.m_directory / m_project.m_file_name).string());
+        g_app.SaveConfig();
     }
 
     /**
@@ -66,7 +61,7 @@ namespace HBE::Editor::Managers {
      */
     void ProjectManager::LoadProject() {
         if (!m_project.m_name.empty() && !m_project.m_directory.empty()) {
-            LoadProject(m_project.GetFullPath());
+            LoadProject(m_project.m_directory / m_project.m_file_name);
         }
         else {
             LOG(LoggingType::ERROR, "Failed to load project from existing instance");
@@ -80,76 +75,48 @@ namespace HBE::Editor::Managers {
     void ProjectManager::LoadProject(std::filesystem::path const &path) {
         LOG(LoggingType::DEBUG, "Loading project: " + path.string());
         try {
-            YAML::Node config = YAML::LoadFile(path.string());
-
-            // Project
-            if (config["Project"]["name"]) {
-                m_project.m_name = config["Project"]["name"].as<std::string>();
-            }
-            if (config["Project"]["version"]) {
-                m_project.m_version = config["Project"]["version"].as<float>();
-            }
-            if (config["Project"]["file"]) {
-                m_project.m_file = config["Project"]["file"].as<std::string>();
-            }
-            if (config["Project"]["directory"]) {
-                m_project.m_directory = config["Project"]["directory"].as<std::string>();
-            }
+            std::shared_ptr<Core::ISerializer> serializer =
+                g_app.GetSerializationManager().GetSerializer("BasicSerializer");
+            serializer->Deserialize(path, m_project);
 
             // Scenes (list of scene yaml paths)
             // TODO: This should work with all serializers
-            if (config["Scenes"]) {
+            if (m_project.m_scenes.size() > 0) {
                 // Register scenes in the application's scene manager
-                for (const auto &scene_file_node : config["Scenes"]) {
-                    std::string scene_path = scene_file_node["path"].as<std::string>();
+                bool first_scene_loaded = false;
+                for (const auto &scene_path : m_project.m_scenes) {
 
-                    if (scene_path.empty()) {
-                        LOG(LoggingType::WARNING, "Skipping invalid scene entry in project file with empty path");
+                    if (!std::filesystem::exists(scene_path) || !std::filesystem::is_regular_file(scene_path)) {
+                        LOG(LoggingType::WARNING,
+                            "Skipping invalid scene entry in project file: " + scene_path.string());
                         continue;
                     }
 
-                    try {
-                        YAML::Node scene_node = YAML::LoadFile(scene_path);
+                    std::shared_ptr<IScene> scene = std::make_shared<Application::Scene>();
 
-                        if (!scene_node["Scene"] || !scene_node["Scene"]["name"]) {
-                            LOG(LoggingType::WARNING, "Skipping invalid scene entry in project file: " + scene_path);
-                            continue;
+                    serializer->Deserialize(scene_path, *scene);
+
+                    if (!scene->m_name.empty() && !scene_path.empty()) {
+                        g_app.GetSceneManager().RegisterScene(scene);
+
+                        // Load the first scene immediately after registration to set it as the active scene
+                        if (!first_scene_loaded) {
+                            g_app.GetSceneManager().LoadScene(scene);
+                            first_scene_loaded = true;
                         }
-
-                        std::string scene_name = "";
-                        if (scene_node["Scene"]["name"]) {
-                            scene_name = scene_node["Scene"]["name"].as<std::string>();
-                        }
-
-                        bool first_scene_loaded = false;
-                        if (!scene_name.empty() && !scene_path.empty()) {
-                            std::shared_ptr<IScene> scene =
-                                std::make_shared<Application::Scene>(scene_name, scene_path);
-                            g_app.GetSceneManager().RegisterScene(scene);
-
-                            // Load the first scene immediately after registration to set it as the active scene
-                            if (!first_scene_loaded) {
-                                g_app.GetSceneManager().LoadScene(scene, false);
-                                first_scene_loaded = true;
-                            }
-                        }
-                    } catch (const YAML::Exception &e) {
-                        LOG(LoggingType::ERROR,
-                            "Failed to load scene file: " + scene_path + " with error: " + std::string(e.what()));
-                        continue;
                     }
                 }
             }
 
             // Update startup project path with newly loaded project
-            STARTUP_PROJECT_PATH = m_project.GetFullPath();
-            SaveConfig();
+            g_config.SetStartupProjectPath(path);
+            g_app.SaveConfig();
 
             LOG(LoggingType::INFO,
-                "Successfully loaded project: " + m_project.m_name + "(" + m_project.GetFullPath().string() + ")");
+                "Successfully loaded project: " + m_project.m_name + "(" + m_project.m_directory.string() + ")");
         } catch (YAML::Exception &) {
             LOG(LoggingType::ERROR,
-                "Failed to load project: " + m_project.m_name + "(" + m_project.GetFullPath().string() + ")");
+                "Failed to load project: " + m_project.m_name + "(" + m_project.m_directory.string() + ")");
         }
     }
 
@@ -162,53 +129,9 @@ namespace HBE::Editor::Managers {
      * @brief Save the current project data and state to the project file path.
      * @return int 0 on success, -1 on failure.
      */
-    int ProjectManager::SaveProject() {
-        try {
-            LOG(LoggingType::DEBUG, "Saving project to: " + m_project.GetFullPath().string());
-            YAML::Emitter out;
-            out.SetIndent(2);
-
-            out << YAML::BeginMap;
-
-            // Project
-            out << YAML::Key << "Project" << YAML::Value;
-            out << YAML::BeginMap;
-            out << YAML::Key << "name" << YAML::Value << YAML::DoubleQuoted << m_project.m_name;
-            out << YAML::Key << "version" << YAML::Value << m_project.m_version;
-            out << YAML::Key << "file" << YAML::Value << YAML::DoubleQuoted << m_project.m_file;
-            out << YAML::Key << "directory" << YAML::Value << YAML::DoubleQuoted << m_project.m_directory.string();
-            out << YAML::EndMap;
-
-            // Scenes
-            out << YAML::Key << "Scenes" << YAML::Value;
-            out << YAML::BeginSeq;
-            for (const auto [name, scene] : g_app.GetSceneManager().m_scenes) {
-                out << YAML::BeginMap;
-                out << YAML::Key << "path" << YAML::Value << YAML::DoubleQuoted << scene->m_scene_path.string();
-                out << YAML::EndMap;
-            }
-            out << YAML::EndSeq;
-
-            out << YAML::EndMap;
-
-            std::ofstream file{m_project.GetFullPath().string()};
-
-            if (!file.is_open()) {
-                LOG(LoggingType::ERROR, "Failed to open project file for write: " + m_project.GetFullPath().string());
-                return -1;
-            }
-
-            file << out.c_str() << "\n";
-            LOG(LoggingType::INFO, "Project saved successfully: " + m_project.GetFullPath().string());
-
-            return 0;
-        } catch (const std::exception &ex) {
-            LOG(LoggingType::ERROR, "Exception while saving project: " + std::string(ex.what()));
-            return -1;
-        } catch (...) {
-            LOG(LoggingType::ERROR, "Unknown exception while saving project.");
-            return -1;
-        }
+    void ProjectManager::SaveProject() {
+        auto project_serializer = g_app.GetSerializationManager().GetSerializer("BasicSerializer");
+        project_serializer->Serialize(m_project.m_directory / m_project.m_file_name, m_project);
     }
 
     std::string MakeProjectFileName(std::string_view name) {
@@ -243,4 +166,4 @@ namespace HBE::Editor::Managers {
 
         return fileName + ".yaml";
     }
-} // namespace HBE::Editor
+} // namespace HBE::Editor::Managers

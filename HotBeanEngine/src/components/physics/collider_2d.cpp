@@ -14,13 +14,17 @@ namespace HBE::Components {
     using namespace Editor::PropertyNodes;
 
     void Collider2D::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("Collider2D");
         out.Write("bounding_box", m_size);
         out.Write("is_trigger", m_is_trigger);
+        out.EndSection();
     }
 
     void Collider2D::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Collider2D");
         in.Read("bounding_box", m_size);
         in.Read("is_trigger", m_is_trigger);
+        in.EndSection();
     }
 
     void Collider2D::RenderProperties(int &id) {

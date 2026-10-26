@@ -13,6 +13,7 @@ namespace HBE::Editor {
         ~NoopEditorGUI() = default;
 
         void InitEditorGUI() {}
+        void OnApplicationReady() {}
         void OnLog(Core::LoggingType /*level*/, std::string_view /*message*/) {}
 
         void OnStart() {}

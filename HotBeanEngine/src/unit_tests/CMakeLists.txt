@@ -4,6 +4,7 @@ add_executable(HotBeanEngine_Managers_Test
     system_manager_test.cpp
     entity_manager_test.cpp
     sparse_set_test.cpp
+    yaml_serialization_reader_test.cpp
 )
 
 target_include_directories(HotBeanEngine_Managers_Test PRIVATE
@@ -12,6 +13,7 @@ target_include_directories(HotBeanEngine_Managers_Test PRIVATE
 
 target_link_libraries(HotBeanEngine_Managers_Test PRIVATE
     HotBeanEngine_Application
+    HotBeanEngine_Serializers
     Catch2::Catch2WithMain
 )
 

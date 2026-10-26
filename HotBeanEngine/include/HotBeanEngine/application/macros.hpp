@@ -27,6 +27,13 @@
 #define g_ecs g_app.GetECSManager()
 
 /**
+ * @def g_config
+ * @brief Global macro for accessing the engine config instance.
+ * @see HBE::Core::Config
+ */
+#define g_config HBE::Core::g_config
+
+/**
  * @def LOG
  * @brief Macro for logging messages with file, line, and function context.
  * @param type The logging type (e.g., LoggingType::INFO, LoggingType::ERROR).

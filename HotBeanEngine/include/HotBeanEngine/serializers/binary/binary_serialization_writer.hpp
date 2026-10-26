@@ -19,23 +19,26 @@
 namespace HBE::Serializers {
 
     /// @brief Buffers component field writes for later binary serialization.
-    class BinaryComponentWriter : public Core::ISerializationWriter {
+    class BinaryWriter : public Core::ISerializationWriter {
     public:
         std::vector<BinaryField> m_fields;
 
-        void Write(std::string_view key, bool value) override;
-        void Write(std::string_view key, int value) override;
-        void Write(std::string_view key, float value) override;
-        void Write(std::string_view key, std::string_view value) override;
-        void Write(std::string_view key, std::string value) override;
-        void Write(std::string_view key, uint8_t value) override;
-        void Write(std::string_view key, uint32_t value) override;
-        void Write(std::string_view key, int64_t value) override;
-        void Write(std::string_view key, glm::vec2 value) override;
-        void Write(std::string_view key, const SDL_Color &value) override;
-        void Write(std::string_view key, const std::filesystem::path &value) override;
-        void Write(std::string_view key, const std::vector<std::string> &value) override;
-        void Write(std::string_view key, const std::vector<std::filesystem::path> &value) override;
+        void Write(const std::string &key, bool value) override;
+        void Write(const std::string &key, int value) override;
+        void Write(const std::string &key, float value) override;
+        void Write(const std::string &key, const std::string &value) override;
+        void Write(const std::string &key, uint8_t value) override;
+        void Write(const std::string &key, uint32_t value) override;
+        void Write(const std::string &key, int64_t value) override;
+        void Write(const std::string &key, glm::vec2 value) override;
+        void Write(const std::string &key, const SDL_Color &value) override;
+        void Write(const std::string &key, const std::filesystem::path &value) override;
+        void Write(const std::string &key, const std::vector<std::string> &value) override;
+        void Write(const std::string &key, const std::vector<std::filesystem::path> &value) override;
+
+        void WriteToFile(const std::filesystem::path &filepath,
+                         Core::ISerializationWriter::FileWriteMode mode =
+                             Core::ISerializationWriter::FileWriteMode::Overwrite) const override {}
     };
 
 } // namespace HBE::Serializers

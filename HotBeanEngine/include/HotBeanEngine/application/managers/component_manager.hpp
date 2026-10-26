@@ -11,6 +11,7 @@
 #pragma once
 
 #include <memory>
+#include <unordered_map>
 
 #include <HotBeanEngine/application/managers/logging_manager.hpp>
 
@@ -95,7 +96,7 @@ namespace HBE::Application::Managers {
 
             ComponentID component_id = m_registered_components;
 
-            LOG_CORE(LoggingType::DEBUG, "\tComponentID \"" + std::to_string(component_id) + "\"");
+            LOG_CORE(LoggingType::DEBUG, "ComponentID \"" + std::to_string(component_id) + "\"");
 
             // Maps ComponentID id to Component Object Type name
             m_component_id_to_name[component_id] = component_name;
@@ -113,7 +114,7 @@ namespace HBE::Application::Managers {
 
             m_registered_components++;
 
-            LOG_CORE(LoggingType::DEBUG, "\t" + std::to_string(m_registered_components) + " Registered Components");
+            LOG_CORE(LoggingType::DEBUG, "" + std::to_string(m_registered_components) + " Registered Components");
 
             return component_id;
         }
@@ -143,7 +144,7 @@ namespace HBE::Application::Managers {
             // Register component type if it's not already registered
             if (!IsComponentRegistered(component_name)) {
                 LOG_CORE(LoggingType::DEBUG,
-                         "\tEmpty Component \"" + component_name + "\" not registered... Attempting to Register");
+                         "Empty Component \"" + component_name + "\" not registered... Attempting to Register");
 
                 RegisterComponentID<T>();
             }
@@ -181,7 +182,7 @@ namespace HBE::Application::Managers {
             // Register the component type if it's not already registered
             if (!IsComponentRegistered(component_name)) {
                 LOG_CORE(LoggingType::DEBUG,
-                         "\tComponent \"" + component_name + "\" not registered... Attempting to Register");
+                         "Component \"" + component_name + "\" not registered... Attempting to Register");
 
                 RegisterComponentID<T>();
             }
@@ -228,7 +229,7 @@ namespace HBE::Application::Managers {
             // If the last component is removed, the component array must be destroyed and unregistered
             if (sparse_set->Size() == 0) {
                 LOG_CORE(LoggingType::DEBUG,
-                         "\tAll \"" + component_name + "\" Components removed... Destroying Component Array");
+                         "All \"" + component_name + "\" Components removed... Destroying Component Array");
 
                 ComponentID component_id = m_component_name_to_type[component_name];
                 m_component_id_to_name.erase(component_id);

@@ -40,6 +40,9 @@ namespace HBE::Editor {
         std::shared_ptr<Menu> m_menu;
         std::shared_ptr<ControlBar> m_control_bar;
 
+        /// @brief Tracks whether the editor window is currently focused.
+        bool m_is_focused = false;
+
         // Camera drag tracking
         bool m_is_dragging = false;
         glm::vec2 m_last_mouse_position = {0.0f, 0.0f};
@@ -51,6 +54,7 @@ namespace HBE::Editor {
         ~EditorGUI();
 
         void InitEditorGUI() override;
+        void OnApplicationReady() override;
         void OnLog(Core::LoggingType level, std::string_view message) override;
 
         virtual void OnStart() override {};

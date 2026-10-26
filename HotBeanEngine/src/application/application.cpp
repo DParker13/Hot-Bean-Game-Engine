@@ -9,11 +9,11 @@
  * @copyright Copyright (c) 2025
  */
 
+#include <iostream>
+
 #include <HotBeanEngine/application/application.hpp>
 #include <HotBeanEngine/editor/editor_gui.hpp>
 #include <HotBeanEngine/editor/noop_editor_gui.hpp>
-#include <HotBeanEngine/serializers/binary/binary_scene_serializer.hpp>
-#include <HotBeanEngine/serializers/yaml/yaml_scene_serializer.hpp>
 
 namespace HBE::Application {
     using namespace Core;
@@ -29,14 +29,22 @@ namespace HBE::Application {
         // Setup singleton instance
         s_instance = this;
 
+        m_serialization_manager = std::make_shared<SerializationManager>();
+
+#if !GAME_RELEASE_BUILD
         int config_load_result = LoadConfig();
+#endif
 
         // Setup logging first to capture any application initialization errors
-        m_logging_manager = std::make_shared<LoggingManager>(LOG_DIRECTORY, LOGGING_LEVEL, LOG_TO_CONSOLE);
+        // TODO: Initialize logging manager sooner, but queue the logs until a directory is available
+        m_logging_manager = std::make_shared<LoggingManager>(g_config.GetLogDirectory(), g_config.GetLoggingLevel(),
+                                                             g_config.GetLogToConsole());
 
+#if !GAME_RELEASE_BUILD
         if (config_load_result != 0) {
             LOG_CORE(LoggingType::WARNING, "Failed to load config file, using defaults.");
         }
+#endif
 
         SetupRendererAndWindow();
 
@@ -44,21 +52,23 @@ namespace HBE::Application {
         m_input_event_listener = std::make_unique<Listeners::InputEventListener>(m_logging_manager);
 
         // Initialize application parts and layers
+        InitEditor();
         InitManagers();
         InitSDL();
         InitSDLTTF();
         InitSDLMixer();
-        InitEditor();
 
         // Register component listeners for OnComponentAdded and OnComponentRemoved events
         RegisterComponentListeners();
+
+        m_editor_gui->OnApplicationReady();
     }
 
     Application::~Application() {
         // Ensure scenes/systems are destroyed before SDL subsystems are torn down.
         // TODO: In editor mode, this should ask the user if they want to save the current scene before quitting.
         if (m_scene_manager && GetSceneManager().GetCurrentScene()) {
-            GetSceneManager().UnloadScene(false);
+            GetSceneManager().UnloadScene();
         }
 
         m_scene_manager.reset();
@@ -110,9 +120,8 @@ namespace HBE::Application {
         m_component_factory->SetECSManager(m_ecs_manager);
         m_component_factory->RegisterComponents();
         m_system_factory->RegisterSystems();
-        m_scene_factory->RegisterScenes();
+        // m_scene_factory->RegisterScenes();
 
-        m_serialization_manager = std::make_shared<SerializationManager>(m_component_factory);
         m_scene_manager = std::make_unique<SceneManager>();
         m_loop_manager = std::make_unique<StateManager>();
         m_camera_manager = std::make_shared<CameraManager>();
@@ -168,14 +177,13 @@ namespace HBE::Application {
     }
 
     void Application::InitEditor() {
-#if HBE_ENABLE_EDITOR_GUI
+#if GAME_RELEASE_BUILD
+        m_editor_gui = std::make_unique<Editor::NoopEditorGUI>();
+#else
         m_editor_gui = std::make_unique<Editor::EditorGUI>();
         GetLoggingManager().RegisterLogListener(m_editor_gui.get());
-#else
-        m_editor_gui = std::make_unique<Editor::NoopEditorGUI>();
-#endif
-
         m_editor_gui->InitEditorGUI();
+#endif
     }
 
     Application &Application::GetInstance() {
@@ -188,54 +196,45 @@ namespace HBE::Application {
     }
 
     // -- Getters and Setters -- //
-    SDL_Renderer *Application::GetRenderer() { return m_renderer; }
-
-    SDL_Window *Application::GetWindow() { return m_window; }
-
-    float Application::GetDeltaTime() const { return m_delta_time; }
-
-    double Application::GetDeltaTimeHiRes() const { return m_delta_time_hi_res; }
-
-    ECSManager &Application::GetECSManager() { return *m_ecs_manager; }
-
-    SceneManager &Application::GetSceneManager() { return *m_scene_manager; }
-
-    StateManager &Application::GetStateManager() { return *m_loop_manager; }
-
-    RenderManager &Application::GetRenderManager() { return *m_render_manager; }
-
-    CameraManager &Application::GetCameraManager() const { return *m_camera_manager; }
-
-    TransformManager &Application::GetTransformManager() { return *m_transform_manager; }
-
-    EventManager &Application::GetEventManager() const { return *m_event_manager; }
-
-    SerializationManager &Application::GetSerializationManager() const { return *m_serialization_manager; }
-
-    LoggingManager &Application::GetLoggingManager() { return *m_logging_manager; }
-
-    std::shared_ptr<IComponentFactory> Application::GetComponentFactory() const { return m_component_factory; }
-
-    std::shared_ptr<ISystemFactory> Application::GetSystemFactory() const { return m_system_factory; }
-
-    InputEventListener &Application::GetInputEventListener() { return *m_input_event_listener; }
-
-    const InputEventListener &Application::GetInputEventListener() const { return *m_input_event_listener; }
-
-    Editor::IEditorGUI &Application::GetEditorGUI() { return *m_editor_gui; }
-
     void Application::Log(LoggingType type, std::string_view message, const char *file, int line,
                           const char *function) {
         GetLoggingManager().Log(type, message, file, line, function);
     }
 
-    void Application::SetLoggingLevel(LoggingType level) { GetLoggingManager().SetLoggingLevel(level); }
+    void Application::SetLoggingLevel(LoggingType level) {
+        g_config.SetLoggingLevel(level);
+        GetLoggingManager().SetLoggingLevel(level);
+    }
 
     void Application::SetLogDirectory(std::filesystem::path log_directory) {
+        g_config.SetLogDirectory(log_directory);
         GetLoggingManager().SetLogDirectory(log_directory);
     }
 
-    StateManager &Application::GetAppStateManager() { return *m_loop_manager; }
+    int Application::LoadConfig() {
+        try {
+            std::shared_ptr<ISerializer> serializer = GetSerializationManager().GetSerializer("BasicSerializer");
+            if (serializer->FileExists(CONFIG_DIRECTORY / CONFIG_NAME)) {
+                serializer->Deserialize(CONFIG_DIRECTORY / CONFIG_NAME, g_config);
+            }
+            else {
+                return -1;
+            }
+            return 0;
+        } catch (...) {
+            return -1;
+        }
+    }
+
+    void Application::SaveConfig() {
+        std::shared_ptr<ISerializer> serializer = GetSerializationManager().GetSerializer("BasicSerializer");
+        if (serializer->FileExists(CONFIG_DIRECTORY / CONFIG_NAME)) {
+            serializer->Serialize(CONFIG_DIRECTORY / CONFIG_NAME, g_config);
+        }
+        else {
+            LOG(LoggingType::WARNING, "Config file could not be found");
+        }
+    }
 
     void Application::Start() {
         // If using NoopEditorGUI, automatically start in Playing state
@@ -254,7 +253,7 @@ namespace HBE::Application {
                     LOG(LoggingType::WARNING, "No current scene to reload.");
                 }
                 else {
-                    GetSceneManager().UnloadScene(false);
+                    GetSceneManager().UnloadScene();
                     GetSceneManager().LoadScene(current_scene);
                 }
 
@@ -331,13 +330,6 @@ namespace HBE::Application {
 
         // SDL
         SDL_Quit();
-    }
-
-    double Application::GetHiResTime() const {
-        static Uint64 start = SDL_GetPerformanceCounter();
-        Uint64 now = SDL_GetPerformanceCounter();
-        Uint64 freq = SDL_GetPerformanceFrequency();
-        return static_cast<double>(now - start) / static_cast<double>(freq);
     }
 
     void Application::UpdateDeltaTime() {

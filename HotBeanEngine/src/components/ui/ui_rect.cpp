@@ -45,6 +45,7 @@ namespace HBE::Components {
     }
 
     void UIRect::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("UIRect");
         out.Write("position", m_position);
         out.Write("size", m_size);
         out.Write("anchor", (int)m_anchor);
@@ -53,9 +54,11 @@ namespace HBE::Components {
         out.Write("margin_right", m_margin_right);
         out.Write("margin_top", m_margin_top);
         out.Write("margin_bottom", m_margin_bottom);
+        out.EndSection();
     }
 
     void UIRect::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("UIRect");
         in.Read("position", m_position);
         in.Read("size", m_size);
         in.Read("anchor", (int &)m_anchor);
@@ -64,6 +67,7 @@ namespace HBE::Components {
         in.Read("margin_right", m_margin_right);
         in.Read("margin_top", m_margin_top);
         in.Read("margin_bottom", m_margin_bottom);
+        in.EndSection();
         MarkDirty();
     }
 

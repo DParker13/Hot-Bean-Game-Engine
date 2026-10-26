@@ -31,12 +31,12 @@ namespace HBE::Editor {
             std::string directory = m_project.m_directory.string();
             ImGui::InputText("Project Name", &m_project.m_name);
             if (ImGui::InputText("Project Directory", &directory)) {
-                m_project.m_directory = directory;
+                m_project.m_directory = std::filesystem::path(directory);
             }
             ImGui::SameLine();
             if (ImGui::Button("...")) {
                 ShowFolderDialog(g_app.GetWindow(), [this](std::string_view directory) {
-                    m_project.m_directory = std::string(directory);
+                    m_project.m_directory = std::filesystem::path(directory);
                 });
             }
 

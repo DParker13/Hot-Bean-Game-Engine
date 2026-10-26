@@ -15,9 +15,17 @@
 namespace HBE::Components {
     using namespace Editor::PropertyNodes;
 
-    void Name::Serialize(Core::ISerializationWriter &out) const { out.Write("name", m_name); }
+    void Name::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("Name");
+        out.Write("name", m_name);
+        out.EndSection();
+    }
 
-    void Name::Deserialize(Core::ISerializationReader &in) { in.Read("name", m_name); }
+    void Name::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Name");
+        in.Read("name", m_name);
+        in.EndSection();
+    }
 
     void Name::RenderProperties(int &id) { String::RenderProperty(id, "Name", m_name, true); }
 } // namespace HBE::Components

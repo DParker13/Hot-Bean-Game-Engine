@@ -34,17 +34,17 @@ namespace HBE::Application::Managers {
         ~SceneManager() = default;
 
         void LoadScene(std::shared_ptr<IScene> scene);
-        void LoadScene(std::shared_ptr<IScene> scene, bool save_to_file);
-        void UnloadScene(bool save_to_file);
+        void UnloadScene();
         std::shared_ptr<IScene> GetCurrentScene() const;
 
         bool IsSceneRegistered(std::shared_ptr<IScene> scene);
         bool IsSceneRegistered(std::string_view name);
         void RegisterScene(std::shared_ptr<IScene> scene);
         void UnregisterScene(std::shared_ptr<IScene> scene);
-        void RemoveScene(std::string name, bool save_to_file);
-        void RemoveScene(std::shared_ptr<IScene> scene, bool save_to_file);
+        void RemoveScene(std::string name);
+        void RemoveScene(std::shared_ptr<IScene> scene);
         void SwitchScene(std::shared_ptr<IScene> scene);
         void SwitchScene(std::string name);
+        void SerializeScene();
     };
 } // namespace HBE::Application::Managers

@@ -14,12 +14,16 @@ namespace HBE::Application {
     void Scene::SetupScene() {}
 
     void Scene::Serialize(Core::ISerializationWriter &out) const {
+        out.BeginSection("Scene");
         out.Write("Name", m_name);
-        out.Write("ScenePath", m_scene_file_paths);
+        out.EndSection();
     }
 
     void Scene::Deserialize(Core::ISerializationReader &in) {
+        in.BeginSection("Scene");
         in.Read("Name", m_name);
-        in.Read("ScenePath", m_scene_file_paths);
+        in.EndSection();
+
+        m_scene_path = in.GetSourcePath();
     }
 } // namespace HBE::Application
