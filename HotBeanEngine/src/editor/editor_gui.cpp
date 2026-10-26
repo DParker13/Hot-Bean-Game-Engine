@@ -76,9 +76,9 @@ namespace HBE::Editor {
             colors[ImGuiCol_ResizeGripActive] = ImVec4(0.20f, 0.46f, 0.54f, 0.95f);
             colors[ImGuiCol_Tab] = ImVec4(0.14f, 0.16f, 0.20f, 1.00f);
             colors[ImGuiCol_TabHovered] = ImVec4(0.24f, 0.56f, 0.64f, 1.00f);
-            colors[ImGuiCol_TabActive] = ImVec4(0.18f, 0.44f, 0.51f, 1.00f);
-            colors[ImGuiCol_TabUnfocused] = ImVec4(0.11f, 0.12f, 0.15f, 1.00f);
-            colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.14f, 0.18f, 0.23f, 1.00f);
+            colors[ImGuiCol_TabSelected] = ImVec4(0.18f, 0.44f, 0.51f, 1.00f);
+            colors[ImGuiCol_TabDimmed] = ImVec4(0.11f, 0.12f, 0.15f, 1.00f);
+            colors[ImGuiCol_TabDimmedSelected] = ImVec4(0.14f, 0.18f, 0.23f, 1.00f);
             colors[ImGuiCol_DockingPreview] = ImVec4(0.30f, 0.74f, 0.72f, 0.45f);
             colors[ImGuiCol_NavHighlight] = ImVec4(0.32f, 0.80f, 0.76f, 1.00f);
             colors[ImGuiCol_PlotLines] = ImVec4(0.56f, 0.80f, 0.89f, 1.00f);
